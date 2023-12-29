@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>top-level-items</key>
+	<array>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>XcodeLocation</key>
+					<string>{"ViewObjectAddress":"0x60000029bbc0"}</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>payload</key>
+					<string>x-xcode-debug-views:///175d11ef0</string>
+				</dict>
+				<key>scheme</key>
+				<string>x-xcode-debug-views</string>
+				<key>type</key>
+				<string>DBGViewDebuggerDocumentLocation</string>
+			</dict>
+			<key>title</key>
+			<string>Warning: The layer is using dynamic shadows which are expensive to render. If possible try setting `shadowPath`, or pre-rendering the shadow into an image and putting it under the layer.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>XcodeLocation</key>
+					<string>{"ViewObjectAddress":"0x60000029bbc0"}</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>payload</key>
+					<string>x-xcode-debug-views:///175d11ef0</string>
+				</dict>
+				<key>scheme</key>
+				<string>x-xcode-debug-views</string>
+				<key>type</key>
+				<string>DBGViewDebuggerDocumentLocation</string>
+			</dict>
+			<key>title</key>
+			<string>Warning: The layer is using dynamic shadows which are expensive to render. If possible try setting `shadowPath`, or pre-rendering the shadow into an image and putting it under the layer.</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+	</array>
+</dict>
+</plist>
