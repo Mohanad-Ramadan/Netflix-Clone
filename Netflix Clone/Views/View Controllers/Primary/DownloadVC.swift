@@ -8,7 +8,44 @@
 import UIKit
 
 class DownloadVC: UIViewController {
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .black
+        configureNavbar()
+        downloadTable.delegate = self
+        downloadTable.dataSource = self
+        view.addSubview(downloadTable)
+        fetchEntertainmentAt()
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
+            self.fetchEntertainmentAt()
+        }
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        downloadTable.frame = view.bounds
+    }
+    
+    private func configureNavbar() {
+        let userLabel = UILabel()
+        userLabel.font = .boldSystemFont(ofSize: 26)
+        userLabel.text = "Download"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userLabel)
+        
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped)),
+            UIBarButtonItem(image: UIImage(systemName: "airplayvideo"), style: .done, target: self, action: nil)
+        ]
+        
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
+    @objc func searchButtonTapped() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.pushViewController(SearchVC(), animated: true)
+        }
+    }
+    
     private var entertainments: [EntertainmentItems] = [EntertainmentItems]()
     
     private let downloadTable: UITableView = {
@@ -30,28 +67,8 @@ class DownloadVC: UIViewController {
         }
         
     }
-
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .black
-        title = "Download"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        downloadTable.delegate = self
-        downloadTable.dataSource = self
-        view.addSubview(downloadTable)
-        fetchEntertainmentAt()
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
-            self.fetchEntertainmentAt()
-        }
-        
-        
-    }
     
-    override func viewDidLayoutSubviews() {
-        downloadTable.frame = view.bounds
-    }
     
     
 }
@@ -69,7 +86,7 @@ extension DownloadVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         let movie = entertainments[indexPath.row]
-        cell.configureTitlePoster(with: MovieViewModel(titleName: movie.title ?? "Unknown", posterPath: movie.posterPath ?? "Unknown"))
+        cell.configureTitlePoster(with: MovieViewModel(title: movie.title ?? "Unknown", posterPath: movie.posterPath ?? "Unknown"))
         
         return cell
     }

@@ -22,7 +22,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         let movie = entertainments[indexPath.row]
-        cell.configureTitlePoster(with: MovieViewModel(titleName: movie.title ?? "Unknown", posterPath: movie.posterPath ?? "Unknown"))
+        cell.configureTitlePoster(with: MovieViewModel(title: movie.title ?? "Unknown", posterPath: movie.posterPath ?? "Unknown"))
         
         return cell
     }

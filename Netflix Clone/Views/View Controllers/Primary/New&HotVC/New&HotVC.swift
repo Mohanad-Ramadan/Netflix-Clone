@@ -8,14 +8,11 @@
 import UIKit
 
 class NewAndHotVC: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        title = "New & Hot"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
+        configureNavbar()
         view.addSubview(newAndHotTable)
         
         newAndHotTable.delegate = self
@@ -29,6 +26,25 @@ class NewAndHotVC: UIViewController {
         newAndHotTable.frame = view.bounds
     }
     
+    private func configureNavbar() {
+        let viewTitle = UILabel()
+        viewTitle.font = .boldSystemFont(ofSize: 26)
+        viewTitle.text = "New & Hot"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewTitle)
+        
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped)),
+            UIBarButtonItem(image: UIImage(systemName: "airplayvideo"), style: .done, target: self, action: nil)
+        ]
+        
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
+    @objc func searchButtonTapped() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.pushViewController(SearchVC(), animated: true)
+        }
+    }
     
     private let newAndHotTable: UITableView = {
         let table = UITableView()
@@ -54,9 +70,3 @@ class NewAndHotVC: UIViewController {
     
 }
 
-
-// MARK: - Preview
-
-#Preview("NewAndHotVC", traits: .defaultLayout, body: {
-    NewAndHotVC()
-})

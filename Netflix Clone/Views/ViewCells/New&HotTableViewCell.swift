@@ -16,12 +16,14 @@ class NewAndHotTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
         [
-            monthlable ,dayLabel ,posterImageView ,remindMeButton ,logoView  ,infoButton ,entertainmentDate ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,categoryLabel
+            monthlable ,dayLabel ,backdropImageView ,remindMeButton ,logoView  ,infoButton ,entertainmentDate ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,categoryLabel
         ].forEach {
             contentView.addSubview($0)
         }
         
         applyConstraints()
+        
+        
     }
     
     private let monthlable: UILabel = {
@@ -45,20 +47,11 @@ class NewAndHotTableViewCell: UITableViewCell {
     }()
     
     
-    private let posterImageView : UIImageView = {
+    private let backdropImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "testImage")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 10
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
-    private let logoView : UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -66,15 +59,16 @@ class NewAndHotTableViewCell: UITableViewCell {
     private let remindMeButton: UIButton = {
         let button = UIButton()
         var configuration = UIButton.Configuration.plain()
-        configuration.title = "Reminde Me"
-        configuration.baseForegroundColor = .lightGray
+        configuration.title = "Remind Me"
+        configuration.baseForegroundColor = .white
         configuration.image = UIImage(systemName: "bell")
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .large)
+        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)
         configuration.imagePlacement = .top
         configuration.imagePadding = 8
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = UIFont.systemFont(ofSize: 13)
+            outgoing.font = UIFont.systemFont(ofSize: 9)
+            outgoing.foregroundColor = .gray
             return outgoing
         }
         
@@ -88,14 +82,15 @@ class NewAndHotTableViewCell: UITableViewCell {
         let button = UIButton()
         var configuration = UIButton.Configuration.plain()
         configuration.title = "Info"
-        configuration.baseForegroundColor = .lightGray
+        configuration.baseForegroundColor = .white
         configuration.image = UIImage(systemName: "info.circle")
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .large)
+        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)
         configuration.imagePlacement = .top
         configuration.imagePadding = 8
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = UIFont.systemFont(ofSize: 13)
+            outgoing.font = UIFont.systemFont(ofSize: 9)
+            outgoing.foregroundColor = .gray
             return outgoing
         }
         
@@ -103,6 +98,15 @@ class NewAndHotTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
+    }()
+    
+    private var logoAspectRatio = CGFloat(1)
+    
+    private let logoView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     private let entertainmentDate: UILabel = {
@@ -125,7 +129,6 @@ class NewAndHotTableViewCell: UITableViewCell {
     private let entertainmetType: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "F I L M"
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: 8, weight: .semibold)
         return label
@@ -137,6 +140,7 @@ class NewAndHotTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.numberOfLines = 0
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
@@ -161,7 +165,6 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     
     private func applyConstraints(){
-        
         NSLayoutConstraint.activate([
             
             //Datelabel
@@ -175,33 +178,35 @@ class NewAndHotTableViewCell: UITableViewCell {
             dayLabel.heightAnchor.constraint(equalToConstant: 30),
             dayLabel.widthAnchor.constraint(equalToConstant: 40),
             
-            //PosterImage
-            posterImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10),
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            posterImageView.heightAnchor.constraint(equalToConstant: 200),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3),
+            //Poster ImageView
+            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10),
+            backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            backdropImageView.heightAnchor.constraint(equalToConstant: 200),
+            backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3),
             
             //Buttons
-            infoButton.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 15),
+            infoButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10),
             infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            infoButton.heightAnchor.constraint(equalTo: infoButton.heightAnchor),
+            infoButton.heightAnchor.constraint(equalToConstant: 50),
             
-            remindMeButton.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 15),
+            remindMeButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10),
             remindMeButton.trailingAnchor.constraint(equalTo: infoButton.leadingAnchor),
-            remindMeButton.heightAnchor.constraint(equalTo: infoButton.heightAnchor),
+            remindMeButton.heightAnchor.constraint(equalToConstant: 50),
             
-            //EntertainmentLogo
-            logoView.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 15),
-            logoView.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor),
-            logoView.trailingAnchor.constraint(equalTo: remindMeButton.leadingAnchor, constant: -10),
+            
+            //Logo view
+            logoView.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor,constant: 10),
+            logoView.heightAnchor.constraint(equalToConstant: 45),
+            logoView.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor),
+            
             
             //DateLabel
-            entertainmentDate.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor),
-            entertainmentDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor, constant: 10),
+            entertainmentDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor),
+            entertainmentDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor),
             entertainmentDate.heightAnchor.constraint(equalToConstant: 30),
             entertainmentDate.widthAnchor.constraint(equalTo: entertainmentDate.widthAnchor),
             
-            //Netflix Film or Series label
+            //Type label
             netflixLogo.leadingAnchor.constraint(equalTo: entertainmentDate.leadingAnchor),
             netflixLogo.centerYAnchor.constraint(equalTo: entertainmetType.centerYAnchor),
             netflixLogo.heightAnchor.constraint(equalToConstant: 15),
@@ -212,43 +217,62 @@ class NewAndHotTableViewCell: UITableViewCell {
             entertainmetType.bottomAnchor.constraint(equalTo: titleLabel.topAnchor),
             entertainmetType.widthAnchor.constraint(equalTo: entertainmetType.widthAnchor),
             
-            //Entertaniment Title
+            //Title
             titleLabel.leadingAnchor.constraint(equalTo: entertainmentDate.leadingAnchor),
             titleLabel.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 30),
-            titleLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: backdropImageView.trailingAnchor, constant: -20),
             
-            //Entertaniment overview
+            //Overview
             overViewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             overViewLabel.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -10),
             overViewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             overViewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
             
-            //Entertaniment category
+            //Category
             categoryLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10),
             categoryLabel.leadingAnchor.constraint(equalTo: overViewLabel.leadingAnchor),
             categoryLabel.heightAnchor.constraint(equalToConstant: 15),
             categoryLabel.widthAnchor.constraint(equalTo: categoryLabel.widthAnchor),
             
         ])
-        
-    }
-    
-    //MARK: - Get title poster
-    
-    func configureCell(with model: MovieViewModel){
-        if let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterPath)"){
-            posterImageView.sd_setImage(with: posterURL)
-        }
-        if let logo = model.logo, let logoURL = URL(string: "https://image.tmdb.org/t/p/w500/\(logo)"){
-            logoView.sd_setImage(with: logoURL)
-        }
-        titleLabel.text = model.titleName
-        entertainmetType.text = model.mediaType
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Get Cell Details
+    
+    private func updateLogoViewConstraints() {
+        logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio))
+        
+        let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio)
+        widthConstraint.priority = .defaultHigh
+        widthConstraint.isActive = true
+        
+        layoutIfNeeded()
+    }
+    
+    func configureCell(with model: MovieViewModel){
+        if let backdrop = model.backdropsPath ,let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdrop)"){
+            backdropImageView.sd_setImage(with: backdropURL)
+        }
+        
+        if let logo = model.logoPath, let logoURL = URL(string: "https://image.tmdb.org/t/p/w500\(logo)"){
+            logoView.sd_setImage(with: logoURL)
+        }
+        
+        if let logoAspectRatio = model.logoAspectRatio {
+            self.logoAspectRatio = logoAspectRatio > 4 ? 4 : logoAspectRatio
+            updateLogoViewConstraints()
+        }
+        
+        titleLabel.text = model.title
+        entertainmetType.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
+        overViewLabel.text = model.overview
+        categoryLabel.text = model.category
+    }
+    
 }
+

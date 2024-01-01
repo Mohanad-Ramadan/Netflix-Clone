@@ -68,8 +68,8 @@ class HomeVC: UIViewController {
             switch result {
             case .success(let movie):
                 let randomMovie = movie.randomElement()
-                self?.headerView?.configureHeaderPoster(with: MovieViewModel(titleName: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
-                self?.homeBackground?.configureHeaderPoster(with: MovieViewModel(titleName: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
+                self?.headerView?.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
+                self?.homeBackground?.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                     self?.skeletonLoadingView.removeFromSuperview()
@@ -102,12 +102,6 @@ class HomeVC: UIViewController {
     
 }
 
-
-// MARK: - Preview
-
-#Preview("HomeVC", traits: .defaultLayout, body: {
-    HomeVC()
-})
 
 
 

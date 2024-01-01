@@ -27,8 +27,9 @@ class HomeBackgroundUIView: UIView {
     
     public func configureHeaderPoster(with model: MovieViewModel){
         DispatchQueue.main.async { [weak self] in
-            guard let url = URL(string: "https://image.tmdb.org/t/p/w780\(model.posterPath)") else {return}
-            self?.backGroundPoster.sd_setImage(with: url)
+            if let posterPath = model.posterPath ,let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)"){
+                self?.backGroundPoster.sd_setImage(with: posterURL)
+            }
 //            if let dominantCGColor = UIColor.dominantColor(from: backGroundPoster) {
 //                print("Dominant CGColor: \(dominantCGColor)")
 //            } else{

@@ -76,9 +76,10 @@ class MoviesTableViewCell: UITableViewCell {
     //MARK: - Get title poster
     
     public func configureTitlePoster(with model: MovieViewModel){
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterPath)" ) else {return}
-        posterImageView.sd_setImage(with: url)
-        titleLabel.text = model.titleName
+        if let posterPath = model.posterPath ,let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)"){
+            posterImageView.sd_setImage(with: posterURL)
+        }
+        titleLabel.text = model.title
     }
     
     

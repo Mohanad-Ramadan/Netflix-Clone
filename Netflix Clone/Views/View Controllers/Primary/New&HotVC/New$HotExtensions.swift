@@ -20,19 +20,35 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        var movie = entertainments[indexPath.row]
+        let movie = entertainments[indexPath.row]
         
-        APICaller.shared.getLogo(mediaType: movie.mediaType ?? "movie", id: movie.id) { result in
+        APICaller.shared.getNewAndHotData(mediaType: movie.mediaType ?? "movie", id: movie.id) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let logo):
-                    movie.logoPath = logo.filePath
+                case .success(let data):
+                    
+                    // logo
+                    let logo = data.0.logos.sorted {$0.aspectRatio > $1.aspectRatio}[0]
+                    let logoPath = logo.filePath
+                    let logoAspectRatio = logo.aspectRatio
+                    
+                    // backdrop
+                    let backdrop = data.0.backdrops.filter{$0.aspectRatio >= 1.6 && $0.aspectRatio <= 1.9}[0]
+                    let backdropPath = backdrop.filePath
+                    
+                    // detail
+                    let detail = data.1
+                    let detailCategory = detail.formattedGenres()
+                    
+                    // cell configuration
+                    cell.configureCell(with: MovieViewModel(title: detail.title, overview: detail.overview, logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath, category: detailCategory, mediaType: movie.mediaType))
+                    
                 case .failure(let failure):
                     print(failure.localizedDescription)
+                    
                 }
             }
         }
-        cell.configureCell(with: MovieViewModel(titleName: movie.title ?? "Unknown", posterPath: movie.posterPath ?? "Unknown", logo: movie.logoPath ?? "Unknown", mediaType: movie.mediaType))
         
         return cell
     }

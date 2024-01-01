@@ -18,8 +18,9 @@ struct Entertainment: Codable {
     let title: String?
     let overview: String?
     let mediaType: String?
+    let posterPath: String?
     
-    var posterPath: String?
+    var backdropPath: String?
     var logoPath: String?
 }
 

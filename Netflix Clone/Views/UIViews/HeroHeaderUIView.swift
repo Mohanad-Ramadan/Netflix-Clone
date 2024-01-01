@@ -1,4 +1,4 @@
-//  
+//
 //  HeroHeaderUIView.swift
 //  Netflix Clone
 //
@@ -28,9 +28,10 @@ class HeroHeaderUIView: UIView {
     
     public func configureHeaderPoster(with model: MovieViewModel){
         DispatchQueue.main.async { [weak self] in
-            guard let url = URL(string: "https://image.tmdb.org/t/p/w780\(model.posterPath)") else {return}
-            self?.posterImageView.sd_setImage(with: url) {[weak self] _,_,_,_ in
-                self?.updatePosterFrame()
+            if let posterPath = model.posterPath ,let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)"){
+                self?.posterImageView.sd_setImage(with: posterURL) {[weak self] _,_,_,_ in
+                    self?.updatePosterFrame()
+                }
             }
         }
     }
@@ -54,7 +55,7 @@ class HeroHeaderUIView: UIView {
         image.layer.borderWidth = 1
         image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.4)
         image.clipsToBounds = true
-//        image.translatesAutoresizingMaskIntoConstraints = false
+        //        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
@@ -122,12 +123,12 @@ class HeroHeaderUIView: UIView {
     
     private func applyConstraints() {
         
-//        let posterViewConstraints = [
-//            posterImageView.topAnchor.constraint(equalTo: topAnchor),
-//            posterImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            posterImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/2.5),
-//            posterImageView.widthAnchor.constraint(equalTo: posterImageView.heightAnchor, multiplier: 2.8/4)
-//        ]
+        //        let posterViewConstraints = [
+        //            posterImageView.topAnchor.constraint(equalTo: topAnchor),
+        //            posterImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+        //            posterImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/2.5),
+        //            posterImageView.widthAnchor.constraint(equalTo: posterImageView.heightAnchor, multiplier: 2.8/4)
+        //        ]
         
         let playButtonConstraints = [
             playButton.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -7),
@@ -143,11 +144,11 @@ class HeroHeaderUIView: UIView {
             listButton.heightAnchor.constraint(equalToConstant: 40)
         ]
         
-//        NSLayoutConstraint.activate(posterViewConstraints)
+        //        NSLayoutConstraint.activate(posterViewConstraints)
         NSLayoutConstraint.activate(playButtonConstraints)
         NSLayoutConstraint.activate(listButtonConstraints)
     }
-
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

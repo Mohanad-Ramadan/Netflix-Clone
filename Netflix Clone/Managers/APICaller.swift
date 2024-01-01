@@ -14,23 +14,23 @@ class APICaller {
     
     func getTrendingMovies(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.trendingMoviesURL) else {return}
-            let session = URLSession(configuration:.default)
-            let task = session.dataTask(with: url) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                    complition(.success(result.results))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                    print("couldn't decode the results for trending movies ")
-                }
-                
+        let session = URLSession(configuration:.default)
+        let task = session.dataTask(with: url) { data, _ , error in
+            guard let data = data, error == nil else {
+                return
             }
-            task.resume()
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                complition(.success(result.results))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
+                print("couldn't decode the results for trending movies ")
+            }
+            
+        }
+        task.resume()
     }
     
     
@@ -38,114 +38,92 @@ class APICaller {
         guard let url = URL(string: Constants.trendingTvURL) else {
             return
         }
-            let session = URLSession(configuration:.default)
-            let task = session.dataTask(with: url) { data, _ , error in
-                guard let data, error == nil else {
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                    complition(.success(result.results))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                    print("couldn't decode the results for trending TV error: \(error)")
-                }
-                
+        let session = URLSession(configuration:.default)
+        let task = session.dataTask(with: url) { data, _ , error in
+            guard let data, error == nil else {
+                return
             }
-            task.resume()
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                complition(.success(result.results))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
+                print("couldn't decode the results for trending TV error: \(error)")
+            }
+            
+        }
+        task.resume()
     }
     
     
     func getUpcomingMovies(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-            guard let url = URL(string: Constants.upcomingMoviesURL) else {
+        guard let url = URL(string: Constants.upcomingMoviesURL) else {
+            return
+        }
+        let session = URLSession(configuration:.default)
+        let task = session.dataTask(with: url) { data, _ , error in
+            guard let data = data, error == nil else {
                 return
             }
-            let session = URLSession(configuration:.default)
-            let task = session.dataTask(with: url) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                    complition(.success(result.results))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                }
-                
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                complition(.success(result.results))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
             }
-            task.resume()   
+            
+        }
+        task.resume()
     }
     
     func getTopSeries(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-            guard let url = URL(string: Constants.topSeriesURL) else {
+        guard let url = URL(string: Constants.topSeriesURL) else {
+            return
+        }
+        let session = URLSession(configuration:.default)
+        let task = session.dataTask(with: url) { data, _ , error in
+            guard let data = data, error == nil else {
                 return
             }
-            let session = URLSession(configuration:.default)
-            let task = session.dataTask(with: url) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                    complition(.success(result.results))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                }
-                
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                complition(.success(result.results))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
             }
-            task.resume()
+            
+        }
+        task.resume()
     }
     
     func getPopular(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.popularURl) else {
             return
         }
-            let session = URLSession(configuration:.default)
-            let task = session.dataTask(with: url) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                    complition(.success(result.results))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                    print("couldn't decode the results for popular")
-                }
-                
+        let session = URLSession(configuration:.default)
+        let task = session.dataTask(with: url) { data, _ , error in
+            guard let data = data, error == nil else {
+                return
             }
-            task.resume()
-        
-    }
-    
-    func getDiscoverdMovies(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let url = URL(string: Constants.discoverdMoviesURl) else {
-            return
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                complition(.success(result.results))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
+                print("couldn't decode the results for popular")
+            }
+            
         }
-            let session = URLSession(configuration:.default)
-            let task = session.dataTask(with: url) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                    complition(.success(result.results))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                }
-                
-            }
-            task.resume()
+        task.resume()
+        
     }
     
     
@@ -154,22 +132,22 @@ class APICaller {
         guard let url = URL(string: Constants.searchURl + query) else {
             return
         }
-            let session = URLSession(configuration:.default)
-            let task = session.dataTask(with: url) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                    complition(.success(result.results))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                }
-                
+        let session = URLSession(configuration:.default)
+        let task = session.dataTask(with: url) { data, _ , error in
+            guard let data = data, error == nil else {
+                return
             }
-            task.resume()
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                complition(.success(result.results))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
+            }
+            
+        }
+        task.resume()
     }
     
     func getYoutubeTrailer(query: String,complition: @escaping (Result<VideoObject, Error>) -> Void){
@@ -177,48 +155,82 @@ class APICaller {
         guard let url = URL(string: Constants.youtubeURL + query) else {
             return
         }
-            let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                
-                do {
-                    let result = try JSONDecoder().decode(YoutubeResponse.self, from: data)
-                    complition(.success(result.items[0]))
-                } catch {
-                    complition(.failure(APIError.failedToGetData))
-                    print(String(describing: error)) 
-                }
-                
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _ , error in
+            guard let data = data, error == nil else {
+                return
             }
+            
+            do {
+                let result = try JSONDecoder().decode(YoutubeResponse.self, from: data)
+                complition(.success(result.items[0]))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
+                print(String(describing: error))
+            }
+            
+        }
         task.resume()
     }
     
     
-    func getLogo(mediaType: String, id: Int, complition: @escaping (Result<Detail,Error>) -> Void){
-        guard let url = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images") else {
-            return
-        }
-            let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _ , error in
-                guard let data = data, error == nil else {
-                    return
-                }
-                
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let result = try decoder.decode(EntertainmentLogo.self, from: data)
-                    let highestVoteLogos = result.logos.sorted {$0.voteAverage > $1.voteAverage}
-                    let englishHighVotedLogos = highestVoteLogos.filter {$0.iso6391 == "en"}
-                    complition(.success(englishHighVotedLogos[0]))
-                } catch {
-//                    complition(.failure(APIError.failedToGetData))
-                    print(String(describing: error))
-                    print("Problem in logo api")
-                }
-                
+    func getNewAndHotData(mediaType: String, id: Int, completion: @escaping (Result<(EntertainmentImage,Detail),Error>) -> Void){
+        guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)"), let detailsURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)\(Constants.apiKey)")  else {return}
+        
+        let group = DispatchGroup()
+        
+        var imagesResult: EntertainmentImage?
+        var detailsResult: Detail?
+        
+        // Fetch images
+        group.enter()
+        URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
+            defer { group.leave() }
+            
+            guard let data = data, error == nil else {
+                return
             }
-        task.resume()
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentImage.self, from: data)
+                imagesResult = result
+            } catch {
+                completion(.failure(APIError.failedToGetData))
+                print("Error decoding image:", error)
+            }
+        }.resume()
+        
+        // Inside the Fetch Details block
+        URLSession.shared.dataTask(with: URLRequest(url: detailsURL)) { data, _, error in
+//            defer { group.leave() }
+            
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(Detail.self, from: data)
+                detailsResult = result
+            } catch {
+                completion(.failure(APIError.failedToGetData))
+                print("Error decoding details:", error)
+            }
+        }.resume()
+        
+        group.notify(queue: .main) {
+            guard let imagesResult = imagesResult, let detailsResult = detailsResult else {
+                completion(.failure(APIError.failedToGetData))
+                return
+            }
+            
+            let combinedResult: (EntertainmentImage, Detail) = (imagesResult, detailsResult)
+            completion(.success(combinedResult))
+            
+        }
+        
     }
     
 }
@@ -230,26 +242,3 @@ enum APIError: Error {
     case failedToGetData
 }
 
-
-//MARK: - generic getMethod
-
-    
-
-//func getResults<T: Codable>(for constantURL: String,complition: @escaping (Result<[T], Error>) -> Void){
-//    if let url = URL(string: constantURL) {
-//        let session = URLSession(configuration:.default)
-//        let task = session.dataTask(with: url) { data, _ , error in
-//            guard let data = data, error == nil else {
-//                fatalError("Couldn't fetch the data from \(url) ")
-//            }
-//            do {
-//                let result = try JSONDecoder().decode(T.self, from: data)
-//                complition(.success(result as! [T]))
-//            } catch {
-//                complition(.failure(APIError.failedToGetData))
-//            }
-//
-//        }
-//        task.resume()
-//    }
-//}

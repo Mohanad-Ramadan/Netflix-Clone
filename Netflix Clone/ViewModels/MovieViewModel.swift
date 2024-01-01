@@ -8,10 +8,13 @@
 import Foundation
 
 struct MovieViewModel {
-    let titleName: String
-    let posterPath: String
+    let title: String
     
-    var logo: String?
+    var overview: String?
+    var posterPath: String?
+    var logoAspectRatio: CGFloat?
+    var logoPath: String?
+    var backdropsPath: String?
     var category: String?
     var mediaType: String?
 }

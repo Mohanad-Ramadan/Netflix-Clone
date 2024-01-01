@@ -31,7 +31,6 @@ class SearchVC: UIViewController {
         
         definesPresentationContext = true
         
-        
 
     }
     
@@ -40,20 +39,6 @@ class SearchVC: UIViewController {
         searchTable.frame = view.bounds
     }
     
-    
-    private func fetchDiscoverdMovies(){
-        APICaller.shared.getDiscoverdMovies { [weak self] results in
-            switch results {
-            case .success(let entertainments):
-                self?.entertainments = entertainments
-                DispatchQueue.main.async { [weak self] in
-                    self?.searchTable.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
     
     private let searchTable: UITableView = {
         let table = UITableView()
