@@ -22,7 +22,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
         
         let movie = entertainments[indexPath.row]
         
-        APICaller.shared.getImages(mediaType: movie.mediaType, id: movie.id) { result in
+        APICaller.shared.getImages(mediaType: movie.mediaType ?? "movie", id: movie.id) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedImages):
@@ -48,7 +48,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        APICaller.shared.getDetails(mediaType: movie.mediaType , id: movie.id) { result in
+        APICaller.shared.getDetails(mediaType: movie.mediaType ?? "movie" , id: movie.id) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedDetials):
