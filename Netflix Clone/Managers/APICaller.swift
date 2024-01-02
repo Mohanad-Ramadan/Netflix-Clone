@@ -172,66 +172,94 @@ class APICaller {
         task.resume()
     }
     
-    
-    func getNewAndHotData(mediaType: String, id: Int, completion: @escaping (Result<(EntertainmentImage,Detail),Error>) -> Void){
-        guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)"), let detailsURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)\(Constants.apiKey)")  else {return}
-        
-        let group = DispatchGroup()
-        
-        var imagesResult: EntertainmentImage?
-        var detailsResult: Detail?
-        
-        // Fetch images
-        group.enter()
-        URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
-            defer { group.leave() }
-            
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentImage.self, from: data)
-                imagesResult = result
-            } catch {
-                completion(.failure(APIError.failedToGetData))
-                print("Error decoding image:", error)
-            }
-        }.resume()
-        
-        // Inside the Fetch Details block
-        URLSession.shared.dataTask(with: URLRequest(url: detailsURL)) { data, _, error in
-//            defer { group.leave() }
-            
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(Detail.self, from: data)
-                detailsResult = result
-            } catch {
-                completion(.failure(APIError.failedToGetData))
-                print("Error decoding details:", error)
-            }
-        }.resume()
-        
-        group.notify(queue: .main) {
-            guard let imagesResult = imagesResult, let detailsResult = detailsResult else {
-                completion(.failure(APIError.failedToGetData))
-                return
-            }
-            
-            let combinedResult: (EntertainmentImage, Detail) = (imagesResult, detailsResult)
-            completion(.success(combinedResult))
-            
+    func getImages(mediaType: String, id: Int, completion: @escaping (Result<EntertainmentImage, Error>) -> Void) {
+        guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)") else {
+            completion(.failure(APIError.invalidURL))
+            return
         }
         
+        URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(.failure(error ?? APIError.failedToGetData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                
+                let result = try decoder.decode(EntertainmentImage.self, from: data)
+                completion(.success(result))
+            } catch {
+                completion(.failure(APIError.failedToDecodeData))
+            }
+        }.resume()
     }
+
+    func getDetails(mediaType: String, id: Int, completion: @escaping (Result<Detail, Error>) -> Void) {
+        guard let detailsURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)\(Constants.apiKey)") else {
+            completion(.failure(APIError.invalidURL))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: URLRequest(url: detailsURL)) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(.failure(error ?? APIError.failedToGetData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                
+                let result = try decoder.decode(Detail.self, from: data)
+                completion(.success(result))
+            } catch {
+                completion(.failure(APIError.failedToDecodeData))
+            }
+        }.resume()
+    }
+    
+//    func getNewAndHotData(mediaType: String, id: Int, completion: @escaping (Result<(EntertainmentImage, Detail), Error>) -> Void) {
+//        let group = DispatchGroup()
+//        
+//        var imagesResult: EntertainmentImage?
+//        var detailsResult: Detail?
+//        
+//        // Fetch images
+//        group.enter()
+//        getImages(mediaType: mediaType, id: id) { result in
+//            switch result {
+//            case .success(let images):
+//                imagesResult = images
+//            case .failure(let error):
+//                print("Error fetching images:", error)
+//            }
+//            group.leave()
+//        }
+//        
+//        // Fetch details
+//        group.enter()
+//        getDetails(mediaType: mediaType, id: id) { result in
+//            switch result {
+//            case .success(let details):
+//                detailsResult = details
+//            case .failure(let error):
+//                print("Error fetching details:", error)
+//            }
+//            group.leave()
+//        }
+//        
+//        group.notify(queue: .main) {
+//            guard let imagesResult = imagesResult, let detailsResult = detailsResult else {
+//                completion(.failure(APIError.failedToGetData))
+//                return
+//            }
+//            
+//            let combinedResult: (EntertainmentImage, Detail) = (imagesResult, detailsResult)
+//            completion(.success(combinedResult))
+//        }
+//    }
     
 }
 
@@ -239,6 +267,6 @@ class APICaller {
 
 //MARK: - APIError
 enum APIError: Error {
-    case failedToGetData
+    case failedToGetData, failedToDecodeData, invalidURL
 }
 
