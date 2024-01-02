@@ -8,8 +8,7 @@
 import Foundation
 
 struct MovieViewModel {
-    let title: String
-    
+    var title: String?
     var overview: String?
     var posterPath: String?
     var logoAspectRatio: CGFloat?
@@ -17,4 +16,5 @@ struct MovieViewModel {
     var backdropsPath: String?
     var category: String?
     var mediaType: String?
+    var date: String?
 }
