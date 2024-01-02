@@ -22,30 +22,47 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
         
         let movie = entertainments[indexPath.row]
         
-        APICaller.shared.getNewAndHotData(mediaType: movie.mediaType ?? "movie", id: movie.id) { result in
+        APICaller.shared.getImages(mediaType: movie.mediaType, id: movie.id) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let data):
-                    
+                case .success(let fetchedImages):
                     // logo
-                    let logo = data.0.logos.sorted {$0.aspectRatio > $1.aspectRatio}[0]
+                    let logo : ImageDetails = {
+                        let widthSorted = fetchedImages.logos.sorted {$0.aspectRatio > $1.aspectRatio}
+                        let englishLogo = widthSorted.filter {$0.iso6391 == "en"}[0]
+                        return englishLogo
+                    }()
                     let logoPath = logo.filePath
                     let logoAspectRatio = logo.aspectRatio
                     
                     // backdrop
-                    let backdrop = data.0.backdrops.filter{$0.aspectRatio >= 1.6 && $0.aspectRatio <= 1.9}[0]
+                    let backdrop = fetchedImages.backdrops.filter{$0.aspectRatio >= 1.6 && $0.aspectRatio <= 2}[0]
                     let backdropPath = backdrop.filePath
+
+                    // cell images configuration
+                    cell.configureCellImages(with: MovieViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
+                case .failure(let failure):
+                    print("Error getting images:", failure)
                     
+                }
+            }
+        }
+        
+        APICaller.shared.getDetails(mediaType: movie.mediaType , id: movie.id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedDetials):
                     // detail
-                    let detail = data.1
+                    let detail = fetchedDetials
                     let detailCategory = detail.formattedGenres()
                     
-                    // cell configuration
-                    cell.configureCell(with: MovieViewModel(title: detail.title, overview: detail.overview, logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath, category: detailCategory, mediaType: movie.mediaType))
-                    
+                    // cell details configuration
+                    cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,date: detail.releaseDate))
                 case .failure(let failure):
-                    print(failure.localizedDescription)
-                    
+                    print(
+                        "Error getting details:",
+                        failure
+                    )
                 }
             }
         }
