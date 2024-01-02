@@ -254,7 +254,7 @@ class NewAndHotTableViewCell: UITableViewCell {
         layoutIfNeeded()
     }
     
-    func configureCell(with model: MovieViewModel){
+    func configureCellImages(with model: MovieViewModel){
         if let backdrop = model.backdropsPath ,let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdrop)"){
             backdropImageView.sd_setImage(with: backdropURL)
         }
@@ -267,12 +267,15 @@ class NewAndHotTableViewCell: UITableViewCell {
             self.logoAspectRatio = logoAspectRatio > 4 ? 4 : logoAspectRatio
             updateLogoViewConstraints()
         }
-        
+    }
+    
+    func configureCellDetails(with model: MovieViewModel){
         titleLabel.text = model.title
         entertainmetType.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
         overViewLabel.text = model.overview
         categoryLabel.text = model.category
     }
+
     
 }
 
