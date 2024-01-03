@@ -29,8 +29,13 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     // logo
                     let logo : ImageDetails = {
                         let widthSorted = fetchedImages.logos.sorted {$0.aspectRatio > $1.aspectRatio}
-                        let englishLogo = widthSorted.filter {$0.iso6391 == "en"}[0]
-                        return englishLogo
+                        if let englishLogo = widthSorted.first(where: { $0.iso6391 == "en" }) {
+                            return englishLogo
+                        } else if widthSorted.isEmpty {
+                            return  ImageDetails(aspectRatio: 0, height: 0, filePath: "", voteAverage: 0.0, voteCount: 0, width: 0, iso6391: nil)
+                        } else {
+                            return widthSorted[0]
+                        }
                     }()
                     let logoPath = logo.filePath
                     let logoAspectRatio = logo.aspectRatio

@@ -28,7 +28,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let monthlable: UILabel = {
         let label = UILabel()
-        label.text = "MAR"
+        label.text = "N/A"
         label.textColor = .lightGray
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -38,7 +38,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let dayLabel: UILabel = {
         let label = UILabel()
-        label.text = "30"
+        label.text = "N/A"
         label.textColor = .white
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: 27)
@@ -111,7 +111,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let entertainmentDate: UILabel = {
         let label = UILabel()
-        label.text = "Coming on 30 March"
+        label.text = "N/A"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16, weight: .regular)
         return label
@@ -274,8 +274,16 @@ class NewAndHotTableViewCell: UITableViewCell {
         entertainmetType.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
         overViewLabel.text = model.overview
         categoryLabel.text = model.category
+        
+        if let date = model.date {
+            let dayMonthDate = date.extractMonthAndDay().dayMonth
+            entertainmentDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
+            dayLabel.text = date.extractMonthAndDay().day
+            monthlable.text = date.extractMonthAndDay().month
+        }
     }
-
+    
+    //MARK: - Get filePath
     
 }
 

@@ -93,7 +93,7 @@ extension SearchVC: SearchResultsVCDelegate , UISearchResultsUpdating , UISearch
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        navigationItem.searchController?.dismiss(animated: true, completion: nil)
+        
         navigationController?.popToRootViewController(animated: true)
     }
     
