@@ -9,14 +9,16 @@ import UIKit
 import WebKit
 
 class NewAndHotTableViewCell: UITableViewCell {
-
+    
     static let identifier = "NewAndHotTableViewCell"
+    
+    var trendingSelected = true
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
         [
-            monthlable ,dayLabel ,backdropImageView ,remindMeButton ,logoView  ,infoButton ,entertainmentDate ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,categoryLabel
+            backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,categoryLabel
         ].forEach {
             contentView.addSubview($0)
         }
@@ -136,7 +138,6 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Title Lable"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.numberOfLines = 0
@@ -146,7 +147,6 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let overViewLabel: UILabel = {
         let label = UILabel()
-        label.text = "Setting definesPresentationContext to true indicates that the view controller's view should provide the presentation context for view controllers it presents."
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 15, weight: .regular)
         label.textColor = .lightGray
@@ -164,89 +164,137 @@ class NewAndHotTableViewCell: UITableViewCell {
     }()
     
     
-    private func applyConstraints(){
-        NSLayoutConstraint.activate([
-            
-            //Datelabel
-            monthlable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            monthlable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            monthlable.heightAnchor.constraint(equalToConstant: 25),
-            monthlable.widthAnchor.constraint(equalToConstant: 40),
-            
-            dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            dayLabel.topAnchor.constraint(equalTo: monthlable.bottomAnchor),
-            dayLabel.heightAnchor.constraint(equalToConstant: 30),
-            dayLabel.widthAnchor.constraint(equalToConstant: 40),
-            
-            //Poster ImageView
-            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10),
-            backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            backdropImageView.heightAnchor.constraint(equalToConstant: 200),
-            backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3),
-            
-            //Buttons
-            infoButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10),
-            infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
-            infoButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            remindMeButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10),
-            remindMeButton.trailingAnchor.constraint(equalTo: infoButton.leadingAnchor),
-            remindMeButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            
-            //Logo view
-            logoView.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor,constant: 10),
-            logoView.heightAnchor.constraint(equalToConstant: 45),
-            logoView.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor),
-            
-            
-            //DateLabel
-            entertainmentDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor),
-            entertainmentDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor),
-            entertainmentDate.heightAnchor.constraint(equalToConstant: 30),
-            entertainmentDate.widthAnchor.constraint(equalTo: entertainmentDate.widthAnchor),
-            
-            //Type label
-            netflixLogo.leadingAnchor.constraint(equalTo: entertainmentDate.leadingAnchor),
-            netflixLogo.centerYAnchor.constraint(equalTo: entertainmetType.centerYAnchor),
-            netflixLogo.heightAnchor.constraint(equalToConstant: 15),
-            netflixLogo.widthAnchor.constraint(equalToConstant: 8),
-            
-            entertainmetType.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor, constant: 4),
-            entertainmetType.topAnchor.constraint(equalTo: entertainmentDate.bottomAnchor, constant: 6),
-            entertainmetType.bottomAnchor.constraint(equalTo: titleLabel.topAnchor),
-            entertainmetType.widthAnchor.constraint(equalTo: entertainmetType.widthAnchor),
-            
-            //Title
-            titleLabel.leadingAnchor.constraint(equalTo: entertainmentDate.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 30),
-            titleLabel.trailingAnchor.constraint(equalTo: backdropImageView.trailingAnchor, constant: -20),
-            
-            //Overview
-            overViewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
-            overViewLabel.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -10),
-            overViewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            overViewLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4),
-            
-            //Category
-            categoryLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10),
-            categoryLabel.leadingAnchor.constraint(equalTo: overViewLabel.leadingAnchor),
-            categoryLabel.heightAnchor.constraint(equalToConstant: 15),
-            categoryLabel.widthAnchor.constraint(equalTo: categoryLabel.widthAnchor),
-            
-        ])
+    // Month and Day label constraints
+    func setupMonthAndDayLabelConstraints() {
+        // Day label constraints
+        monthlable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
+        monthlable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
+        monthlable.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        monthlable.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        // Day label constraints
+        dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
+        dayLabel.topAnchor.constraint(equalTo: monthlable.bottomAnchor).isActive = true
+        dayLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        dayLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
     }
+    
+    // Backdrop image view constraints
+    func setupBackdropImageViewConstraints() {
+        if trendingSelected {
+            backdropImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3).isActive = true
+            backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
+            backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+            backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3).isActive = true
+        } else {
+            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10).isActive = true
+            backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
+            backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+            backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3).isActive = true
+        }
+    }
+    
+    // Buttons constraints
+    func setupButtonsConstraints() {
+        infoButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
+        infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
+        infoButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        remindMeButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
+        remindMeButton.trailingAnchor.constraint(equalTo: infoButton.leadingAnchor).isActive = true
+        remindMeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    }
+    
+    //Logo view
+    func setupLogoViewConstraints() {
+        logoView.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor,constant: 10).isActive = true
+        logoView.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        logoView.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+    }
+    
+    //Date Label
+    func setupDateLabelConstraints() {
+        entertainmentDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+        entertainmentDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
+        entertainmentDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        entertainmentDate.widthAnchor.constraint(equalTo: entertainmentDate.widthAnchor).isActive = true
+    }
+    
+    //Type and Logo constraints
+    func setupTypeLabelConstraints() {
+        if trendingSelected {
+            netflixLogo.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+            netflixLogo.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: 10).isActive = true
+            netflixLogo.heightAnchor.constraint(equalToConstant: 15).isActive = true
+            netflixLogo.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        } else {
+            netflixLogo.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+            netflixLogo.topAnchor.constraint(equalTo: entertainmentDate.bottomAnchor, constant: 5).isActive = true
+            netflixLogo.heightAnchor.constraint(equalToConstant: 15).isActive = true
+            netflixLogo.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        }
+        
+        entertainmetType.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor, constant: 4).isActive = true
+        entertainmetType.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
+        entertainmetType.bottomAnchor.constraint(equalTo: titleLabel.topAnchor).isActive = true
+        entertainmetType.widthAnchor.constraint(equalTo: entertainmetType.widthAnchor).isActive = true
+    }
+    
+    // Title and overview label constraints
+    func setupTitleOverviewLabelConstraints() {
+        titleLabel.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: backdropImageView.trailingAnchor, constant: -20).isActive = true
+        
+        overViewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
+        overViewLabel.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -10).isActive = true
+        overViewLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
+        overViewLabel.trailingAnchor.constraint(equalTo: backdropImageView.trailingAnchor, constant: -5).isActive = true
+    }
+    
+    // Category label constraints
+    func setupCategoryLabelConstraints() {
+        categoryLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
+        categoryLabel.leadingAnchor.constraint(equalTo: overViewLabel.leadingAnchor).isActive = true
+        categoryLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        categoryLabel.widthAnchor.constraint(equalTo: categoryLabel.widthAnchor).isActive = true
+    }
+    
+    func applyConstraints() {
+        if trendingSelected {
+            setupBackdropImageViewConstraints()
+            setupButtonsConstraints()
+            setupLogoViewConstraints()
+            setupTypeLabelConstraints()
+            setupTitleOverviewLabelConstraints()
+            setupCategoryLabelConstraints()
+        } else {
+            addSubview(monthlable)
+            addSubview(dayLabel)
+            addSubview(entertainmentDate)
+            setupMonthAndDayLabelConstraints()
+            setupDateLabelConstraints()
+            
+            setupTypeLabelConstraints()
+            setupBackdropImageViewConstraints()
+            setupButtonsConstraints()
+            setupLogoViewConstraints()
+            setupTitleOverviewLabelConstraints()
+            setupCategoryLabelConstraints()
+        }
+    }
+    
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Get Cell Details
-    
+    //MARK: - Update logoView Constraints
     private func updateLogoViewConstraints() {
         logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio))
-        
         let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio)
         widthConstraint.priority = .defaultHigh
         widthConstraint.isActive = true
@@ -254,6 +302,7 @@ class NewAndHotTableViewCell: UITableViewCell {
         layoutIfNeeded()
     }
     
+    //MARK: - Get Cell Details
     func configureCellImages(with model: MovieViewModel){
         if let backdrop = model.backdropsPath ,let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdrop)"){
             backdropImageView.sd_setImage(with: backdropURL)
@@ -282,8 +331,6 @@ class NewAndHotTableViewCell: UITableViewCell {
             monthlable.text = date.extractMonthAndDay().month
         }
     }
-    
-    //MARK: - Get filePath
     
 }
 
