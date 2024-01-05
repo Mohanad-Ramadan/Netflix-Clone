@@ -7,7 +7,7 @@
 
 import UIKit
 
-
+//MARK: - HomeVC Extensions
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -63,71 +63,16 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-//MARK: - TableView Sections
+//MARK: - CellTapedAction extension
 
-enum Sections: Int {
-    case  TopSeries = 0, TrendingTVNow = 1 , PopularMovies = 2, TrendingMoviesNow = 3, UpcomingMovies = 4
-}
-
-func embedSections(sectionNumbs: Int, cell: HomeTableViewCell){
-    switch sectionNumbs{
-    case Sections.TopSeries.rawValue:
-        APICaller.shared.getTopSeries { result in
-            switch result {
-            case .success(let entertainments):
-                cell.configureCollection(with: entertainments)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
+extension HomeVC :HomeTableViewCellDelegate {
+    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieInfoViewModel) {
         
-    case Sections.TrendingTVNow.rawValue:
-        APICaller.shared.getTrendingTV { result in
-            switch result {
-            case .success(let entertainments):
-                cell.configureCollection(with: entertainments)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-        
-    case Sections.PopularMovies.rawValue:
-        APICaller.shared.getPopular { result in
-            switch result {
-            case .success(let entertainments):
-                cell.configureCollection(with: entertainments)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-        
-    case Sections.TrendingMoviesNow.rawValue:
-        APICaller.shared.getTrendingMovies { result in
-            switch result {
-            case .success(let entertainments):
-                cell.configureCollection(with: entertainments)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-        
-    case Sections.UpcomingMovies.rawValue:
-        APICaller.shared.getUpcomingMovies { result in
-            switch result {
-            case .success(let entertainments):
-                cell.configureCollection(with: entertainments)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-    default:
-        APICaller.shared.getTrendingMovies { result in
-            switch result {
-            case .success(let entertainments):
-                cell.configureCollection(with: entertainments)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
+        DispatchQueue.main.async { [weak self] in
+            let vc = MovieInfoVC()
+            vc.configureMovieInfo(with: viewModel)
+            self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
+

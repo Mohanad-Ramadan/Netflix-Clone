@@ -165,7 +165,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     
     // Month and Day label constraints
-    func setupMonthAndDayLabelConstraints() {
+    private func setupMonthAndDayLabelConstraints() {
         // Day label constraints
         monthlable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
         monthlable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
@@ -180,7 +180,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     }
     
     // Backdrop image view constraints
-    func setupBackdropImageViewConstraints() {
+    private func setupBackdropImageViewConstraints() {
         if trendingSelected {
             backdropImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3).isActive = true
             backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
@@ -195,7 +195,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     }
     
     // Buttons constraints
-    func setupButtonsConstraints() {
+    private func setupButtonsConstraints() {
         infoButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
         infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         infoButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -206,14 +206,14 @@ class NewAndHotTableViewCell: UITableViewCell {
     }
     
     //Logo view
-    func setupLogoViewConstraints() {
+    private func setupLogoViewConstraints() {
         logoView.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor,constant: 10).isActive = true
         logoView.heightAnchor.constraint(equalToConstant: 45).isActive = true
         logoView.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
     }
     
     //Date Label
-    func setupDateLabelConstraints() {
+    private func setupDateLabelConstraints() {
         entertainmentDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
         entertainmentDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
         entertainmentDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -221,7 +221,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     }
     
     //Type and Logo constraints
-    func setupTypeLabelConstraints() {
+    private func setupTypeLabelConstraints() {
         if trendingSelected {
             netflixLogo.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
             netflixLogo.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: 10).isActive = true
@@ -241,7 +241,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     }
     
     // Title and overview label constraints
-    func setupTitleOverviewLabelConstraints() {
+    private func setupTitleOverviewLabelConstraints() {
         titleLabel.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -254,14 +254,14 @@ class NewAndHotTableViewCell: UITableViewCell {
     }
     
     // Category label constraints
-    func setupCategoryLabelConstraints() {
+    private func setupCategoryLabelConstraints() {
         categoryLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
         categoryLabel.leadingAnchor.constraint(equalTo: overViewLabel.leadingAnchor).isActive = true
         categoryLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         categoryLabel.widthAnchor.constraint(equalTo: categoryLabel.widthAnchor).isActive = true
     }
     
-    func applyConstraints() {
+    private func applyConstraints() {
         if trendingSelected {
             setupBackdropImageViewConstraints()
             setupButtonsConstraints()

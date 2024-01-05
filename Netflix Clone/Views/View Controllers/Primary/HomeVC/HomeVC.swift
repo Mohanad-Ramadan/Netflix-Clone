@@ -60,7 +60,6 @@ class HomeVC: UIViewController {
         ]
         
         navigationController?.navigationBar.tintColor = .label
-        
     }
     
     private func randomHeaderMovie(){
@@ -71,9 +70,9 @@ class HomeVC: UIViewController {
                 self?.headerView?.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
                 self?.homeBackground?.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-                    self?.skeletonLoadingView.removeFromSuperview()
-                }
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+//                    self?.skeletonLoadingView.removeFromSuperview()
+//                }
                 
             case .failure(let failure):
                 print(failure.localizedDescription)

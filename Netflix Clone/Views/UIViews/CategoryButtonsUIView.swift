@@ -18,10 +18,6 @@ class CategoryButtonsUIView: UIView {
         applyConstraints()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
     
     private let tvShowsButton: UIButton = {
         let button = UIButton()
