@@ -105,6 +105,8 @@ class MyNetflixVC: UIViewController {
     
     var entertainments: [EntertainmentItems] = [EntertainmentItems]()
     
+    //MARK: - Apply constraints
+    
     //Profil view
     private func profilImageConstraints() {
         profilImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true

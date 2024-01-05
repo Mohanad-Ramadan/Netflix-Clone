@@ -11,22 +11,20 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavbar()
-        view.addSubview(homeFeedTable)
+        view.addSubview(categorySelectButtons)
+        view.addSubview(headerView)
+//        view.addSubview(homeFeedTable)
+        applyConstraints()
+        
 //        view.addSubview(skeletonLoadingView)
-//        view.addSubview(categoryButtonsView)
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
         
-        
-        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height*0.65))
-        homeFeedTable.tableHeaderView = headerView
-        
-        
         homeBackground = HomeBackgroundUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
-        homeFeedTable.backgroundView = homeBackground
+//        homeFeedTable.backgroundView = homeBackground
+        view.backgroundColor = .black
 
         
     }
@@ -38,8 +36,7 @@ class HomeVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        homeFeedTable.frame = view.bounds
-        skeletonLoadingView.frame = view.bounds
+//        skeletonLoadingView.frame = view.bounds
     }
     
     @objc func searchButtonTapped() {
@@ -67,7 +64,7 @@ class HomeVC: UIViewController {
             switch result {
             case .success(let movie):
                 let randomMovie = movie.randomElement()
-                self?.headerView?.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
+                self?.headerView.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
                 self?.homeBackground?.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
                 
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
@@ -82,9 +79,9 @@ class HomeVC: UIViewController {
     
     private let skeletonLoadingView = SkeletonLoadingUIView()
     
-    private let categoryButtonsView = CategoryButtonsUIView()
+    private let categorySelectButtons = CategoryButtonsUIView()
     
-    private var headerView: HeroHeaderUIView?
+    private var headerView = HeroHeaderUIView()
     
     private var homeBackground: HomeBackgroundUIView?
     
@@ -92,12 +89,44 @@ class HomeVC: UIViewController {
         let table = UITableView(frame: .zero, style: .plain)
         table.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         table.separatorStyle = .none
+        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
-    
-    
     let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
+    
+    
+    //MARK: - Apply constraints
+    private func categoryBarConstriants() {
+        categorySelectButtons.translatesAutoresizingMaskIntoConstraints = false
+        categorySelectButtons.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 3).isActive = true
+        categorySelectButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
+        categorySelectButtons.widthAnchor.constraint(equalTo: categorySelectButtons.widthAnchor ).isActive = true
+        categorySelectButtons.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
+    //User Label
+    private func headerViewConstraints() {
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.topAnchor.constraint(equalTo: categorySelectButtons.bottomAnchor, constant: 25).isActive = true
+        headerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        headerView.widthAnchor.constraint(equalTo: headerView.widthAnchor).isActive = true
+        headerView.heightAnchor.constraint(equalTo: headerView.heightAnchor).isActive = true
+    }
+    
+    //DownloadTable Title Row
+    private func homefeedtableConstraints() {
+        homeFeedTable.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20).isActive = true
+        homeFeedTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        homeFeedTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        homeFeedTable.heightAnchor.constraint(equalToConstant: 180).isActive = true
+    }
+    
+    private func applyConstraints() {
+        categoryBarConstriants()
+        headerViewConstraints()
+//        homefeedtableConstraints()
+    }
     
 }
 
