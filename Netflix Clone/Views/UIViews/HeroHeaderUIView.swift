@@ -7,19 +7,17 @@
 
 import UIKit
 import SDWebImage
+import ColorKit
 
 class HeroHeaderUIView: UIView {
+    
+    private var gradientLayer: CAGradientLayer = CAGradientLayer()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         [posterImageView, playButton, listButton].forEach { addSubview($0)
         }
-        addGradient()
         applyConstraints()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        gradientLayer.frame = posterImageView.bounds
     }
     
     private let posterImageView : UIImageView = {
@@ -80,28 +78,39 @@ class HeroHeaderUIView: UIView {
         return button
     }()
     
-    // Gradient layer
-    private var gradientLayer: CAGradientLayer = CAGradientLayer()
+    //MARK: - Configure Poster Image
+    func configureHeaderPoster(with model: MovieViewModel) {
+        DispatchQueue.main.async { [weak self] in
+            if let posterPath = model.posterPath, let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") {
+                self?.posterImageView.sd_setImage(with: posterURL) { [weak self] (_, _, _, _) in
+                    self?.getImageDominantColor()
+                }
+            }
+        }
+    }
     
-    private func addGradient() {
+    //MARK: - Get Poster dominant color
+    func getImageDominantColor(){
+        do{
+            let imageColor = try posterImageView.image?.averageColor() ?? .black
+            addGradientLayer(color: imageColor)
+        }catch {
+            return
+        }
+    }
+    
+    //MARK: - Gradient layer
+    private func addGradientLayer(color: UIColor) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor.clear.cgColor,
-            UIColor.black.withAlphaComponent(0.9).cgColor,
-            UIColor.black.cgColor
+            color.withAlphaComponent(0.9).cgColor,
+            color.cgColor
         ]
-        gradientLayer.locations = [NSNumber(value: 0.4), NSNumber(value: 0.9), NSNumber(value: 1.0)]
+        gradientLayer.locations = [NSNumber(value: 0.4), NSNumber(value: 0.8), NSNumber(value: 1.0)]
         posterImageView.layer.addSublayer(gradientLayer)
         self.gradientLayer = gradientLayer
-    }
-    
-    //MARK: - Configure Poster Image
-    public func configureHeaderPoster(with model: MovieViewModel){
-        DispatchQueue.main.async { [weak self] in
-            if let posterPath = model.posterPath ,let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)"){
-                self?.posterImageView.sd_setImage(with: posterURL)
-            }
-        }
+        gradientLayer.frame = posterImageView.bounds
     }
     
     //MARK: - Apply constraints

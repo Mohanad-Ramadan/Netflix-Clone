@@ -44,6 +44,7 @@
 		14802AE62AEAD34D00C80527 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14802AE52AEAD34D00C80527 /* SDWebImageMapKit */; };
 		1488403E2B168ACC00EE2F21 /* CategoryButtonsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1488403D2B168ACC00EE2F21 /* CategoryButtonsUIView.swift */; };
 		1488D3242B0E49600020AF07 /* HomeBackgroundUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1488D3232B0E49600020AF07 /* HomeBackgroundUIView.swift */; };
+		14D91F1A2B48945F00089E84 /* ColorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14D91F192B48945F00089E84 /* ColorKit */; };
 		14DCE3D52B2240D400DCD959 /* New$HotExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCE3D42B2240D400DCD959 /* New$HotExtensions.swift */; };
 		14DCE3D72B22490D00DCD959 /* New&HotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCE3D62B22490D00DCD959 /* New&HotTableViewCell.swift */; };
 		14E2B1582AE07F1800ED74B9 /* MovieInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E2B1572AE07F1800ED74B9 /* MovieInfoVC.swift */; };
@@ -107,6 +108,7 @@
 				14802AE62AEAD34D00C80527 /* SDWebImageMapKit in Frameworks */,
 				14EC7D5A2B14FE5700E5B395 /* SkeletonView in Frameworks */,
 				14802AE42AEAD34D00C80527 /* SDWebImage in Frameworks */,
+				14D91F1A2B48945F00089E84 /* ColorKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +336,7 @@
 				14802AE32AEAD34D00C80527 /* SDWebImage */,
 				14802AE52AEAD34D00C80527 /* SDWebImageMapKit */,
 				14EC7D592B14FE5700E5B395 /* SkeletonView */,
+				14D91F192B48945F00089E84 /* ColorKit */,
 			);
 			productName = "Netflix Clone";
 			productReference = 145FB0EF2AD3FEC30019A439 /* Netflix Clone.app */;
@@ -366,6 +369,7 @@
 			packageReferences = (
 				14802AE22AEAD34D00C80527 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				14EC7D582B14FE5700E5B395 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+				14D91F182B48945F00089E84 /* XCRemoteSwiftPackageReference "ColorKit" */,
 			);
 			productRefGroup = 145FB0F02AD3FEC30019A439 /* Products */;
 			projectDirPath = "";
@@ -656,6 +660,14 @@
 				minimumVersion = 5.18.3;
 			};
 		};
+		14D91F182B48945F00089E84 /* XCRemoteSwiftPackageReference "ColorKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Boris-Em/ColorKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		14EC7D582B14FE5700E5B395 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
@@ -676,6 +688,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14802AE22AEAD34D00C80527 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImageMapKit;
+		};
+		14D91F192B48945F00089E84 /* ColorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14D91F182B48945F00089E84 /* XCRemoteSwiftPackageReference "ColorKit" */;
+			productName = ColorKit;
 		};
 		14EC7D592B14FE5700E5B395 /* SkeletonView */ = {
 			isa = XCSwiftPackageProductDependency;

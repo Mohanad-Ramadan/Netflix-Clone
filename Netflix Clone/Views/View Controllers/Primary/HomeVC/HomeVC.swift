@@ -16,7 +16,7 @@ class HomeVC: UIViewController {
         view.addSubview(headerView)
 //        view.addSubview(homeFeedTable)
         applyConstraints()
-        
+        randomHeaderMovie()
 //        view.addSubview(skeletonLoadingView)
         
         homeFeedTable.delegate = self
@@ -25,13 +25,7 @@ class HomeVC: UIViewController {
         homeBackground = HomeBackgroundUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
 //        homeFeedTable.backgroundView = homeBackground
         view.backgroundColor = .black
-
         
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        randomHeaderMovie()
     }
     
     override func viewDidLayoutSubviews() {
@@ -64,7 +58,9 @@ class HomeVC: UIViewController {
             switch result {
             case .success(let movie):
                 let randomMovie = movie.randomElement()
+                
                 self?.headerView.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
+                
                 self?.homeBackground?.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
                 
 //                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
