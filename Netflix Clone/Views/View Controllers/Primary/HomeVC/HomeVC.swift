@@ -12,17 +12,16 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavbar()
-        view.addSubview(categorySelectButtons)
-        view.addSubview(headerView)
-//        view.addSubview(homeFeedTable)
-        applyConstraints()
+        view.addSubview(homeFeedTable)
         randomHeaderMovie()
 //        view.addSubview(skeletonLoadingView)
+        
+        homeFeedTable.tableHeaderView = headerView
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
         
-        homeBackground = HomeBackgroundUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
+//        homeBackground = HomeBackgroundUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
 //        homeFeedTable.backgroundView = homeBackground
         view.backgroundColor = .black
         
@@ -30,6 +29,7 @@ class HomeVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        homeFeedTable.frame = view.bounds
 //        skeletonLoadingView.frame = view.bounds
     }
     
@@ -77,7 +77,7 @@ class HomeVC: UIViewController {
     
     private let categorySelectButtons = CategoryButtonsUIView()
     
-    private var headerView = HeroHeaderUIView()
+    private var headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height*(7/17), height: UIScreen.main.bounds.height/1.7 ))
     
     private var homeBackground: HomeBackgroundUIView?
     
@@ -90,39 +90,6 @@ class HomeVC: UIViewController {
     }()
     
     let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
-    
-    
-    //MARK: - Apply constraints
-    private func categoryBarConstriants() {
-        categorySelectButtons.translatesAutoresizingMaskIntoConstraints = false
-        categorySelectButtons.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 3).isActive = true
-        categorySelectButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
-        categorySelectButtons.widthAnchor.constraint(equalTo: categorySelectButtons.widthAnchor ).isActive = true
-        categorySelectButtons.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    //User Label
-    private func headerViewConstraints() {
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.topAnchor.constraint(equalTo: categorySelectButtons.bottomAnchor, constant: 25).isActive = true
-        headerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        headerView.widthAnchor.constraint(equalTo: headerView.widthAnchor).isActive = true
-        headerView.heightAnchor.constraint(equalTo: headerView.heightAnchor).isActive = true
-    }
-    
-    //DownloadTable Title Row
-    private func homefeedtableConstraints() {
-        homeFeedTable.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 20).isActive = true
-        homeFeedTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        homeFeedTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        homeFeedTable.heightAnchor.constraint(equalToConstant: 180).isActive = true
-    }
-    
-    private func applyConstraints() {
-        categoryBarConstriants()
-        headerViewConstraints()
-//        homefeedtableConstraints()
-    }
     
 }
 
