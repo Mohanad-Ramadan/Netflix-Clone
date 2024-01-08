@@ -31,7 +31,7 @@ class CategoryButtonsUIView: UIView {
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 14, weight: .semibold)
+            outgoing.font = .systemFont(ofSize: 14, weight: .bold)
             return outgoing
         }
         
@@ -53,7 +53,7 @@ class CategoryButtonsUIView: UIView {
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15)
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 14, weight: .semibold)
+            outgoing.font = .systemFont(ofSize: 14, weight: .bold)
             return outgoing
         }
         
@@ -79,7 +79,7 @@ class CategoryButtonsUIView: UIView {
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 8.5, leading: 15, bottom: 8.5, trailing: 15)
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 14, weight: .semibold)
+            outgoing.font = .systemFont(ofSize: 14, weight: .bold)
             return outgoing
         }
 

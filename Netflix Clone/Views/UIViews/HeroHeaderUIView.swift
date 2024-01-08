@@ -11,16 +11,18 @@ import ColorKit
 
 class HeroHeaderUIView: UIView {
     
-    private var gradientLayer: CAGradientLayer = CAGradientLayer()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [posterImageView, playButton, listButton].forEach { addSubview($0)
+        shadowContainerView.addSubview(posterImageView)
+        shadowWrapperView.addSubview(shadowContainerView)
+        [shadowWrapperView, playButton, listButton].forEach { addSubview($0)
         }
         applyConstraints()
     }
     
-    private let posterImageView : UIImageView = {
+    private var gradientLayer: CAGradientLayer = CAGradientLayer()
+    
+    private let posterImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 15
@@ -28,7 +30,27 @@ class HeroHeaderUIView: UIView {
         image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.4)
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
+
         return image
+    }()
+
+    // Container view for shadow
+    private let shadowContainerView: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.clipsToBounds = false
+        containerView.layer.cornerRadius = 15  // Add corner radius to match the posterImageView
+        return containerView
+    }()
+    
+    private let shadowWrapperView: UIView = {
+        let wrapperView = UIView()
+        wrapperView.translatesAutoresizingMaskIntoConstraints = false
+        wrapperView.layer.shadowColor = UIColor.black.cgColor
+        wrapperView.layer.shadowOpacity = 0.5
+        wrapperView.layer.shadowOffset = CGSize.zero
+        wrapperView.layer.shadowRadius = 10
+        return wrapperView
     }()
     
     
@@ -49,9 +71,13 @@ class HeroHeaderUIView: UIView {
             return outgoing
         }
         
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowOffset = CGSize.zero
+        button.layer.shadowRadius = 1
+        
         button.configuration = configuration
         button.translatesAutoresizingMaskIntoConstraints = false
-        
         return button
     }()
     
@@ -73,27 +99,21 @@ class HeroHeaderUIView: UIView {
             return outgoing
         }
         
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowOffset = CGSize.zero
+        button.layer.shadowRadius = 1
+        
         button.configuration = configuration
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    //MARK: - Configure Poster Image
-    func configureHeaderPoster(with model: MovieViewModel) {
-        DispatchQueue.main.async { [weak self] in
-            if let posterPath = model.posterPath, let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") {
-                self?.posterImageView.sd_setImage(with: posterURL) { [weak self] (_, _, _, _) in
-                    self?.getImageDominantColor()
-                }
-            }
-        }
-    }
-    
     //MARK: - Get Poster dominant color
     func getImageDominantColor(){
         do{
             let imageColor = try posterImageView.image?.averageColor() ?? .black
-            addGradientLayer(color: imageColor)
+            addGradientLayer(color: imageColor.darken(by: 0.2))
         }catch {
             return
         }
@@ -113,30 +133,60 @@ class HeroHeaderUIView: UIView {
         gradientLayer.frame = posterImageView.bounds
     }
     
+    //MARK: - Configure Poster Image
+    func configureHeaderPoster(with model: MovieViewModel) {
+        DispatchQueue.main.async { [weak self] in
+            if let posterPath = model.posterPath, let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") {
+                self?.posterImageView.sd_setImage(with: posterURL) { [weak self] (_, _, _, _) in
+                    self?.getImageDominantColor()
+                }
+            }
+        }
+    }
+    
     //MARK: - Apply constraints
     private func applyConstraints() {
-        let posterViewConstraints = [
-            posterImageView.topAnchor.constraint(equalTo: topAnchor),
-            posterImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            posterImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/1.7),
-            posterImageView.widthAnchor.constraint(equalTo: posterImageView.heightAnchor, multiplier: 2.8/4)
+        
+        let shadowWrapperConstraints = [
+            shadowWrapperView.topAnchor.constraint(equalTo: topAnchor),
+            shadowWrapperView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            shadowWrapperView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height/1.7),
+            shadowWrapperView.widthAnchor.constraint(equalTo: shadowWrapperView.heightAnchor, multiplier: 2.8/4)
+        ]
+        
+        // Apply constraints for shadowContainerView inside shadowWrapperView
+        let shadowContainerConstraints = [
+            shadowContainerView.topAnchor.constraint(equalTo: shadowWrapperView.topAnchor),
+            shadowContainerView.leadingAnchor.constraint(equalTo: shadowWrapperView.leadingAnchor),
+            shadowContainerView.trailingAnchor.constraint(equalTo: shadowWrapperView.trailingAnchor),
+            shadowContainerView.bottomAnchor.constraint(equalTo: shadowWrapperView.bottomAnchor)
+        ]
+
+
+        // Apply constraints for posterImageView inside shadowContainerView
+        let imageConstraints = [
+            posterImageView.topAnchor.constraint(equalTo: shadowContainerView.topAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: shadowContainerView.leadingAnchor),
+            posterImageView.trailingAnchor.constraint(equalTo: shadowContainerView.trailingAnchor),
+            posterImageView.bottomAnchor.constraint(equalTo: shadowContainerView.bottomAnchor)
         ]
         
         let playButtonConstraints = [
             playButton.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -7),
             playButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -20),
-            playButton.widthAnchor.constraint(equalToConstant: 150),
+            playButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor, constant: 15),
             playButton.heightAnchor.constraint(equalToConstant: 40)
         ]
         
         let listButtonConstraints = [
             listButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 7),
             listButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -20),
-            listButton.widthAnchor.constraint(equalToConstant: 150),
+            listButton.trailingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: -15),
             listButton.heightAnchor.constraint(equalToConstant: 40)
         ]
-        
-        NSLayoutConstraint.activate(posterViewConstraints)
+        NSLayoutConstraint.activate(shadowWrapperConstraints)
+        NSLayoutConstraint.activate(shadowContainerConstraints)
+        NSLayoutConstraint.activate(imageConstraints)
         NSLayoutConstraint.activate(playButtonConstraints)
         NSLayoutConstraint.activate(listButtonConstraints)
     }

@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import UIKit
 
+//MARK: - String Extension
 extension String {
-    
     func capitalizeFirstLetter() -> String {
         return self.prefix(1).uppercased() + self.lowercased().dropFirst()
     }
@@ -53,3 +54,21 @@ extension String {
     }
     
 }
+
+//MARK: - UIColor Extension
+extension UIColor {
+    func darken(by percentage: CGFloat) -> UIColor {
+        var hue: CGFloat = 0.0
+        var saturation: CGFloat = 0.0
+        var brightness: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+
+        if getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) {
+            brightness = max(min(brightness - percentage, 1.0), 0.0)
+            return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+        }
+
+        return self
+    }
+}
+
