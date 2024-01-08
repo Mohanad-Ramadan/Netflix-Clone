@@ -15,7 +15,7 @@ class HeroHeaderUIView: UIView {
         super.init(frame: frame)
         shadowContainerView.addSubview(posterImageView)
         shadowWrapperView.addSubview(shadowContainerView)
-        [shadowWrapperView, playButton, listButton].forEach { addSubview($0)
+        [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach { addSubview($0)
         }
         applyConstraints()
     }
@@ -53,6 +53,27 @@ class HeroHeaderUIView: UIView {
         return wrapperView
     }()
     
+    private let logoView : UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let categoryLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Violent.Suspental.Action"
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.adjustsFontSizeToFitWidth = true
+        label.textColor = .label
+        label.textAlignment = .center
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize.zero
+        label.layer.shadowRadius = 0.5
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private let playButton: UIButton = {
         let button = UIButton()
@@ -72,7 +93,7 @@ class HeroHeaderUIView: UIView {
         }
         
         button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.5
+        button.layer.shadowOpacity = 0.4
         button.layer.shadowOffset = CGSize.zero
         button.layer.shadowRadius = 1
         
@@ -100,7 +121,7 @@ class HeroHeaderUIView: UIView {
         }
         
         button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.5
+        button.layer.shadowOpacity = 0.4
         button.layer.shadowOffset = CGSize.zero
         button.layer.shadowRadius = 1
         
@@ -124,10 +145,11 @@ class HeroHeaderUIView: UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor.clear.cgColor,
-            color.withAlphaComponent(0.9).cgColor,
+            color.withAlphaComponent(0.6).cgColor,
+            color.withAlphaComponent(0.8).cgColor,
             color.cgColor
         ]
-        gradientLayer.locations = [NSNumber(value: 0.4), NSNumber(value: 0.8), NSNumber(value: 1.0)]
+        gradientLayer.locations = [NSNumber(value: 0.5), NSNumber(value: 0.7), NSNumber(value: 0.8), NSNumber(value: 1.0)]
         posterImageView.layer.addSublayer(gradientLayer)
         self.gradientLayer = gradientLayer
         gradientLayer.frame = posterImageView.bounds
@@ -171,6 +193,22 @@ class HeroHeaderUIView: UIView {
             posterImageView.bottomAnchor.constraint(equalTo: shadowContainerView.bottomAnchor)
         ]
         
+        // logoView constraints
+        let logoViewConstraints = [
+            logoView.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -5),
+            logoView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            logoView.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -5),
+            logoView.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 5)
+        ]
+
+        // Category constraints
+        let categoryConstraints = [
+            categoryLabel.bottomAnchor.constraint(equalTo: playButton.topAnchor, constant: -20),
+            categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            categoryLabel.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -5),
+            categoryLabel.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 5)
+        ]
+        
         let playButtonConstraints = [
             playButton.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -7),
             playButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -20),
@@ -187,6 +225,8 @@ class HeroHeaderUIView: UIView {
         NSLayoutConstraint.activate(shadowWrapperConstraints)
         NSLayoutConstraint.activate(shadowContainerConstraints)
         NSLayoutConstraint.activate(imageConstraints)
+        NSLayoutConstraint.activate(logoViewConstraints)
+        NSLayoutConstraint.activate(categoryConstraints)
         NSLayoutConstraint.activate(playButtonConstraints)
         NSLayoutConstraint.activate(listButtonConstraints)
     }

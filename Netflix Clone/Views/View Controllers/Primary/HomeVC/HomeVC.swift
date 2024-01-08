@@ -20,7 +20,6 @@ class HomeVC: UIViewController {
         configureNavbar()
         randomHeaderMovie()
         applyConstriants()
-//        view.addSubview(skeletonLoadingView)
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
@@ -33,7 +32,6 @@ class HomeVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
-//        skeletonLoadingView.frame = view.bounds
     }
     
     @objc func searchButtonTapped() {
@@ -56,7 +54,7 @@ class HomeVC: UIViewController {
     }
     
     private func randomHeaderMovie(){
-        APICaller.shared.getTrendingTV { [weak self] result in
+        APICaller.shared.getTrendingMovies { [weak self] result in
             switch result {
             case .success(let movie):
                 let randomMovie = movie.randomElement()
@@ -64,10 +62,6 @@ class HomeVC: UIViewController {
                 self?.heroHeaderView.configureHeaderPoster(with: MovieViewModel(title: randomMovie?.originalName ?? "Unknown", posterPath: randomMovie?.posterPath ?? "Unknown"))
                 
                 self?.homeBackground?.configureHeaderPoster(with: MovieViewModel(posterPath: randomMovie?.posterPath ?? "Unknown"))
-                
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-//                    self?.skeletonLoadingView.removeFromSuperview()
-//                }
                 
             case .failure(let failure):
                 print(failure.localizedDescription)
