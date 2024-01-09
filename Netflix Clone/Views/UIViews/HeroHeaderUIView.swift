@@ -13,8 +13,7 @@ class HeroHeaderUIView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        shadowContainerView.addSubview(posterImageView)
-        shadowWrapperView.addSubview(shadowContainerView)
+        shadowWrapperView.addSubview(showImageView)
         [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach { addSubview($0)
         }
         applyConstraints()
@@ -22,7 +21,7 @@ class HeroHeaderUIView: UIView {
     
     private var gradientLayer: CAGradientLayer = CAGradientLayer()
     
-    private let posterImageView: UIImageView = {
+    private let showImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 15
@@ -33,23 +32,14 @@ class HeroHeaderUIView: UIView {
 
         return image
     }()
-
-    // Container view for shadow
-    private let shadowContainerView: UIView = {
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.clipsToBounds = false
-        containerView.layer.cornerRadius = 15  // Add corner radius to match the posterImageView
-        return containerView
-    }()
     
     private let shadowWrapperView: UIView = {
         let wrapperView = UIView()
         wrapperView.translatesAutoresizingMaskIntoConstraints = false
         wrapperView.layer.shadowColor = UIColor.black.cgColor
-        wrapperView.layer.shadowOpacity = 0.5
+        wrapperView.layer.shadowOpacity = 0.3
         wrapperView.layer.shadowOffset = CGSize.zero
-        wrapperView.layer.shadowRadius = 10
+        wrapperView.layer.shadowRadius = 8
         return wrapperView
     }()
     
@@ -62,15 +52,15 @@ class HeroHeaderUIView: UIView {
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
-        label.text = "Violent.Suspental.Action"
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 2
         label.textColor = .label
         label.textAlignment = .center
         label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOpacity = 0.5
         label.layer.shadowOffset = CGSize.zero
-        label.layer.shadowRadius = 0.5
+        label.layer.shadowRadius = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -133,8 +123,8 @@ class HeroHeaderUIView: UIView {
     //MARK: - Get Poster dominant color
     func getImageDominantColor(){
         do{
-            let imageColor = try posterImageView.image?.averageColor() ?? .black
-            addGradientLayer(color: imageColor.darken(by: 0.2))
+            let imageColor = try showImageView.image?.averageColor() ?? .black
+            addGradientLayer(color: imageColor.darken(by: 0.1))
         }catch {
             return
         }
@@ -145,24 +135,39 @@ class HeroHeaderUIView: UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor.clear.cgColor,
+            color.withAlphaComponent(0.1).cgColor,
+            color.withAlphaComponent(0.2).cgColor,
+            color.withAlphaComponent(0.3).cgColor,
+            color.withAlphaComponent(0.4).cgColor,
+            color.withAlphaComponent(0.5).cgColor,
             color.withAlphaComponent(0.6).cgColor,
+            color.withAlphaComponent(0.7).cgColor,
             color.withAlphaComponent(0.8).cgColor,
+            color.withAlphaComponent(0.9).cgColor,
             color.cgColor
         ]
-        gradientLayer.locations = [NSNumber(value: 0.5), NSNumber(value: 0.7), NSNumber(value: 0.8), NSNumber(value: 1.0)]
-        posterImageView.layer.addSublayer(gradientLayer)
+        let stepSize = 0.46 / Double(gradientLayer.colors?.count ?? 1)
+
+        let locations = Array(stride(from: 0.43, through: 1.0, by: stepSize))
+        gradientLayer.locations = locations.map { NSNumber(value: $0) }
+        
+        showImageView.layer.addSublayer(gradientLayer)
         self.gradientLayer = gradientLayer
-        gradientLayer.frame = posterImageView.bounds
+        gradientLayer.frame = showImageView.bounds
     }
     
     //MARK: - Configure Poster Image
-    func configureHeaderPoster(with model: MovieViewModel) {
+    func configureHeaderView(with model: MovieViewModel) {
         DispatchQueue.main.async { [weak self] in
-            if let posterPath = model.posterPath, let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") {
-                self?.posterImageView.sd_setImage(with: posterURL) { [weak self] (_, _, _, _) in
+            if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
+                self?.showImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
                     self?.getImageDominantColor()
                 }
             }
+            if let logoPath = model.logoPath , let logoURL = URL(string: "https://image.tmdb.org/t/p/w500/\(logoPath)") {
+                self?.logoView.sd_setImage(with: logoURL)
+            }
+            self?.categoryLabel.text = model.category
         }
     }
     
@@ -176,54 +181,48 @@ class HeroHeaderUIView: UIView {
             shadowWrapperView.widthAnchor.constraint(equalTo: shadowWrapperView.heightAnchor, multiplier: 2.8/4)
         ]
         
-        // Apply constraints for shadowContainerView inside shadowWrapperView
-        let shadowContainerConstraints = [
-            shadowContainerView.topAnchor.constraint(equalTo: shadowWrapperView.topAnchor),
-            shadowContainerView.leadingAnchor.constraint(equalTo: shadowWrapperView.leadingAnchor),
-            shadowContainerView.trailingAnchor.constraint(equalTo: shadowWrapperView.trailingAnchor),
-            shadowContainerView.bottomAnchor.constraint(equalTo: shadowWrapperView.bottomAnchor)
-        ]
+        
 
 
         // Apply constraints for posterImageView inside shadowContainerView
         let imageConstraints = [
-            posterImageView.topAnchor.constraint(equalTo: shadowContainerView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: shadowContainerView.leadingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: shadowContainerView.trailingAnchor),
-            posterImageView.bottomAnchor.constraint(equalTo: shadowContainerView.bottomAnchor)
+            showImageView.topAnchor.constraint(equalTo: shadowWrapperView.topAnchor),
+            showImageView.leadingAnchor.constraint(equalTo: shadowWrapperView.leadingAnchor),
+            showImageView.trailingAnchor.constraint(equalTo: shadowWrapperView.trailingAnchor),
+            showImageView.bottomAnchor.constraint(equalTo: shadowWrapperView.bottomAnchor)
         ]
         
         // logoView constraints
         let logoViewConstraints = [
-            logoView.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -5),
+            logoView.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -10),
             logoView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            logoView.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -5),
-            logoView.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 5)
+            logoView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1),
+            logoView.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -20),
+            logoView.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 20)
         ]
 
         // Category constraints
         let categoryConstraints = [
             categoryLabel.bottomAnchor.constraint(equalTo: playButton.topAnchor, constant: -20),
             categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            categoryLabel.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -5),
-            categoryLabel.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 5)
+            categoryLabel.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -10),
+            categoryLabel.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 10)
         ]
         
         let playButtonConstraints = [
             playButton.trailingAnchor.constraint(equalTo: centerXAnchor, constant: -7),
-            playButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -20),
-            playButton.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor, constant: 15),
+            playButton.bottomAnchor.constraint(equalTo: showImageView.bottomAnchor, constant: -20),
+            playButton.leadingAnchor.constraint(equalTo: showImageView.leadingAnchor, constant: 15),
             playButton.heightAnchor.constraint(equalToConstant: 40)
         ]
         
         let listButtonConstraints = [
             listButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 7),
-            listButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -20),
-            listButton.trailingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: -15),
+            listButton.bottomAnchor.constraint(equalTo: showImageView.bottomAnchor, constant: -20),
+            listButton.trailingAnchor.constraint(equalTo: showImageView.trailingAnchor, constant: -15),
             listButton.heightAnchor.constraint(equalToConstant: 40)
         ]
         NSLayoutConstraint.activate(shadowWrapperConstraints)
-        NSLayoutConstraint.activate(shadowContainerConstraints)
         NSLayoutConstraint.activate(imageConstraints)
         NSLayoutConstraint.activate(logoViewConstraints)
         NSLayoutConstraint.activate(categoryConstraints)

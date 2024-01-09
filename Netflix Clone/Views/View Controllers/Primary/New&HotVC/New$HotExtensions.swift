@@ -41,7 +41,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     let logoAspectRatio = logo.aspectRatio
                     
                     // backdrop
-                    let backdrop = fetchedImages.backdrops.filter{$0.aspectRatio >= 1.6 && $0.aspectRatio <= 2}[0]
+                    let backdrop = fetchedImages.backdrops[0]
                     let backdropPath = backdrop.filePath
 
                     // cell images configuration
@@ -53,21 +53,42 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        APICaller.shared.getDetails(mediaType: movie.mediaType ?? "movie" , id: movie.id) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let fetchedDetials):
-                    // detail
-                    let detail = fetchedDetials
-                    let detailCategory = detail.formattedGenres()
-                    
-                    // cell details configuration
-                    cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,date: detail.releaseDate))
-                case .failure(let failure):
-                    print(
-                        "Error getting details:",
-                        failure
-                    )
+        if movie.mediaType == "movie" {
+            APICaller.shared.getDetails(mediaType: movie.mediaType! , id: movie.id) { (result: Result<MovieDetail, Error>) in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let fetchedDetials):
+                        // detail
+                        let detail = fetchedDetials
+                        let detailCategory = detail.seperateGenres(with: ", ")
+                        
+                        // cell details configuration
+                        cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,date: detail.releaseDate))
+                    case .failure(let failure):
+                        print(
+                            "Error getting details:",
+                            failure
+                        )
+                    }
+                }
+            }
+        } else {
+            APICaller.shared.getDetails(mediaType: movie.mediaType! , id: movie.id) { (result: Result<TVDetail, Error>) in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let fetchedDetials):
+                        // detail
+                        let detail = fetchedDetials
+                        let detailCategory = detail.seperateGenres(with: ", ")
+                        
+                        // cell details configuration
+                        cell.configureCellDetails(with: MovieViewModel(title: detail.originalName, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType))
+                    case .failure(let failure):
+                        print(
+                            "Error getting details:",
+                            failure
+                        )
+                    }
                 }
             }
         }

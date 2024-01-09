@@ -28,10 +28,10 @@ class HomeBackgroundUIView: UIView {
     }
     
     //MARK: - Configure Poster Image
-    func configureHeaderPoster(with model: MovieViewModel) {
+    func configureBackground(with model: MovieViewModel) {
         DispatchQueue.main.async { [weak self] in
-            if let posterPath = model.posterPath, let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)") {
-                self?.backGroundPoster.sd_setImage(with: posterURL) { [weak self] (_, _, _, _) in
+            if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)") {
+                self?.backGroundPoster.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
                     self?.getImageDominantColor()
                 }
             }

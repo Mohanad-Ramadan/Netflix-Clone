@@ -12,6 +12,27 @@ class APICaller {
     
     static let shared = APICaller()
     
+    func getTrending(complition: @escaping (Result<[Entertainment], Error>) -> Void){
+        guard let url = URL(string: Constants.trendingAllURL) else {return}
+        let session = URLSession(configuration:.default)
+        let task = session.dataTask(with: url) { data, _ , error in
+            guard let data = data, error == nil else {
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                complition(.success(result.results))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
+                print("couldn't decode the results for trending movies ")
+            }
+            
+        }
+        task.resume()
+    }
+    
     func getTrendingMovies(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.trendingMoviesURL) else {return}
         let session = URLSession(configuration:.default)
@@ -196,7 +217,7 @@ class APICaller {
         }.resume()
     }
 
-    func getDetails(mediaType: String, id: Int, completion: @escaping (Result<Detail, Error>) -> Void) {
+    func getDetails<T: Decodable>(mediaType: String, id: Int, completion: @escaping (Result<T, Error>) -> Void) {
         guard let detailsURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)\(Constants.apiKey)") else {
             completion(.failure(APIError.invalidURL))
             return
@@ -211,55 +232,14 @@ class APICaller {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                
-                let result = try decoder.decode(Detail.self, from: data)
+                let result = try decoder.decode(T.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(APIError.failedToDecodeData))
+                completion(.failure(error))
             }
         }.resume()
     }
     
-//    func getNewAndHotData(mediaType: String, id: Int, completion: @escaping (Result<(EntertainmentImage, Detail), Error>) -> Void) {
-//        let group = DispatchGroup()
-//        
-//        var imagesResult: EntertainmentImage?
-//        var detailsResult: Detail?
-//        
-//        // Fetch images
-//        group.enter()
-//        getImages(mediaType: mediaType, id: id) { result in
-//            switch result {
-//            case .success(let images):
-//                imagesResult = images
-//            case .failure(let error):
-//                print("Error fetching images:", error)
-//            }
-//            group.leave()
-//        }
-//        
-//        // Fetch details
-//        group.enter()
-//        getDetails(mediaType: mediaType, id: id) { result in
-//            switch result {
-//            case .success(let details):
-//                detailsResult = details
-//            case .failure(let error):
-//                print("Error fetching details:", error)
-//            }
-//            group.leave()
-//        }
-//        
-//        group.notify(queue: .main) {
-//            guard let imagesResult = imagesResult, let detailsResult = detailsResult else {
-//                completion(.failure(APIError.failedToGetData))
-//                return
-//            }
-//            
-//            let combinedResult: (EntertainmentImage, Detail) = (imagesResult, detailsResult)
-//            completion(.success(combinedResult))
-//        }
-//    }
     
 }
 
