@@ -14,8 +14,13 @@ class HeroHeaderUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         shadowWrapperView.addSubview(showImageView)
-        [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach { addSubview($0)
-        }
+        [
+            shadowWrapperView,
+            logoView,
+            categoryLabel,
+            playButton,
+            listButton
+        ].forEach {addSubview($0)}
         applyConstraints()
     }
     
@@ -29,7 +34,6 @@ class HeroHeaderUIView: UIView {
         image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.4)
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
-
         return image
     }()
     
@@ -124,7 +128,7 @@ class HeroHeaderUIView: UIView {
     func getImageDominantColor(){
         do{
             let imageColor = try showImageView.image?.averageColor() ?? .black
-            addGradientLayer(color: imageColor.darken(by: 0.1))
+            addGradientLayer(color: imageColor.darken(by: 0.3))
         }catch {
             return
         }

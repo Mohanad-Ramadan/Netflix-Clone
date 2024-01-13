@@ -58,79 +58,77 @@ class HomeVC: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let movie):
-
+                    
                     guard let randomMovie = movie.randomElement() else { return }
                     
                     APICaller.shared.getImages(mediaType: randomMovie.mediaType ?? "movie", id: randomMovie.id) { result in
-                        DispatchQueue.main.async {
+                        
+                        switch result {
+                        case .success(let fetchedImages):
+                            // logo
+                            let logoPath : String = {
+                                let logos = fetchedImages.logos
+                                if let englishLogo = logos.first(where: { $0.iso6391 == "en" }) {
+                                    return englishLogo.filePath
+                                } else if logos.isEmpty {
+                                    return  ImageDetails(aspectRatio: 0, height: 0, filePath: "", voteAverage: 0.0, voteCount: 0, width: 0, iso6391: nil).filePath
+                                } else {
+                                    return logos[0].filePath
+                                }
+                            }()
+                            
+                            // backdrop
+                            let backdrop = fetchedImages.backdrops.sorted(by: {$0.voteAverage>$1.voteAverage})[0]
+                            let backdropPath = backdrop.filePath
+                            
+                            // configuration header
+                            self.heroHeaderView.configureHeaderView(with: MovieViewModel(logoPath: logoPath, backdropsPath: backdropPath))
+                            
+                            // configuration background
+                            self.homeBackground?.configureBackground(with: MovieViewModel(backdropsPath: backdropPath))
+                            
+                        case .failure(let failure):
+                            print("Error getting images:", failure)
+                            
+                        }
+                        
+                    }
+                    if randomMovie.mediaType == "movie" {
+                        APICaller.shared.getDetails(mediaType: randomMovie.mediaType! , id: randomMovie.id) { (result: Result<MovieDetail, Error>) in
+                            
                             switch result {
-                            case .success(let fetchedImages):
-                                // logo
-                                let logoPath : String = {
-                                    let logos = fetchedImages.logos
-                                    if let englishLogo = logos.first(where: { $0.iso6391 == "en" }) {
-                                        return englishLogo.filePath
-                                    } else if logos.isEmpty {
-                                        return  ImageDetails(aspectRatio: 0, height: 0, filePath: "", voteAverage: 0.0, voteCount: 0, width: 0, iso6391: nil).filePath
-                                    } else {
-                                        return logos[0].filePath
-                                    }
-                                }()
+                            case .success(let fetchedDetials):
+                                // detail
+                                let detailCategory = fetchedDetials.seperateGenres(with: " • ")
                                 
-                                // backdrop
-                                let backdrop = fetchedImages.backdrops[0]
-                                let backdropPath = backdrop.filePath
-                                
-                                // configuration header
-                                self.heroHeaderView.configureHeaderView(with: MovieViewModel(logoPath: logoPath, backdropsPath: backdropPath))
-                                
-                                // configuration background
-                                self.homeBackground?.configureBackground(with: MovieViewModel(backdropsPath: backdropPath))
-                                
+                                // configuration view
+                                self.heroHeaderView.configureHeaderView(with: MovieViewModel(category: detailCategory ))
                             case .failure(let failure):
-                                print("Error getting images:", failure)
+                                print(
+                                    "Error getting details:",
+                                    failure
+                                )
+                            }
+                            
+                        }
+                    } else {
+                        APICaller.shared.getDetails(mediaType: randomMovie.mediaType! , id: randomMovie.id) { (result: Result<TVDetail, Error>) in
+                            switch result {
+                            case .success(let fetchedDetials):
+                                // detail
+                                let detailCategory = fetchedDetials.seperateGenres(with: " • ")
                                 
+                                // configuration view
+                                self.heroHeaderView.configureHeaderView(with: MovieViewModel(category: detailCategory ))
+                            case .failure(let failure):
+                                print(
+                                    "Error getting details:",
+                                    failure
+                                )
                             }
                         }
                     }
                     
-                    if randomMovie.mediaType == "movie" {
-                        APICaller.shared.getDetails(mediaType: randomMovie.mediaType! , id: randomMovie.id) { (result: Result<MovieDetail, Error>) in
-                            DispatchQueue.main.async {
-                                switch result {
-                                case .success(let fetchedDetials):
-                                    // detail
-                                    let detailCategory = fetchedDetials.seperateGenres(with: " • ")
-                                    
-                                    // configuration view
-                                    self.heroHeaderView.configureHeaderView(with: MovieViewModel(category: detailCategory ))
-                                case .failure(let failure):
-                                    print(
-                                        "Error getting details:",
-                                        failure
-                                    )
-                                }
-                            }
-                        }
-                    } else {
-                        APICaller.shared.getDetails(mediaType: randomMovie.mediaType! , id: randomMovie.id) { (result: Result<TVDetail, Error>) in
-                            DispatchQueue.main.async {
-                                switch result {
-                                case .success(let fetchedDetials):
-                                    // detail
-                                    let detailCategory = fetchedDetials.seperateGenres(with: " • ")
-                                    
-                                    // configuration view
-                                    self.heroHeaderView.configureHeaderView(with: MovieViewModel(category: detailCategory ))
-                                case .failure(let failure):
-                                    print(
-                                        "Error getting details:",
-                                        failure
-                                    )
-                                }
-                            }
-                        }
-                    }
                     
                 case .failure(let failure):
                     print(failure.localizedDescription)
@@ -178,7 +176,7 @@ class HomeVC: UIViewController {
     }()
     
     let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
-
+    
 }
 
 

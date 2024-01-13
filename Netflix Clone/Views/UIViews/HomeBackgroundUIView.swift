@@ -21,7 +21,7 @@ class HomeBackgroundUIView: UIView {
         do{
             let imageColor = try backGroundPoster.image?.averageColor() ?? .black
 //            addGradientLayer(color: imageColor)
-            backgroundColor = imageColor.darken(by: 0.2)
+            backgroundColor = imageColor.darken(by: 0.3)
         }catch {
             return
         }

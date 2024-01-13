@@ -65,10 +65,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                         // cell details configuration
                         cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,date: detail.releaseDate))
                     case .failure(let failure):
-                        print(
-                            "Error getting details:",
-                            failure
-                        )
+                        print("Error getting details:",failure)
                     }
                 }
             }
