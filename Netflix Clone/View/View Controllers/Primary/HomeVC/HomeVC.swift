@@ -11,11 +11,12 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubview(homeFeedTable)
         headerContainer.addSubview(categorySelectButtons)
         headerContainer.addSubview(heroHeaderView)
+        
         homeFeedTable.tableHeaderView = headerContainer
+        homeFeedTable.backgroundView = homeBackground
         
         configureNavbar()
         fetchHeaderAndBackgound()
@@ -23,9 +24,6 @@ class HomeVC: UIViewController {
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
-        
-        homeBackground = HomeBackgroundUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height))
-        homeFeedTable.backgroundView = homeBackground
         
     }
     
@@ -44,12 +42,10 @@ class HomeVC: UIViewController {
         let userLabel = UILabel()
         userLabel.font = .boldSystemFont(ofSize: 26)
         userLabel.text = "For User1"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userLabel)
         
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped)),
-            UIBarButtonItem(image: UIImage(systemName: "airplayvideo"), style: .done, target: self, action: nil)
-        ]
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userLabel)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
+        
         navigationController?.navigationBar.tintColor = .label
     }
     
@@ -81,7 +77,7 @@ class HomeVC: UIViewController {
     
     var heroHeaderView = HeroHeaderUIView()
     
-    var homeBackground: HomeBackgroundUIView?
+    var homeBackground = HomeBackgroundUIView()
     
     private let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)

@@ -38,7 +38,7 @@ extension HomeVC {
         let backdropPath = getBackdropPath(from: fetchedImages)
         
         self.heroHeaderView.configureHeaderView(with: MovieViewModel(logoPath: logoPath, backdropsPath: backdropPath))
-        self.homeBackground?.configureBackground(with: MovieViewModel(backdropsPath: backdropPath))
+        self.homeBackground.configureBackground(with: MovieViewModel(backdropsPath: backdropPath))
         
         if movie.mediaType == "movie" {
             self.fetchAndConfigureDetails(for: movie, fetchType: MovieDetail.self)

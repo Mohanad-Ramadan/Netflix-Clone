@@ -9,7 +9,6 @@ import Foundation
 
 
 class APICaller {
-    
     static let shared = APICaller()
     
     func getTrending(complition: @escaping (Result<[Entertainment], Error>) -> Void){
@@ -54,7 +53,6 @@ class APICaller {
         task.resume()
     }
     
-    
     func getTrendingTV(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.trendingTvURL) else {
             return
@@ -77,7 +75,6 @@ class APICaller {
         }
         task.resume()
     }
-    
     
     func getUpcomingMovies(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.upcomingMoviesURL) else {
@@ -146,7 +143,6 @@ class APICaller {
         task.resume()
         
     }
-    
     
     func search(query: String,complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
