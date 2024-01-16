@@ -126,12 +126,10 @@ class HeroHeaderUIView: UIView {
     
     //MARK: - Get Poster dominant color
     func getImageDominantColor(){
-        do{
-            let imageColor = try showImageView.image?.averageColor() ?? .black
-            addGradientLayer(color: imageColor.darken(by: 0.3))
-        }catch {
-            return
-        }
+        guard let showImage = showImageView.image else{return}
+        
+        let dominatColor = UIColor.dominantColor(from: showImage)
+        addGradientLayer(color: dominatColor!)
     }
     
     //MARK: - Gradient layer

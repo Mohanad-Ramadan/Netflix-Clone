@@ -60,7 +60,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     case .success(let fetchedDetials):
                         // detail
                         let detail = fetchedDetials
-                        let detailCategory = detail.seperateGenres(with: ", ")
+                        let detailCategory = detail.separateGenres(with: ", ")
                         
                         // cell details configuration
                         cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,date: detail.releaseDate))
@@ -76,7 +76,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     case .success(let fetchedDetials):
                         // detail
                         let detail = fetchedDetials
-                        let detailCategory = detail.seperateGenres(with: ", ")
+                        let detailCategory = detail.separateGenres(with: ", ")
                         
                         // cell details configuration
                         cell.configureCellDetails(with: MovieViewModel(title: detail.originalName, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType))

@@ -7,8 +7,8 @@
 
 import Foundation
 
-// MARK: - Entertinment Detials
-struct MovieDetail : Codable{
+// MARK: - Detial
+struct MovieDetail : Codable, GenreSeparatable{
     let title: String
     let releaseDate: String
     let overview: String
@@ -19,13 +19,13 @@ struct MovieDetail : Codable{
         let name: String
     }
     
-    func seperateGenres(with: String) -> String {
+    func separateGenres(with: String) -> String {
         let genreNames = genres.map { $0.name }
         return genreNames.joined(separator: with)
     }
 }
 
-struct TVDetail : Codable{
+struct TVDetail : Codable, GenreSeparatable{
     let originalName: String
     let overview: String
     let genres: [Genre]
@@ -35,8 +35,14 @@ struct TVDetail : Codable{
         let name: String
     }
     
-    func seperateGenres(with: String) -> String {
+    func separateGenres(with: String) -> String {
         let genreNames = genres.map { $0.name }
         return genreNames.joined(separator: with)
     }
+}
+
+//MARK: - GenreSeparatable Protocol
+
+protocol GenreSeparatable {
+    func separateGenres(with: String) -> String
 }

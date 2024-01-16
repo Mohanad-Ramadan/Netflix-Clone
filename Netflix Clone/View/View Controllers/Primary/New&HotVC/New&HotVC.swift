@@ -12,12 +12,12 @@ class NewAndHotVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        configureNavbar()
         view.addSubview(newAndHotTable)
         
         newAndHotTable.delegate = self
         newAndHotTable.dataSource = self
         
+        configureNavbar()
         fetchUpcoming()
     }
     
@@ -49,6 +49,7 @@ class NewAndHotVC: UIViewController {
     private let newAndHotTable: UITableView = {
         let table = UITableView()
         table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
+        table.showsVerticalScrollIndicator = false
         return table
     }()
     
