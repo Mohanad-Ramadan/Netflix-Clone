@@ -13,6 +13,7 @@ class NewAndHotVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         view.addSubview(newAndHotTable)
+        newAndHotTable.tableHeaderView = categoryButtonsBar
         
         newAndHotTable.delegate = self
         newAndHotTable.dataSource = self
@@ -24,20 +25,7 @@ class NewAndHotVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         newAndHotTable.frame = view.bounds
-    }
-    
-    private func configureNavbar() {
-        let viewTitle = UILabel()
-        viewTitle.font = .boldSystemFont(ofSize: 26)
-        viewTitle.text = "New & Hot"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewTitle)
-        
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped)),
-            UIBarButtonItem(image: UIImage(systemName: "airplayvideo"), style: .done, target: self, action: nil)
-        ]
-        
-        navigationController?.navigationBar.tintColor = .label
+        categoryButtonsBar.frame = CGRect(x: 0, y: 0, width: categoryButtonsBar.bounds.width, height: 70)
     }
     
     @objc func searchButtonTapped() {
@@ -46,14 +34,18 @@ class NewAndHotVC: UIViewController {
         }
     }
     
-    private let newAndHotTable: UITableView = {
-        let table = UITableView()
-        table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
-        table.showsVerticalScrollIndicator = false
-        return table
-    }()
-    
-    var entertainments: [Entertainment] = [Entertainment]()
+    private func configureNavbar() {
+        let viewTitle = UILabel()
+        viewTitle.font = .boldSystemFont(ofSize: 26)
+        viewTitle.text = "New & Hot"
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewTitle)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .white
+        
+        navigationController?.navigationBar.barTintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
+    }
     
     private func fetchUpcoming(){
         APICaller.shared.getTrendingMovies { [weak self] results in
@@ -68,6 +60,19 @@ class NewAndHotVC: UIViewController {
             }
         }
     }
+    
+    private let newAndHotTable: UITableView = {
+        let table = UITableView()
+        table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
+        return table
+    }()
+    
+    private let categoryButtonsBar = NewHotCategoryBarUIView()
+    
+    var entertainments: [Entertainment] = [Entertainment]()
+
     
 }
 

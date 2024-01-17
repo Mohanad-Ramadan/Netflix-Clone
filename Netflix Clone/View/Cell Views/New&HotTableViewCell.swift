@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import WebKit
 
 class NewAndHotTableViewCell: UITableViewCell {
     

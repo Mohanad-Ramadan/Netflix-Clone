@@ -51,13 +51,12 @@ class HomeVC: UIViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
-        let boundsHeight = scrollView.bounds.height
-
+        let boundsHeight = headerContainer.bounds.height
+        
         let blackLayerLocation = max(0, min(1 - offsetY / boundsHeight, 1.0))
         
-        UIView.animate(withDuration: 10) {
-            self.homeBackground.changeGradientLocations(to: blackLayerLocation)
-        }
+        self.homeBackground.changeGradientLocations(to: blackLayerLocation)
+        
     }
     
     private func applyConstriants() {
@@ -84,14 +83,14 @@ class HomeVC: UIViewController {
     
     private let skeletonLoadingView = SkeletonLoadingUIView()
     
-    private let categorySelectButtons = CategoryButtonsUIView()
+    private let categorySelectButtons = HomeCategoryBarUIView()
     
     var heroHeaderView = HeroHeaderUIView()
     
     var homeBackground = HomeBackgroundUIView()
     
     private let homeFeedTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .plain)
+        let table = UITableView(frame: .zero, style: .grouped)
         table.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
