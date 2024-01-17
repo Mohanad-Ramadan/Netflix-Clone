@@ -20,27 +20,32 @@ class HomeBackgroundUIView: UIView {
     
     private var gradientLayer: CAGradientLayer = CAGradientLayer()
     
+    
     //MARK: - Get Poster dominant color
     func getImageDominantColor() {
         guard let backImage = backGroundPoster.image else{return}
         
-        let dominatColor = UIColor.dominantColor(from: backImage)
-        addGradientLayer(color: dominatColor!)
+        let dominantColor = UIColor.dominantColor(from: backImage)
+        addGradientLayer(color: dominantColor!)
     }
     
     //MARK: - Gradient layer
-    private func addGradientLayer(color: UIColor) {
-        let gradientLayer = CAGradientLayer()
+    func addGradientLayer(color: UIColor) {
         gradientLayer.colors = [
             color.cgColor,
             UIColor.black.cgColor
         ]
-        
-        gradientLayer.locations = [NSNumber(value: 0.4), NSNumber(value: 0.8) ]
-        
+
+        gradientLayer.locations = [NSNumber(value: 0.0), NSNumber(value: 1.0)]
         backGroundPoster.layer.addSublayer(gradientLayer)
-        self.gradientLayer = gradientLayer
         gradientLayer.frame = backGroundPoster.bounds
+    }
+    
+    // Change location by scrolling
+    func changeGradientLocations(to currentlocation: CGFloat){
+        DispatchQueue.main.async {
+            self.gradientLayer.locations = [NSNumber(value: 0.0), NSNumber(value: currentlocation)]
+        }
     }
     
     //MARK: - Configure Poster Image
