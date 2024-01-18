@@ -18,26 +18,62 @@ class NewHotCategoryBarUIView: UIView {
         scrollView.addSubview(toptenTvButton)
         scrollView.addSubview(toptenMovieButton)
         applyConstraints()
-        
-        comingSoonButton.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
-        everyoneWatchingButton.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
-        toptenTvButton.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
-        toptenMovieButton.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
 
-        
+        buttonsTarget()
+        comingSoonButtonPressed()
+    }
+    
+    @objc private func comingSoonButtonPressed() {
+        // Manually trigger the action for comingSoonButton
+        comingSoonButton.sendActions(for: .touchUpInside)
     }
     
     @objc private func buttonPressed(_ sender: UIButton) {
         handleUI(sender)
     }
     
+    // Selected button UI change
     private func handleUI(_ sender: UIButton) {
+        // Change colors
         for button in buttons {
             button.configuration?.baseBackgroundColor = (button == sender) ? .white : .black
             button.configuration?.baseForegroundColor = (button == sender) ? .black : .white
         }
+        
+        // Focus scrollView to button's offest if not fully shown
+        let buttonFirstPoint = sender.frame.minX
+        let buttonLastPoint = sender.frame.maxX
+        let buttonMidPoint = sender.frame.midX
+        
+        let firstVisiblePoint = scrollView.bounds.minX
+        let lastVisiblePoint = scrollView.bounds.maxX
+        
+        let fullScrollView = scrollView.frame.maxX - 30
+        let halfScrollView = scrollView.frame.midX
+        
+        
+        if buttonFirstPoint <= firstVisiblePoint || buttonLastPoint >= lastVisiblePoint {
+            switch buttons.firstIndex(of: sender) {
+            case 0:
+                let targetOffset = CGPoint(x: buttonFirstPoint, y: 0)
+                scrollView.setContentOffset(targetOffset, animated: true)
+            case 3:
+                let targetOffset = CGPoint(x: buttonLastPoint - fullScrollView, y: 0)
+                scrollView.setContentOffset(targetOffset, animated: true)
+            default:
+                let targetOffset = CGPoint(x: buttonMidPoint - halfScrollView, y: 0)
+                scrollView.setContentOffset(targetOffset, animated: true)
+            }
+        }
     }
-
+    
+    private func buttonsTarget() {
+        comingSoonButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        everyoneWatchingButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        toptenTvButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        toptenMovieButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+    }
+    
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // ScrollView Containter
