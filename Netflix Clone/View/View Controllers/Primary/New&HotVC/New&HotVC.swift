@@ -13,20 +13,16 @@ class NewAndHotVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         view.addSubview(newAndHotTable)
-        newAndHotTable.tableHeaderView = categoryButtonsBar
+        view.addSubview(categoryButtonsBar)
         
         newAndHotTable.delegate = self
         newAndHotTable.dataSource = self
         
+        applyConstriants()
         configureNavbar()
         fetchUpcoming()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        newAndHotTable.frame = view.bounds
-        categoryButtonsBar.frame = CGRect(x: 0, y: 0, width: categoryButtonsBar.bounds.width, height: 70)
-    }
     
     @objc func searchButtonTapped() {
         DispatchQueue.main.async { [weak self] in
@@ -66,6 +62,7 @@ class NewAndHotVC: UIViewController {
         table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
+        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
@@ -73,6 +70,22 @@ class NewAndHotVC: UIViewController {
     
     var entertainments: [Entertainment] = [Entertainment]()
 
-    
+    private func applyConstriants() {
+        // Apply constraints for categorySelectButtons
+        categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            categoryButtonsBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            categoryButtonsBar.leftAnchor.constraint(equalTo: view.leftAnchor),
+            categoryButtonsBar.widthAnchor.constraint(equalToConstant: view.bounds.width),
+            categoryButtonsBar.heightAnchor.constraint(equalToConstant: 70 )
+        ])
+        NSLayoutConstraint.activate([
+            newAndHotTable.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
+            newAndHotTable.leftAnchor.constraint(equalTo: view.leftAnchor),
+            newAndHotTable.rightAnchor.constraint(equalTo: view.rightAnchor),
+            newAndHotTable.bottomAnchor.constraint(equalTo: view.bottomAnchor )
+        ])
+        
+    }
 }
 
