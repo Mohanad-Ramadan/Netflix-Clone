@@ -18,11 +18,11 @@ class NewAndHotVC: UIViewController {
         newAndHotTable.delegate = self
         newAndHotTable.dataSource = self
         
+        categoryButtonsBar.selectComingSoonButton()
         applyConstriants()
         configureNavbar()
-        fetchUpcoming()
+//        fetchData()
     }
-    
     
     @objc func searchButtonTapped() {
         DispatchQueue.main.async { [weak self] in
@@ -43,33 +43,54 @@ class NewAndHotVC: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
     }
     
-    private func fetchUpcoming(){
-        APICaller.shared.getTrendingMovies { [weak self] results in
-            switch results {
-            case .success(let entertainments):
-                self?.entertainments = entertainments
-                DispatchQueue.main.async { [weak self] in
-                    self?.newAndHotTable.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
+//    private func fetchData(){
+//        DispatchQueue.main.async { [weak self] in
+//            switch <#pattern#> {
+//            case <#pattern#>:
+//                APICaller.shared.getUpcomingMovies { results in
+//                    switch results {
+//                    case .success(let entertainments):
+//                        self?.entertainments = entertainments
+//                        self?.newAndHotTable.reloadData()
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            case <#pattern#>:
+//                APICaller.shared.getTrending { results in
+//                    switch results {
+//                    case .success(let entertainments):
+//                        self?.entertainments = entertainments
+//                        self?.newAndHotTable.reloadData()
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            case <#pattern#>:
+//                APICaller.shared.getTrendingTV { results in
+//                    switch results {
+//                    case .success(let entertainments):
+//                        self?.entertainments = entertainments
+//                        self?.newAndHotTable.reloadData()
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            default:
+//                APICaller.shared.getTrendingMovies { results in
+//                    switch results {
+//                    case .success(let entertainments):
+//                        self?.entertainments = entertainments
+//                        self?.newAndHotTable.reloadData()
+//                    case .failure(let error):
+//                        print(error.localizedDescription)
+//                    }
+//                }
+//            }
+//            
+//        }
+//    }
     
-    private let newAndHotTable: UITableView = {
-        let table = UITableView()
-        table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.showsVerticalScrollIndicator = false
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
-    
-    private let categoryButtonsBar = NewHotCategoryBarUIView()
-    
-    var entertainments: [Entertainment] = [Entertainment]()
-
     private func applyConstriants() {
         // Apply constraints for categorySelectButtons
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
@@ -87,5 +108,19 @@ class NewAndHotVC: UIViewController {
         ])
         
     }
+    
+    private let newAndHotTable: UITableView = {
+        let table = UITableView()
+        table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
+    
+    private let categoryButtonsBar = NewHotCategoryBarUIView()
+    
+    var entertainments: [Entertainment] = [Entertainment]()
+
 }
 

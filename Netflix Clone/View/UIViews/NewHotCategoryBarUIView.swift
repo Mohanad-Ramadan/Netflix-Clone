@@ -18,22 +18,21 @@ class NewHotCategoryBarUIView: UIView {
         scrollView.addSubview(toptenTvButton)
         scrollView.addSubview(toptenMovieButton)
         applyConstraints()
-
+        
         buttonsTarget()
-        comingSoonButtonPressed()
     }
     
-    @objc private func comingSoonButtonPressed() {
-        // Manually trigger the action for comingSoonButton
+    @objc func selectComingSoonButton() {
+        comingSoonButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         comingSoonButton.sendActions(for: .touchUpInside)
     }
     
-    @objc private func buttonPressed(_ sender: UIButton) {
+    @objc func buttonPressed(_ sender: UIButton) {
         handleUI(sender)
     }
     
     // Selected button UI change
-    private func handleUI(_ sender: UIButton) {
+    func handleUI(_ sender: UIButton) {
         // Change colors
         for button in buttons {
             button.configuration?.baseBackgroundColor = (button == sender) ? .white : .black
@@ -67,7 +66,7 @@ class NewHotCategoryBarUIView: UIView {
         }
     }
     
-    private func buttonsTarget() {
+    func buttonsTarget() {
         comingSoonButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         everyoneWatchingButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         toptenTvButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
