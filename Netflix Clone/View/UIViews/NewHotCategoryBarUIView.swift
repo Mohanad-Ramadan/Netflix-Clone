@@ -15,20 +15,33 @@ class NewHotCategoryBarUIView: UIView {
         addSubview(scrollView)
         scrollView.addSubview(comingSoonButton)
         scrollView.addSubview(everyoneWatchingButton)
-        scrollView.addSubview(toptenTvButton)
-        scrollView.addSubview(toptenMovieButton)
+        scrollView.addSubview(toptenTvShowsButton)
+        scrollView.addSubview(toptenMoviesButton)
         applyConstraints()
         
         buttonsTarget()
     }
     
+    //MARK: - Select comingSoon button when load
     @objc func selectComingSoonButton() {
         comingSoonButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         comingSoonButton.sendActions(for: .touchUpInside)
     }
     
+    //MARK: - Button pressed methods
     @objc func buttonPressed(_ sender: UIButton) {
-        handleUI(sender)
+        self.handleUI(sender)
+        self.handleButtonIndex(buttonPressed: sender)
+        
+        // Post key to Notifiy the NewAndHotVC to fetch agian
+        NotificationCenter.default.post(name: NSNotification.Name(Constants.categoryNewHotVCKey), object: nil)
+    }
+    
+    // Get selected button index
+    func handleButtonIndex(buttonPressed: UIButton) {
+        if let index = buttons.firstIndex(of: buttonPressed) {
+            selectedButtonIndex = index
+        }
     }
     
     // Selected button UI change
@@ -66,11 +79,12 @@ class NewHotCategoryBarUIView: UIView {
         }
     }
     
+    //MARK: - Button target methods
     func buttonsTarget() {
         comingSoonButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         everyoneWatchingButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        toptenTvButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        toptenMovieButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        toptenTvShowsButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        toptenMoviesButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
     
     private func applyConstraints() {
@@ -92,15 +106,15 @@ class NewHotCategoryBarUIView: UIView {
             everyoneWatchingButton.heightAnchor.constraint(equalTo: comingSoonButton.heightAnchor),
 
             // Button 3
-            toptenTvButton.leadingAnchor.constraint(equalTo: everyoneWatchingButton.trailingAnchor, constant: 10),
-            toptenTvButton.topAnchor.constraint(equalTo: comingSoonButton.topAnchor),
-            toptenTvButton.heightAnchor.constraint(equalTo: comingSoonButton.heightAnchor),
+            toptenTvShowsButton.leadingAnchor.constraint(equalTo: everyoneWatchingButton.trailingAnchor, constant: 10),
+            toptenTvShowsButton.topAnchor.constraint(equalTo: comingSoonButton.topAnchor),
+            toptenTvShowsButton.heightAnchor.constraint(equalTo: comingSoonButton.heightAnchor),
 
             // Button 4
-            toptenMovieButton.leadingAnchor.constraint(equalTo: toptenTvButton.trailingAnchor, constant: 10),
-            toptenMovieButton.topAnchor.constraint(equalTo: comingSoonButton.topAnchor),
-            toptenMovieButton.heightAnchor.constraint(equalTo: comingSoonButton.heightAnchor),
-            toptenMovieButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            toptenMoviesButton.leadingAnchor.constraint(equalTo: toptenTvShowsButton.trailingAnchor, constant: 10),
+            toptenMoviesButton.topAnchor.constraint(equalTo: comingSoonButton.topAnchor),
+            toptenMoviesButton.heightAnchor.constraint(equalTo: comingSoonButton.heightAnchor),
+            toptenMoviesButton.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
         ])
     }
     
@@ -139,10 +153,12 @@ class NewHotCategoryBarUIView: UIView {
     
     private lazy var comingSoonButton: UIButton = createButton(title: "Coming Soon", image: UIImage(named: "popcorn"))
     private lazy var everyoneWatchingButton: UIButton = createButton(title: "Everyone's Watching", image: UIImage(named: "fire"))
-    private lazy var toptenTvButton: UIButton = createButton(title: "Top 10 TV Shows", image: UIImage(named: "top10"))
-    private lazy var toptenMovieButton: UIButton = createButton(title: "Top 10 Movies", image: UIImage(named: "top10"))
+    private lazy var toptenTvShowsButton: UIButton = createButton(title: "Top 10 TV Shows", image: UIImage(named: "top10"))
+    private lazy var toptenMoviesButton: UIButton = createButton(title: "Top 10 Movies", image: UIImage(named: "top10"))
     
-    private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvButton, toptenMovieButton]
+    private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
+    
+    var selectedButtonIndex = 0
     
     
     required init?(coder: NSCoder) {

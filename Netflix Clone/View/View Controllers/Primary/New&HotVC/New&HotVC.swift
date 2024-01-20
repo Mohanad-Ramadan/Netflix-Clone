@@ -18,10 +18,10 @@ class NewAndHotVC: UIViewController {
         newAndHotTable.delegate = self
         newAndHotTable.dataSource = self
         
-        categoryButtonsBar.selectComingSoonButton()
         applyConstriants()
         configureNavbar()
-//        fetchData()
+        
+        handleUIAndDataFetching()
     }
     
     @objc func searchButtonTapped() {
@@ -43,53 +43,6 @@ class NewAndHotVC: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
     }
     
-//    private func fetchData(){
-//        DispatchQueue.main.async { [weak self] in
-//            switch <#pattern#> {
-//            case <#pattern#>:
-//                APICaller.shared.getUpcomingMovies { results in
-//                    switch results {
-//                    case .success(let entertainments):
-//                        self?.entertainments = entertainments
-//                        self?.newAndHotTable.reloadData()
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                }
-//            case <#pattern#>:
-//                APICaller.shared.getTrending { results in
-//                    switch results {
-//                    case .success(let entertainments):
-//                        self?.entertainments = entertainments
-//                        self?.newAndHotTable.reloadData()
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                }
-//            case <#pattern#>:
-//                APICaller.shared.getTrendingTV { results in
-//                    switch results {
-//                    case .success(let entertainments):
-//                        self?.entertainments = entertainments
-//                        self?.newAndHotTable.reloadData()
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                }
-//            default:
-//                APICaller.shared.getTrendingMovies { results in
-//                    switch results {
-//                    case .success(let entertainments):
-//                        self?.entertainments = entertainments
-//                        self?.newAndHotTable.reloadData()
-//                    case .failure(let error):
-//                        print(error.localizedDescription)
-//                    }
-//                }
-//            }
-//            
-//        }
-//    }
     
     private func applyConstriants() {
         // Apply constraints for categorySelectButtons
@@ -109,7 +62,7 @@ class NewAndHotVC: UIViewController {
         
     }
     
-    private let newAndHotTable: UITableView = {
+    let newAndHotTable: UITableView = {
         let table = UITableView()
         table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
         table.separatorStyle = .none
@@ -118,7 +71,7 @@ class NewAndHotVC: UIViewController {
         return table
     }()
     
-    private let categoryButtonsBar = NewHotCategoryBarUIView()
+    let categoryButtonsBar = NewHotCategoryBarUIView()
     
     var entertainments: [Entertainment] = [Entertainment]()
 

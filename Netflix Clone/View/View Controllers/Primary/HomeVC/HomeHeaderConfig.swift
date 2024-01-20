@@ -1,5 +1,5 @@
 //
-//  ContentConfigure.swift
+//  HomeHeaderConfig.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 16/01/2024.
