@@ -26,6 +26,12 @@ class MyNetflixVC: UIViewController {
         }
     }
     
+    @objc func searchButtonTapped() {
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.pushViewController(SearchVC(), animated: true)
+        }
+    }
+    
     private func configureNavbar() {
         let userLabel = UILabel()
         userLabel.font = .boldSystemFont(ofSize: 26)
@@ -42,10 +48,56 @@ class MyNetflixVC: UIViewController {
         
     }
     
-    @objc func searchButtonTapped() {
-        DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.pushViewController(SearchVC(), animated: true)
+    private func fetchEntertainmentAt() {
+        DataPersistenceManager.shared.fetchDownloadedEntertainments { [weak self] results in
+            switch results {
+            case .success(let entertainments):
+                self?.entertainments = entertainments
+                self?.downloadTable.reloadData()
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
         }
+    }
+    
+    //Profil view
+    private func profilImageConstraints() {
+        profilImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        profilImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        profilImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        profilImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+    }
+    
+    //User Label
+    private func userLabelConstraints() {
+        userLabel.topAnchor.constraint(equalTo: profilImage.bottomAnchor, constant: 5).isActive = true
+        userLabel.centerXAnchor.constraint(equalTo: profilImage.centerXAnchor).isActive = true
+        userLabel.widthAnchor.constraint(equalTo: userLabel.widthAnchor).isActive = true
+        userLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
+    //DownloadTable Title Row
+    private func downloadTitleRowConstraints() {
+        downloadTitleRow.translatesAutoresizingMaskIntoConstraints = false
+        downloadTitleRow.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
+        downloadTitleRow.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        downloadTitleRow.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        downloadTitleRow.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    }
+    
+    //Download Table Label
+    private func downloadTableConstraints() {
+        downloadTable.topAnchor.constraint(equalTo: downloadTitleRow.bottomAnchor, constant: 20).isActive = true
+        downloadTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        downloadTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        downloadTable.heightAnchor.constraint(equalToConstant: 180).isActive = true
+    }
+    
+    private func applyConstraints() {
+        profilImageConstraints()
+        userLabelConstraints()
+        downloadTitleRowConstraints()
+        downloadTableConstraints()
     }
     
     private let profilImage : UIImageView = {
@@ -91,60 +143,7 @@ class MyNetflixVC: UIViewController {
         return table
     }()
     
-    private func fetchEntertainmentAt() {
-        DataPersistenceManager.shared.fetchDownloadedEntertainments { [weak self] results in
-            switch results {
-            case .success(let entertainments):
-                self?.entertainments = entertainments
-                self?.downloadTable.reloadData()
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-    }
-    
     var entertainments: [EntertainmentItems] = [EntertainmentItems]()
     
-    //MARK: - Apply constraints
-    
-    //Profil view
-    private func profilImageConstraints() {
-        profilImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        profilImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        profilImage.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        profilImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
-    }
-    
-    //User Label
-    private func userLabelConstraints() {
-        userLabel.topAnchor.constraint(equalTo: profilImage.bottomAnchor, constant: 5).isActive = true
-        userLabel.centerXAnchor.constraint(equalTo: profilImage.centerXAnchor).isActive = true
-        userLabel.widthAnchor.constraint(equalTo: userLabel.widthAnchor).isActive = true
-        userLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    //DownloadTable Title Row
-    private func downloadTitleRowConstraints() {
-        downloadTitleRow.translatesAutoresizingMaskIntoConstraints = false
-        downloadTitleRow.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
-        downloadTitleRow.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        downloadTitleRow.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        downloadTitleRow.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    }
-    
-    //Download Table Label
-    private func downloadTableConstraints() {
-        downloadTable.topAnchor.constraint(equalTo: downloadTitleRow.bottomAnchor, constant: 20).isActive = true
-        downloadTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        downloadTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        downloadTable.heightAnchor.constraint(equalToConstant: 180).isActive = true
-    }
-    
-    private func applyConstraints() {
-        profilImageConstraints()
-        userLabelConstraints()
-        downloadTitleRowConstraints()
-        downloadTableConstraints()
-    }
 
 }
