@@ -7,7 +7,6 @@
 
 import UIKit
 import SDWebImage
-import ColorKit
 
 class HeroHeaderUIView: UIView {
     
@@ -176,6 +175,7 @@ class HeroHeaderUIView: UIView {
     //MARK: - Apply constraints
     private func applyConstraints() {
         
+        // Apply constraints shadowContainerView
         let shadowWrapperConstraints = [
             shadowWrapperView.topAnchor.constraint(equalTo: topAnchor),
             shadowWrapperView.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -183,9 +183,6 @@ class HeroHeaderUIView: UIView {
             shadowWrapperView.widthAnchor.constraint(equalTo: shadowWrapperView.heightAnchor, multiplier: 2.8/4)
         ]
         
-        
-
-
         // Apply constraints for posterImageView inside shadowContainerView
         let imageConstraints = [
             showImageView.topAnchor.constraint(equalTo: shadowWrapperView.topAnchor),

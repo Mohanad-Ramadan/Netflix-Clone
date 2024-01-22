@@ -11,7 +11,7 @@ class NewHotCategoryBarUIView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
+        backgroundColor = .black
         addSubview(scrollView)
         scrollView.addSubview(comingSoonButton)
         scrollView.addSubview(everyoneWatchingButton)

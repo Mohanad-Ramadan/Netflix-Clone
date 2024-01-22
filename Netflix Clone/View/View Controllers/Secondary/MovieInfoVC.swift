@@ -24,6 +24,46 @@ class MovieInfoVC: UIViewController {
         
     }
     
+    private func applyConstraints() {
+        
+        let webConstraints = [
+            webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.heightAnchor.constraint(equalToConstant: 350)
+        ]
+            
+        let labelConstraints = [
+            titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+        ]
+        
+        let overViewConstraints = [
+            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            scrollView.bottomAnchor.constraint(equalTo: downloadButton.topAnchor, constant: -25),
+            
+            overViewLabel.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            overViewLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            overViewLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            overViewLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -5)
+        ]
+        
+        let downloadButtonConstraints = [
+            downloadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            downloadButton.widthAnchor.constraint(equalToConstant: 140),
+            downloadButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
+            downloadButton.heightAnchor.constraint(equalToConstant: 40)
+        ]
+        
+        NSLayoutConstraint.activate(webConstraints)
+        NSLayoutConstraint.activate(labelConstraints)
+        NSLayoutConstraint.activate(overViewConstraints)
+        NSLayoutConstraint.activate(downloadButtonConstraints)
+        
+    }
     
     private let webView: WKWebView = {
         let webView = WKWebView()
@@ -68,46 +108,7 @@ class MovieInfoVC: UIViewController {
         return button
     }()
     
-    private func applyConstraints() {
-        
-        let webConstraints = [
-            webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.heightAnchor.constraint(equalToConstant: 350)
-        ]
-            
-        let labelConstraints = [
-            titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
-        ]
-        
-        let overViewConstraints = [
-            scrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            scrollView.bottomAnchor.constraint(equalTo: downloadButton.topAnchor, constant: -25),
-            
-            overViewLabel.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            overViewLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            overViewLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            overViewLabel.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -5)
-        ]
-        
-        let downloadButtonConstraints = [
-            downloadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            downloadButton.widthAnchor.constraint(equalToConstant: 140),
-            downloadButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,constant: -20),
-            downloadButton.heightAnchor.constraint(equalToConstant: 40)
-        ]
-        
-        NSLayoutConstraint.activate(webConstraints)
-        NSLayoutConstraint.activate(labelConstraints)
-        NSLayoutConstraint.activate(overViewConstraints)
-        NSLayoutConstraint.activate(downloadButtonConstraints)
-        
-    }
+    
     
     public func configureMovieInfo(with model: MovieInfoViewModel){
         titleLabel.text = model.title
