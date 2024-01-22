@@ -290,7 +290,7 @@ class EntertainmentDetailsVC: UIViewController {
         return label
     }()
     
-    private let threeButtons = ShowDetailsTableViewSwitchButtonUIView()
+    private let threeButtons = EntertainmentDetailsTableViewSwitchButtonUIView()
     
 }
 

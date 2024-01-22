@@ -18,6 +18,29 @@ class TitleRowUIView: UIView {
         applyConstraints()
     }
     
+    private func applyConstraints() {
+        NSLayoutConstraint.activate([
+            // Symbol Constraints
+            symbol.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            symbol.topAnchor.constraint(equalTo: topAnchor),
+            symbol.widthAnchor.constraint(equalToConstant: 40),
+            symbol.heightAnchor.constraint(equalToConstant: 40),
+            
+            // Label Constraints
+            label.leadingAnchor.constraint(equalTo: symbol.trailingAnchor, constant: 10),
+            label.centerYAnchor.constraint(equalTo: symbol.centerYAnchor),
+            label.widthAnchor.constraint(equalTo: label.widthAnchor),
+            label.heightAnchor.constraint(equalTo: label.heightAnchor),
+            
+            // Button Constraints
+            button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
+            button.centerYAnchor.constraint(equalTo: symbol.centerYAnchor),
+            button.widthAnchor.constraint(equalTo: button.widthAnchor),
+            button.heightAnchor.constraint(equalTo: button.heightAnchor)
+        ])
+        
+    }
+    
     private let symbol: UIImageView = {
         let symbol = UIImageView()
         symbol.image = UIImage(systemName: "arrow.down")
@@ -44,29 +67,6 @@ class TitleRowUIView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    private func applyConstraints() {
-        NSLayoutConstraint.activate([
-            // Symbol Constraints
-            symbol.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            symbol.topAnchor.constraint(equalTo: topAnchor),
-            symbol.widthAnchor.constraint(equalToConstant: 40),
-            symbol.heightAnchor.constraint(equalToConstant: 40),
-            
-            // Label Constraints
-            label.leadingAnchor.constraint(equalTo: symbol.trailingAnchor, constant: 10),
-            label.centerYAnchor.constraint(equalTo: symbol.centerYAnchor),
-            label.widthAnchor.constraint(equalTo: label.widthAnchor),
-            label.heightAnchor.constraint(equalTo: label.heightAnchor),
-            
-            // Button Constraints
-            button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            button.centerYAnchor.constraint(equalTo: symbol.centerYAnchor),
-            button.widthAnchor.constraint(equalTo: button.widthAnchor),
-            button.heightAnchor.constraint(equalTo: button.heightAnchor)
-        ])
-        
-    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
