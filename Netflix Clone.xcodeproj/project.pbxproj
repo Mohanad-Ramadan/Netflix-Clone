@@ -44,6 +44,7 @@
 		14802AE62AEAD34D00C80527 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14802AE52AEAD34D00C80527 /* SDWebImageMapKit */; };
 		148252272B5EF7300009C0EF /* ThreeButtonUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148252262B5EF7300009C0EF /* ThreeButtonUIView.swift */; };
 		1482522B2B5F2F010009C0EF /* TableViewSwitchButtonsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482522A2B5F2F010009C0EF /* TableViewSwitchButtonsUIView.swift */; };
+		1482522E2B5F62430009C0EF /* EntertainmentDetialsDelegateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482522D2B5F62430009C0EF /* EntertainmentDetialsDelegateExtensions.swift */; };
 		1488403E2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1488403D2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift */; };
 		1488D3242B0E49600020AF07 /* HomeBackgroundUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1488D3232B0E49600020AF07 /* HomeBackgroundUIView.swift */; };
 		14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */; };
@@ -97,6 +98,7 @@
 		147094D82B4759000053CFBC /* HomeTableViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewConfig.swift; sourceTree = "<group>"; };
 		148252262B5EF7300009C0EF /* ThreeButtonUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeButtonUIView.swift; sourceTree = "<group>"; };
 		1482522A2B5F2F010009C0EF /* TableViewSwitchButtonsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewSwitchButtonsUIView.swift; sourceTree = "<group>"; };
+		1482522D2B5F62430009C0EF /* EntertainmentDetialsDelegateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntertainmentDetialsDelegateExtensions.swift; sourceTree = "<group>"; };
 		1488403D2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryBarUIView.swift; sourceTree = "<group>"; };
 		1488D3232B0E49600020AF07 /* HomeBackgroundUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBackgroundUIView.swift; sourceTree = "<group>"; };
 		14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotCategoryBarUIView.swift; sourceTree = "<group>"; };
@@ -138,8 +140,7 @@
 		140B13B02ADEB84000AB2387 /* Secondary */ = {
 			isa = PBXGroup;
 			children = (
-				14E3B0E82B5D668600D08C14 /* EntertainmentDetailsVC.swift */,
-				14E2B1572AE07F1800ED74B9 /* MovieInfoVC.swift */,
+				1482522C2B5F52FA0009C0EF /* EntertainmentDetailsVC */,
 				147094C82B4742C90053CFBC /* DownloadVC */,
 				14DCE3D12B223EC700DCD959 /* SearchVC */,
 			);
@@ -304,6 +305,16 @@
 			path = EntertainmentDetailsUIViews;
 			sourceTree = "<group>";
 		};
+		1482522C2B5F52FA0009C0EF /* EntertainmentDetailsVC */ = {
+			isa = PBXGroup;
+			children = (
+				14E2B1572AE07F1800ED74B9 /* MovieInfoVC.swift */,
+				14E3B0E82B5D668600D08C14 /* EntertainmentDetailsVC.swift */,
+				1482522D2B5F62430009C0EF /* EntertainmentDetialsDelegateExtensions.swift */,
+			);
+			path = EntertainmentDetailsVC;
+			sourceTree = "<group>";
+		};
 		14DCE3D12B223EC700DCD959 /* SearchVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -329,9 +340,9 @@
 			children = (
 				148252282B5F2E180009C0EF /* HomeUIViews */,
 				148252292B5F2EBE0009C0EF /* EntertainmentDetailsUIViews */,
-				14EC7D602B15174C00E5B395 /* SkeletonLoadingUIView.swift */,
 				14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */,
 				147094CB2B4747150053CFBC /* TitleRowUIView.swift */,
+				14EC7D602B15174C00E5B395 /* SkeletonLoadingUIView.swift */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -455,6 +466,7 @@
 				140B13B22ADF561600AB2387 /* YoutubeResponse.swift in Sources */,
 				14E2B15A2AE0868F00ED74B9 /* MovieInfoViewModel.swift in Sources */,
 				147094D42B4758410053CFBC /* MyNetflixTableViewCellExtension.swift in Sources */,
+				1482522E2B5F62430009C0EF /* EntertainmentDetialsDelegateExtensions.swift in Sources */,
 				140A72DA2AD82CA700CCA9FA /* Extensions.swift in Sources */,
 				147094C72B4737FB0053CFBC /* MyNetflixVC.swift in Sources */,
 				14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */,

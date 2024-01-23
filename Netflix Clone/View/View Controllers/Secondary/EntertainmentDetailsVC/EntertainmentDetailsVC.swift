@@ -9,7 +9,6 @@ import UIKit
 import WebKit
 
 class EntertainmentDetailsVC: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -29,6 +28,7 @@ class EntertainmentDetailsVC: UIViewController {
             directorLabel,
             threeButtons,
             tableSwitchButtons,
+            moreIdeasCollection,
             
         ].forEach {containterScrollView.addSubview($0)}
 
@@ -36,7 +36,7 @@ class EntertainmentDetailsVC: UIViewController {
         applyConstraints()
     }
     
-    //MARK: - Backend Methods
+    //MARK: - Configure EntertainmentDetailsVC Method
 //    public func configureMovieInfo(with model: MovieInfoViewModel){
 //        titleLabel.text = model.title
 //        overViewLabel.text = model.titleOverview
@@ -319,6 +319,15 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let tableSwitchButtons = TableViewSwitchButtonsUIView()
     
+    private let moreIdeasCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 125, height: 185)
+        layout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
+        return collectionView
+    }()
+    
+    var moreEntertainments: [Entertainment] = [Entertainment]()
+    
 }
-
-
