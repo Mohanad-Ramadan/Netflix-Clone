@@ -21,7 +21,6 @@ extension EntertainmentDetailsVC: UICollectionViewDelegate, UICollectionViewData
         
         let poster = moreEntertainments[indexPath.row].posterPath ?? ""
         cell.configureTitle(with: poster)
-        
         return cell
     }
     

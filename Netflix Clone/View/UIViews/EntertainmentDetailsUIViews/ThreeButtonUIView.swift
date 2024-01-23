@@ -21,38 +21,37 @@ class ThreeButtonUIView: UIView {
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
-            myListButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 60),
+            myListButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             myListButton.topAnchor.constraint(equalTo: topAnchor),
             myListButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
             
             // Button 2
-            shareButton.leadingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: 120),
-            shareButton.topAnchor.constraint(equalTo: myListButton.topAnchor),
-            shareButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
+            rateButton.leadingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: 50),
+            rateButton.bottomAnchor.constraint(equalTo: myListButton.bottomAnchor),
+            rateButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
             
             // Button 3
-            rateButton.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 120),
-            rateButton.topAnchor.constraint(equalTo: myListButton.topAnchor),
-            rateButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
+            shareButton.leadingAnchor.constraint(equalTo: rateButton.trailingAnchor, constant: 50),
+            shareButton.bottomAnchor.constraint(equalTo: myListButton.bottomAnchor),
+            shareButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
         ])
     }
     
     private func createButton(title: String, image: UIImage?) -> UIButton {
         let button = UIButton()
-        var configuration = UIButton.Configuration.filled()
+        var configuration = UIButton.Configuration.plain()
         configuration.title = title
-        configuration.baseBackgroundColor = .clear
         configuration.baseForegroundColor = .white
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 18, weight: .light)
+            outgoing.font = .systemFont(ofSize: 12, weight: .light)
             outgoing.foregroundColor = UIColor.lightGray
             return outgoing
         }
         
-        configuration.image = image!.sd_resizedImage(with: CGSize(width: 40, height: 40), scaleMode: .aspectFit)
+        configuration.image = image!.sd_resizedImage(with: CGSize(width: 28, height: 28), scaleMode: .aspectFit)?.withTintColor(.white)
         configuration.imagePlacement = .top
-        configuration.imagePadding = 10
+        configuration.imagePadding = 5
         
         
         button.configuration = configuration
@@ -60,7 +59,7 @@ class ThreeButtonUIView: UIView {
         return button
     }
     
-    private lazy var myListButton: UIButton = createButton(title: "My list", image: UIImage(systemName: "plus"))
+    private lazy var myListButton: UIButton = createButton(title: "My List", image: UIImage(systemName: "plus"))
     private lazy var shareButton: UIButton = createButton(title: "Share", image: UIImage(systemName: "paperplane"))
     private lazy var rateButton: UIButton = createButton(title: "Rate", image: UIImage(systemName: "hand.thumbsup"))
 
@@ -69,4 +68,8 @@ class ThreeButtonUIView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+}
+
+#Preview{
+    ThreeButtonUIView()
 }

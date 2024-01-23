@@ -22,6 +22,14 @@ class MovieInfoVC: UIViewController {
         
         applyConstraints()
         
+        downloadButton.addTarget(self, action: #selector(goToNewVC), for: .touchUpInside)
+        
+    }
+    
+    @objc private func goToNewVC(){
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.present(EntertainmentDetailsVC(), animated: true)
+        }
     }
     
     private func applyConstraints() {
