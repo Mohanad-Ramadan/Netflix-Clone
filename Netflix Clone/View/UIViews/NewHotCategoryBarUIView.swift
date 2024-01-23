@@ -87,6 +87,7 @@ class NewHotCategoryBarUIView: UIView {
         toptenMoviesButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
     
+    //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // ScrollView Containter
@@ -118,7 +119,7 @@ class NewHotCategoryBarUIView: UIView {
         ])
     }
     
-    
+    //MARK: - Views Declaration
     private func createButton(title: String, image: UIImage?) -> UIButton {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled()

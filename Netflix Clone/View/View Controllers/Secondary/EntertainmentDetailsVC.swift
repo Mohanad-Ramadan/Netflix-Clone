@@ -32,6 +32,7 @@ class EntertainmentDetailsVC: UIViewController {
             
         ].forEach {containterScrollView.addSubview($0)}
 
+        tableSwitchButtons.buttonsTarget()
         applyConstraints()
     }
     
@@ -46,16 +47,6 @@ class EntertainmentDetailsVC: UIViewController {
 //
 //        webView.load(URLRequest(url: url))
 //    }
-    
-    //MARK: - Button Pressed Actions
-    @objc func buttonPressed(_ sender: UIButton) {
-        self.handleUI(sender)
-    }
-    
-    // Selected button UI change
-    func handleUI(_ sender: UIButton) {
-        
-    }
     
     //MARK: - Main Views constraints
     
@@ -176,7 +167,7 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     
-    //MARK: - Main Views
+    //MARK: - Main Views Declaration
     private let entertainmentTrailer: UIImageView = {
         let imageView = UIImageView(image: #imageLiteral(resourceName: "TestImage.heic"))
         imageView.clipsToBounds = true
@@ -203,7 +194,7 @@ class EntertainmentDetailsVC: UIViewController {
         return scrollView
     }()
     
-    //MARK: - Container SubViews
+    //MARK: - Container SubViews Declaration
     private let netflixLogo: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(named: "netflixClone")

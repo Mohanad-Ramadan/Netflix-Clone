@@ -14,9 +14,36 @@ class TableViewSwitchButtonsUIView: UIView {
         backgroundColor = .clear
         addSubview(moreButton)
         addSubview(trailerButton)
+        addSubview(redSelectLine)
         applyConstraints()
     }
     
+    //MARK: - Button Pressed Actions
+    @objc func buttonPressed(_ sender: UIButton) {
+        IndicateOfSelecting(sender)
+    }
+    
+    // Selected button UI change
+    func IndicateOfSelecting(_ sender: UIButton) {
+        // Defualt red line offest that is over moreButton
+        let redLineMidPoint = redSelectLine.frame.midX
+        let moreButtonMidPoint = moreButton.frame.midX
+        let trailerButtonMidPoint = trailerButton.frame.midX
+        
+        if sender == moreButton, redLineMidPoint != moreButtonMidPoint {
+            redSelectLine.center = CGPoint(x: moreButtonMidPoint, y: 0)
+        } else if sender == moreButton, redLineMidPoint != trailerButtonMidPoint {
+            redSelectLine.center = CGPoint(x: trailerButtonMidPoint, y: 0)
+        }
+    }
+    
+    //MARK: - Button target methods
+    func buttonsTarget() {
+        moreButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        trailerButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+    }
+    
+    //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
@@ -37,6 +64,7 @@ class TableViewSwitchButtonsUIView: UIView {
         ])
     }
     
+    //MARK: - Views Declaration
     private func createButton(title: String) -> UIButton {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled()
