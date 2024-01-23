@@ -1,5 +1,5 @@
 //
-//  EntertainmentDetailsTableViewSwitchButtonUIView.swift
+//  ThreeButtonUIView.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 22/01/2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EntertainmentDetailsTableViewSwitchButtonUIView: UIView {
+class ThreeButtonUIView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,17 +21,17 @@ class EntertainmentDetailsTableViewSwitchButtonUIView: UIView {
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
-            myListButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 30),
-            myListButton.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            myListButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 60),
+            myListButton.topAnchor.constraint(equalTo: topAnchor),
             myListButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
             
             // Button 2
-            shareButton.leadingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: 30),
+            shareButton.leadingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: 120),
             shareButton.topAnchor.constraint(equalTo: myListButton.topAnchor),
             shareButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
             
             // Button 3
-            rateButton.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 30),
+            rateButton.leadingAnchor.constraint(equalTo: shareButton.trailingAnchor, constant: 120),
             rateButton.topAnchor.constraint(equalTo: myListButton.topAnchor),
             rateButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
         ])
@@ -43,9 +43,6 @@ class EntertainmentDetailsTableViewSwitchButtonUIView: UIView {
         configuration.title = title
         configuration.baseBackgroundColor = .clear
         configuration.baseForegroundColor = .white
-        configuration.cornerStyle = .capsule
-        configuration.background.strokeWidth = 1
-        configuration.background.strokeColor = UIColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.5)
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = .systemFont(ofSize: 18, weight: .light)

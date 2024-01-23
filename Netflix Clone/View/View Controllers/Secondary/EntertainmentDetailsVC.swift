@@ -16,9 +16,44 @@ class EntertainmentDetailsVC: UIViewController {
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
         
-        [ netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, categoryLogo, categoryDetailsLabel, playButton, overViewLabel, castLabel, directorLabel,threeButtons ].forEach { containterScrollView.addSubview($0) }
+        [
+            netflixLogo,
+            categoryLabel,
+            entertainmentTitle,
+            detailsLabel,
+            categoryLogo,
+            categoryDetailsLabel,
+            playButton,
+            overViewLabel,
+            castLabel,
+            directorLabel,
+            threeButtons,
+            tableSwitchButtons,
+            
+        ].forEach {containterScrollView.addSubview($0)}
 
         applyConstraints()
+    }
+    
+    //MARK: - Backend Methods
+//    public func configureMovieInfo(with model: MovieInfoViewModel){
+//        titleLabel.text = model.title
+//        overViewLabel.text = model.titleOverview
+//
+//        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
+//            fatalError("can't get the youtube trailer url")
+//        }
+//
+//        webView.load(URLRequest(url: url))
+//    }
+    
+    //MARK: - Button Pressed Actions
+    @objc func buttonPressed(_ sender: UIButton) {
+        self.handleUI(sender)
+    }
+    
+    // Selected button UI change
+    func handleUI(_ sender: UIButton) {
         
     }
     
@@ -96,7 +131,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     // Cast Label Constraints
     private func castLabelConstriants() {
-        castLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 25).isActive = true
+        castLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 20).isActive = true
         castLabel.leadingAnchor.constraint(equalTo: containterScrollView.leadingAnchor).isActive = true
         castLabel.trailingAnchor.constraint(equalTo: containterScrollView.trailingAnchor, constant: 15).isActive = true
     }
@@ -110,9 +145,17 @@ class EntertainmentDetailsVC: UIViewController {
     
     // Three Buttons Constraints
     private func threeButtonsConstriants() {
-        threeButtons.topAnchor.constraint(equalTo: directorLabel.bottomAnchor, constant: 10).isActive = true
+        threeButtons.topAnchor.constraint(equalTo: directorLabel.bottomAnchor, constant: 25).isActive = true
         threeButtons.leadingAnchor.constraint(equalTo: containterScrollView.leadingAnchor).isActive = true
         threeButtons.trailingAnchor.constraint(equalTo: containterScrollView.trailingAnchor).isActive = true
+    }
+    
+    // Table Switch Buttons Constraints
+    private func tableSwitchButtonsConstriants() {
+        tableSwitchButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 20).isActive = true
+        tableSwitchButtons.leadingAnchor.constraint(equalTo: containterScrollView.leadingAnchor).isActive = true
+        tableSwitchButtons.trailingAnchor.constraint(equalTo: containterScrollView.trailingAnchor).isActive = true
+        tableSwitchButtons.heightAnchor.constraint(equalTo: tableSwitchButtons.heightAnchor).isActive = true
     }
     
     // Apply constriants function
@@ -129,18 +172,9 @@ class EntertainmentDetailsVC: UIViewController {
         castLabelConstriants()
         directorLabelConstriants()
         threeButtonsConstriants()
+        tableSwitchButtonsConstriants()
     }
     
-//    public func configureMovieInfo(with model: MovieInfoViewModel){
-//        titleLabel.text = model.title
-//        overViewLabel.text = model.titleOverview
-//        
-//        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
-//            fatalError("can't get the youtube trailer url")
-//        }
-//        
-//        webView.load(URLRequest(url: url))
-//    }
     
     //MARK: - Main Views
     private let entertainmentTrailer: UIImageView = {
@@ -290,7 +324,9 @@ class EntertainmentDetailsVC: UIViewController {
         return label
     }()
     
-    private let threeButtons = EntertainmentDetailsTableViewSwitchButtonUIView()
+    private let threeButtons = ThreeButtonUIView()
+    
+    private let tableSwitchButtons = TableViewSwitchButtonsUIView()
     
 }
 

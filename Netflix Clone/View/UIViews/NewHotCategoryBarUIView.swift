@@ -28,7 +28,7 @@ class NewHotCategoryBarUIView: UIView {
         comingSoonButton.sendActions(for: .touchUpInside)
     }
     
-    //MARK: - Button pressed methods
+    //MARK: - Button pressed Actions
     @objc func buttonPressed(_ sender: UIButton) {
         self.handleUI(sender)
         self.handleButtonIndex(buttonPressed: sender)
