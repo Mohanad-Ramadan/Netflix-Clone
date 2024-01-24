@@ -14,6 +14,7 @@ class EntertainmentDetailsVC: UIViewController {
         view.backgroundColor = .black
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
+        view.addSubview(moreIdeasCollection)
         
         [
             netflixLogo,
@@ -28,7 +29,7 @@ class EntertainmentDetailsVC: UIViewController {
             directorLabel,
             threeButtons,
             viewSwitchButtons,
-            moreIdeasCollection
+//            moreIdeasCollection
             
         ].forEach {containterScrollView.addSubview($0)}
         
@@ -37,6 +38,10 @@ class EntertainmentDetailsVC: UIViewController {
         
         fetchMoreEntertainment()
         applyConstraints()
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        moreIdeasCollection.frame = view.bounds
     }
     
     private func fetchMoreEntertainment(){
@@ -80,7 +85,7 @@ class EntertainmentDetailsVC: UIViewController {
         containterScrollView.topAnchor.constraint(equalTo: entertainmentTrailer.bottomAnchor, constant: 10).isActive = true
         containterScrollView.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         containterScrollView.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
-        containterScrollView.heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
+        containterScrollView.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     //MARK: -  SubViews constraints
