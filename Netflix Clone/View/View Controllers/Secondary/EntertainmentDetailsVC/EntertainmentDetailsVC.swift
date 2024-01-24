@@ -31,17 +31,21 @@ class EntertainmentDetailsVC: UIViewController {
             moreIdeasCollection
             
         ].forEach {containterScrollView.addSubview($0)}
-        fetch()
+        
+        moreIdeasCollection.delegate = self
+        moreIdeasCollection.dataSource = self
+        
+        fetchMoreEntertainment()
         applyConstraints()
     }
     
-    private func fetch(){
-        APICaller.shared.getTrending { results in
+    private func fetchMoreEntertainment(){
+        APICaller.shared.getTrending { [weak self] results in
             switch results {
             case .success(let entertainments):
-                self.moreEntertainments = entertainments
+                self?.moreEntertainments = entertainments
                 DispatchQueue.main.async {
-                    self.moreIdeasCollection.reloadData()
+                    self?.moreIdeasCollection.reloadData()
                 }
             case .failure(let error):
                 print(error.localizedDescription)
@@ -170,7 +174,7 @@ class EntertainmentDetailsVC: UIViewController {
         moreIdeasCollection.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor, constant: 15).isActive = true
         moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
-        moreIdeasCollection.bottomAnchor.constraint(equalTo:view.bottomAnchor).isActive = true
+        moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor).isActive = true
     }
     
     // Apply constriants function
@@ -344,9 +348,10 @@ class EntertainmentDetailsVC: UIViewController {
     private let moreIdeasCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 125, height: 185)
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 3
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
+        collectionView.backgroundColor = .black
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -357,8 +362,4 @@ class EntertainmentDetailsVC: UIViewController {
 //
 //    }()
     
-}
-
-#Preview(){
-    EntertainmentDetailsVC()
 }

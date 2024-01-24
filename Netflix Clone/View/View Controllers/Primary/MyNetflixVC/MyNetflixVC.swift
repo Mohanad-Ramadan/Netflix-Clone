@@ -40,8 +40,7 @@ class MyNetflixVC: UIViewController {
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .done, target: self, action: nil),
-            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped)),
-            UIBarButtonItem(image: UIImage(systemName: "airplayvideo"), style: .done, target: self, action: nil)
+            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         ]
         
         navigationController?.navigationBar.tintColor = .label
