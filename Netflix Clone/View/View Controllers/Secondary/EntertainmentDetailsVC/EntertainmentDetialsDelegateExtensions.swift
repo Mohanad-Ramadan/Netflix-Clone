@@ -44,6 +44,7 @@ extension EntertainmentDetailsVC: UICollectionViewDelegate, UICollectionViewData
                 print(failure.localizedDescription)
             }
         }
+        
     }
 
 }

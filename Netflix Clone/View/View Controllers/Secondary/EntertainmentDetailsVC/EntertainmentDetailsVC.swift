@@ -14,7 +14,6 @@ class EntertainmentDetailsVC: UIViewController {
         view.backgroundColor = .black
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
-        view.addSubview(moreIdeasCollection)
         
         [
             netflixLogo,
@@ -29,19 +28,17 @@ class EntertainmentDetailsVC: UIViewController {
             directorLabel,
             threeButtons,
             viewSwitchButtons,
-//            moreIdeasCollection
+            moreIdeasCollection
             
         ].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
         
+        viewSwitchButtons.moreButtonTapped()
+        
         fetchMoreEntertainment()
         applyConstraints()
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        moreIdeasCollection.frame = view.bounds
     }
     
     private func fetchMoreEntertainment(){
@@ -74,10 +71,10 @@ class EntertainmentDetailsVC: UIViewController {
     
     // Trailer Video
     private func trailerVideoConstraints() {
-        entertainmentTrailer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 3).isActive = true
-        entertainmentTrailer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -3).isActive = true
-        entertainmentTrailer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5).isActive = true
-        entertainmentTrailer.heightAnchor.constraint(equalToConstant: 230).isActive = true
+        entertainmentTrailer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        entertainmentTrailer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        entertainmentTrailer.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        entertainmentTrailer.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     // ScrollView Constraints
@@ -85,7 +82,7 @@ class EntertainmentDetailsVC: UIViewController {
         containterScrollView.topAnchor.constraint(equalTo: entertainmentTrailer.bottomAnchor, constant: 10).isActive = true
         containterScrollView.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         containterScrollView.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
-        containterScrollView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        containterScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
     //MARK: -  SubViews constraints
@@ -160,25 +157,26 @@ class EntertainmentDetailsVC: UIViewController {
     private func threeButtonsConstriants() {
         threeButtons.translatesAutoresizingMaskIntoConstraints = false
         threeButtons.topAnchor.constraint(equalTo: directorLabel.bottomAnchor, constant: 5).isActive = true
-        threeButtons.heightAnchor.constraint(equalToConstant: 60).isActive = true
         threeButtons.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         threeButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        threeButtons.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     // Table Switch Buttons Constraints
     private func viewSwitchButtonsConstriants() {
         viewSwitchButtons.translatesAutoresizingMaskIntoConstraints = false
         viewSwitchButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
-        viewSwitchButtons.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
+        viewSwitchButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         viewSwitchButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
-        viewSwitchButtons.heightAnchor.constraint(equalTo: viewSwitchButtons.heightAnchor).isActive = true
+        viewSwitchButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
     // More CollectionView Constriants
     private func moreIdeasCollectionConstriants(){
-        moreIdeasCollection.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor, constant: 15).isActive = true
+        moreIdeasCollection.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor).isActive = true
         moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430).isActive = true
         moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor).isActive = true
     }
     
@@ -189,7 +187,6 @@ class EntertainmentDetailsVC: UIViewController {
         neflixlogoAndGenresLabelConstriants()
         entertainmentTitleConstriants()
         detailsLabelConstriants()
-        neflixlogoAndGenresLabelConstriants()
         categoryLogoAndDetailsConstraints()
         playButtonConstriants()
         overViewLabelConstriants()
@@ -224,6 +221,8 @@ class EntertainmentDetailsVC: UIViewController {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = false
+        scrollView.alwaysBounceVertical = true
+        scrollView.isScrollEnabled = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -352,8 +351,8 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let moreIdeasCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 125, height: 185)
-        layout.minimumInteritemSpacing = 3
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width/3)-8, height: 185)
+        layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
         collectionView.backgroundColor = .black

@@ -69,7 +69,3 @@ class ThreeButtonUIView: UIView {
     }
 
 }
-
-#Preview{
-    ThreeButtonUIView()
-}

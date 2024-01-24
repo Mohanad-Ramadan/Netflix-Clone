@@ -17,7 +17,7 @@ extension NewAndHotVC {
     
     func handleUIAndDataFetching(){
         // UI first load with coming soon button selected
-        categoryButtonsBar.selectComingSoonButton()
+        categoryButtonsBar.comingSoonButtonTapped()
         
         // fetch the Data With a notification key to reload
         fetchData()

@@ -32,6 +32,12 @@ class MyNetflixVC: UIViewController {
         }
     }
     
+    @objc private func goToNewVC(){
+            DispatchQueue.main.async { [weak self] in
+                self?.navigationController?.present(EntertainmentDetailsVC(), animated: true)
+            }
+        }
+    
     private func configureNavbar() {
         let userLabel = UILabel()
         userLabel.font = .boldSystemFont(ofSize: 26)
@@ -39,7 +45,7 @@ class MyNetflixVC: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userLabel)
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .done, target: self, action: nil),
+            UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .done, target: self, action: #selector(goToNewVC)),
             UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         ]
         

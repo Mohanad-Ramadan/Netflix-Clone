@@ -19,23 +19,37 @@ class ViewSwitchButtonsUIView: UIView {
         applyConstraints()
     }
     
+    //MARK: - Make moreButton tapped at first view load
+    @objc func moreButtonTapped() {
+        moreButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        moreButton.sendActions(for: .touchUpInside)
+    }
     
     //MARK: - Button Pressed Actions
-    @objc func buttonPressed(_ sender: UIButton) {
+    @objc private func buttonPressed(_ sender: UIButton) {
         IndicateOfSelecting(sender)
     }
     
     // Selected button UI change
-    func IndicateOfSelecting(_ sender: UIButton) {
-        // Defualt red line offest that is over moreButton
+    func  IndicateOfSelecting(_ sender: UIButton) {
         let redLineMidPoint = redSelectLine.frame.midX
         let moreButtonMidPoint = moreButton.frame.midX
         let trailerButtonMidPoint = trailerButton.frame.midX
         
-        if sender == moreButton, redLineMidPoint != moreButtonMidPoint {
-            redSelectLine.center = CGPoint(x: moreButtonMidPoint, y: 0)
-        } else if sender == trailerButton, redLineMidPoint != trailerButtonMidPoint {
-            redSelectLine.center = CGPoint(x: trailerButtonMidPoint, y: 0)
+        if sender == moreButton{
+            // Change redLine placment to be over moreButton
+            redSelectLine.center = redLineMidPoint != moreButtonMidPoint ? CGPoint(x: moreButtonMidPoint, y: 0) : CGPoint(x: trailerButtonMidPoint, y: 0)
+            
+            // Change tapped moreButton color
+            moreButton.configuration?.baseForegroundColor = .white
+            trailerButton.configuration?.baseForegroundColor = .lightGray
+        } else {
+            // Change redLine placment to be over moreButton
+            redSelectLine.center = redLineMidPoint != trailerButtonMidPoint ? CGPoint(x: trailerButtonMidPoint, y: 0) : CGPoint(x: moreButtonMidPoint, y: 0)
+            
+            // Change tapped trailerButton color
+            trailerButton.configuration?.baseForegroundColor = .white
+            moreButton.configuration?.baseForegroundColor = .lightGray
         }
     }
     
@@ -49,20 +63,20 @@ class ViewSwitchButtonsUIView: UIView {
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
-            moreButton.leadingAnchor.constraint(equalTo: leadingAnchor),
-            moreButton.topAnchor.constraint(equalTo: redSelectLine.bottomAnchor, constant: 10),
+            moreButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -4),
+            moreButton.topAnchor.constraint(equalTo: redSelectLine.bottomAnchor, constant: 4),
             moreButton.heightAnchor.constraint(equalTo: moreButton.heightAnchor),
             
             // Button 2
-            trailerButton.leadingAnchor.constraint(equalTo: moreButton.trailingAnchor, constant: 5),
+            trailerButton.leadingAnchor.constraint(equalTo: moreButton.trailingAnchor, constant: -10),
             trailerButton.topAnchor.constraint(equalTo: moreButton.topAnchor),
             trailerButton.heightAnchor.constraint(equalTo: moreButton.heightAnchor),
             
             // Red select line
             redSelectLine.centerXAnchor.constraint(equalTo: moreButton.centerXAnchor),
             redSelectLine.topAnchor.constraint(equalTo: topAnchor),
-            redSelectLine.heightAnchor.constraint(equalToConstant: 5),
-            redSelectLine.widthAnchor.constraint(equalToConstant: 120),
+            redSelectLine.heightAnchor.constraint(equalToConstant: 4),
+            redSelectLine.widthAnchor.constraint(equalToConstant: 112),
         ])
     }
     
@@ -72,10 +86,10 @@ class ViewSwitchButtonsUIView: UIView {
         var configuration = UIButton.Configuration.filled()
         configuration.title = title
         configuration.baseBackgroundColor = .clear
-        configuration.baseForegroundColor = .white
+        configuration.baseForegroundColor = .lightGray
         configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 17, weight: .bold)
+            outgoing.font = .systemFont(ofSize: 16, weight: .bold)
             return outgoing
         }
         
@@ -100,6 +114,3 @@ class ViewSwitchButtonsUIView: UIView {
 
 }
 
-#Preview{
-    ViewSwitchButtonsUIView()
-}

@@ -22,14 +22,14 @@ class NewHotCategoryBarUIView: UIView {
         buttonsTarget()
     }
     
-    //MARK: - Select comingSoon button when load
-    @objc func selectComingSoonButton() {
+    //MARK: - Make comingSoonButton tapped at first view load
+    @objc func comingSoonButtonTapped() {
         comingSoonButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         comingSoonButton.sendActions(for: .touchUpInside)
     }
     
     //MARK: - Button pressed Actions
-    @objc func buttonPressed(_ sender: UIButton) {
+    @objc private func buttonPressed(_ sender: UIButton) {
         self.handleUI(sender)
         self.handleButtonIndex(buttonPressed: sender)
         
