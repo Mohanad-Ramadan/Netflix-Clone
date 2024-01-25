@@ -79,7 +79,7 @@ class HomeVC: UIViewController {
         ])
     }
     
-    private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height*(7/17), height: UIScreen.main.bounds.height/1.5 ))
+    private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height*(7/17), height: UIScreen.main.bounds.height/1.40 ))
     
     private let skeletonLoadingView = SkeletonLoadingUIView()
     
@@ -94,7 +94,6 @@ class HomeVC: UIViewController {
         table.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
-        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     

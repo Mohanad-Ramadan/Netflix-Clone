@@ -8,14 +8,30 @@
 import UIKit
 
 class TitleRowUIView: UIView {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
         addSubview(symbol)
         addSubview(label)
         addSubview(button)
+        
+        button.addTarget(self, action: #selector(chevronButtonTapped), for: .touchUpInside)
+        
         applyConstraints()
+    }
+    
+    @objc func chevronButtonTapped() {
+        // Find the nearest view controller
+        var responder: UIResponder? = self
+        while responder != nil && !(responder is UIViewController) {
+            responder = responder?.next
+        }
+        
+        // Check if the responder is a view controller
+        if let viewController = responder as? UIViewController {
+            // Use the view controller to navigate
+            viewController.navigationController?.pushViewController(DownloadVC(), animated: true)
+        }
     }
     
     private func applyConstraints() {

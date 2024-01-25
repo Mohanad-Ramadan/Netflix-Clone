@@ -11,11 +11,14 @@ class DownloadVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        configureNavbar()
+        view.addSubview(downloadTable)
+        
         downloadTable.delegate = self
         downloadTable.dataSource = self
-        view.addSubview(downloadTable)
+
+        configureNavBar()
         fetchEntertainmentAt()
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
             self.fetchEntertainmentAt()
         }
@@ -26,36 +29,18 @@ class DownloadVC: UIViewController {
         downloadTable.frame = view.bounds
     }
     
-    private func configureNavbar() {
-        let userLabel = UILabel()
-        userLabel.font = .boldSystemFont(ofSize: 26)
-        userLabel.text = "Download"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userLabel)
-        
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped)),
-            UIBarButtonItem(image: UIImage(systemName: "airplayvideo"), style: .done, target: self, action: nil)
-        ]
-        
-        navigationController?.navigationBar.tintColor = .label
-    }
-    
     @objc func searchButtonTapped() {
         DispatchQueue.main.async { [weak self] in
             self?.navigationController?.pushViewController(SearchVC(), animated: true)
         }
     }
     
-    
-    var entertainments: [EntertainmentItems] = [EntertainmentItems]()
-    
-    
-    private let downloadTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
-        table.register(MoviesTableViewCell.self, forCellReuseIdentifier: MoviesTableViewCell.identifier)
-        return table
-    }()
-    
+    private func configureNavBar(){
+        navigationController?.navigationItem.largeTitleDisplayMode = .inline
+        navigationController?.navigationBar.tintColor = .white
+        
+        title = "Downloads"
+    }
     
     private func fetchEntertainmentAt() {
         DataPersistenceManager.shared.fetchDownloadedEntertainments { [weak self] results in
@@ -68,6 +53,19 @@ class DownloadVC: UIViewController {
             }
         }
     }
+    
+    private let downloadTable: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width/3)-8, height: 185)
+        layout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.identifier)
+        collectionView.backgroundColor = .black
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    var entertainments: [EntertainmentItems] = [EntertainmentItems]()
     
 }
 

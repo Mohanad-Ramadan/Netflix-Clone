@@ -109,13 +109,13 @@ class EntertainmentDetailsVC: UIViewController {
     // Details Label Constraints
     private func detailsLabelConstriants() {
         detailsLabel.topAnchor.constraint(equalTo: entertainmentTitle.bottomAnchor, constant: 8).isActive = true
-        detailsLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
+        detailsLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 7).isActive = true
         detailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // View based on Category Constriants
     private func categoryLogoAndDetailsConstraints() {
-        categoryLogo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 10).isActive = true
+        categoryLogo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
         categoryLogo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         categoryLogo.heightAnchor.constraint(equalToConstant: 28).isActive = true
         categoryLogo.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -134,7 +134,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     // OverView Label Constraints
     private func overViewLabelConstriants() {
-        overViewLabel.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 20).isActive = true
+        overViewLabel.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 15).isActive = true
         overViewLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         overViewLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
@@ -250,7 +250,7 @@ class EntertainmentDetailsVC: UIViewController {
         let label = UILabel()
         label.text = "Movie Title"
         label.textColor = .white
-        label.font = .systemFont(ofSize: 22, weight: .bold)
+        label.font = .systemFont(ofSize: 21, weight: .bold)
         label.textAlignment = .left
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -262,7 +262,7 @@ class EntertainmentDetailsVC: UIViewController {
         label.text = "New 2024 1h 29m HD"
         label.textColor = .white
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 15, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -322,8 +322,8 @@ class EntertainmentDetailsVC: UIViewController {
         let fullText = "Cast: Arthur Curry, Orm Marius, David Kane" + " ... more"
         
         let attributedString = NSMutableAttributedString(string: fullText)
-        let lightFont = UIFont.systemFont(ofSize: 14, weight: .light)
-        let boldFont = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        let lightFont = UIFont.systemFont(ofSize: 12, weight: .light)
+        let boldFont = UIFont.systemFont(ofSize: 12, weight: .semibold)
         
         attributedString.addAttribute(.font, value: lightFont, range: NSRange(location: 0, length: fullText.count - 9))
         attributedString.addAttribute(.font, value: boldFont, range: NSRange(location: fullText.count - 9, length: 9))
@@ -338,7 +338,7 @@ class EntertainmentDetailsVC: UIViewController {
     private let directorLabel: UILabel = {
         let label = UILabel()
         label.text = "Director: James Wan"
-        label.font = UIFont.systemFont(ofSize: 14, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
         label.textColor = .lightGray
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -354,7 +354,7 @@ class EntertainmentDetailsVC: UIViewController {
         layout.itemSize = CGSize(width: (UIScreen.main.bounds.width/3)-8, height: 185)
         layout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
+        collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.identifier)
         collectionView.backgroundColor = .black
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -362,8 +362,13 @@ class EntertainmentDetailsVC: UIViewController {
     
     var moreEntertainments: [Entertainment] = [Entertainment]()
     
-//    private let trailerTable: UITableView = {
-//
-//    }()
+    private let trailerTable: UITableView = {
+        let table = UITableView(frame: .zero, style: .grouped)
+        table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
     
 }

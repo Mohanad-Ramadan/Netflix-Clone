@@ -35,7 +35,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        tableView.sectionHeaderTopPadding = 40
+        tableView.sectionHeaderTopPadding = 10
         return 180
     }
     

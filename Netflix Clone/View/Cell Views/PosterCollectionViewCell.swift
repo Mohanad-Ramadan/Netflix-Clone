@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MovieCollectionViewCell: UICollectionViewCell {
+class PosterCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "MovieCollectionViewCell"
+    static let identifier = "PosterCollectionViewCell"
     
     private let posterImageView : UIImageView = {
         let imageView = UIImageView()

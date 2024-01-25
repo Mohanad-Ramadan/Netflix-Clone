@@ -55,9 +55,9 @@ class HeroHeaderUIView: UIView {
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.font = .systemFont(ofSize: 14, weight: .medium)
         label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 2
+        label.numberOfLines = 1
         label.textColor = .label
         label.textAlignment = .center
         label.layer.shadowColor = UIColor.black.cgColor

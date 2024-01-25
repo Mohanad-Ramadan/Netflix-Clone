@@ -12,18 +12,20 @@ class MyNetflixVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavbar()
-        view.backgroundColor = .systemBackground
-        downloadTable.delegate = self
-        downloadTable.dataSource = self
+        view.backgroundColor = .black
+        
         view.addSubview(downloadTable)
         view.addSubview(profilImage)
         view.addSubview(userLabel)
         view.addSubview(downloadTitleRow)
+        
+        downloadTable.delegate = self
+        downloadTable.dataSource = self
+        
         applyConstraints()
-        fetchEntertainmentAt()
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
-            self.fetchEntertainmentAt()
-        }
+        
+        fetchDownloadedEntertainment()
+        
     }
     
     @objc func searchButtonTapped() {
@@ -33,10 +35,10 @@ class MyNetflixVC: UIViewController {
     }
     
     @objc private func goToNewVC(){
-            DispatchQueue.main.async { [weak self] in
-                self?.navigationController?.present(EntertainmentDetailsVC(), animated: true)
-            }
+        DispatchQueue.main.async { [weak self] in
+            self?.navigationController?.present(EntertainmentDetailsVC(), animated: true)
         }
+    }
     
     private func configureNavbar() {
         let userLabel = UILabel()
@@ -50,10 +52,14 @@ class MyNetflixVC: UIViewController {
         ]
         
         navigationController?.navigationBar.tintColor = .label
-        
     }
     
-    private func fetchEntertainmentAt() {
+    private func fetchDownloadedEntertainment() {
+        // Notify the View to fetch the data agian
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
+            self.fetchDownloadedEntertainment()
+        }
+        // Calling API request method
         DataPersistenceManager.shared.fetchDownloadedEntertainments { [weak self] results in
             switch results {
             case .success(let entertainments):
@@ -95,7 +101,7 @@ class MyNetflixVC: UIViewController {
         downloadTable.topAnchor.constraint(equalTo: downloadTitleRow.bottomAnchor, constant: 20).isActive = true
         downloadTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         downloadTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        downloadTable.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        downloadTable.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     private func applyConstraints() {
@@ -139,11 +145,11 @@ class MyNetflixVC: UIViewController {
     
     private let downloadTitleRow: TitleRowUIView = TitleRowUIView()
     
-    
     private let downloadTable: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
         table.register(MyNetflixTableViewCell.self, forCellReuseIdentifier: MyNetflixTableViewCell.identifier)
         table.separatorStyle = .none
+        table.alwaysBounceVertical = false
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
