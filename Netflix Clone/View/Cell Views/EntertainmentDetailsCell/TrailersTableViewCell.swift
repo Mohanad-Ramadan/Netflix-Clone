@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WebKit
 
 class TrailersTableViewCell: UITableViewCell {
     
@@ -14,7 +15,7 @@ class TrailersTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
-        contentView.addSubview(trailerImageView)
+        contentView.addSubview(trailerView)
         contentView.addSubview(trailerTitle)
         
         applyConstraints()
@@ -32,20 +33,25 @@ class TrailersTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             
             // TrailerView Constraints
-            trailerImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor , constant: 5),
-            trailerImageView.trailingAnchor.constraint(equalTo: contentView.leadingAnchor , constant: -5),
-            trailerImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            trailerImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            trailerImageView.widthAnchor.constraint(equalToConstant: contentView.bounds.width-10),
+            trailerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            trailerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            trailerView.heightAnchor.constraint(equalToConstant: 300),
+            trailerView.widthAnchor.constraint(equalToConstant: contentView.bounds.width-10),
             
             // TrailerTitle Constraints
-            trailerTitle.leadingAnchor.constraint(equalTo: trailerImageView.trailingAnchor, constant: 20),
-            trailerTitle.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            trailerTitle.topAnchor.constraint(equalTo: trailerView.bottomAnchor, constant: 5),
+            trailerTitle.leadingAnchor.constraint(equalTo: trailerView.leadingAnchor)
             
         ])
     }
     
-    private let trailerImageView: UIImageView = {
+//    private let trailerView: WKWebView = {
+//        let webView = WKWebView()
+//        webView.translatesAutoresizingMaskIntoConstraints = false
+//        return webView
+//    }()
+    
+    private let trailerView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "testImageLarge")
         imageView.contentMode = .scaleAspectFill
@@ -68,5 +74,14 @@ class TrailersTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
+//    func configureTrailer(with model: MovieInfoViewModel){
+//        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
+//            fatalError("can't get the youtube trailer url")
+//        }
+//        
+//        trailerView.load(URLRequest(url: url))
+//        trailerTitle.text = model.title
+//    }
 
 }

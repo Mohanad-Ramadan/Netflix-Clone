@@ -8,7 +8,6 @@
 import UIKit
 
 class PosterCollectionViewCell: UICollectionViewCell {
-    
     static let identifier = "PosterCollectionViewCell"
     
     private let posterImageView : UIImageView = {
@@ -35,7 +34,6 @@ class PosterCollectionViewCell: UICollectionViewCell {
     }
     
     //MARK: - Edite here
-    
     public func configureTitle(with model: String){
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model)" ) else {return}
         posterImageView.sd_setImage(with: url)

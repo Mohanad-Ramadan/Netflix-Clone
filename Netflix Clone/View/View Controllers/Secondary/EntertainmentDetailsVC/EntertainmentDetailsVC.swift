@@ -35,6 +35,9 @@ class EntertainmentDetailsVC: UIViewController {
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
         
+        trailerTable.delegate = self
+        trailerTable.dataSource = self
+        
         viewSwitchButtons.moreButtonTapped()
         
         fetchMoreEntertainment()
@@ -370,5 +373,7 @@ class EntertainmentDetailsVC: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
+    
+    var trailers: [Entertainment] = [Entertainment]()
     
 }

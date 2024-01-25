@@ -15,8 +15,8 @@ class MovieInfoVC: UIViewController {
         view.backgroundColor = .black
         view.addSubview(webView)
         view.addSubview(titleLabel)
-        
         view.addSubview(scrollView)
+        
         scrollView.addSubview(overViewLabel)
         view.addSubview(downloadButton)
         
