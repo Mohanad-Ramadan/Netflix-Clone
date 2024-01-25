@@ -30,7 +30,9 @@ class MyNetflixVC: UIViewController {
     
     @objc func searchButtonTapped() {
         DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.pushViewController(SearchVC(), animated: true)
+            let vc = SearchVC()
+            vc.hidesBottomBarWhenPushed = true
+            self?.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

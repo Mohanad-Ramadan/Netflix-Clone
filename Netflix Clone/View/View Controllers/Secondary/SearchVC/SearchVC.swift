@@ -17,7 +17,7 @@ class SearchVC: UIViewController {
         searchTable.delegate = self
         searchTable.dataSource = self
         
-        navigationController?.navigationBar.tintColor = .secondaryLabel
+        navigationController?.navigationBar.tintColor = .label
         
         navigationItem.titleView = searchController.searchBar
         
@@ -25,13 +25,18 @@ class SearchVC: UIViewController {
         searchController.searchBar.delegate = self
         
         definesPresentationContext = true
-        
 
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isTranslucent = true
     }
 
     override func viewDidLayoutSubviews() {

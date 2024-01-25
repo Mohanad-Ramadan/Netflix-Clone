@@ -12,27 +12,27 @@ class SearchResultsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        view.addSubview(searchResultCollectionView)
+        view.addSubview(searchResultTableView)
         
-        searchResultCollectionView.delegate = self
-        searchResultCollectionView.dataSource = self
+        searchResultTableView.delegate = self
+        searchResultTableView.dataSource = self
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        searchResultCollectionView.frame = view.bounds
+        searchResultTableView.frame = view.bounds
     }
     
     
     public weak var delegate: SearchResultsVCDelegate?
     
-    public let searchResultCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 3-10, height: 200)
-        layout.minimumInteritemSpacing = 0
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.identifier)
-        return collectionView
+    public let searchResultTableView: UITableView = {
+        let table = UITableView(frame: .zero, style: .grouped)
+        table.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.backgroundColor = .black
+        table.showsVerticalScrollIndicator = false
+        return table
     }()
     
     var entertainments: [Entertainment] = [Entertainment]()
@@ -43,46 +43,75 @@ class SearchResultsVC: UIViewController {
 
 //MARK: - SearchResults extension
 
-extension SearchResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource{
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return entertainments.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else {
-            return UICollectionViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell else {
+            return UITableViewCell()
         }
         
-        let poster = entertainments[indexPath.row].posterPath ?? ""
-        cell.configureTitle(with: poster)
+        let entertainment = entertainments[indexPath.row]
+        
+        let mediaType = entertainment.mediaType!
+        let mediaId = entertainment.id
+        let mediaTitle = entertainment.mediaType == "movie" ? entertainment.title : entertainment.originalName
+        
+        APICaller.shared.getImages(mediaType: mediaType, id: mediaId) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedImages):
+                    // backdrop
+                    guard let backdrop = fetchedImages.backdrops.first,
+                          !backdrop.filePath.isEmpty else { return }
+                    let backdropPath = backdrop.filePath
+
+                    // cell configuration
+                    cell.configureCell(with: MovieViewModel(title: mediaTitle ,backdropsPath: backdropPath))
+                case .failure(let failure):
+                    print("Error getting images:", failure)
+                }
+            }
+        }
         
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 95
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         let entertainment = entertainments[indexPath.row]
         guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
         
+        
         APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
             switch result {
             case .success(let videoElement):
-                let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
-                
-                self?.delegate?.searchResultsDidTapped(viewModel)
-                
+                DispatchQueue.main.async { [weak self] in
+                    let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
+                    
+                    self?.delegate?.searchResultsDidTapped(viewModel)
+                }
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
         }
+        
     }
 
 }
-
-
-
 
 //MARK: - cellTapped method in protocol
 

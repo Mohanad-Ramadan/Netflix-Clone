@@ -75,8 +75,16 @@ extension SearchVC: SearchResultsVCDelegate , UISearchResultsUpdating , UISearch
             DispatchQueue.main.async {
                 switch results {
                 case .success(let entertainments):
-                    resultController.entertainments = entertainments
-                    resultController.searchResultCollectionView.reloadData()
+                    // Filter the results to (Movie and TV) media type only
+                    let rightResults :[Entertainment] = {
+                        let result = entertainments
+                        let filterResultsFormPersons = result.filter { $0.mediaType == "movie" || $0.mediaType == "tv" }
+                        return filterResultsFormPersons
+                    }()
+                    
+                    resultController.entertainments = rightResults
+                    resultController.searchResultTableView.reloadData()
+                    
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

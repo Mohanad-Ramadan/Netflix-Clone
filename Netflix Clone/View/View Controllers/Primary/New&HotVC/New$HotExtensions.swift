@@ -95,7 +95,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 480
+        return 430
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
