@@ -17,18 +17,43 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.identifier, for: indexPath) as? MoviesTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell else {
             return UITableViewCell()
         }
         
-        let movie = entertainments[indexPath.row]
-        cell.configureTitlePoster(with: MovieViewModel(title: movie.title ?? "Unknown", posterPath: movie.posterPath ?? "Unknown"))
+        let entertainment = entertainments[indexPath.row]
+        
+        let mediaType = entertainment.mediaType!
+        let mediaId = entertainment.id
+        let mediaTitle = entertainment.mediaType == "movie" ? entertainment.title : entertainment.originalName
+        
+        APICaller.shared.getImages(mediaType: mediaType, id: mediaId) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedImages):
+                    // backdrop
+                    guard let backdrop = fetchedImages.backdrops.first,
+                          !backdrop.filePath.isEmpty else { return }
+                    let backdropPath = backdrop.filePath
+
+                    // cell configuration
+                    cell.configureCell(with: MovieViewModel(title: mediaTitle ,backdropsPath: backdropPath))
+                    
+                case .failure(let failure):
+                    print("Error getting images:", failure)
+                }
+            }
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 95
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

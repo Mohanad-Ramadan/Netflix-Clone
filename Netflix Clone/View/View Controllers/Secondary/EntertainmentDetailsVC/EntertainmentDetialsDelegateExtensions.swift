@@ -52,3 +52,8 @@ extension EntertainmentDetailsVC: UICollectionViewDelegate, UICollectionViewData
 
 //MARK: - TableView Delegate
 
+extension EntertainmentDetailsVC: UITableViewDelegate, UITableViewDataSource{
+        
+    
+    
+}

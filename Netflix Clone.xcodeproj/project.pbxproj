@@ -365,8 +365,8 @@
 			children = (
 				147094CF2B4757AF0053CFBC /* HomeTableViewCell */,
 				147094D22B47581D0053CFBC /* MyNetflixTableViewCell */,
-				14DCE3D62B22490D00DCD959 /* New&HotTableViewCell.swift */,
 				1434BF2B2B61D21F00EA70F6 /* EntertainmentDetailsCells */,
+				14DCE3D62B22490D00DCD959 /* New&HotTableViewCell.swift */,
 				140A72DB2AD8325800CCA9FA /* PosterCollectionViewCell.swift */,
 				1434BF2E2B61D57100EA70F6 /* SimpleTableViewCell.swift */,
 			);
