@@ -358,8 +358,8 @@
 			children = (
 				148252282B5F2E180009C0EF /* HomeUIViews */,
 				148252292B5F2EBE0009C0EF /* EntertainmentDetailsUIViews */,
-				14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */,
-				147094CB2B4747150053CFBC /* TitleRowUIView.swift */,
+				14ECFB812B62E8F900D3DCAB /* New&HorUIViews */,
+				14ECFB802B62E8E300D3DCAB /* MyNetflixUIViews */,
 				14EC7D602B15174C00E5B395 /* SkeletonLoadingUIView.swift */,
 			);
 			path = UIViews;
@@ -376,6 +376,22 @@
 				1434BF2E2B61D57100EA70F6 /* SimpleTableViewCell.swift */,
 			);
 			path = "Cell Views";
+			sourceTree = "<group>";
+		};
+		14ECFB802B62E8E300D3DCAB /* MyNetflixUIViews */ = {
+			isa = PBXGroup;
+			children = (
+				147094CB2B4747150053CFBC /* TitleRowUIView.swift */,
+			);
+			path = MyNetflixUIViews;
+			sourceTree = "<group>";
+		};
+		14ECFB812B62E8F900D3DCAB /* New&HorUIViews */ = {
+			isa = PBXGroup;
+			children = (
+				14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */,
+			);
+			path = "New&HorUIViews";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -59,11 +59,13 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
             switch result {
             case .success(let videoElement):
                 DispatchQueue.main.async { [weak self] in
-                    let vc = MovieInfoVC()
+                    let vc = EntertainmentDetailsVC()
                     let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
                     
                     vc.configureMovieInfo(with: viewModel )
-                    self?.navigationController?.pushViewController(vc, animated: true)
+                    
+                    vc.hidesBottomBarWhenPushed = true
+                    self?.navigationController?.present(vc, animated: true)
                 }
             case .failure(let failure):
                 print(failure.localizedDescription)

@@ -47,7 +47,7 @@ class SearchVC: UIViewController {
     
     private let searchTable: UITableView = {
         let table = UITableView()
-        table.register(MoviesTableViewCell.self, forCellReuseIdentifier: MoviesTableViewCell.identifier)
+        table.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.identifier)
         return table
     }()
     

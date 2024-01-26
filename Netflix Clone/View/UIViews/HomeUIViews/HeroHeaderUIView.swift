@@ -30,7 +30,7 @@ class HeroHeaderUIView: UIView {
         image.contentMode = .scaleAspectFill
         image.layer.cornerRadius = 15
         image.layer.borderWidth = 1
-        image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.4)
+        image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.1)
         image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image

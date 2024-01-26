@@ -38,7 +38,9 @@ class MyNetflixVC: UIViewController {
     
     @objc private func goToNewVC(){
         DispatchQueue.main.async { [weak self] in
-            self?.navigationController?.present(EntertainmentDetailsVC(), animated: true)
+            let vc = EntertainmentDetailsVC()
+            vc.hidesBottomBarWhenPushed = true
+            self?.navigationController?.present(vc, animated: true)
         }
     }
     
@@ -145,7 +147,7 @@ class MyNetflixVC: UIViewController {
         return button
     }()
     
-    private let downloadTitleRow: TitleRowUIView = TitleRowUIView()
+    private let downloadTitleRow: MyNetflixRowUIView = MyNetflixRowUIView()
     
     private let downloadTable: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)

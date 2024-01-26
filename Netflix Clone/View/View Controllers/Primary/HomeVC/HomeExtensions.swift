@@ -69,9 +69,10 @@ extension HomeVC :HomeTableViewCellDelegate {
     func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieInfoViewModel) {
         
         DispatchQueue.main.async { [weak self] in
-            let vc = MovieInfoVC()
+            let vc = EntertainmentDetailsVC()
             vc.configureMovieInfo(with: viewModel)
-            self?.navigationController?.pushViewController(vc, animated: true)
+            vc.hidesBottomBarWhenPushed = true
+            self?.navigationController?.present(vc, animated: true)
         }
     }
 }

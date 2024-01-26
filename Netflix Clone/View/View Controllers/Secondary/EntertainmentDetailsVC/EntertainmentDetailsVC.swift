@@ -59,16 +59,16 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     //MARK: - Configure EntertainmentDetailsVC Method
-//    public func configureMovieInfo(with model: MovieInfoViewModel){
+    public func configureMovieInfo(with model: MovieInfoViewModel){
 //        titleLabel.text = model.title
-//        overViewLabel.text = model.titleOverview
-//
+        overViewLabel.text = model.titleOverview
+
 //        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
 //            fatalError("can't get the youtube trailer url")
 //        }
-//
+
 //        webView.load(URLRequest(url: url))
-//    }
+    }
     
     //MARK: - Main Views constraints
     

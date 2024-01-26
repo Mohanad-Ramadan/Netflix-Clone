@@ -71,9 +71,8 @@ class TrailersTableViewCell: UITableViewCell {
     }()
     
     
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
+    required init?(coder: NSCoder) {fatalError()}
+    
     
 //    func configureTrailer(with model: MovieInfoViewModel){
 //        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
