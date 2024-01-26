@@ -19,19 +19,28 @@ class ViewSwitchButtonsUIView: UIView {
         applyConstraints()
     }
     
-    //MARK: - Make moreButton tapped at first view load
+    //MARK: - moreButton tapped at first load
     @objc func moreButtonTapped() {
-        moreButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         moreButton.sendActions(for: .touchUpInside)
     }
     
     //MARK: - Button Pressed Actions
     @objc private func buttonPressed(_ sender: UIButton) {
-        IndicateOfSelecting(sender)
+        handleUIFor(sender)
+        changeViewFor(sender)
+
+        // Post key to Notifiy the Entertainment to layout subviews agian
+        NotificationCenter.default.post(name: NSNotification.Name(Constants.entertainmentVCKey), object: nil)
     }
     
-    // Selected button UI change
-    func  IndicateOfSelecting(_ sender: UIButton) {
+    // Button backend method
+    func changeViewFor(_ sender: UIButton) {
+        selectedButtonView = sender == moreButton ? SelectedView.moreIdeasView : SelectedView.trailerView
+    }
+    
+    
+    // Button UI change method
+    func  handleUIFor(_ sender: UIButton) {
         let redLineMidPoint = redSelectLine.frame.midX
         let moreButtonMidPoint = moreButton.frame.midX
         let trailerButtonMidPoint = trailerButton.frame.midX
@@ -108,9 +117,15 @@ class ViewSwitchButtonsUIView: UIView {
         return rectangle
     }()
     
+    var selectedButtonView : SelectedView?
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
 }
 
+//MARK: - Change Views Enum
+enum SelectedView {
+    case moreIdeasView, trailerView
+}

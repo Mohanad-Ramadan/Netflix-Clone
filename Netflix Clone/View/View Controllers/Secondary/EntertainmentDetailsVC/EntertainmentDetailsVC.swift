@@ -27,9 +27,7 @@ class EntertainmentDetailsVC: UIViewController {
             castLabel,
             directorLabel,
             threeButtons,
-            viewSwitchButtons,
-            moreIdeasCollection
-            
+            viewSwitchButtons
         ].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
@@ -41,7 +39,9 @@ class EntertainmentDetailsVC: UIViewController {
         viewSwitchButtons.moreButtonTapped()
         
         fetchMoreEntertainment()
-        applyConstraints()
+        
+        
+        layoutViews()
     }
     
     private func fetchMoreEntertainment(){
@@ -60,7 +60,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     //MARK: - Configure EntertainmentDetailsVC Method
     public func configureMovieInfo(with model: MovieInfoViewModel){
-//        titleLabel.text = model.title
+        entertainmentTitle.text = model.title
         overViewLabel.text = model.titleOverview
 
 //        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
@@ -173,18 +173,61 @@ class EntertainmentDetailsVC: UIViewController {
         viewSwitchButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
         viewSwitchButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
+
     
-    // More CollectionView Constriants
-    private func moreIdeasCollectionConstriants(){
-        moreIdeasCollection.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor).isActive = true
-        moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
-        moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430).isActive = true
-        moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor).isActive = true
+    // CollectionView and TableView Constriants and layout
+    private func switchedViewsLayout(){
+        // More CollectionView Constriants
+        let moreIdeasCollectionConstriants = [
+            moreIdeasCollection.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
+            moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
+            moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
+            moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
+            moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
+        ]
+        
+        // Trailer TableView Constriants
+        let trailerTableConstriants = [
+            trailerTable.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
+            trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor),
+            trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor),
+            trailerTable.heightAnchor.constraint(equalToConstant: 260*3),
+            trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor),
+        ]
+        
+        switch viewSwitchButtons.selectedButtonView {
+        case .moreIdeasView:
+            
+            containterScrollView.addSubview(moreIdeasCollection)
+            NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
+            
+            trailerTable.removeFromSuperview()
+            trailerTable.removeConstraints(moreIdeasCollectionConstriants)
+            
+        case .trailerView:
+            
+            containterScrollView.addSubview(trailerTable)
+            NSLayoutConstraint.activate(trailerTableConstriants)
+            
+            moreIdeasCollection.removeFromSuperview()
+            moreIdeasCollection.removeConstraints(trailerTableConstriants)
+
+        default:
+            return
+        }
+        
     }
     
-    // Apply constriants function
-    private func applyConstraints() {
+    private func layoutSwitchedViews() {
+        switchedViewsLayout()
+        // Layout the views again
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.entertainmentVCKey), object: nil, queue: nil) { _ in
+            self.switchedViewsLayout()
+        }
+    }
+    
+    //MARK: Apply constriants function
+    private func layoutViews() {
         trailerVideoConstraints()
         scrollViewConstriants()
         neflixlogoAndGenresLabelConstriants()
@@ -197,7 +240,7 @@ class EntertainmentDetailsVC: UIViewController {
         directorLabelConstriants()
         threeButtonsConstriants()
         viewSwitchButtonsConstriants()
-        moreIdeasCollectionConstriants()
+        layoutSwitchedViews()
     }
     
     
@@ -369,6 +412,8 @@ class EntertainmentDetailsVC: UIViewController {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
         table.separatorStyle = .none
+        table.backgroundColor = .black
+        table.isScrollEnabled = false
         table.showsVerticalScrollIndicator = false
         table.translatesAutoresizingMaskIntoConstraints = false
         return table

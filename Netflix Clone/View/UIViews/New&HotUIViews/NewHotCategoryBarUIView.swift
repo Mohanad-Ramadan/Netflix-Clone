@@ -66,12 +66,18 @@ class NewHotCategoryBarUIView: UIView {
         
         if buttonFirstPoint <= firstVisiblePoint || buttonLastPoint >= lastVisiblePoint {
             switch buttons.firstIndex(of: sender) {
+                
+                //the First button case
             case 0:
                 let targetOffset = CGPoint(x: buttonFirstPoint, y: 0)
                 scrollView.setContentOffset(targetOffset, animated: true)
+                
+                //the Last button case
             case 3:
                 let targetOffset = CGPoint(x: buttonLastPoint - fullScrollView, y: 0)
                 scrollView.setContentOffset(targetOffset, animated: true)
+                
+                //middle buttons case
             default:
                 let targetOffset = CGPoint(x: buttonMidPoint - halfScrollView, y: 0)
                 scrollView.setContentOffset(targetOffset, animated: true)

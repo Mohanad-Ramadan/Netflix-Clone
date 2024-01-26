@@ -35,8 +35,8 @@ class TrailersTableViewCell: UITableViewCell {
             // TrailerView Constraints
             trailerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trailerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            trailerView.heightAnchor.constraint(equalToConstant: 300),
-            trailerView.widthAnchor.constraint(equalToConstant: contentView.bounds.width-10),
+            trailerView.heightAnchor.constraint(equalToConstant: 200),
+            trailerView.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
             
             // TrailerTitle Constraints
             trailerTitle.topAnchor.constraint(equalTo: trailerView.bottomAnchor, constant: 5),
@@ -53,7 +53,7 @@ class TrailersTableViewCell: UITableViewCell {
     
     private let trailerView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "testImageLarge")
+        imageView.image = UIImage(named: "testImage")
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
