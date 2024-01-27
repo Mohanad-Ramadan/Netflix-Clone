@@ -189,8 +189,8 @@ class EntertainmentDetailsVC: UIViewController {
         // Trailer TableView Constriants
         let trailerTableConstriants = [
             trailerTable.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
-            trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor),
-            trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor),
+            trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
+            trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
             trailerTable.heightAnchor.constraint(equalToConstant: 260*3),
             trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor),
         ]

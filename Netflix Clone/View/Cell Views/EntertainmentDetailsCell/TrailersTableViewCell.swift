@@ -36,11 +36,11 @@ class TrailersTableViewCell: UITableViewCell {
             trailerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trailerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             trailerView.heightAnchor.constraint(equalToConstant: 200),
-            trailerView.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
+            trailerView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             
             // TrailerTitle Constraints
             trailerTitle.topAnchor.constraint(equalTo: trailerView.bottomAnchor, constant: 5),
-            trailerTitle.leadingAnchor.constraint(equalTo: trailerView.leadingAnchor)
+            trailerTitle.leadingAnchor.constraint(equalTo: trailerView.leadingAnchor, constant: 5)
             
         ])
     }
