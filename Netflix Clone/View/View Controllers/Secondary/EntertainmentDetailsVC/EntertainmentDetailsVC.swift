@@ -28,6 +28,7 @@ class EntertainmentDetailsVC: UIViewController {
             directorLabel,
             threeButtons,
             viewSwitchButtons
+            
         ].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
@@ -59,7 +60,7 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     //MARK: - Configure EntertainmentDetailsVC Method
-    public func configureMovieInfo(with model: MovieInfoViewModel){
+    public func configureVCDetails(with model: MovieInfoViewModel){
         entertainmentTitle.text = model.title
         overViewLabel.text = model.titleOverview
 
@@ -185,7 +186,6 @@ class EntertainmentDetailsVC: UIViewController {
             moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
             moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
         ]
-        
         // Trailer TableView Constriants
         let trailerTableConstriants = [
             trailerTable.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
@@ -195,27 +195,25 @@ class EntertainmentDetailsVC: UIViewController {
             trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor),
         ]
         
+        // Switching between views method
         switch viewSwitchButtons.selectedButtonView {
         case .moreIdeasView:
-            
+            // Add the CollectionView to the superView
             containterScrollView.addSubview(moreIdeasCollection)
             NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
-            
+            // Remove the TableView from the SuperView
             trailerTable.removeFromSuperview()
             trailerTable.removeConstraints(moreIdeasCollectionConstriants)
-            
         case .trailerView:
-            
+            // Add the TableView to the superView
             containterScrollView.addSubview(trailerTable)
             NSLayoutConstraint.activate(trailerTableConstriants)
-            
+            // Remove the TableView from the SuperView
             moreIdeasCollection.removeFromSuperview()
             moreIdeasCollection.removeConstraints(trailerTableConstriants)
-
         default:
             return
         }
-        
     }
     
     private func layoutSwitchedViews() {

@@ -113,7 +113,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     
                     let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
                     
-                    vc.configureMovieInfo(with: viewModel )
+                    vc.configureVCDetails(with: viewModel )
                     
                     vc.hidesBottomBarWhenPushed = true
                     self?.navigationController?.present(vc, animated: true)

@@ -38,9 +38,7 @@ class DownloadVC: UIViewController {
     }
     
     private func configureNavBar(){
-        navigationController?.navigationItem.largeTitleDisplayMode = .inline
         navigationController?.navigationBar.tintColor = .white
-        
         title = "Downloads"
     }
     

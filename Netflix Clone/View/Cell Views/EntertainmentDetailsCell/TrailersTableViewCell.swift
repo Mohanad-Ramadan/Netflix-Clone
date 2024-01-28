@@ -20,12 +20,13 @@ class TrailersTableViewCell: UITableViewCell {
         
         applyConstraints()
     }
-    
+
 //    public func configureTitlePoster(with model: MovieViewModel){
-//        if let posterPath = model.posterPath ,let posterURL = URL(string: "https://image.tmdb.org/t/p/w500/\(posterPath)"){
-//            posterImageView.sd_setImage(with: posterURL)
+//        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
+//            fatalError("can't get the youtube trailer url")
 //        }
-//        titleLabel.text = model.title
+//
+//        trailerView.load(URLRequest(url: url))
 //    }
     
     

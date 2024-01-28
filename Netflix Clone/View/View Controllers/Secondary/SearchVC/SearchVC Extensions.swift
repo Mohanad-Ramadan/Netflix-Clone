@@ -70,7 +70,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
                     let vc = EntertainmentDetailsVC()
                     let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
                     
-                    vc.configureMovieInfo(with: viewModel )
+                    vc.configureVCDetails(with: viewModel )
                     
                     vc.hidesBottomBarWhenPushed = true
                     self?.navigationController?.present(vc, animated: true)
@@ -122,7 +122,7 @@ extension SearchVC: SearchResultsVCDelegate , UISearchResultsUpdating , UISearch
     func searchResultsDidTapped(_ viewModel: MovieInfoViewModel) {
         DispatchQueue.main.async { [weak self] in
             let vc = EntertainmentDetailsVC()
-            vc.configureMovieInfo(with: viewModel)
+            vc.configureVCDetails(with: viewModel)
             vc.hidesBottomBarWhenPushed = true
             self?.navigationController?.present(vc, animated: true)
         }

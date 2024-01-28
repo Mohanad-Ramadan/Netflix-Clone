@@ -70,7 +70,7 @@ extension HomeVC :HomeTableViewCellDelegate {
         
         DispatchQueue.main.async { [weak self] in
             let vc = EntertainmentDetailsVC()
-            vc.configureMovieInfo(with: viewModel)
+            vc.configureVCDetails(with: viewModel)
             vc.hidesBottomBarWhenPushed = true
             self?.navigationController?.present(vc, animated: true)
         }
