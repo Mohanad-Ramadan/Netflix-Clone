@@ -79,7 +79,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                         let detailCategory = detail.separateGenres(with: " • ")
                         
                         // cell details configuration
-                        cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,date: detail.releaseDate))
+                        cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,releaseDate: detail.releaseDate))
                         
                     case .failure(let failure):
                         print(
@@ -102,26 +102,42 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let entertainment = entertainments[indexPath.row]
-        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
         
-        
-        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
-            switch result {
-            case .success(let videoElement):
-                DispatchQueue.main.async { [weak self] in
+        APICaller.shared.getDetails(mediaType: "movie" , id: entertainment.id) { (result: Result<MovieDetail, Error>) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedDetials):
+                    // detail
+                    let detail = fetchedDetials
+                    
+                    // View Model congfigur
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: "movie" ,releaseDate: detail.releaseDate)
+                    
+                    // Push to VC
                     let vc = EntertainmentDetailsVC()
-                    
-                    let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
-                    
-                    vc.configureVCDetails(with: viewModel )
-                    
+                    vc.configureModelViewDetails(with: viewModel)
                     vc.hidesBottomBarWhenPushed = true
-                    self?.navigationController?.present(vc, animated: true)
+                    self.navigationController?.present(vc, animated: true)
+                    
+                case .failure(let failure):
+                    print("Error getting details:",failure)
                 }
-            case .failure(let failure):
-                print(failure.localizedDescription)
             }
         }
+        
+        
+        
+        
+//        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
+//            switch result {
+//            case .success(let videoElement):
+//                DispatchQueue.main.async { [weak self] in
+//                    
+//                }
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//            }
+//        }
         
     }
     

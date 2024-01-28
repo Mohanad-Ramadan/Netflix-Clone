@@ -16,5 +16,6 @@ struct MovieViewModel {
     var backdropsPath: String?
     var category: String?
     var mediaType: String?
-    var date: String?
+    var releaseDate: String?
+    
 }

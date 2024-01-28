@@ -59,11 +59,24 @@ class EntertainmentDetailsVC: UIViewController {
         }
     }
     
-    //MARK: - Configure EntertainmentDetailsVC Method
     public func configureVCDetails(with model: MovieInfoViewModel){
         entertainmentTitle.text = model.title
         overViewLabel.text = model.titleOverview
 
+//        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
+//            fatalError("can't get the youtube trailer url")
+//        }
+
+//        webView.load(URLRequest(url: url))
+    }
+    
+    //MARK: - Configure EntertainmentDetailsVC Method
+    public func configureModelViewDetails(with model: MovieViewModel){
+        entertainmentTitle.text = model.title
+        overViewLabel.text = model.overview
+        categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
+        detailsLabel.text = model.releaseDate
+        
 //        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
 //            fatalError("can't get the youtube trailer url")
 //        }
