@@ -140,6 +140,24 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        APICaller.shared.getVedios(mediaType: "movie", id: entertainment.id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedVideos):
+                    // logo
+                    let videos = fetchedVideos.returnYoutubeTrailers()
+                    
+                    // View Model congfigur
+                    let viewModel = MovieViewModel(vedioResults: videos)
+                    vc.configureVideos(with: viewModel)
+                    
+                case .failure(let failure):
+                    print("Error getting Vedios:", failure)
+                    
+                }
+            }
+        }
+        
         
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.present(vc, animated: true)

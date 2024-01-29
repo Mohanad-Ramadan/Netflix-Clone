@@ -90,6 +90,12 @@ class EntertainmentDetailsVC: UIViewController {
         directorLabel.text = model.director
     }
     
+    
+    public func configureVideos(with model: MovieViewModel){
+        
+    }
+    
+    
     //MARK: - Main Views constraints
     
     // Trailer Video
