@@ -56,31 +56,31 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let entertainment = entertainments[indexPath.row]
-        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
-        
-        
-        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
-            switch result {
-            case .success(let videoElement):
-                DispatchQueue.main.async { [weak self] in
-                    let vc = EntertainmentDetailsVC()
-                    let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
-                    
-                    vc.configureVCDetails(with: viewModel )
-                    
-                    vc.hidesBottomBarWhenPushed = true
-                    self?.navigationController?.present(vc, animated: true)
-                }
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-        
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true)
+//        
+//        let entertainment = entertainments[indexPath.row]
+//        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
+//        
+//        
+//        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
+//            switch result {
+//            case .success(let videoElement):
+//                DispatchQueue.main.async { [weak self] in
+//                    let vc = EntertainmentDetailsVC()
+//                    let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
+//                    
+//                    vc.configureVCDetails(with: viewModel )
+//                    
+//                    vc.hidesBottomBarWhenPushed = true
+//                    self?.navigationController?.present(vc, animated: true)
+//                }
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//            }
+//        }
+//        
+//    }
     
 }
 

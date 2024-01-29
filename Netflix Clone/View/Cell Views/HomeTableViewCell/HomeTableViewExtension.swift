@@ -32,22 +32,22 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         let entertainment = entertainments[indexPath.row]
         guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
         
-        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
-            switch result {
-            case .success(let videoElement):
-                let entertainment = self?.entertainments[indexPath.row]
-                guard let movieOverview = entertainment?.overview else {
-                    return
-                }
-                guard let strongSelf = self else {
-                    return
-                }
-                let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: movieOverview)
-                self?.delegate?.homeTableViewCellDidTapped(strongSelf, viewModel: viewModel)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
+//        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
+//            switch result {
+//            case .success(let videoElement):
+//                let entertainment = self?.entertainments[indexPath.row]
+//                guard let movieOverview = entertainment?.overview else {
+//                    return
+//                }
+//                guard let strongSelf = self else {
+//                    return
+//                }
+//                let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: movieOverview)
+//                self?.delegate?.homeTableViewCellDidTapped(strongSelf, viewModel: viewModel)
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//            }
+//        }
     }
     
     

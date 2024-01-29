@@ -77,12 +77,6 @@ class EntertainmentDetailsVC: UIViewController {
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
         detailsLabel.text = model.releaseDate
-        
-//        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
-//            fatalError("can't get the youtube trailer url")
-//        }
-
-//        webView.load(URLRequest(url: url))
     }
     
     public func configureCast(with model: MovieViewModel){
@@ -91,10 +85,40 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     
-    public func configureVideos(with model: MovieViewModel){
-        
+    //MARK: - Videos Configuration
+    
+    private func getTrailerName(from videosResult: [Trailer.Reuslts] ) -> String {
+        let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
+        let trialerQuery = trailerInfo.map { $0.name }[0]
+        return trialerQuery
     }
     
+    public func configureVideos(with model: MovieViewModel){
+        
+        //Trailer Configuration
+        guard let videosResult = model.videosResult else {return}
+        guard let entertainmentName = model.title else {return}
+        
+        let trialerVideoQuery = "\(entertainmentName) \(getTrailerName(from: videosResult))"
+        
+        APICaller.shared.getYoutubeVideos(query: trialerVideoQuery) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let videoId):
+                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoId)") else {
+                        fatalError("can't get the youtube trailer url")
+                    }
+                    self.entertainmentTrailer.load(URLRequest(url: url))
+                case .failure(let failure):
+                    print("Error getting Trailer video:", failure)
+                }
+            }
+        }
+        
+        //Trailer & More Configuration
+        
+        
+    }
     
     //MARK: - Main Views constraints
     
@@ -277,22 +301,12 @@ class EntertainmentDetailsVC: UIViewController {
     
     
     //MARK: - Main Views Declaration
-    private let entertainmentTrailer: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "testImage")
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-//    private let entertainmentTrailer: WKWebView = {
-//        let webView = WKWebView()
-//        webView.translatesAutoresizingMaskIntoConstraints = false
-////        webView.layer.cornerRadius = 10
-////        webView.clipsToBounds = true
-//        return webView
-//    }()
     
+    private let entertainmentTrailer: WKWebView = {
+        let webView = WKWebView()
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        return webView
+    }()
     
     
     private let containterScrollView: UIScrollView = {
@@ -459,6 +473,6 @@ class EntertainmentDetailsVC: UIViewController {
         return table
     }()
     
-    var trailers: [Entertainment] = [Entertainment]()
+    var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
     
 }
