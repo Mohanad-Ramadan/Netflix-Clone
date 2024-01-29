@@ -8,6 +8,14 @@
 import Foundation
 
 
+//MARK: - APIError
+enum APIError: Error {
+    case failedToGetData, failedToDecodeData, invalidURL
+}
+
+
+
+//MARK: - APICaller
 class APICaller {
     static let shared = APICaller()
     
@@ -167,28 +175,6 @@ class APICaller {
         task.resume()
     }
     
-    func getYoutubeTrailer(query: String,complition: @escaping (Result<VideoObject, Error>) -> Void){
-        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
-        guard let url = URL(string: Constants.youtubeURL + query) else {
-            return
-        }
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _ , error in
-            guard let data = data, error == nil else {
-                return
-            }
-            
-            do {
-                let result = try JSONDecoder().decode(YoutubeResponse.self, from: data)
-                complition(.success(result.items[0]))
-            } catch {
-                complition(.failure(APIError.failedToGetData))
-                print(String(describing: error))
-            }
-            
-        }
-        task.resume()
-    }
-    
     func getImages(mediaType: String, id: Int, completion: @escaping (Result<EntertainmentImage, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)") else {
             completion(.failure(APIError.invalidURL))
@@ -284,13 +270,27 @@ class APICaller {
         }.resume()
     }
     
+    func getYoutubeVideos(query: String,complition: @escaping (Result<String, Error>) -> Void){
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
+        guard let url = URL(string: Constants.youtubeURL + query) else {
+            return
+        }
+        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, _ , error in
+            guard let data = data, error == nil else {
+                return
+            }
+            
+            do {
+                let result = try JSONDecoder().decode(YoutubeResponse.self, from: data)
+                complition(.success(result.items[0].id.videoId))
+            } catch {
+                complition(.failure(APIError.failedToGetData))
+                print(String(describing: error))
+            }
+            
+        }
+        task.resume()
+    }
     
-}
-
-
-
-//MARK: - APIError
-enum APIError: Error {
-    case failedToGetData, failedToDecodeData, invalidURL
 }
 

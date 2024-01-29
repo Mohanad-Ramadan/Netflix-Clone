@@ -9,6 +9,6 @@ import Foundation
 
 struct MovieInfoViewModel {
     let title: String
-    let youtubeVideo: VideoObject
+    let youtubeVideo: YoutubeResponse.VideoObject
     let titleOverview: String
 }

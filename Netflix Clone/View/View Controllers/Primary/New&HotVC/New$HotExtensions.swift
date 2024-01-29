@@ -148,12 +148,11 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     let videos = fetchedVideos.returnYoutubeTrailers()
                     
                     // View Model congfigur
-                    let viewModel = MovieViewModel(vedioResults: videos)
+                    let viewModel = MovieViewModel(title: entertainment.title ,videosResult: videos)
                     vc.configureVideos(with: viewModel)
                     
                 case .failure(let failure):
-                    print("Error getting Vedios:", failure)
-                    
+                    print("Error getting Vedios:", failure)   
                 }
             }
         }

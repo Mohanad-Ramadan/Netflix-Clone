@@ -31,6 +31,6 @@ struct MovieViewModel {
     var director: String?
     
     // Trailers Parameter
-    var vedioResults: [Trailer.Reuslts]?
+    var videosResult: [Trailer.Reuslts]?
     
 }

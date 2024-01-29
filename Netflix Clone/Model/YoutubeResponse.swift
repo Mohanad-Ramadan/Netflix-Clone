@@ -10,13 +10,15 @@ import Foundation
 
 struct YoutubeResponse: Codable {
     let items: [VideoObject]
+    
+    struct VideoObject: Codable {
+        let id: IdObject
+        
+        struct IdObject: Codable {
+            let videoId: String
+        }
+    }
 }
 
-struct VideoObject: Codable {
-    let id: IdObjects
-}
 
-struct IdObjects: Codable {
-    let kind: String
-    let videoId: String
-}
+
