@@ -101,6 +101,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let vc = EntertainmentDetailsVC()
         let entertainment = entertainments[indexPath.row]
         
         APICaller.shared.getDetails(mediaType: "movie" , id: entertainment.id) { (result: Result<MovieDetail, Error>) in
@@ -112,12 +113,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     
                     // View Model congfigur
                     let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: "movie" ,releaseDate: detail.releaseDate)
-                    
-                    // Push to VC
-                    let vc = EntertainmentDetailsVC()
-                    vc.configureModelViewDetails(with: viewModel)
-                    vc.hidesBottomBarWhenPushed = true
-                    self.navigationController?.present(vc, animated: true)
+                    vc.configureDetails(with: viewModel)
                     
                 case .failure(let failure):
                     print("Error getting details:",failure)
@@ -125,20 +121,28 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        APICaller.shared.getCast(mediaType: "movie", id: entertainment.id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedCast):
+                    // logo
+                    let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
+                    let director = fetchedCast.returnDirector()
+                    
+                    // View Model congfigur
+                    let viewModel = MovieViewModel(cast: cast, director: director)
+                    vc.configureCast(with: viewModel)
+                    
+                case .failure(let failure):
+                    print("Error getting Cast:", failure)
+                    
+                }
+            }
+        }
         
         
-        
-//        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
-//            switch result {
-//            case .success(let videoElement):
-//                DispatchQueue.main.async { [weak self] in
-//                    
-//                }
-//            case .failure(let failure):
-//                print(failure.localizedDescription)
-//            }
-//        }
-        
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.present(vc, animated: true)
     }
     
     

@@ -17,5 +17,6 @@ struct MovieViewModel {
     var category: String?
     var mediaType: String?
     var releaseDate: String?
-    
+    var cast: String?
+    var director: String?
 }

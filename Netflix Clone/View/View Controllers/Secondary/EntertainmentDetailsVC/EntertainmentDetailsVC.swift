@@ -25,6 +25,7 @@ class EntertainmentDetailsVC: UIViewController {
             playButton,
             overViewLabel,
             castLabel,
+            expandCastButton,
             directorLabel,
             threeButtons,
             viewSwitchButtons
@@ -71,7 +72,7 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     //MARK: - Configure EntertainmentDetailsVC Method
-    public func configureModelViewDetails(with model: MovieViewModel){
+    public func configureDetails(with model: MovieViewModel){
         entertainmentTitle.text = model.title
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
@@ -82,6 +83,11 @@ class EntertainmentDetailsVC: UIViewController {
 //        }
 
 //        webView.load(URLRequest(url: url))
+    }
+    
+    public func configureCast(with model: MovieViewModel){
+        castLabel.text = model.cast
+        directorLabel.text = model.director
     }
     
     //MARK: - Main Views constraints
@@ -160,8 +166,16 @@ class EntertainmentDetailsVC: UIViewController {
     private func castLabelConstriants() {
         castLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
         castLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        castLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+//        castLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        castLabel.widthAnchor.constraint(equalTo: castLabel.widthAnchor).isActive = true
     }
+    
+    // Expand cast button Constraints
+    private func expandCastButtonConstriants() {
+        expandCastButton.centerYAnchor.constraint(equalTo: castLabel.centerYAnchor).isActive = true
+        expandCastButton.leadingAnchor.constraint(equalTo: castLabel.trailingAnchor).isActive = true
+    }
+
     
     // Director Label Constriatns
     private func directorLabelConstriants() {
@@ -248,6 +262,7 @@ class EntertainmentDetailsVC: UIViewController {
         playButtonConstriants()
         overViewLabelConstriants()
         castLabelConstriants()
+        expandCastButtonConstriants()
         directorLabelConstriants()
         threeButtonsConstriants()
         viewSwitchButtonsConstriants()
@@ -376,20 +391,28 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let castLabel: UILabel = {
         let label = UILabel()
-        let fullText = "Cast: Arthur Curry, Orm Marius, David Kane" + " ... more"
-        
-        let attributedString = NSMutableAttributedString(string: fullText)
-        let lightFont = UIFont.systemFont(ofSize: 12, weight: .light)
-        let boldFont = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        
-        attributedString.addAttribute(.font, value: lightFont, range: NSRange(location: 0, length: fullText.count - 9))
-        attributedString.addAttribute(.font, value: boldFont, range: NSRange(location: fullText.count - 9, length: 9))
-        
-        label.attributedText = attributedString
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
         label.textColor = .lightGray
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private let expandCastButton: UIButton = {
+        let button = UIButton()
+        var configuration = UIButton.Configuration.plain()
+        configuration.title = " ... more"
+        configuration.baseBackgroundColor = .black
+        configuration.baseForegroundColor = .lightGray
+        configuration.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+            return outgoing
+        }
+        button.configuration = configuration
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     private let directorLabel: UILabel = {

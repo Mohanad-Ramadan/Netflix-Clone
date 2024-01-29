@@ -1,5 +1,5 @@
 //
-//  Extensions.swift
+//  Extensions&Protocols.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 12/10/2023.

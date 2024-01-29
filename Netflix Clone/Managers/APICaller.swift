@@ -212,6 +212,30 @@ class APICaller {
             }
         }.resume()
     }
+    
+    func getCast(mediaType: String, id: Int, completion: @escaping (Result<Cast, Error>) -> Void) {
+        guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/credits\(Constants.apiKey)") else {
+            completion(.failure(APIError.invalidURL))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
+            guard let data = data, error == nil else {
+                completion(.failure(error ?? APIError.failedToGetData))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                
+                let result = try decoder.decode(Cast.self, from: data)
+                completion(.success(result))
+            } catch {
+                completion(.failure(APIError.failedToDecodeData))
+            }
+        }.resume()
+    }
 
     func getDetails<T: Decodable>(mediaType: String, id: Int, completion: @escaping (Result<T, Error>) -> Void) {
         guard let detailsURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)\(Constants.apiKey)") else {
@@ -231,7 +255,7 @@ class APICaller {
                 let result = try decoder.decode(T.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(error))
+                completion(.failure(APIError.failedToDecodeData))
             }
         }.resume()
     }
