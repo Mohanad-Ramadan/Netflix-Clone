@@ -25,13 +25,13 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        let entertainment = entertainments[indexPath.row]
-        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
-        
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        
+//        collectionView.deselectItem(at: indexPath, animated: true)
+//        
+//        let entertainment = entertainments[indexPath.row]
+//        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
+//        
 //        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
 //            switch result {
 //            case .success(let videoElement):
@@ -48,7 +48,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
 //                print(failure.localizedDescription)
 //            }
 //        }
-    }
+//    }
     
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {

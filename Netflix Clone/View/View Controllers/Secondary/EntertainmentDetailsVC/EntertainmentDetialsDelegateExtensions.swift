@@ -54,7 +54,7 @@ extension EntertainmentDetailsVC: UICollectionViewDelegate, UICollectionViewData
 //MARK: - TableView Delegate
 extension EntertainmentDetailsVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return trailers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,34 +63,14 @@ extension EntertainmentDetailsVC: UITableViewDelegate, UITableViewDataSource{
             return UITableViewCell()
         }
         
-//        let entertainment = entertainments[indexPath.row]
-        
-//        let mediaType = entertainment.mediaType!
-//        let mediaId = entertainment.id
-//        let mediaTitle = entertainment.mediaType == "movie" ? entertainment.title : entertainment.originalName
-//        
-//        APICaller.shared.getImages(mediaType: mediaType, id: mediaId) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let fetchedImages):
-//                    // backdrop
-//                    guard let backdrop = fetchedImages.backdrops.first,
-//                          !backdrop.filePath.isEmpty else { return }
-//                    let backdropPath = backdrop.filePath
-//
-//                    // cell configuration
-//                    cell.configureCell(with: MovieViewModel(title: mediaTitle ,backdropsPath: backdropPath))
-//                case .failure(let failure):
-//                    print("Error getting images:", failure)
-//                }
-//            }
-//        }
-        
+        let videoInfo = trailers[indexPath.row]
+        guard let titleText = entertainmentName else { return UITableViewCell() }
+        cell.configureCell(with: videoInfo, and: titleText)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return 280
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

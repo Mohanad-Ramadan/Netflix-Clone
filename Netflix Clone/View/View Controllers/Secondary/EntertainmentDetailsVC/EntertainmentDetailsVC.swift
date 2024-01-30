@@ -77,6 +77,9 @@ class EntertainmentDetailsVC: UIViewController {
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
         detailsLabel.text = model.releaseDate
+        
+        // pass the entertainment to trailer tableView cell
+        entertainmentName = model.title
     }
     
     public func configureCast(with model: MovieViewModel){
@@ -86,7 +89,6 @@ class EntertainmentDetailsVC: UIViewController {
     
     
     //MARK: - Videos Configuration
-    
     private func getTrailerName(from videosResult: [Trailer.Reuslts] ) -> String {
         let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
         let trialerQuery = trailerInfo.map { $0.name }[0]
@@ -94,8 +96,7 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     public func configureVideos(with model: MovieViewModel){
-        
-        //Trailer Configuration
+        // Trailer Configuration
         guard let videosResult = model.videosResult else {return}
         guard let entertainmentName = model.title else {return}
         
@@ -115,8 +116,9 @@ class EntertainmentDetailsVC: UIViewController {
             }
         }
         
-        //Trailer & More Configuration
-        
+        // Trailer & More Configuration
+        trailers = videosResult.filter {$0.type != "Trailer"}
+        trailerVideosCount = trailers.count
         
     }
     
@@ -248,7 +250,7 @@ class EntertainmentDetailsVC: UIViewController {
             trailerTable.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
             trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
             trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
-            trailerTable.heightAnchor.constraint(equalToConstant: 260*3),
+            trailerTable.heightAnchor.constraint(equalToConstant: 290*CGFloat(trailerVideosCount ?? 0)),
             trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor),
         ]
         
@@ -467,6 +469,8 @@ class EntertainmentDetailsVC: UIViewController {
         table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
         table.separatorStyle = .none
         table.backgroundColor = .black
+        table.separatorStyle = .none
+        table.allowsSelection = false
         table.isScrollEnabled = false
         table.showsVerticalScrollIndicator = false
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -474,5 +478,7 @@ class EntertainmentDetailsVC: UIViewController {
     }()
     
     var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
+    var trailerVideosCount: Int?
+    var entertainmentName: String?
     
 }
