@@ -14,7 +14,6 @@ struct Cast: Codable, CastSeparatable, ReturnDirector{
     
     struct Actors: Codable {
         let name: String
-        let order: Int
     }
     
     struct Crew: Codable {
@@ -28,7 +27,7 @@ struct Cast: Codable, CastSeparatable, ReturnDirector{
     }
     
     func returnThreeCastSeperated(with: String) -> String {
-        let castNames = cast.filter { $0.order < 3 }
+        let castNames = cast.prefix(3)
         let threeCast = castNames.map { $0.name }
         return "Cast: " + threeCast.joined(separator: with)
     }

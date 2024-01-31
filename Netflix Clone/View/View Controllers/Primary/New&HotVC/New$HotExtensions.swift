@@ -102,9 +102,13 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let vc = EntertainmentDetailsVC()
+        
         let entertainment = entertainments[indexPath.row]
         
-        APICaller.shared.getDetails(mediaType: "movie" , id: entertainment.id) { (result: Result<MovieDetail, Error>) in
+        guard let mediaType = entertainment.mediaType else {return}
+        let id = entertainment.id
+        
+        APICaller.shared.getDetails(mediaType: mediaType , id: id) { (result: Result<MovieDetail, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedDetials):
@@ -112,7 +116,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     let detail = fetchedDetials
                     
                     // View Model congfigur
-                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: "movie" ,releaseDate: detail.releaseDate)
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate)
                     vc.configureDetails(with: viewModel)
                     
                 case .failure(let failure):
@@ -121,7 +125,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        APICaller.shared.getCast(mediaType: "movie", id: entertainment.id) { result in
+        APICaller.shared.getCast(mediaType: mediaType, id: id) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedCast):
@@ -140,7 +144,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        APICaller.shared.getVedios(mediaType: "movie", id: entertainment.id) { result in
+        APICaller.shared.getVedios(mediaType: mediaType, id: id) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedVideos):

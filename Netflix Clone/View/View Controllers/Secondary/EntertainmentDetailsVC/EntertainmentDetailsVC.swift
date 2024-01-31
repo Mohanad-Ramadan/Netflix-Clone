@@ -63,12 +63,6 @@ class EntertainmentDetailsVC: UIViewController {
     public func configureVCDetails(with model: MovieInfoViewModel){
         entertainmentTitle.text = model.title
         overViewLabel.text = model.titleOverview
-
-//        guard let url = URL(string: "https://www.youtube.com/embed/\(model.youtubeVideo.id.videoId)") else {
-//            fatalError("can't get the youtube trailer url")
-//        }
-
-//        webView.load(URLRequest(url: url))
     }
     
     //MARK: - Configure EntertainmentDetailsVC Method
@@ -89,7 +83,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     
     //MARK: - Videos Configuration
-    private func getTrailerName(from videosResult: [Trailer.Reuslts] ) -> String {
+    private func getFirstTrailerName(from videosResult: [Trailer.Reuslts] ) -> String {
         let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
         let trialerQuery = trailerInfo.map { $0.name }[0]
         return trialerQuery
@@ -100,7 +94,7 @@ class EntertainmentDetailsVC: UIViewController {
         guard let videosResult = model.videosResult else {return}
         guard let entertainmentName = model.title else {return}
         
-        let trialerVideoQuery = "\(entertainmentName) \(getTrailerName(from: videosResult))"
+        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
         
         APICaller.shared.getYoutubeVideos(query: trialerVideoQuery) { result in
             DispatchQueue.main.async {
@@ -115,9 +109,9 @@ class EntertainmentDetailsVC: UIViewController {
                 }
             }
         }
-        
-        // Trailer & More Configuration
-        trailers = videosResult.filter {$0.type != "Trailer"}
+
+        // pass th videos without the one taken for the entertainmentTrailer webView
+        trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
         trailerVideosCount = trailers.count
         
     }
