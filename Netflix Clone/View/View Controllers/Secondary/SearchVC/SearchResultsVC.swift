@@ -117,6 +117,6 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource{
 
 
 protocol SearchResultsVCDelegate: AnyObject {
-    func searchResultsDidTapped(_ viewModel: MovieInfoViewModel)
+    func searchResultsDidTapped(_ viewModel: MovieViewModel)
 }
 

@@ -1,5 +1,5 @@
 //
-//  EntertainmentImage.swift
+//  Image.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 01/01/2024.
@@ -8,8 +8,8 @@
 import Foundation
 
 
-// MARK: - EntertainmentImage
-struct EntertainmentImage: Codable {
+// MARK: - Image
+struct Image: Codable {
     let logos: [ImageDetails]
     let backdrops: [ImageDetails]
 }

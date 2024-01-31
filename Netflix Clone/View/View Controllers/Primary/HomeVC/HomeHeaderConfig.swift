@@ -33,7 +33,7 @@ extension HomeVC {
         }
     }
     
-    private func configureHeader(with fetchedImages: EntertainmentImage, for movie: Entertainment) {
+    private func configureHeader(with fetchedImages: Image, for movie: Entertainment) {
         let logoPath = getLogoPath(from: fetchedImages)
         let backdropPath = getBackdropPath(from: fetchedImages)
         
@@ -59,7 +59,7 @@ extension HomeVC {
         }
     }
     
-    private func getLogoPath(from fetchedImages: EntertainmentImage) -> String {
+    private func getLogoPath(from fetchedImages: Image) -> String {
         let logos = fetchedImages.logos
         if let englishLogo = logos.first(where: { $0.iso6391 == "en" }) {
             return englishLogo.filePath
@@ -70,7 +70,7 @@ extension HomeVC {
         }
     }
     
-    private func getBackdropPath(from fetchedImages: EntertainmentImage) -> String {
+    private func getBackdropPath(from fetchedImages: Image) -> String {
         let backdrop = fetchedImages.backdrops.sorted(by: {$0.voteAverage > $1.voteAverage})[0]
         return backdrop.filePath
     }

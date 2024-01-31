@@ -66,7 +66,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - CellTapedAction extension
 
 extension HomeVC :HomeTableViewCellDelegate {
-    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieInfoViewModel) {
+    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieViewModel) {
         
         DispatchQueue.main.async { [weak self] in
             let vc = EntertainmentDetailsVC()

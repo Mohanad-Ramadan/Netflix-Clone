@@ -119,7 +119,7 @@ extension SearchVC: SearchResultsVCDelegate , UISearchResultsUpdating , UISearch
         }
     }
     
-    func searchResultsDidTapped(_ viewModel: MovieInfoViewModel) {
+    func searchResultsDidTapped(_ viewModel: MovieViewModel) {
         DispatchQueue.main.async { [weak self] in
             let vc = EntertainmentDetailsVC()
             vc.configureVCDetails(with: viewModel)

@@ -23,11 +23,13 @@ extension NewAndHotVC {
         fetchData()
         NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.categoryNewHotVCKey), object: nil, queue: nil) { _ in
             self.fetchData()
+            
+            // Scroll to top again
+            self.newAndHotTable.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
         }
     }
     
     func fetchData(){
-        
         let selectedButton = categoryButtonsBar.selectedButtonIndex
         
         switch selectedButton {
@@ -43,6 +45,7 @@ extension NewAndHotVC {
                     print(error.localizedDescription)
                 }
             }
+            
         case ButtonTapped.everyoneWatching.rawValue:
             APICaller.shared.getTrending { results in
                 switch results {

@@ -55,11 +55,11 @@ class TrailersTableViewCell: UITableViewCell {
             trailerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trailerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             trailerView.heightAnchor.constraint(equalToConstant: 230),
-            trailerView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            trailerView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -10),
             
             // TrailerTitle Constraints
             trailerTitle.topAnchor.constraint(equalTo: trailerView.bottomAnchor, constant: 10),
-            trailerTitle.leadingAnchor.constraint(equalTo: trailerView.leadingAnchor, constant: 5)
+            trailerTitle.leadingAnchor.constraint(equalTo: trailerView.leadingAnchor)
             
         ])
     }
@@ -67,7 +67,8 @@ class TrailersTableViewCell: UITableViewCell {
     private let trailerView: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
-        webView.layer.cornerRadius = 8
+        webView.layer.cornerRadius = 5
+        webView.clipsToBounds = true
         return webView
     }()
     
@@ -75,7 +76,7 @@ class TrailersTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "Teaser: Sixty wings"
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 14, weight: .regular)
+        label.font = .systemFont(ofSize: 14, weight: .semibold)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

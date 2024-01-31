@@ -68,5 +68,5 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
 //MARK: - cellTapped method in protocol
 
 protocol HomeTableViewCellDelegate: AnyObject {
-    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieInfoViewModel)
+    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieViewModel)
 }

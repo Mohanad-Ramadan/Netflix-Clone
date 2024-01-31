@@ -175,7 +175,7 @@ class APICaller {
         task.resume()
     }
     
-    func getImages(mediaType: String, id: Int, completion: @escaping (Result<EntertainmentImage, Error>) -> Void) {
+    func getImages(mediaType: String, id: Int, completion: @escaping (Result<Image, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)") else {
             completion(.failure(APIError.invalidURL))
             return
@@ -191,7 +191,7 @@ class APICaller {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
-                let result = try decoder.decode(EntertainmentImage.self, from: data)
+                let result = try decoder.decode(Image.self, from: data)
                 completion(.success(result))
             } catch {
                 completion(.failure(APIError.failedToDecodeData))

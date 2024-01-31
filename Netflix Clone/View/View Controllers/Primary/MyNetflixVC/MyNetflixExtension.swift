@@ -43,7 +43,7 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - CellTapedAction extension
 
 extension MyNetflixVC :MyNetflixTableViewCellDelegate {
-    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, viewModel: MovieInfoViewModel) {
+    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, viewModel: MovieViewModel) {
         
         DispatchQueue.main.async { [weak self] in
             let vc = EntertainmentDetailsVC()

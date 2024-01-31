@@ -60,9 +60,9 @@ class EntertainmentDetailsVC: UIViewController {
         }
     }
     
-    public func configureVCDetails(with model: MovieInfoViewModel){
+    public func configureVCDetails(with model: MovieViewModel){
         entertainmentTitle.text = model.title
-        overViewLabel.text = model.titleOverview
+        overViewLabel.text = model.overview
     }
     
     //MARK: - Configure EntertainmentDetailsVC Method

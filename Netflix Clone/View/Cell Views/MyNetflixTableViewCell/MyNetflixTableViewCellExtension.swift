@@ -25,12 +25,12 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
     }
     
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        let entertainment = entertainments[indexPath.row]
-        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
-        
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        collectionView.deselectItem(at: indexPath, animated: true)
+//        
+//        let entertainment = entertainments[indexPath.row]
+//        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
+//        
 //        APICaller.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
 //            switch result {
 //            case .success(let videoElement):
@@ -47,13 +47,13 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
 //                print(failure.localizedDescription)
 //            }
 //        }
-    }
+//    }
     
 }
 
 //MARK: - cellTapped method in protocol
 
 protocol MyNetflixTableViewCellDelegate: AnyObject {
-    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, viewModel: MovieInfoViewModel)
+    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, viewModel: MovieViewModel)
 }
 
