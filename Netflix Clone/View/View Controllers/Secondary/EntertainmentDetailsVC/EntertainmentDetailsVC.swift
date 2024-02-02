@@ -20,8 +20,8 @@ class EntertainmentDetailsVC: UIViewController {
             categoryLabel,
             entertainmentTitle,
             detailsLabel,
-            categoryLogo,
-            categoryDetailsLabel,
+            top10Logo,
+            top10DetailsLabel,
             playButton,
             overViewLabel,
             castLabel,
@@ -42,7 +42,6 @@ class EntertainmentDetailsVC: UIViewController {
         
         fetchMoreEntertainment()
         
-        
         layoutViews()
     }
     
@@ -50,7 +49,7 @@ class EntertainmentDetailsVC: UIViewController {
         APICaller.shared.getTrending { [weak self] results in
             switch results {
             case .success(let entertainments):
-                self?.moreEntertainments = entertainments.shuffled()
+                self?.moreEntertainments = entertainments.prefix(6).shuffled()
                 DispatchQueue.main.async {
                     self?.moreIdeasCollection.reloadData()
                 }
@@ -60,6 +59,8 @@ class EntertainmentDetailsVC: UIViewController {
         }
     }
     
+    
+    //MARK: - delete when finished developing the VC and replace method callers for this one
     public func configureVCDetails(with model: MovieViewModel){
         entertainmentTitle.text = model.title
         overViewLabel.text = model.overview
@@ -76,6 +77,14 @@ class EntertainmentDetailsVC: UIViewController {
         detailsLabel.dateLabel.text = model.releaseDate?.extract().year
         detailsLabel.runtimeLabel.text = model.runtime?.formatTimeFromMinutes()
         
+        // If entertainment is trending
+        if model.isTrending == false {
+            removeTop10RowView()
+        } else {
+            let rank = model.rank!
+            let mediaCategory = model.mediaType == "movie" ? "Movies" : "Tv Shows"
+            top10DetailsLabel.text = "#\(rank) in \(mediaCategory) Today"
+        }
         
         // pass the entertainment to trailer tableView cell
         entertainmentName = model.title
@@ -88,7 +97,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     
     //MARK: - Videos Configuration
-    private func getFirstTrailerName(from videosResult: [Trailer.Reuslts] ) -> String {
+    private func getFirstTrailerName(from videosResult: [Trailer.Reuslts]) -> String {
         let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
         let trialerQuery = trailerInfo.map { $0.name }[0]
         return trialerQuery
@@ -170,20 +179,20 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     // View based on Category Constriants
-    private func categoryLogoAndDetailsConstraints() {
-        categoryLogo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
-        categoryLogo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
-        categoryLogo.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        categoryLogo.widthAnchor.constraint(equalToConstant: 35).isActive = true
+    private func top10LogoAndDetailsConstraints() {
+        top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
+        top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
+        top10Logo.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        top10Logo.widthAnchor.constraint(equalToConstant: 35).isActive = true
         
-        categoryDetailsLabel.centerYAnchor.constraint(equalTo: categoryLogo.centerYAnchor).isActive = true
-        categoryDetailsLabel.leadingAnchor.constraint(equalTo: categoryLogo.trailingAnchor, constant: 5).isActive = true
-        categoryDetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor).isActive = true
+        top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor).isActive = true
+        top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // Details Label Constraints
     private func playButtonConstriants() {
-        playButton.topAnchor.constraint(equalTo: categoryLogo.bottomAnchor, constant: 5).isActive = true
+        playButton.topAnchor.constraint(equalTo: top10Logo.bottomAnchor, constant: 5).isActive = true
         playButton.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         playButton.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
@@ -199,7 +208,6 @@ class EntertainmentDetailsVC: UIViewController {
     private func castLabelConstriants() {
         castLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
         castLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-//        castLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
         castLabel.widthAnchor.constraint(equalTo: castLabel.widthAnchor).isActive = true
     }
     
@@ -276,7 +284,25 @@ class EntertainmentDetailsVC: UIViewController {
         }
     }
     
-    private func layoutSwitchedViews() {
+    // remove top10Row view if entertainment tapped is not trending
+    func removeTop10RowView(){
+        top10DetailsLabel.removeFromSuperview()
+        top10DetailsLabel.removeConstraints([
+            top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor),
+            top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor, constant: 5),
+            top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5)
+        ])
+        
+        top10Logo.removeFromSuperview()
+        top10Logo.removeConstraints([
+            top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor),
+            top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor),
+            top10Logo.heightAnchor.constraint(equalToConstant: 35),
+            top10Logo.widthAnchor.constraint(equalToConstant: 35)
+        ])
+    }
+    
+    private func applySwitchedViewsAndConstraints() {
         switchedViewsLayout()
         // Layout the views again
         NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.entertainmentVCKey), object: nil, queue: nil) { _ in
@@ -291,7 +317,7 @@ class EntertainmentDetailsVC: UIViewController {
         neflixlogoAndGenresLabelConstriants()
         entertainmentTitleConstriants()
         detailsLabelConstriants()
-        categoryLogoAndDetailsConstraints()
+        top10LogoAndDetailsConstraints()
         playButtonConstriants()
         overViewLabelConstriants()
         castLabelConstriants()
@@ -299,7 +325,7 @@ class EntertainmentDetailsVC: UIViewController {
         directorLabelConstriants()
         threeButtonsConstriants()
         viewSwitchButtonsConstriants()
-        layoutSwitchedViews()
+        applySwitchedViewsAndConstraints()
     }
     
     
@@ -353,14 +379,14 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let detailsLabel = DetailsLabelUIView()
     
-    private let categoryLogo: UIImageView = {
+    private let top10Logo: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "top10")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private let categoryDetailsLabel: UILabel = {
+    private let top10DetailsLabel: UILabel = {
         let label = UILabel()
         label.text = "#1 in Movies Today"
         label.textColor = .white
@@ -394,7 +420,6 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let overViewLabel: UILabel = {
         let label = UILabel()
-        label.text = "Desperate to keep custody of his daughter, a mixed martial arts fighter abandons a big match and races across Berlin to attend her birthday party."
         label.font = .systemFont(ofSize: 15)
         label.textColor = .white
         label.textAlignment = .left

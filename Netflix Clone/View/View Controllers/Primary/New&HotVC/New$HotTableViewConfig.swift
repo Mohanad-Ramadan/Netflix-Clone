@@ -45,6 +45,8 @@ extension NewAndHotVC {
                     print(error.localizedDescription)
                 }
             }
+            // notify if it is trending category or not
+            isTheTappedEntertainmentTrend = false
             
         case ButtonTapped.everyoneWatching.rawValue:
             APICaller.shared.getTrending { results in
@@ -58,6 +60,9 @@ extension NewAndHotVC {
                     print(error.localizedDescription)
                 }
             }
+            // notify if it is trending category or not
+            isTheTappedEntertainmentTrend = true
+            
         case ButtonTapped.toptenTv.rawValue:
             APICaller.shared.getTrendingTV { results in
                 switch results {
@@ -70,6 +75,9 @@ extension NewAndHotVC {
                     print(error.localizedDescription)
                 }
             }
+            // notify if it is trending category or not
+            isTheTappedEntertainmentTrend = true
+            
         default:
             APICaller.shared.getTrendingMovies { results in
                 switch results {
@@ -82,6 +90,9 @@ extension NewAndHotVC {
                     print(error.localizedDescription)
                 }
             }
+            // notify if it is trending category or not
+            isTheTappedEntertainmentTrend = true
+            
         }
         
     }

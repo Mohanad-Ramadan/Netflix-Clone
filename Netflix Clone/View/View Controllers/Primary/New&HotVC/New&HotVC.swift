@@ -76,6 +76,8 @@ class NewAndHotVC: UIViewController {
     let categoryButtonsBar = NewHotCategoryBarUIView()
     
     var entertainments: [Entertainment] = [Entertainment]()
+    
+    var isTheTappedEntertainmentTrend: Bool?
 
 }
 

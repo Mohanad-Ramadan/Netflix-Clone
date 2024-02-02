@@ -116,7 +116,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     let detail = fetchedDetials
                     
                     // View Model congfigur
-                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime, isTrending: self.isTheTappedEntertainmentTrend , rank: indexPath.row+1)
                     vc.configureDetails(with: viewModel)
                     
                 case .failure(let failure):

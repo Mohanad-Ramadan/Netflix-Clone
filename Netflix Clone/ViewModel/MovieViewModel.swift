@@ -35,4 +35,8 @@ struct MovieViewModel {
     // Trailers Parameter
     var videosResult: [Trailer.Reuslts]?
     
+    // with top trending API only
+    var isTrending: Bool?
+    var rank: Int?
+    
 }
