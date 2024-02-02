@@ -105,7 +105,7 @@ class NewHotCategoryBarUIView: UIView {
             // Button 1
             comingSoonButton.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             comingSoonButton.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor),
-            comingSoonButton.heightAnchor.constraint(equalTo: comingSoonButton.heightAnchor),
+            comingSoonButton.heightAnchor.constraint(equalToConstant: 35),
 
             // Button 2
             everyoneWatchingButton.leadingAnchor.constraint(equalTo: comingSoonButton.trailingAnchor, constant: 10),
@@ -139,7 +139,7 @@ class NewHotCategoryBarUIView: UIView {
             return outgoing
         }
         
-        configuration.image = image!.sd_resizedImage(with: CGSize(width: 20, height: 20), scaleMode: .aspectFit)
+        configuration.image = image
         configuration.imagePlacement = .leading
         configuration.imagePadding = 8
         
@@ -158,10 +158,10 @@ class NewHotCategoryBarUIView: UIView {
         return scrollView
     }()
     
-    private lazy var comingSoonButton: UIButton = createButton(title: "Coming Soon", image: UIImage(named: "popcorn"))
-    private lazy var everyoneWatchingButton: UIButton = createButton(title: "Everyone's Watching", image: UIImage(named: "fire"))
-    private lazy var toptenTvShowsButton: UIButton = createButton(title: "Top 10 TV Shows", image: UIImage(named: "top10"))
-    private lazy var toptenMoviesButton: UIButton = createButton(title: "Top 10 Movies", image: UIImage(named: "top10"))
+    private lazy var comingSoonButton: UIButton = createButton(title: "Coming Soon", image: UIImage(named: "popcorn")?.sd_resizedImage(with: CGSize(width: 20, height: 20), scaleMode: .aspectFit))
+    private lazy var everyoneWatchingButton: UIButton = createButton(title: "Everyone's Watching", image: UIImage(named: "fire")?.sd_resizedImage(with: CGSize(width: 20, height: 20), scaleMode: .aspectFit))
+    private lazy var toptenTvShowsButton: UIButton = createButton(title: "Top 10 TV Shows", image: UIImage(named: "top10")?.sd_resizedImage(with: CGSize(width: 30, height: 30), scaleMode: .aspectFit))
+    private lazy var toptenMoviesButton: UIButton = createButton(title: "Top 10 Movies", image: UIImage(named: "top10")?.sd_resizedImage(with: CGSize(width: 30, height: 30), scaleMode: .aspectFit))
     
     private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
     

@@ -14,11 +14,15 @@ extension String {
         return self.prefix(1).uppercased() + self.lowercased().dropFirst()
     }
     
-    func extractMonthAndDay() -> (month: String, day: String, dayMonth: String) {
+    func extract() -> (month: String, day: String, dayMonth: String, year: String) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-M-dd"
         
-        guard let date = dateFormatter.date(from: self) else {return (month: "N/A", day: "N/A", dayMonth: "N/A")}
+        guard let date = dateFormatter.date(from: self) else {return (month: "N/A", day: "N/A", dayMonth: "N/A", year: "N/A")}
+        
+        let yearFormatter = DateFormatter()
+        yearFormatter.dateFormat = "yyyy"
+        let year = yearFormatter.string(from: date)
         
         let monthNameFormatter = DateFormatter()
         monthNameFormatter.dateFormat = "MMMM"
@@ -34,7 +38,7 @@ extension String {
         
         let dayMonth = "\(day) \(month)"
         
-        return (month: shortMonth, day: day, dayMonth: dayMonth )
+        return (month: shortMonth, day: day, dayMonth: dayMonth, year: year )
     }
     
     func whenItBeLiveText(modelFullDate fullDate: String) -> String {
@@ -53,7 +57,41 @@ extension String {
         }
     }
     
+    func isNewRelease() -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-M-dd"
+        
+        if let releaseDate = dateFormatter.date(from: self) {
+            let currentDate = Date()
+            let calendar = Calendar.current
+            
+            if let daysDifference = calendar.dateComponents([.day], from: releaseDate, to: currentDate).day {
+                return daysDifference <= 30
+            }
+        }
+        
+        return false
+    }
+    
 }
+
+
+//MARK: - Int Extension
+extension Int {
+    
+    func formatTimeFromMinutes() -> String {
+        let hours = self / 60
+        let minutes = self % 60
+        
+        if hours > 0 {
+            return String(format: "%dh %02dm", hours, minutes)
+        } else {
+            return String(format: "%dm", minutes)
+        }
+    }
+    
+}
+
 
 //MARK: - UIColor Extension
 extension UIColor {

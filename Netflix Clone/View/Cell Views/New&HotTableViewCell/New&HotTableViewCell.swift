@@ -326,10 +326,10 @@ class NewAndHotTableViewCell: UITableViewCell {
         genresLabel.text = model.category
         
         if let date = model.releaseDate {
-            let dayMonthDate = date.extractMonthAndDay().dayMonth
+            let dayMonthDate = date.extract().dayMonth
             entertainmentDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
-            dayLabel.text = date.extractMonthAndDay().day
-            monthlable.text = date.extractMonthAndDay().month
+            dayLabel.text = date.extract().day
+            monthlable.text = date.extract().month
         }
     }
     

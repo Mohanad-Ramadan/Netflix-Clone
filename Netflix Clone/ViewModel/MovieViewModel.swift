@@ -12,6 +12,7 @@ struct MovieViewModel {
     // Basic Parameter
     var title: String?
     var overview: String?
+    var id: Int?
     var posterPath: String?
     
     // Logo Parameter
@@ -25,6 +26,7 @@ struct MovieViewModel {
     var category: String?
     var mediaType: String?
     var releaseDate: String?
+    var runtime: Int?
     
     // Casting Parameter
     var cast: String?

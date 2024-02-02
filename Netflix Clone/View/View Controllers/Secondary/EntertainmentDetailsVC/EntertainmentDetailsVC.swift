@@ -50,7 +50,7 @@ class EntertainmentDetailsVC: UIViewController {
         APICaller.shared.getTrending { [weak self] results in
             switch results {
             case .success(let entertainments):
-                self?.moreEntertainments = entertainments
+                self?.moreEntertainments = entertainments.shuffled()
                 DispatchQueue.main.async {
                     self?.moreIdeasCollection.reloadData()
                 }
@@ -70,7 +70,12 @@ class EntertainmentDetailsVC: UIViewController {
         entertainmentTitle.text = model.title
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
-        detailsLabel.text = model.releaseDate
+        
+        // details label UIView configuration
+        detailsLabel.newLabel.text = model.releaseDate?.isNewRelease() ?? false ? "New" : String()
+        detailsLabel.dateLabel.text = model.releaseDate?.extract().year
+        detailsLabel.runtimeLabel.text = model.runtime?.formatTimeFromMinutes()
+        
         
         // pass the entertainment to trailer tableView cell
         entertainmentName = model.title
@@ -157,17 +162,19 @@ class EntertainmentDetailsVC: UIViewController {
     
     // Details Label Constraints
     private func detailsLabelConstriants() {
-        detailsLabel.topAnchor.constraint(equalTo: entertainmentTitle.bottomAnchor, constant: 8).isActive = true
-        detailsLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 7).isActive = true
+        detailsLabel.translatesAutoresizingMaskIntoConstraints = false
+        detailsLabel.topAnchor.constraint(equalTo: entertainmentTitle.bottomAnchor).isActive = true
+        detailsLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
+        detailsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         detailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // View based on Category Constriants
     private func categoryLogoAndDetailsConstraints() {
-        categoryLogo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
-        categoryLogo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        categoryLogo.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        categoryLogo.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        categoryLogo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
+        categoryLogo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
+        categoryLogo.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        categoryLogo.widthAnchor.constraint(equalToConstant: 35).isActive = true
         
         categoryDetailsLabel.centerYAnchor.constraint(equalTo: categoryLogo.centerYAnchor).isActive = true
         categoryDetailsLabel.leadingAnchor.constraint(equalTo: categoryLogo.trailingAnchor, constant: 5).isActive = true
@@ -176,7 +183,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     // Details Label Constraints
     private func playButtonConstriants() {
-        playButton.topAnchor.constraint(equalTo: categoryLogo.bottomAnchor, constant: 10).isActive = true
+        playButton.topAnchor.constraint(equalTo: categoryLogo.bottomAnchor, constant: 5).isActive = true
         playButton.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         playButton.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
@@ -301,6 +308,7 @@ class EntertainmentDetailsVC: UIViewController {
     private let entertainmentTrailer: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.scrollView.isScrollEnabled = false
         return webView
     }()
     
@@ -326,7 +334,6 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
-        label.text = "F I L M"
         label.textColor = .lightGray
         label.font = .systemFont(ofSize: 10, weight: .semibold)
         label.textAlignment = .left
@@ -336,7 +343,6 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let entertainmentTitle: UILabel = {
         let label = UILabel()
-        label.text = "Movie Title"
         label.textColor = .white
         label.font = .systemFont(ofSize: 21, weight: .bold)
         label.textAlignment = .left
@@ -345,15 +351,7 @@ class EntertainmentDetailsVC: UIViewController {
         return label
     }()
     
-    private let detailsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "New 2024 1h 29m HD"
-        label.textColor = .white
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let detailsLabel = DetailsLabelUIView()
     
     private let categoryLogo: UIImageView = {
         let imageView = UIImageView()
@@ -463,7 +461,6 @@ class EntertainmentDetailsVC: UIViewController {
         table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
         table.separatorStyle = .none
         table.backgroundColor = .black
-        table.separatorStyle = .none
         table.allowsSelection = false
         table.isScrollEnabled = false
         table.showsVerticalScrollIndicator = false

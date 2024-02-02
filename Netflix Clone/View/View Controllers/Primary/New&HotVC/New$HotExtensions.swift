@@ -63,7 +63,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                         let detailCategory = detail.separateGenres(with: " • ")
                         
                         // cell details configuration
-                        cell.configureCellDetails(with: MovieViewModel(title: detail.originalName, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType))
+                        cell.configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType))
                     case .failure(let failure):
                         print("Error getting details:",failure)
                     }
@@ -116,7 +116,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     let detail = fetchedDetials
                     
                     // View Model congfigur
-                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate)
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
                     vc.configureDetails(with: viewModel)
                     
                 case .failure(let failure):

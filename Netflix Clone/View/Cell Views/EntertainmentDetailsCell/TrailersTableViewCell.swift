@@ -69,6 +69,7 @@ class TrailersTableViewCell: UITableViewCell {
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.layer.cornerRadius = 5
         webView.clipsToBounds = true
+        webView.scrollView.isScrollEnabled = false
         return webView
     }()
     
