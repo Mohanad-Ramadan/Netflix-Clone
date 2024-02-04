@@ -321,7 +321,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     func configureCellDetails(with model: MovieViewModel){
         titleLabel.text = model.title
-        entertainmetType.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
+        entertainmetType.text = model.mediaType == "tv" ? "S E R I E S" : "F I L M"
         overViewLabel.text = model.overview
         genresLabel.text = model.category
         

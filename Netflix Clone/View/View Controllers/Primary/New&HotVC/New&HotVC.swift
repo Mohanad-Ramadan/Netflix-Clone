@@ -64,7 +64,7 @@ class NewAndHotVC: UIViewController {
         
     }
     
-    let newAndHotTable: UITableView = {
+    lazy var newAndHotTable: UITableView = {
         let table = UITableView()
         table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
         table.separatorStyle = .none

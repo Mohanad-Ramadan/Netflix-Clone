@@ -20,9 +20,9 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let movie = entertainments[indexPath.row]
+        let entertainment = entertainments[indexPath.row]
         
-        APICaller.shared.getImages(mediaType: movie.mediaType ?? "movie", id: movie.id) { result in
+        APICaller.shared.getImages(mediaType: entertainment.mediaType ?? "movie", id: entertainment.id) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedImages):
@@ -53,24 +53,24 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        if let mediaType = movie.mediaType,  mediaType == "tv" {
-            APICaller.shared.getDetails(mediaType: mediaType , id: movie.id) { (result: Result<TVDetail, Error>) in
+        if let mediaType = entertainment.mediaType,  mediaType == "tv" {
+            APICaller.shared.getDetails(mediaType: mediaType , id: entertainment.id) { (result: Result<TVDetail, Error>) in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let fetchedDetials):
                         // detail
                         let detail = fetchedDetials
                         let detailCategory = detail.separateGenres(with: " • ")
-                        
+                        print(mediaType)
                         // cell details configuration
-                        cell.configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType))
+                        cell.configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType))
                     case .failure(let failure):
                         print("Error getting details:",failure)
                     }
                 }
             }
         } else {
-            APICaller.shared.getDetails(mediaType: movie.mediaType ?? "movie" , id: movie.id) { (result: Result<MovieDetail, Error>) in
+            APICaller.shared.getDetails(mediaType: entertainment.mediaType ?? "movie" , id: entertainment.id) { (result: Result<MovieDetail, Error>) in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let fetchedDetials):
@@ -79,7 +79,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                         let detailCategory = detail.separateGenres(with: " • ")
                         
                         // cell details configuration
-                        cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: movie.mediaType ,releaseDate: detail.releaseDate))
+                        cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType ,releaseDate: detail.releaseDate))
                         
                     case .failure(let failure):
                         print(
@@ -105,7 +105,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
         
         let entertainment = entertainments[indexPath.row]
         
-        guard let mediaType = entertainment.mediaType else {return}
+        let mediaType = entertainment.mediaType ?? "movie"
         let id = entertainment.id
         
         APICaller.shared.getDetails(mediaType: mediaType , id: id) { (result: Result<MovieDetail, Error>) in
@@ -148,7 +148,7 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let fetchedVideos):
-                    // logo
+                    // YoutubeTrailers
                     let videos = fetchedVideos.returnYoutubeTrailers()
                     
                     // View Model congfigur

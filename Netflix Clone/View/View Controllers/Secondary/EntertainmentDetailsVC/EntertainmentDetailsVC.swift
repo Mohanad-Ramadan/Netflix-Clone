@@ -286,13 +286,13 @@ class EntertainmentDetailsVC: UIViewController {
     
     // remove top10Row view if entertainment tapped is not trending
     func removeTop10RowView(){
+        // remove the top10 row view
         top10DetailsLabel.removeFromSuperview()
         top10DetailsLabel.removeConstraints([
             top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor),
             top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor, constant: 5),
             top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5)
         ])
-        
         top10Logo.removeFromSuperview()
         top10Logo.removeConstraints([
             top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor),
@@ -300,6 +300,9 @@ class EntertainmentDetailsVC: UIViewController {
             top10Logo.heightAnchor.constraint(equalToConstant: 35),
             top10Logo.widthAnchor.constraint(equalToConstant: 35)
         ])
+        
+        // remake the constraints of views depend on top10 layout (playButton View)
+        playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
     }
     
     private func applySwitchedViewsAndConstraints() {
