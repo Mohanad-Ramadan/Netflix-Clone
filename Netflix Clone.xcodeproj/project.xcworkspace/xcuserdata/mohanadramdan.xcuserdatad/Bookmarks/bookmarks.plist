@@ -50,6 +50,99 @@
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>67</string>
+					<key>EndingLineNumber</key>
+					<string>47</string>
+					<key>StartingColumnNumber</key>
+					<string>57</string>
+					<key>StartingLineNumber</key>
+					<string>47</string>
+					<key>Timestamp</key>
+					<string>728949079.114615</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Netflix Clone/View/Cell Views/HomeTableViewCell/HomeTableViewExtension.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>isTrending</string>
+				<key>leading</key>
+				<string>                    // View Model congfigur
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
+                    vc.configureDetails(with: viewModel, </string>
+				<key>trailing</key>
+				<string>: false, rank: trendRank)
+                    
+                case .failure(let failure):
+</string>
+			</dict>
+			<key>title</key>
+			<string>make isTrending Daynamic </string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>26</string>
+					<key>StartingColumnNumber</key>
+					<string>0</string>
+					<key>StartingLineNumber</key>
+					<string>25</string>
+					<key>Timestamp</key>
+					<string>728949214.195022</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Netflix Clone/Model/Cast.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>        return "Director: " + directors[0].name
+</string>
+				<key>leading</key>
+				<string>    func returnDirector() -&gt; String {
+        let directors = crew.filter { $0.job == "Director" }
+</string>
+				<key>trailing</key>
+				<string>    }
+    
+    func returnThreeCastSeperated(with: String) -&gt; String {
+</string>
+			</dict>
+			<key>title</key>
+			<string>Create condition for creator(tv) and director(movie)</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
 	</array>
 </dict>
 </plist>

@@ -25,66 +25,74 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        collectionView.deselectItem(at: indexPath, animated: true)
-//
-//        let entertainment = entertainments[indexPath.row]
-//
-//        let mediaType = entertainment.mediaType ?? "movie"
-//        let id = entertainment.id
-//
-//        APICaller.shared.getDetails(mediaType: mediaType , id: id) { (result: Result<MovieDetail, Error>) in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let fetchedDetials):
-//                    // detail
-//                    let detail = fetchedDetials
-//
-//                    // View Model congfigur
-//                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime, isTrending: self.isTheTappedEntertainmentTrend , rank: indexPath.row+1)
-//
-//                case .failure(let failure):
-//                    print("Error getting details:",failure)
-//                }
-//            }
-//        }
-//
-//        APICaller.shared.getCast(mediaType: mediaType, id: id) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let fetchedCast):
-//                    // logo
-//                    let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
-//                    let director = fetchedCast.returnDirector()
-//
-//                    // View Model congfigur
-//                    let viewModel = MovieViewModel(cast: cast, director: director)
-//
-//                case .failure(let failure):
-//                    print("Error getting Cast:", failure)
-//
-//                }
-//            }
-//        }
-//
-//        APICaller.shared.getVedios(mediaType: mediaType, id: id) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let fetchedVideos):
-//                    // YoutubeTrailers
-//                    let videos = fetchedVideos.returnYoutubeTrailers()
-//
-//                    // View Model congfigur
-//                    let viewModel = MovieViewModel(title: entertainment.title ,videosResult: videos)
-//
-//                case .failure(let failure):
-//                    print("Error getting Vedios:", failure)
-//                }
-//            }
-//        }
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let vc = EntertainmentDetailsVC()
         
-//        self.delegate?.
+        let entertainment = entertainments[indexPath.row]
+        
+        let trendRank = indexPath.row+1
+        
+        let mediaType = entertainment.mediaType ?? "movie"
+        let id = entertainment.id
+
+        APICaller.shared.getDetails(mediaType: mediaType , id: id) { (result: Result<MovieDetail, Error>) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedDetials):
+                    // detail
+                    let detail = fetchedDetials
+
+                    // View Model congfigur
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
+                    vc.configureDetails(with: viewModel, isTrending: false, rank: trendRank)
+                    
+                case .failure(let failure):
+                    print("Error getting details:",failure)
+                }
+            }
+        }
+
+        APICaller.shared.getCast(mediaType: mediaType, id: id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedCast):
+                    // logo
+                    let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
+                    let director = fetchedCast.returnDirector()
+
+                    // View Model congfigur
+                    let viewModel = MovieViewModel(cast: cast, director: director)
+                    vc.configureCast(with: viewModel)
+                    
+                case .failure(let failure):
+                    print("Error getting Cast:", failure)
+
+                }
+            }
+        }
+
+        APICaller.shared.getVedios(mediaType: mediaType, id: id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let fetchedVideos):
+                    // YoutubeTrailers
+                    let videos = fetchedVideos.returnYoutubeTrailers()
+
+                    // View Model congfigur
+                    let viewModel = MovieViewModel(title: entertainment.title ,videosResult: videos)
+                    vc.configureVideos(with: viewModel)
+
+                case .failure(let failure):
+                    print("Error getting Vedios:", failure)
+                }
+            }
+        }
+        
+        self.delegate?.homeTableViewCellDidTapped(self, navigateTo: vc)
+    }
+        
+        
 //
 //        let entertainment = entertainments[indexPath.row]
 //        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
@@ -124,5 +132,5 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
 //MARK: - cellTapped method in protocol
 
 protocol HomeTableViewCellDelegate: AnyObject {
-    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieViewModel)
+    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, navigateTo vc: EntertainmentDetailsVC)
 }
