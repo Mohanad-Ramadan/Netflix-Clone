@@ -105,6 +105,9 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
         
         let entertainment = entertainments[indexPath.row]
         
+        let isTrending = self.isTheTappedEntertainmentTrend
+        let trendRank = indexPath.row+1
+        
         let mediaType = entertainment.mediaType ?? "movie"
         let id = entertainment.id
         
@@ -116,8 +119,8 @@ extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
                     let detail = fetchedDetials
                     
                     // View Model congfigur
-                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime, isTrending: self.isTheTappedEntertainmentTrend , rank: indexPath.row+1)
-                    vc.configureDetails(with: viewModel)
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
+                    vc.configureDetails(with: viewModel, isTrending: isTrending!, rank: trendRank)
                     
                 case .failure(let failure):
                     print("Error getting details:",failure)

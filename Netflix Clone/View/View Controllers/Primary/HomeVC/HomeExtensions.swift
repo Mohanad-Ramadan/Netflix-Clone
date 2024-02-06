@@ -66,14 +66,18 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - CellTapedAction extension
 
 extension HomeVC :HomeTableViewCellDelegate {
+    
     func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, viewModel: MovieViewModel) {
-        
         DispatchQueue.main.async { [weak self] in
             let vc = EntertainmentDetailsVC()
             vc.configureVCDetails(with: viewModel)
+//            vc.configureDetails(with: <#T##MovieViewModel#>, isTrending: <#T##Bool#>, rank: <#T##Int#>)
+//            vc.configureCast(with: <#T##MovieViewModel#>)
+//            vc.configureVideos(with: <#T##MovieViewModel#>)
             vc.hidesBottomBarWhenPushed = true
             self?.navigationController?.present(vc, animated: true)
         }
     }
+    
 }
 
