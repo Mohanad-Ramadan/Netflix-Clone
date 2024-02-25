@@ -1,5 +1,5 @@
 //
-//  APICaller.swift
+//  NetworkManager.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 11/10/2023.
@@ -15,9 +15,9 @@ enum APIError: Error {
 
 
 
-//MARK: - APICaller
-class APICaller {
-    static let shared = APICaller()
+//MARK: - NetworkManager
+class NetworkManager {
+    static let shared = NetworkManager()
     
     func getTrending(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.trendingAllURL) else {return}
