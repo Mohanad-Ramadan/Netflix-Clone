@@ -20,7 +20,7 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         
         let poster = entertainments[indexPath.row].posterPath ?? ""
-        cell.configureTitle(with: poster)
+        cell.configureCell(with: poster)
         
         return cell
     }

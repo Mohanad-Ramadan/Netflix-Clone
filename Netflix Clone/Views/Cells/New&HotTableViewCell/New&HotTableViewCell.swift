@@ -18,12 +18,9 @@ class NewAndHotTableViewCell: UITableViewCell {
         contentView.backgroundColor = .black
         [
             backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel
-        ].forEach {
-            contentView.addSubview($0)
-        }
+        ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
-        
         
     }
     
@@ -168,15 +165,7 @@ class NewAndHotTableViewCell: UITableViewCell {
         return label
     }()
     
-    
-    private let backdropImageView : UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 10
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    private let backdropImageView = NFPosterImageView(cornerRadius: 10, autoLayout: false)
     
     private let remindMeButton: UIButton = {
         let button = UIButton()
@@ -224,12 +213,7 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private var logoAspectRatio = CGFloat(1)
     
-    private let logoView : UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    private let logoView = NFPosterImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
     private let entertainmentDate: UILabel = {
         let label = UILabel()
@@ -305,13 +289,9 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     //MARK: - Get Cell Details
     func configureCellImages(with model: MovieViewModel){
-        if let backdrop = model.backdropsPath ,let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdrop)"){
-            backdropImageView.sd_setImage(with: backdropURL)
-        }
+        backdropImageView.downloadImageFrom(model.backdropsPath ?? "noPath")
         
-        if let logo = model.logoPath, let logoURL = URL(string: "https://image.tmdb.org/t/p/w500\(logo)"){
-            logoView.sd_setImage(with: logoURL)
-        }
+        logoView.downloadImageFrom(model.logoPath ?? "noPath")
         
         if let logoAspectRatio = model.logoAspectRatio {
             self.logoAspectRatio = logoAspectRatio > 4 ? 4 : logoAspectRatio

@@ -5,7 +5,7 @@
 //  Created by Mohanad Ramdan on 11/10/2023.
 //
 
-import Foundation
+import UIKit
 
 
 //MARK: - APIError
@@ -18,6 +18,12 @@ enum APIError: Error {
 //MARK: - NetworkManager
 class NetworkManager {
     static let shared = NetworkManager()
+    let decoder = JSONDecoder()
+    
+    private init() {
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+    }
     
     func getTrending(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.trendingAllURL) else {return}
@@ -27,9 +33,7 @@ class NetworkManager {
                 return
             }
             do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentResponse.self, from: data)
+                let result = try self.decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
                 complition(.failure(APIError.failedToGetData))

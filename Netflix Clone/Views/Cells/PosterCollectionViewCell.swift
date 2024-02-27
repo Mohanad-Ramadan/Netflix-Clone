@@ -8,24 +8,9 @@
 import UIKit
 
 class PosterCollectionViewCell: UICollectionViewCell {
-    static let identifier = "PosterCollectionViewCell"
-    
-    private let posterImageView : UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 5
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(posterImageView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
@@ -33,10 +18,15 @@ class PosterCollectionViewCell: UICollectionViewCell {
         posterImageView.frame = contentView.bounds
     }
     
-    //MARK: - Edite here
-    public func configureTitle(with model: String){
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model)" ) else {return}
-        posterImageView.sd_setImage(with: url)
+    func configureCell(with endpoint: String){
+        posterImageView.downloadImageFrom(endpoint)
     }
     
+    private let posterImageView = NFPosterImageView(cornerRadius: 5)
+    
+    static let identifier = "PosterCollectionViewCell"
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

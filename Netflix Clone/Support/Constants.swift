@@ -21,8 +21,9 @@ struct Constants {
     static let youtubeURL = "https://www.googleapis.com/youtube/v3/search?safeSearch=strict&key=AIzaSyA43IBo_SCZSMUn4HmhCF6q3DKdKxgBBbA&q="
     static let entertainmentIdURL = "https://api.themoviedb.org/3"
     
+    static let imageURL = "https://image.tmdb.org/t/p/w500/"
     
-    static let posterAPI = "144|49vDLfPI5EU7PUqtVLCippbJb5KuyJ5mRUY7yiIX"
+//    static let posterAPI = "144|49vDLfPI5EU7PUqtVLCippbJb5KuyJ5mRUY7yiIX"
     
     static let notificationKey = "Fetch agian"
     static let categoryNewHotVCKey = "newButtonPressed"

@@ -103,16 +103,8 @@ class MyNetflixVC: UIViewController {
         downloadTableConstraints()
     }
     
-    private let profilImage : UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "profilImage")
-        view.contentMode = .scaleAspectFit
-        view.layer.cornerRadius = 10
-        view.clipsToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
+    private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
+        
     private let userLabel: UIButton = {
         let button = UIButton()
         var configuration = UIButton.Configuration.filled() 

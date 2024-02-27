@@ -154,8 +154,8 @@ class EntertainmentDetailsVC: UIViewController {
     private func neflixlogoAndGenresLabelConstriants() {
         netflixLogo.topAnchor.constraint(equalTo: containterScrollView.topAnchor).isActive = true
         netflixLogo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
-        netflixLogo.heightAnchor.constraint(equalTo: netflixLogo.heightAnchor).isActive = true
-        netflixLogo.widthAnchor.constraint(equalTo: netflixLogo.widthAnchor).isActive = true
+        netflixLogo.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        netflixLogo.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
         categoryLabel.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
         categoryLabel.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor).isActive = true
@@ -353,13 +353,8 @@ class EntertainmentDetailsVC: UIViewController {
     }()
     
     //MARK: - Container SubViews Declaration
-    private let netflixLogo: UIImageView = {
-        let imageView = UIImageView()
-        let image = UIImage(named: "netflixClone")
-        imageView.image = image!.sd_resizedImage(with: CGSize(width: 20, height: 20), scaleMode: .aspectFit)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    
+    private let netflixLogo = NFImageView(image: .netflixClone)
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
@@ -382,12 +377,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let detailsLabel = DetailsLabelUIView()
     
-    private let top10Logo: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "top10")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    private let top10Logo = NFImageView(image: .top10)
     
     private let top10DetailsLabel: UILabel = {
         let label = UILabel()

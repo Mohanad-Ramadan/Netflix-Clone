@@ -16,7 +16,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else {return UICollectionViewCell()}
         
         let poster = entertainments[indexPath.row].posterPath ?? ""
-        cell.configureTitle(with: poster)
+        cell.configureCell(with: poster)
         return cell
     }
     
