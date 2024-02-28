@@ -37,11 +37,8 @@ class HomeVC: UIViewController {
     }
     
     private func configureNavbar() {
-        let userLabel = UILabel()
-        userLabel.font = .boldSystemFont(ofSize: 26)
-        userLabel.text = "For User1"
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userLabel)
+        let titleLabel = NFTitleLabel(text: "For User1")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         
         navigationController?.navigationBar.tintColor = .label

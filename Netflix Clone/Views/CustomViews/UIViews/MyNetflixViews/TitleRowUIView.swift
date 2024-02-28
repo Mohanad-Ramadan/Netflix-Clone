@@ -71,7 +71,7 @@ class MyNetflixRowUIView: UIView {
     private let label: UILabel = {
         let label = UILabel()
         label.text = "Downloads"
-        label.font = .boldSystemFont(ofSize: 25)
+        label.font = .boldSystemFont(ofSize: 26)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

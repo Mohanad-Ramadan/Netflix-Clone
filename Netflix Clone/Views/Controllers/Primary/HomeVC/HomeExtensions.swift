@@ -45,11 +45,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        let titleLabel = UILabel()
-        titleLabel.font = .systemFont(ofSize: 19, weight: .bold)
-        titleLabel.textColor = .white
-        titleLabel.text = sectionTitles[section]
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        let titleLabel = NFBodyLabel(text: sectionTitles[section], color: .white, fontSize: 19, fontWeight: .bold)
         
         headerView.addSubview(titleLabel)
         

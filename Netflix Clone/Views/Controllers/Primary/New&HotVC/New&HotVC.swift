@@ -29,11 +29,8 @@ class NewAndHotVC: UIViewController {
     }
     
     private func configureNavbar() {
-        let viewTitle = UILabel()
-        viewTitle.font = .boldSystemFont(ofSize: 26)
-        viewTitle.text = "New & Hot"
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewTitle)
+        let titleLabel = NFTitleLabel(text: "New & Hot")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         navigationItem.rightBarButtonItem?.tintColor = .white
         

@@ -33,11 +33,8 @@ class MyNetflixVC: UIViewController {
     }
     
     private func configureNavbar() {
-        let userLabel = UILabel()
-        userLabel.font = .boldSystemFont(ofSize: 26)
-        userLabel.text = "My Netflix"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userLabel)
-        
+        let titleLabel = NFTitleLabel(text: "My Netflix")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .done, target: self, action: nil),
             UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))

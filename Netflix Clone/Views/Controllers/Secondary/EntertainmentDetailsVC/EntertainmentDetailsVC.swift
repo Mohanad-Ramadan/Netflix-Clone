@@ -332,7 +332,7 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     
-    //MARK: - Main Views Declaration
+    //MARK: - Declare Main Views
     
     private let entertainmentTrailer: WKWebView = {
         let webView = WKWebView()
@@ -352,42 +352,19 @@ class EntertainmentDetailsVC: UIViewController {
         return scrollView
     }()
     
-    //MARK: - Container SubViews Declaration
+    //MARK: - Declare Container Subviews
     
     private let netflixLogo = NFImageView(image: .netflixClone)
     
-    private let categoryLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .lightGray
-        label.font = .systemFont(ofSize: 10, weight: .semibold)
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let categoryLabel = NFBodyLabel(color: .lightGray, fontSize: 10, fontWeight: .semibold)
     
-    private let entertainmentTitle: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 21, weight: .bold)
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let entertainmentTitle = NFBodyLabel(color: .white, fontSize: 21, fontWeight: .bold, lines: 0)
     
     private let detailsLabel = DetailsLabelUIView()
     
     private let top10Logo = NFImageView(image: .top10)
     
-    private let top10DetailsLabel: UILabel = {
-        let label = UILabel()
-        label.text = "#1 in Movies Today"
-        label.textColor = .white
-        label.font = .systemFont(ofSize: 17, weight: .bold)
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let top10DetailsLabel = NFBodyLabel(color: .white, fontSize: 17, fontWeight: .bold)
     
     private let playButton: UIButton = {
         let button = UIButton()
@@ -411,24 +388,9 @@ class EntertainmentDetailsVC: UIViewController {
         return button
     }()
     
-    private let overViewLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 15)
-        label.textColor = .white
-        label.textAlignment = .left
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let overViewLabel = NFBodyLabel(color: .white, fontSize: 15, lines: 0)
     
-    private let castLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
-        label.textColor = .lightGray
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
     private let expandCastButton: UIButton = {
         let button = UIButton()
@@ -447,15 +409,7 @@ class EntertainmentDetailsVC: UIViewController {
         return button
     }()
     
-    private let directorLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Director: James Wan"
-        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
-        label.textColor = .lightGray
-        label.textAlignment = .left
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
     private let threeButtons = ThreeButtonUIView()
     
@@ -471,7 +425,6 @@ class EntertainmentDetailsVC: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
     var moreEntertainments: [Entertainment] = [Entertainment]()
     
     private let trailerTable: UITableView = {
@@ -485,8 +438,8 @@ class EntertainmentDetailsVC: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
-    
     var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
+    
     var trailerVideosCount: Int?
     var entertainmentName: String?
     

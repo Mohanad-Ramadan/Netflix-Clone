@@ -9,22 +9,46 @@ import UIKit
 
 class NewAndHotTableViewCell: UITableViewCell {
     
-    static let identifier = "NewAndHotTableViewCell"
-    
-    var trendingSelected = true
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
-        [
-            backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel
+        [backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel
         ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
-        
     }
     
-    // Month and Day label constraints
+    
+    //MARK: - Configure Cell
+    func configureCellImages(with entertainment: MovieViewModel){
+        backdropImageView.downloadImageFrom(entertainment.backdropsPath ?? "noPath")
+        
+        logoView.downloadImageFrom(entertainment.logoPath ?? "noPath")
+        
+        if let logoAspectRatio = entertainment.logoAspectRatio {
+            self.logoAspectRatio = logoAspectRatio > 4 ? 4 : logoAspectRatio
+            updateLogoViewConstraints()
+        }
+    }
+    
+    func configureCellDetails(with entertainment: MovieViewModel){
+        titleLabel.text = entertainment.title
+        entertainmetType.text = entertainment.mediaType == "tv" ? "S E R I E S" : "F I L M"
+        overViewLabel.text = entertainment.overview
+        genresLabel.text = entertainment.category
+        
+        if let date = entertainment.releaseDate {
+            let dayMonthDate = date.extract().dayMonth
+            entertainmentDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
+            dayLabel.text = date.extract().day
+            monthlable.text = date.extract().month
+        }
+    }
+    
+    
+    //MARK: - Subviews Constraints
+    
+    //Month and Day label constraints
     private func setupMonthAndDayLabelConstraints() {
         // Day label constraints
         monthlable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
@@ -121,6 +145,18 @@ class NewAndHotTableViewCell: UITableViewCell {
         genresLabel.widthAnchor.constraint(equalTo: genresLabel.widthAnchor).isActive = true
     }
     
+    
+    //MARK: - Update Constraints
+    private func updateLogoViewConstraints() {
+        logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio))
+        let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio)
+        widthConstraint.priority = .defaultHigh
+        widthConstraint.isActive = true
+        
+        layoutIfNeeded()
+    }
+    
+    //MARK: - Apply Constraints
     private func applyConstraints() {
         if trendingSelected {
             setupBackdropImageViewConstraints()
@@ -145,6 +181,8 @@ class NewAndHotTableViewCell: UITableViewCell {
         }
     }
     
+    
+    //MARK: - Declare Subviews 
     private let monthlable: UILabel = {
         let label = UILabel()
         label.text = "N/A"
@@ -160,7 +198,7 @@ class NewAndHotTableViewCell: UITableViewCell {
         label.text = "N/A"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 27)
+        label.font = .boldSystemFont(ofSize: 26)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -211,7 +249,6 @@ class NewAndHotTableViewCell: UITableViewCell {
         return button
     }()
     
-    private var logoAspectRatio = CGFloat(1)
     
     private let logoView = NFPosterImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
@@ -267,51 +304,15 @@ class NewAndHotTableViewCell: UITableViewCell {
         return label
     }()
     
+    private var logoAspectRatio = CGFloat(1)
+    var trendingSelected = true
     
-    
-    
+    static let identifier = "NewAndHotTableViewCell"
     
     
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK: - Update logoView Constraints
-    private func updateLogoViewConstraints() {
-        logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio))
-        let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio)
-        widthConstraint.priority = .defaultHigh
-        widthConstraint.isActive = true
-        
-        layoutIfNeeded()
-    }
-    
-    //MARK: - Get Cell Details
-    func configureCellImages(with model: MovieViewModel){
-        backdropImageView.downloadImageFrom(model.backdropsPath ?? "noPath")
-        
-        logoView.downloadImageFrom(model.logoPath ?? "noPath")
-        
-        if let logoAspectRatio = model.logoAspectRatio {
-            self.logoAspectRatio = logoAspectRatio > 4 ? 4 : logoAspectRatio
-            updateLogoViewConstraints()
-        }
-    }
-    
-    func configureCellDetails(with model: MovieViewModel){
-        titleLabel.text = model.title
-        entertainmetType.text = model.mediaType == "tv" ? "S E R I E S" : "F I L M"
-        overViewLabel.text = model.overview
-        genresLabel.text = model.category
-        
-        if let date = model.releaseDate {
-            let dayMonthDate = date.extract().dayMonth
-            entertainmentDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
-            dayLabel.text = date.extract().day
-            monthlable.text = date.extract().month
-        }
-    }
-    
 }
 
