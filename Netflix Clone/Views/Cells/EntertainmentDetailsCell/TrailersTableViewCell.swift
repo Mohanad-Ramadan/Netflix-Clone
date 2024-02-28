@@ -73,17 +73,8 @@ class TrailersTableViewCell: UITableViewCell {
         return webView
     }()
     
-    private let trailerTitle: UILabel = {
-        let label = UILabel()
-        label.text = "Teaser: Sixty wings"
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 14, weight: .semibold)
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
+    private let trailerTitle = NFBodyLabel(fontSize: 14, fontWeight: .semibold)
+
     
     required init?(coder: NSCoder) {fatalError()}
-
 }

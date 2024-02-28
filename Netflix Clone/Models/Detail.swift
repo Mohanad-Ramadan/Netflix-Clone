@@ -33,7 +33,7 @@ struct TVDetail : Codable, GenreSeparatable{
     let overview: String
     let genres: [Genre]
     let lastAirDate: String
-    let number_of_seasons: Int
+    let number_of_seasons: Int?
     let seasons: [Seasons]
     
     struct Genre: Codable {

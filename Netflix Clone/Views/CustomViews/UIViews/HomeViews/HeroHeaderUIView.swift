@@ -12,27 +12,17 @@ class HeroHeaderUIView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach {addSubview($0)}
         shadowWrapperView.addSubview(showImageView)
-        [
-            shadowWrapperView,
-            logoView,
-            categoryLabel,
-            playButton,
-            listButton
-        ].forEach {addSubview($0)}
         applyConstraints()
     }
     
     private var gradientLayer: CAGradientLayer = CAGradientLayer()
     
-    private let showImageView: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = 15
+    private let showImageView: NFPosterImageView = {
+        let image = NFPosterImageView(cornerRadius: 15, autoLayout: false)
         image.layer.borderWidth = 1
         image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.1)
-        image.clipsToBounds = true
-        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
@@ -46,25 +36,15 @@ class HeroHeaderUIView: UIView {
         return wrapperView
     }()
     
-    private let logoView : UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    private let logoView = NFPosterImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
-    private let categoryLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .medium)
+    private let categoryLabel: NFBodyLabel = {
+        let label = NFBodyLabel(fontSize: 14, fontWeight: .medium, textAlignment: .center)
         label.adjustsFontSizeToFitWidth = true
-        label.numberOfLines = 1
-        label.textColor = .label
-        label.textAlignment = .center
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowOpacity = 0.5
         label.layer.shadowOffset = CGSize.zero
         label.layer.shadowRadius = 2
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -165,9 +145,11 @@ class HeroHeaderUIView: UIView {
                     self?.getImageDominantColor()
                 }
             }
+            
             if let logoPath = model.logoPath , let logoURL = URL(string: "https://image.tmdb.org/t/p/w500/\(logoPath)") {
                 self?.logoView.sd_setImage(with: logoURL)
             }
+            
             self?.categoryLabel.text = model.category
         }
     }
@@ -230,9 +212,7 @@ class HeroHeaderUIView: UIView {
     }
     
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }
 
 

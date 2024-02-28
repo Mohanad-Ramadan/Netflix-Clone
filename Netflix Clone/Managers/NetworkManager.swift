@@ -269,6 +269,7 @@ class NetworkManager {
                 let result = try decoder.decode(T.self, from: data)
                 completion(.success(result))
             } catch {
+                print(error)
                 completion(.failure(APIError.failedToDecodeData))
             }
         }.resume()

@@ -18,8 +18,16 @@ class HomeBackgroundUIView: UIView {
         backGroundPoster.frame = bounds
     }
     
-    private var gradientLayer: CAGradientLayer = CAGradientLayer()
-    
+    //MARK: - Configure Poster Image
+    func configureBackground(with model: MovieViewModel) {
+        DispatchQueue.main.async { [weak self] in
+            if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)") {
+                self?.backGroundPoster.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
+                    self?.getImageDominantColor()
+                }
+            }
+        }
+    }
     
     //MARK: - Get Poster dominant color
     func getImageDominantColor() {
@@ -48,24 +56,12 @@ class HomeBackgroundUIView: UIView {
         }
     }
     
-    //MARK: - Configure Poster Image
-    func configureBackground(with model: MovieViewModel) {
-        DispatchQueue.main.async { [weak self] in
-            if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)") {
-                self?.backGroundPoster.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
-                    self?.getImageDominantColor()
-                }
-            }
-        }
-    }
+    //MARK: - Declare UIElements
+    private var backGroundPoster = NFPosterImageView(autoLayout: false)
     
-    private var backGroundPoster : UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
- 
+    private var gradientLayer: CAGradientLayer = CAGradientLayer()
+    
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

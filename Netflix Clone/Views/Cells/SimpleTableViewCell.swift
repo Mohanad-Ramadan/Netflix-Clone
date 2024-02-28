@@ -8,8 +8,6 @@
 import UIKit
 
 class SimpleTableViewCell: UITableViewCell {
-    static let identifier = "SimpleTableViewCell"
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(entertainmentBackdropImageView)
@@ -18,6 +16,12 @@ class SimpleTableViewCell: UITableViewCell {
         
         applyConstraints()
     }
+    
+    func configureCell(with model: MovieViewModel){
+        entertainmentBackdropImageView.downloadImageFrom(model.backdropsPath ?? "noPath")
+        titleLabel.text = model.title
+    }
+    
     
     private func applyConstraints() {
         let titlesPosterUIImageViewConstraints = [
@@ -46,14 +50,7 @@ class SimpleTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(playTitleButtonConstraints)
     }
     
-    private let entertainmentBackdropImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 6
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    private let entertainmentBackdropImageView = NFPosterImageView(cornerRadius: 6, autoLayout: false)
     
     private let playTitleButton: UIButton = {
         let button = UIButton()
@@ -64,29 +61,11 @@ class SimpleTableViewCell: UITableViewCell {
         return button
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 2
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        label.adjustsFontSizeToFitWidth = true
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let titleLabel = NFBodyLabel(fontSize: 15, fontWeight: .semibold, lines: 2)
+    
+    static let identifier = "SimpleTableViewCell"
     
     
-    public func configureCell(with model: MovieViewModel){
-        if let backdropPath = model.backdropsPath ,let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)"){
-            entertainmentBackdropImageView.sd_setImage(with: backdropURL)
-        }
-        titleLabel.text = model.title
-    }
-    
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError()
-    }
-
+    required init?(coder: NSCoder) {fatalError()}
 }
 

@@ -68,13 +68,7 @@ class MyNetflixRowUIView: UIView {
         return symbol
     }()
 
-    private let label: UILabel = {
-        let label = UILabel()
-        label.text = "Downloads"
-        label.font = .boldSystemFont(ofSize: 26)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let label = NFBodyLabel(text: "Downloads", fontSize: 26, fontWeight: .bold)
     
     private let button: UIButton = {
         let button = UIButton()
@@ -84,7 +78,5 @@ class MyNetflixRowUIView: UIView {
         return button
     }()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }

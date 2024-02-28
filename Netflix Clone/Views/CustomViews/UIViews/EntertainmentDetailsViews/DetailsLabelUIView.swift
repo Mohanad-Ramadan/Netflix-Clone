@@ -50,46 +50,15 @@ class DetailsLabelUIView: UIView {
         ])
     }
     
-    let newLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .green.withAlphaComponent(0.8)
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 14, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let newLabel = NFBodyLabel(color: .green.withAlphaComponent(0.8), fontSize: 14,fontWeight: .medium)
+
+    let runtimeLabel = NFBodyLabel(fontSize: 15, fontWeight: .medium)
     
-    let runtimeLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    let adultIcon = NFImageView(image: ._18Icon)
     
-    let adultIcon: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "+18Icon")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let dateLabel = NFBodyLabel(fontSize: 15, fontWeight: .medium)
     
-    let dateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 15, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let otherIcons: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "otherIcons")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
+    let otherIcons = NFImageView(image: .otherIcons)
     
     
     required init?(coder: NSCoder) {
