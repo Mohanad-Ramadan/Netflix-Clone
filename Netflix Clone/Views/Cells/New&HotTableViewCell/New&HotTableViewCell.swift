@@ -183,25 +183,9 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     
     //MARK: - Declare Subviews 
-    private let monthlable: UILabel = {
-        let label = UILabel()
-        label.text = "N/A"
-        label.textColor = .lightGray
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 16, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let monthlable = NFBodyLabel(color: .lightGray, fontSize: 16, fontWeight: .semibold, textAlignment: .center)
     
-    private let dayLabel: UILabel = {
-        let label = UILabel()
-        label.text = "N/A"
-        label.textColor = .white
-        label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: 26)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    private let dayLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
     
     private let backdropImageView = NFPosterImageView(cornerRadius: 10, autoLayout: false)
     
@@ -252,57 +236,17 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let logoView = NFPosterImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
-    private let entertainmentDate: UILabel = {
-        let label = UILabel()
-        label.text = "N/A"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        return label
-    }()
+    private let entertainmentDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
     
-    private let netflixLogo: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "netflixClone"))
-        image.backgroundColor = .clear
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        image.translatesAutoresizingMaskIntoConstraints = false
-        return image
-    }()
+    private let netflixLogo = NFImageView(image: .netflixClone)
     
-    private let entertainmetType: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
-        label.font = .systemFont(ofSize: 8, weight: .semibold)
-        return label
-    }()
+    private let entertainmetType = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
+        
+    private let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.numberOfLines = 0
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    
-    private let overViewLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 15, weight: .regular)
-        label.textColor = .lightGray
-        label.numberOfLines = 3
-        return label
-    }()
-    
-    private let genresLabel: UILabel = {
-        let label = UILabel()
-        label.text = "violent.Suspental.action.happpy.korean"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 13, weight: .regular)
-        label.textColor = .white
-        return label
-    }()
+    private let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
+        
+    private let genresLabel = NFBodyLabel(fontSize: 13)
     
     private var logoAspectRatio = CGFloat(1)
     var trendingSelected = true
