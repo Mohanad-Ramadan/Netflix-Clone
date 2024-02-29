@@ -16,6 +16,8 @@
 		141230EE2AE5B2020025815E /* DataPersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141230ED2AE5B2020025815E /* DataPersistenceManager.swift */; };
 		1416D03F2B6734FB00BC363C /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1416D03E2B6734FB00BC363C /* Cast.swift */; };
 		141E13FB2AD73191007418D5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141E13FA2AD73191007418D5 /* NetworkManager.swift */; };
+		142FF7D52B91183A0061375F /* NFPlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FF7D42B91183A0061375F /* NFPlainButton.swift */; };
+		142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FF7D62B911DB00061375F /* NFSymbolButton.swift */; };
 		1434BF2D2B61D27A00EA70F6 /* TrailersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1434BF2C2B61D27A00EA70F6 /* TrailersTableViewCell.swift */; };
 		1434BF2F2B61D57100EA70F6 /* SimpleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1434BF2E2B61D57100EA70F6 /* SimpleTableViewCell.swift */; };
 		1435879D2B4327F60044171C /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1435879C2B4327F60044171C /* Image.swift */; };
@@ -55,7 +57,7 @@
 		148DB47E2B682A7F00100298 /* Trailer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148DB47D2B682A7F00100298 /* Trailer.swift */; };
 		14A491F02B8F62320090AF08 /* NFBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */; };
 		14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */; };
-		14A491F62B8FD8EF0090AF08 /* NFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F52B8FD8EF0090AF08 /* NFButton.swift */; };
+		14A491F62B8FD8EF0090AF08 /* NFFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */; };
 		14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */; };
 		14C7A4572B5B2B94001EEC08 /* New$HotTableViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C7A4562B5B2B94001EEC08 /* New$HotTableViewConfig.swift */; };
 		14CFB1E32B56F55A0036FE91 /* HomeHeaderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */; };
@@ -80,6 +82,8 @@
 		141230ED2AE5B2020025815E /* DataPersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistenceManager.swift; sourceTree = "<group>"; };
 		1416D03E2B6734FB00BC363C /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		141E13FA2AD73191007418D5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		142FF7D42B91183A0061375F /* NFPlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFPlainButton.swift; sourceTree = "<group>"; };
+		142FF7D62B911DB00061375F /* NFSymbolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFSymbolButton.swift; sourceTree = "<group>"; };
 		1434BF2C2B61D27A00EA70F6 /* TrailersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersTableViewCell.swift; sourceTree = "<group>"; };
 		1434BF2E2B61D57100EA70F6 /* SimpleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleTableViewCell.swift; sourceTree = "<group>"; };
 		1435879C2B4327F60044171C /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
@@ -119,7 +123,7 @@
 		148DB47D2B682A7F00100298 /* Trailer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trailer.swift; sourceTree = "<group>"; };
 		14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFBodyLabel.swift; sourceTree = "<group>"; };
 		14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTitleLabel.swift; sourceTree = "<group>"; };
-		14A491F52B8FD8EF0090AF08 /* NFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFButton.swift; sourceTree = "<group>"; };
+		14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFFilledButton.swift; sourceTree = "<group>"; };
 		14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotCategoryBarUIView.swift; sourceTree = "<group>"; };
 		14C7A4562B5B2B94001EEC08 /* New$HotTableViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = New$HotTableViewConfig.swift; sourceTree = "<group>"; };
 		14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderConfig.swift; sourceTree = "<group>"; };
@@ -375,7 +379,9 @@
 		14A491F42B8FD88A0090AF08 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				14A491F52B8FD8EF0090AF08 /* NFButton.swift */,
+				14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */,
+				142FF7D42B91183A0061375F /* NFPlainButton.swift */,
+				142FF7D62B911DB00061375F /* NFSymbolButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -541,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				147094CA2B4742FD0053CFBC /* DownloadExtension.swift in Sources */,
+				142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */,
 				14DCE3D72B22490D00DCD959 /* New&HotTableViewCell.swift in Sources */,
 				147094CC2B4747150053CFBC /* TitleRowUIView.swift in Sources */,
 				145EDE812B8BC3EC00B49A48 /* UIColor-EXT.swift in Sources */,
@@ -565,6 +572,7 @@
 				147094CE2B4752CB0053CFBC /* MyNetflixTableViewCell.swift in Sources */,
 				14FDAABB2AD49E580027DFED /* HeroHeaderUIView.swift in Sources */,
 				145FB0F32AD3FEC30019A439 /* AppDelegate.swift in Sources */,
+				142FF7D52B91183A0061375F /* NFPlainButton.swift in Sources */,
 				14DCE3D52B2240D400DCD959 /* New$HotExtensions.swift in Sources */,
 				14EF75B82B8E1231004D0279 /* NFPosterImageView.swift in Sources */,
 				1488403E2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift in Sources */,
@@ -593,7 +601,7 @@
 				145EDE7B2B8BBF3E00B49A48 /* ViewController-EXT.swift in Sources */,
 				144470E92B43531300843068 /* Detail.swift in Sources */,
 				14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */,
-				14A491F62B8FD8EF0090AF08 /* NFButton.swift in Sources */,
+				14A491F62B8FD8EF0090AF08 /* NFFilledButton.swift in Sources */,
 				148DB47E2B682A7F00100298 /* Trailer.swift in Sources */,
 				1488D3242B0E49600020AF07 /* HomeBackgroundUIView.swift in Sources */,
 			);

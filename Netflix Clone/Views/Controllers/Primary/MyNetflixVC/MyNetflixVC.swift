@@ -102,26 +102,7 @@ class MyNetflixVC: UIViewController {
     
     private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
         
-    private let userLabel: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.plain()
-        configuration.title = "User1"
-        configuration.baseForegroundColor = .white
-        configuration.image = UIImage(systemName: "chevron.down")
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)
-        configuration.imagePlacement = .trailing
-        configuration.imagePadding = 8
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 28, weight: .bold)
-            return outgoing
-        }
-        
-        button.configuration = configuration
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
+    private let userLabel = NFPlainButton(title: "User1",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
     
     private let downloadTitleRow: MyNetflixRowUIView = MyNetflixRowUIView()
     

@@ -189,50 +189,9 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let backdropImageView = NFPosterImageView(cornerRadius: 10, autoLayout: false)
     
-    private let remindMeButton: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.plain()
-        configuration.title = "Remind Me"
-        configuration.baseForegroundColor = .white
-        configuration.image = UIImage(systemName: "bell")
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)
-        configuration.imagePlacement = .top
-        configuration.imagePadding = 8
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = UIFont.systemFont(ofSize: 9)
-            outgoing.foregroundColor = .gray
-            return outgoing
-        }
-        
-        button.configuration = configuration
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
+    private let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
-    private let infoButton: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.plain()
-        configuration.title = "Info"
-        configuration.baseForegroundColor = .white
-        configuration.image = UIImage(systemName: "info.circle")
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)
-        configuration.imagePlacement = .top
-        configuration.imagePadding = 8
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = UIFont.systemFont(ofSize: 9)
-            outgoing.foregroundColor = .gray
-            return outgoing
-        }
-        
-        button.configuration = configuration
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
-    }()
-    
+    private let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
     private let logoView = NFPosterImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
@@ -255,8 +214,6 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }
 

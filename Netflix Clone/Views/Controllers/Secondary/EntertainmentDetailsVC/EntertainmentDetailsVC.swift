@@ -355,50 +355,13 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let top10DetailsLabel = NFBodyLabel(color: .white, fontSize: 17, fontWeight: .bold)
     
-    private let playButton: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = "Play"
-        configuration.baseBackgroundColor = .white
-        configuration.baseForegroundColor = .black
-        configuration.image = UIImage(systemName: "play.fill")
-        configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .large)
-        configuration.imagePlacement = .leading
-        configuration.imagePadding = 8
-        configuration.cornerStyle = .small
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-            return outgoing
-        }
-        
-        button.configuration = configuration
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-//    private let playButton = NFButton(filledButtonTitle: "Play", image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold, withSmallCorner: true)
+    private let playButton = NFFilledButton(title: "Play", image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
     
     private let overViewLabel = NFBodyLabel(color: .white, fontSize: 15, lines: 0)
     
     private let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
-    private let expandCastButton: UIButton = {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.plain()
-        configuration.title = " ... more"
-        configuration.baseBackgroundColor = .black
-        configuration.baseForegroundColor = .lightGray
-        configuration.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-            return outgoing
-        }
-        button.configuration = configuration
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-//    private let expandCastButton = NFButton(plainButtonTitle: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
+    private let expandCastButton = NFPlainButton(title: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
     
     private let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     

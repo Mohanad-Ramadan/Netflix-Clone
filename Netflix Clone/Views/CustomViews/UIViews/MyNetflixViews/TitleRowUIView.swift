@@ -70,13 +70,7 @@ class MyNetflixRowUIView: UIView {
 
     private let label = NFBodyLabel(text: "Downloads", fontSize: 26, fontWeight: .bold)
     
-    private let button: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    private let button = NFSymbolButton(imageName: "chevron.right", imageSize: 20)
     
     required init?(coder: NSCoder) {fatalError()}
 }

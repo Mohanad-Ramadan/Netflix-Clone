@@ -42,7 +42,8 @@ class SimpleTableViewCell: UITableViewCell {
         
         let playTitleButtonConstraints = [
             playTitleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            playTitleButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            playTitleButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            playTitleButton.widthAnchor.constraint(equalTo: playTitleButton.widthAnchor)
         ]
         
         NSLayoutConstraint.activate(titlesPosterUIImageViewConstraints)
@@ -51,17 +52,11 @@ class SimpleTableViewCell: UITableViewCell {
     }
     
     private let entertainmentBackdropImageView = NFPosterImageView(cornerRadius: 6, autoLayout: false)
-    
-    private let playTitleButton: UIButton = {
-        let button = UIButton()
-        let image = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40))
-        button.setImage(image, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.tintColor = .white
-        return button
-    }()
-    
+
     private let titleLabel = NFBodyLabel(fontSize: 15, fontWeight: .semibold, lines: 2)
+    
+    private let playTitleButton = NFSymbolButton(imageName: "play.circle", imageSize: 35)
+
     
     static let identifier = "SimpleTableViewCell"
     

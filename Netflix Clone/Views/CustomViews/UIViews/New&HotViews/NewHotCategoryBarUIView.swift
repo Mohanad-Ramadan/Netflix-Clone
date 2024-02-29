@@ -126,28 +126,6 @@ class NewHotCategoryBarUIView: UIView {
     }
     
     //MARK: - Views Declaration
-    private func createButton(title: String, image: UIImage?) -> UIButton {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = title
-        configuration.baseBackgroundColor = .black
-        configuration.baseForegroundColor = .white
-        configuration.cornerStyle = .capsule
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 14, weight: .bold)
-            return outgoing
-        }
-        
-        configuration.image = image
-        configuration.imagePlacement = .leading
-        configuration.imagePadding = 8
-        
-        button.configuration = configuration
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-    
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
@@ -158,10 +136,15 @@ class NewHotCategoryBarUIView: UIView {
         return scrollView
     }()
     
-    private lazy var comingSoonButton: UIButton = createButton(title: "Coming Soon", image: UIImage(named: "popcorn")?.sd_resizedImage(with: CGSize(width: 20, height: 20), scaleMode: .aspectFit))
-    private lazy var everyoneWatchingButton: UIButton = createButton(title: "Everyone's Watching", image: UIImage(named: "fire")?.sd_resizedImage(with: CGSize(width: 20, height: 20), scaleMode: .aspectFit))
-    private lazy var toptenTvShowsButton: UIButton = createButton(title: "Top 10 TV Shows", image: UIImage(named: "top10")?.sd_resizedImage(with: CGSize(width: 30, height: 30), scaleMode: .aspectFit))
-    private lazy var toptenMoviesButton: UIButton = createButton(title: "Top 10 Movies", image: UIImage(named: "top10")?.sd_resizedImage(with: CGSize(width: 30, height: 30), scaleMode: .aspectFit))
+    
+    private var comingSoonButton = NFFilledButton(title: "Coming Soon", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .popcorn), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    
+    private var everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .fire), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    
+    private var toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .top10), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    
+    private var toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .top10), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    
     
     private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
     
