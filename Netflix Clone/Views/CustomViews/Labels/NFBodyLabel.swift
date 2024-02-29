@@ -8,9 +8,7 @@
 import UIKit
 
 class NFBodyLabel: UILabel {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
+    override init(frame: CGRect) {super.init(frame: frame)}
     
     convenience init(text: String = "",color: UIColor = .white, fontSize: CGFloat, fontWeight: UIFont.Weight = .regular, textAlignment: NSTextAlignment = .left, lines: Int = 1){
         self.init(frame: .zero)
@@ -23,8 +21,6 @@ class NFBodyLabel: UILabel {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+    
+    required init?(coder: NSCoder) {fatalError()}
 }

@@ -8,9 +8,7 @@
 import UIKit
 
 class NFImageView: UIImageView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
+    override init(frame: CGRect) {super.init(frame: frame)}
     
     convenience init(image: ImageResource, cornerRadius: CGFloat = 0, contentMode: ContentMode = .scaleAspectFill ){
         self.init(frame: .zero)
@@ -22,8 +20,5 @@ class NFImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+    required init?(coder: NSCoder) {fatalError()}
 }

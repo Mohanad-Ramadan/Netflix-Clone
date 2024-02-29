@@ -8,9 +8,7 @@
 import UIKit
 
 class NFTitleLabel: UILabel {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
+    override init(frame: CGRect) {super.init(frame: frame)}
     
     convenience init(text: String, color: UIColor = .white, textAlignment: NSTextAlignment = .left, lines: Int = 0, autoLayout: Bool = true){
         self.init(frame: .zero)
@@ -23,8 +21,6 @@ class NFTitleLabel: UILabel {
         translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
+    
+    required init?(coder: NSCoder) {fatalError()}
 }

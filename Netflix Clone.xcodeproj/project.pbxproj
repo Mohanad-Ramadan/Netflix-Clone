@@ -55,6 +55,7 @@
 		148DB47E2B682A7F00100298 /* Trailer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148DB47D2B682A7F00100298 /* Trailer.swift */; };
 		14A491F02B8F62320090AF08 /* NFBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */; };
 		14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */; };
+		14A491F62B8FD8EF0090AF08 /* NFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F52B8FD8EF0090AF08 /* NFButton.swift */; };
 		14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */; };
 		14C7A4572B5B2B94001EEC08 /* New$HotTableViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C7A4562B5B2B94001EEC08 /* New$HotTableViewConfig.swift */; };
 		14CFB1E32B56F55A0036FE91 /* HomeHeaderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */; };
@@ -118,6 +119,7 @@
 		148DB47D2B682A7F00100298 /* Trailer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trailer.swift; sourceTree = "<group>"; };
 		14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFBodyLabel.swift; sourceTree = "<group>"; };
 		14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTitleLabel.swift; sourceTree = "<group>"; };
+		14A491F52B8FD8EF0090AF08 /* NFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFButton.swift; sourceTree = "<group>"; };
 		14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotCategoryBarUIView.swift; sourceTree = "<group>"; };
 		14C7A4562B5B2B94001EEC08 /* New$HotTableViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = New$HotTableViewConfig.swift; sourceTree = "<group>"; };
 		14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderConfig.swift; sourceTree = "<group>"; };
@@ -361,13 +363,21 @@
 			path = "New&HotTableViewCell";
 			sourceTree = "<group>";
 		};
-		14A491F32B8F66A20090AF08 /* Label */ = {
+		14A491F32B8F66A20090AF08 /* Labels */ = {
 			isa = PBXGroup;
 			children = (
 				14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */,
 				14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */,
 			);
-			path = Label;
+			path = Labels;
+			sourceTree = "<group>";
+		};
+		14A491F42B8FD88A0090AF08 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				14A491F52B8FD8EF0090AF08 /* NFButton.swift */,
+			);
+			path = Buttons;
 			sourceTree = "<group>";
 		};
 		14DCE3D12B223EC700DCD959 /* SearchVC */ = {
@@ -394,8 +404,9 @@
 			isa = PBXGroup;
 			children = (
 				14EF75B32B8DFA89004D0279 /* UIViews */,
-				14EF75B62B8E0931004D0279 /* ImageView */,
-				14A491F32B8F66A20090AF08 /* Label */,
+				14EF75B62B8E0931004D0279 /* ImageViews */,
+				14A491F42B8FD88A0090AF08 /* Buttons */,
+				14A491F32B8F66A20090AF08 /* Labels */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -441,13 +452,13 @@
 			path = UIViews;
 			sourceTree = "<group>";
 		};
-		14EF75B62B8E0931004D0279 /* ImageView */ = {
+		14EF75B62B8E0931004D0279 /* ImageViews */ = {
 			isa = PBXGroup;
 			children = (
 				14EF75B42B8DFACB004D0279 /* NFImageView.swift */,
 				14EF75B72B8E1231004D0279 /* NFPosterImageView.swift */,
 			);
-			path = ImageView;
+			path = ImageViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -582,6 +593,7 @@
 				145EDE7B2B8BBF3E00B49A48 /* ViewController-EXT.swift in Sources */,
 				144470E92B43531300843068 /* Detail.swift in Sources */,
 				14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */,
+				14A491F62B8FD8EF0090AF08 /* NFButton.swift in Sources */,
 				148DB47E2B682A7F00100298 /* Trailer.swift in Sources */,
 				1488D3242B0E49600020AF07 /* HomeBackgroundUIView.swift in Sources */,
 			);

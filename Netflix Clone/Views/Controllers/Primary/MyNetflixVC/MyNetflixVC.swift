@@ -104,9 +104,8 @@ class MyNetflixVC: UIViewController {
         
     private let userLabel: UIButton = {
         let button = UIButton()
-        var configuration = UIButton.Configuration.filled() 
+        var configuration = UIButton.Configuration.plain()
         configuration.title = "User1"
-        configuration.baseBackgroundColor = .clear
         configuration.baseForegroundColor = .white
         configuration.image = UIImage(systemName: "chevron.down")
         configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)

@@ -15,21 +15,7 @@ class EntertainmentDetailsVC: UIViewController {
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
         
-        [
-            netflixLogo,
-            categoryLabel,
-            entertainmentTitle,
-            detailsLabel,
-            top10Logo,
-            top10DetailsLabel,
-            playButton,
-            overViewLabel,
-            castLabel,
-            expandCastButton,
-            directorLabel,
-            threeButtons,
-            viewSwitchButtons
-            
+        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, top10Logo, top10DetailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons, viewSwitchButtons
         ].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
@@ -92,6 +78,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     public func configureCast(with model: MovieViewModel){
         castLabel.text = model.cast
+        castLabel.lineBreakMode = .byTruncatingTail
         directorLabel.text = model.director
     }
     
@@ -105,28 +92,28 @@ class EntertainmentDetailsVC: UIViewController {
     
     public func configureVideos(with model: MovieViewModel){
         // Trailer Configuration
-        guard let videosResult = model.videosResult else {return}
-        guard let entertainmentName = model.title else {return}
-        
-        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
-        
-        NetworkManager.shared.getYoutubeVideos(query: trialerVideoQuery) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let videoId):
-                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoId)") else {
-                        fatalError("can't get the youtube trailer url")
-                    }
-                    self.entertainmentTrailer.load(URLRequest(url: url))
-                case .failure(let failure):
-                    print("Error getting Trailer video:", failure)
-                }
-            }
-        }
-
-        // pass th videos without the one taken for the entertainmentTrailer webView
-        trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
-        trailerVideosCount = trailers.count
+//        guard let videosResult = model.videosResult else {return}
+//        guard let entertainmentName = model.title else {return}
+//        
+//        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
+//        
+//        NetworkManager.shared.getYoutubeVideos(query: trialerVideoQuery) { result in
+//            DispatchQueue.main.async {
+//                switch result {
+//                case .success(let videoId):
+//                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoId)") else {
+//                        fatalError("can't get the youtube trailer url")
+//                    }
+//                    self.entertainmentTrailer.load(URLRequest(url: url))
+//                case .failure(let failure):
+//                    print("Error getting Trailer video:", failure)
+//                }
+//            }
+//        }
+//
+//        // pass th videos without the one taken for the entertainmentTrailer webView
+//        trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
+//        trailerVideosCount = trailers.count
         
     }
     
@@ -213,8 +200,10 @@ class EntertainmentDetailsVC: UIViewController {
     
     // Expand cast button Constraints
     private func expandCastButtonConstriants() {
+        expandCastButton.configuration?.contentInsets = .init(top: 0, leading: 2, bottom: 1, trailing: 0)
         expandCastButton.centerYAnchor.constraint(equalTo: castLabel.centerYAnchor).isActive = true
         expandCastButton.leadingAnchor.constraint(equalTo: castLabel.trailingAnchor).isActive = true
+        expandCastButton.trailingAnchor.constraint(lessThanOrEqualTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
 
     
@@ -387,6 +376,7 @@ class EntertainmentDetailsVC: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+//    private let playButton = NFButton(filledButtonTitle: "Play", image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold, withSmallCorner: true)
     
     private let overViewLabel = NFBodyLabel(color: .white, fontSize: 15, lines: 0)
     
@@ -408,6 +398,7 @@ class EntertainmentDetailsVC: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+//    private let expandCastButton = NFButton(plainButtonTitle: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
     
     private let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     

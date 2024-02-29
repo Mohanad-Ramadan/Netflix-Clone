@@ -8,9 +8,7 @@
 import UIKit
 
 class NFPosterImageView: UIImageView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
+    override init(frame: CGRect) {super.init(frame: frame)}
     
     convenience init(cornerRadius: CGFloat = 0, contentMode: ContentMode = .scaleAspectFill, autoLayout: Bool = true){
         self.init(frame: .zero)
@@ -25,8 +23,6 @@ class NFPosterImageView: UIImageView {
         sd_setImage(with: url)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
+    required init?(coder: NSCoder) {fatalError()}
 }

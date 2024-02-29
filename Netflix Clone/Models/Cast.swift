@@ -27,9 +27,8 @@ struct Cast: Codable, CastSeparatable, ReturnDirector{
     }
     
     func returnThreeCastSeperated(with: String) -> String {
-        let castNames = cast.prefix(3)
-        let threeCast = castNames.map { $0.name }
-        return "Cast: " + threeCast.joined(separator: with)
+        let names = cast.map { $0.name }
+        return "Cast: " + names.joined(separator: with)
     }
 }
 
