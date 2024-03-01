@@ -8,13 +8,10 @@
 import UIKit
 
 class HomeCategoryBarUIView: UIView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        addSubview(tvShowsButton)
-        addSubview(moviesButton)
-        addSubview(categoriesButton)
+        [tvShowsButton, moviesButton, categoriesButton].forEach {addSubview($0)}
         applyConstraints()
     }
     
@@ -37,40 +34,10 @@ class HomeCategoryBarUIView: UIView {
         ])
     }
     
-    private func createButton(title: String, image: UIImage? = nil) -> UIButton {
-           let button = UIButton()
-           var configuration = UIButton.Configuration.filled()
-           configuration.title = title
-           configuration.baseBackgroundColor = .clear
-           configuration.baseForegroundColor = .white
-           configuration.cornerStyle = .capsule
-           configuration.background.strokeWidth = 1
-           configuration.background.strokeColor = UIColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.5)
-           configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-               var outgoing = incoming
-               outgoing.font = .systemFont(ofSize: 14, weight: .bold)
-               return outgoing
-           }
-           
-           if let image = image {
-               configuration.image = image
-               configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .medium)
-               configuration.imagePlacement = .trailing
-               configuration.imagePadding = 8
-           }
-           
-           button.configuration = configuration
-           button.translatesAutoresizingMaskIntoConstraints = false
-           return button
-       }
-
-       private lazy var tvShowsButton: UIButton = createButton(title: "TV Shows")
-       private lazy var moviesButton: UIButton = createButton(title: "Movies")
-       private lazy var categoriesButton: UIButton = createButton(title: "Categories", image: UIImage(systemName: "chevron.down"))
-
+    private var tvShowsButton = NFPlainButton(barButtontitle: "TV Shows")
+    private var moviesButton = NFPlainButton(barButtontitle: "Movies")
+    private var categoriesButton = NFPlainButton(barButtontitle: "Categories", image: UIImage(systemName: "chevron.down"))
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }
 

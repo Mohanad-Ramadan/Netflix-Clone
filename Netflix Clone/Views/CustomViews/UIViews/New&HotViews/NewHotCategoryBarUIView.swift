@@ -8,17 +8,11 @@
 import UIKit
 
 class NewHotCategoryBarUIView: UIView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
         addSubview(scrollView)
-        scrollView.addSubview(comingSoonButton)
-        scrollView.addSubview(everyoneWatchingButton)
-        scrollView.addSubview(toptenTvShowsButton)
-        scrollView.addSubview(toptenMoviesButton)
-        applyConstraints()
-        
+        configureButtons()
         buttonsTarget()
     }
     
@@ -93,8 +87,17 @@ class NewHotCategoryBarUIView: UIView {
         toptenMoviesButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
     
-    //MARK: - Constraints
-    private func applyConstraints() {
+    //MARK: - Configure Buttons
+    private func configureButtons() {
+        
+        [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton].forEach {scrollView.addSubview($0)}
+        
+        comingSoonButton.configureButtonImageWith(UIImage(resource: .popcorn), width: 20, height: 20, placement: .leading, padding: 8)
+        everyoneWatchingButton.configureButtonImageWith(UIImage(resource: .fire), width: 20, height: 20, placement: .leading, padding: 8)
+        toptenTvShowsButton.configureButtonImageWith(UIImage(resource: .top10), width: 20, height: 20, placement: .leading, padding: 8)
+        toptenMoviesButton.configureButtonImageWith(UIImage(resource: .top10), width: 20, height: 20, placement: .leading, padding: 8)
+        
+        // Constraints
         NSLayoutConstraint.activate([
             // ScrollView Containter
             scrollView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
@@ -125,7 +128,7 @@ class NewHotCategoryBarUIView: UIView {
         ])
     }
     
-    //MARK: - Views Declaration
+    //MARK: - Declare Views
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
@@ -137,13 +140,10 @@ class NewHotCategoryBarUIView: UIView {
     }()
     
     
-    private var comingSoonButton = NFFilledButton(title: "Coming Soon", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .popcorn), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    
-    private var everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .fire), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    
-    private var toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .top10), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    
-    private var toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", titleColor: .white, backgroundColor: .black, image: UIImage(resource: .top10), fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let comingSoonButton = NFFilledButton(title: "Coming Soon", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
     
     
     private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
@@ -151,8 +151,5 @@ class NewHotCategoryBarUIView: UIView {
     var selectedButtonIndex = 0
     
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    required init?(coder: NSCoder) {fatalError()}
 }

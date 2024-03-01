@@ -33,7 +33,16 @@ class NFFilledButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    
+    func configureButtonImageWith(_ image: UIImage, tinted: UIColor? = nil , width: CGFloat, height: CGFloat, placement: NSDirectionalRectEdge, padding: CGFloat) {
+        
+        if tinted != nil {
+            configuration?.image = image.sd_resizedImage(with: CGSize(width: width, height: height), scaleMode: .aspectFit)?.withTintColor(tinted!)
+        } else {
+            configuration?.image = image.sd_resizedImage(with: CGSize(width: width, height: height), scaleMode: .aspectFit)
+        }
+        configuration?.imagePlacement = placement
+        configuration?.imagePadding = padding
+    }
     
     
     required init?(coder: NSCoder) {fatalError()}

@@ -90,26 +90,6 @@ class ViewSwitchButtonsUIView: UIView {
     }
     
     //MARK: - Views Declaration
-    private func createButton(title: String) -> UIButton {
-        let button = UIButton()
-        var configuration = UIButton.Configuration.filled()
-        configuration.title = title
-        configuration.baseBackgroundColor = .clear
-        configuration.baseForegroundColor = .lightGray
-        configuration.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
-            var outgoing = incoming
-            outgoing.font = .systemFont(ofSize: 16, weight: .bold)
-            return outgoing
-        }
-        
-        button.configuration = configuration
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }
-    
-    private lazy var moreButton: UIButton = createButton(title: "More Like This")
-    private lazy var trailerButton: UIButton = createButton(title: "Trailer & More")
-    
     private let redSelectLine: UIView = {
         let rectangle = UIView()
         rectangle.backgroundColor = UIColor.red
@@ -117,11 +97,13 @@ class ViewSwitchButtonsUIView: UIView {
         return rectangle
     }()
     
+    private let moreButton = NFPlainButton(title: "More Like This", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let trailerButton = NFPlainButton(title: "Trailer & More", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    
+    
     var selectedButtonView : SelectedView?
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 
 }
 
