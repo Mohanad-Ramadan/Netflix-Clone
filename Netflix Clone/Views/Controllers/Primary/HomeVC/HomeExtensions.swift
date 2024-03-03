@@ -57,6 +57,13 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollOffest = scrollView.contentOffset.y + (navigationController?.navigationBar.bounds.height)!
+        let contentOffest = heroHeaderView.bounds.height
+        let backgorundAlphaValue = max(0, min(1 - scrollOffest / contentOffest, 1.0))
+        homeBackground.alpha = backgorundAlphaValue
+    }
+    
 }
 
 //MARK: - CellTapedAction extension

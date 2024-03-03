@@ -20,6 +20,7 @@ class NFPosterImageView: UIImageView {
     
     func downloadImageFrom(_ endpoint: String){
         guard let url = URL(string: Constants.imageURL + endpoint) else {return}
+        sd_imageTransition = .fade
         sd_setImage(with: url)
     }
     

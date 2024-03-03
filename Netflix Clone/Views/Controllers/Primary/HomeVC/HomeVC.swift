@@ -44,16 +44,6 @@ class HomeVC: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offsetY = scrollView.contentOffset.y
-        let boundsHeight = headerContainer.bounds.height
-        
-        let blackLayerLocation = max(0, min(1 - offsetY / boundsHeight, 1.0))
-        
-        self.homeBackground.changeGradientLocations(to: blackLayerLocation)
-        
-    }
-    
     private func applyConstriants() {
         // Apply constraints for categorySelectButtons
         categorySelectButtons.translatesAutoresizingMaskIntoConstraints = false

@@ -21,6 +21,7 @@ class HeroHeaderUIView: UIView {
     func configureHeaderView(with model: MovieViewModel) {
         DispatchQueue.main.async { [weak self] in
             if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
+                self?.posterImageView.sd_imageTransition = .fade
                 self?.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
                     self?.getImageDominantColor()
                 }

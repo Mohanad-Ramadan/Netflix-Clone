@@ -10,9 +10,11 @@ import UIKit
 class HomeBackgroundUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .black
+        backGroundPoster.alpha = 0
         addSubview(backGroundPoster)
     }
-    
+   
     override func layoutSubviews() {
         super.layoutSubviews()
         backGroundPoster.frame = bounds
@@ -39,31 +41,17 @@ class HomeBackgroundUIView: UIView {
     
     //MARK: - Gradient layer
     func addGradientLayer(color: UIColor) {
-        gradientLayer.colors = [
-            color.cgColor,
-            UIColor.black.cgColor
-        ]
-
-        gradientLayer.locations = [NSNumber(value: 0.0), NSNumber(value: 1.0)]
-        backGroundPoster.layer.addSublayer(gradientLayer)
-        gradientLayer.frame = backGroundPoster.bounds
-    }
-    
-    // Change location by scrolling
-    func changeGradientLocations(to currentlocation: CGFloat){
-        DispatchQueue.main.async {
-            self.gradientLayer.locations = [NSNumber(value: 0.0), NSNumber(value: currentlocation)]
-        }
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [color.cgColor, UIColor.clear.cgColor]
+        gradientLayer.locations = [NSNumber(value: 0.0), NSNumber(value: 1.7)]
+        self.layer.addSublayer(gradientLayer)
+        gradientLayer.frame = bounds
     }
     
     //MARK: - Declare UIElements
     private var backGroundPoster = NFPosterImageView(autoLayout: false)
     
-    private var gradientLayer: CAGradientLayer = CAGradientLayer()
     
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }
 

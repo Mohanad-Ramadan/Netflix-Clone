@@ -234,7 +234,6 @@
 		145FB1062AD402540019A439 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				145FB0F62AD3FEC30019A439 /* MainTabBarController.swift */,
 				140B13AF2ADEB83600AB2387 /* Primary */,
 				140B13B02ADEB84000AB2387 /* Secondary */,
 			);
@@ -275,6 +274,7 @@
 		145FB1132AD46C780019A439 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				145FB0F62AD3FEC30019A439 /* MainTabBarController.swift */,
 				145FB0F22AD3FEC30019A439 /* AppDelegate.swift */,
 				145FB0F42AD3FEC30019A439 /* SceneDelegate.swift */,
 				1400D3932ADC4A3200491F75 /* Constants.swift */,
