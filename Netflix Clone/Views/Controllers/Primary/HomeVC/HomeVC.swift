@@ -13,6 +13,7 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         configureVC()
         configureViews()
+        fetchHeaderAndBackgound()
     }
     
     //MARK: - Configure UIElements
@@ -22,8 +23,8 @@ class HomeVC: UIViewController {
         view.addSubview(homeFeedTable)
         homeFeedTable.frame = view.bounds
         
-        view.addSubview(skeletonLoadingView)
-        skeletonLoadingView.frame = view.bounds
+        view.addSubview(loadingView)
+        loadingView.frame = view.bounds
     }
     
     private func configureViews() {
@@ -40,7 +41,6 @@ class HomeVC: UIViewController {
         heroHeaderView.delegate = self
         
         // configure UIElements
-        fetchHeaderAndBackgound()
         applyConstriants()
     }
     
@@ -92,7 +92,7 @@ class HomeVC: UIViewController {
     private let categorySelectButtons = HomeCategoryBarUIView()
     var heroHeaderView = HeroHeaderUIView()
     var homeBackground = HomeBackgroundUIView()
-    let skeletonLoadingView = HomeLoadingUIView()
+    let loadingView = HomeLoadingUIView()
     
     let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
     

@@ -11,21 +11,28 @@ class NewHotVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureVC()
+        configureView()
+        handleUIAndDataFetching()
+    }
+    
+    //MARK: - Configure UIElements
+    private func configureVC(){
+        configureNavbar()
         view.backgroundColor = .black
+    }
+    
+    private func configureView(){
         view.addSubview(newAndHotTable)
         view.addSubview(categoryButtonsBar)
+        view.addSubview(loadingView)
+        
+        loadingView.frame = view.bounds
         
         newAndHotTable.delegate = self
         newAndHotTable.dataSource = self
         
         applyConstriants()
-        configureNavbar()
-        
-        handleUIAndDataFetching()
-    }
-    
-    @objc func searchButtonTapped() {
-        pushInMainThreadTo(SearchVC())
     }
     
     private func configureNavbar() {
@@ -37,9 +44,14 @@ class NewHotVC: UIViewController {
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.isTranslucent = false
     }
+
+    @objc func searchButtonTapped() {
+        pushInMainThreadTo(SearchVC())
+    }
     
-    
+    //MARK: - Apply constraints
     private func applyConstriants() {
+        
         // Apply constraints for categorySelectButtons
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -57,7 +69,8 @@ class NewHotVC: UIViewController {
         
     }
     
-    lazy var newAndHotTable: UITableView = {
+    //MARK: - Declare UIElements
+    var newAndHotTable: UITableView = {
         let table = UITableView()
         table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
         table.separatorStyle = .none
@@ -67,10 +80,9 @@ class NewHotVC: UIViewController {
     }()
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
-    
+    let loadingView = NewHotLoadingUIView()
     var entertainments: [Entertainment] = [Entertainment]()
     
     var isTheTappedEntertainmentTrend: Bool?
-
 }
 

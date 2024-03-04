@@ -77,7 +77,7 @@ extension HomeVC :HomeTableViewCellDelegate {
 //MARK: - HeroHeaderViewDelegate extension
 extension HomeVC: HeroHeaderViewDelegate{
     func finishLoadingPoster() {
-        skeletonLoadingView.removeFromSuperview()
+        loadingView.removeFromSuperview()
     }
     
 }

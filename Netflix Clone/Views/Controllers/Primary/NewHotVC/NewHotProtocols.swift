@@ -1,5 +1,5 @@
 //
-//  TableViewExtensions.swift
+//  NewHotProtocols.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 07/12/2023.
@@ -170,3 +170,5 @@ extension NewHotVC: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+
+//MARK: 
