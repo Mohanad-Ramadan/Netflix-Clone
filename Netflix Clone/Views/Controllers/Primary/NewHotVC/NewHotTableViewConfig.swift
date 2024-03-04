@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension NewAndHotVC {
+extension NewHotVC {
     
     enum ButtonTapped: Int {
         case comingSoon = 0  , everyoneWatching = 1 , toptenTv = 2 , toptenMovies = 3

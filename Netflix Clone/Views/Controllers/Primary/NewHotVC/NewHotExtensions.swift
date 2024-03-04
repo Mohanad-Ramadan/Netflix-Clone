@@ -8,7 +8,7 @@
 import UIKit
 
 
-extension NewAndHotVC: UITableViewDelegate, UITableViewDataSource {
+extension NewHotVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return entertainments.count

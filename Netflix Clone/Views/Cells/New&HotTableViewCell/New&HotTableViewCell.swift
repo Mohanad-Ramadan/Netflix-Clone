@@ -187,13 +187,13 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     private let dayLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
     
-    private let backdropImageView = NFPosterImageView(cornerRadius: 10, autoLayout: false)
+    private let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
     
     private let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
     private let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
-    private let logoView = NFPosterImageView(contentMode: .scaleAspectFit, autoLayout: false)
+    private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
     private let entertainmentDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
     

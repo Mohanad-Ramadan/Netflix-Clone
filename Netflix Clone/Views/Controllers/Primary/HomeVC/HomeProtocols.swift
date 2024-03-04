@@ -1,5 +1,5 @@
 //
-//  HomeVCDelegateExtension.swift
+//  HomeProtocols.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 04/12/2023.
@@ -67,12 +67,17 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: - CellTapedAction extension
-
 extension HomeVC :HomeTableViewCellDelegate {
-    
     func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, navigateTo vc: EntertainmentDetailsVC) {
         presentInMainThread(vc)
     }
     
 }
 
+//MARK: - HeroHeaderViewDelegate extension
+extension HomeVC: HeroHeaderViewDelegate{
+    func finishLoadingPoster() {
+        skeletonLoadingView.removeFromSuperview()
+    }
+    
+}

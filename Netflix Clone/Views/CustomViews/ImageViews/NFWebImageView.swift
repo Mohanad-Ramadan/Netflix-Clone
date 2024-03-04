@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NFPosterImageView: UIImageView {
+class NFWebImageView: UIImageView {
     override init(frame: CGRect) {super.init(frame: frame)}
     
     convenience init(cornerRadius: CGFloat = 0, contentMode: ContentMode = .scaleAspectFill, autoLayout: Bool = true){

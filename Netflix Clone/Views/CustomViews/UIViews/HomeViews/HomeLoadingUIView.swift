@@ -8,22 +8,15 @@
 import UIKit
 import SkeletonView
 
-class SkeletonLoadingUIView: UIView {
+class HomeLoadingUIView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
-        addSubview(headerImageView)
-        addSubview(headerText)
-        addSubview(headerButton)
-        addSubview(postersViewsHeader)
-        addSubview(posterView1)
-        addSubview(posterView2)
-        addSubview(posterView3)
-        addSubview(posterView4)
+        [headerImageView,headerText,headerButton,postersViewsHeader,posterView1,posterView2,posterView3,posterView4]
+            .forEach{addSubview($0)}
         applyConstraints()
         activateSkeletonEffect()
-        
     }
     
     private func activateSkeletonEffect() {
@@ -45,7 +38,7 @@ class SkeletonLoadingUIView: UIView {
         posterView3.showAnimatedGradientSkeleton()
         posterView4.showAnimatedGradientSkeleton()
     }
-    
+
     private let headerImageView: UIView = {
         let view = UIView()
         view.contentMode = .scaleAspectFill
@@ -125,7 +118,7 @@ class SkeletonLoadingUIView: UIView {
     
     private func applyConstraints() {
         let headerImageConstraints = [
-            headerImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor , constant: UIScreen.main.bounds.width/2.4),
+            headerImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor , constant: UIScreen.main.bounds.width/3),
             headerImageView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             headerImageView.heightAnchor.constraint(equalToConstant: 250),
             headerImageView.widthAnchor.constraint(equalToConstant: 200)
@@ -189,4 +182,9 @@ class SkeletonLoadingUIView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+
+#Preview{
+    HomeLoadingUIView()
 }

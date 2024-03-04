@@ -7,9 +7,13 @@
 
 import UIKit
 import SDWebImage
+import SkeletonView
+
+protocol HeroHeaderViewDelegate:AnyObject {
+    func finishLoadingPoster()
+}
 
 class HeroHeaderUIView: UIView {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach {addSubview($0)}
@@ -21,9 +25,9 @@ class HeroHeaderUIView: UIView {
     func configureHeaderView(with model: MovieViewModel) {
         DispatchQueue.main.async { [weak self] in
             if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
-                self?.posterImageView.sd_imageTransition = .fade
                 self?.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
                     self?.getImageDominantColor()
+                    self?.delegate.finishLoadingPoster()
                 }
             }
             
@@ -45,7 +49,6 @@ class HeroHeaderUIView: UIView {
     
     //MARK: - Create Gradient layer
     private func addGradientLayer(color: UIColor) {
-        let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor.clear.cgColor,
             color.withAlphaComponent(0.1).cgColor,
@@ -63,7 +66,6 @@ class HeroHeaderUIView: UIView {
 
         let locations = Array(stride(from: 0.43, through: 1.0, by: stepSize))
         gradientLayer.locations = locations.map { NSNumber(value: $0) }
-        
         posterImageView.layer.addSublayer(gradientLayer)
         gradientLayer.frame = posterImageView.bounds
     }
@@ -80,7 +82,7 @@ class HeroHeaderUIView: UIView {
     private func configureViews() {
         // Apply shadow for some views
         createShadowFor(shadowWrapperView, opacity: 0.3, radius: 8)
-        [categoryLabel, playButton, listButton].forEach {createShadowFor($0, opacity: 0.4, radius: 2)}
+        createShadowFor(categoryLabel, opacity: 0.4, radius: 2)
         
         // Apply constraints shadowContainerView
         let shadowWrapperConstraints = [
@@ -136,12 +138,14 @@ class HeroHeaderUIView: UIView {
     
     
     //MARK: - Declare Subviews
-    private let posterImageView: NFPosterImageView = {
-        let image = NFPosterImageView(cornerRadius: 15, autoLayout: false)
+    private let posterImageView: NFWebImageView = {
+        let image = NFWebImageView(cornerRadius: 15, autoLayout: false)
         image.layer.borderWidth = 1
         image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.1)
         return image
     }()
+    
+    private let gradientLayer = CAGradientLayer()
     
     private let shadowWrapperView: UIView = {
         let wrapperView = UIView()
@@ -149,7 +153,7 @@ class HeroHeaderUIView: UIView {
         return wrapperView
     }()
     
-    private let logoView = NFPosterImageView(contentMode: .scaleAspectFit, autoLayout: false)
+    private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
     private let categoryLabel: NFBodyLabel = {
         let label = NFBodyLabel(fontSize: 14, fontWeight: .medium, textAlignment: .center)
@@ -157,9 +161,11 @@ class HeroHeaderUIView: UIView {
         return label
     }()
     
-    private let playButton = NFFilledButton(title: "Play",image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .bold)
+    private let playButton = NFFilledButton(title: "Play",image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
     
-    private let listButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .bold)
+    private let listButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
+    
+    weak var delegate: HeroHeaderViewDelegate!
     
     
     required init?(coder: NSCoder) {fatalError()}

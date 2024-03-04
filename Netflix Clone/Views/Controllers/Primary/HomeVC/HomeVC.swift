@@ -11,29 +11,37 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureVC()
+        configureViews()
+    }
+    
+    //MARK: - Configure UIElements
+    private func configureVC() {
+        configureNavbar()
+        
         view.addSubview(homeFeedTable)
+        homeFeedTable.frame = view.bounds
+        
+        view.addSubview(skeletonLoadingView)
+        skeletonLoadingView.frame = view.bounds
+    }
+    
+    private func configureViews() {
+        // Add subviews
         headerContainer.addSubview(categorySelectButtons)
         headerContainer.addSubview(heroHeaderView)
         
         homeFeedTable.tableHeaderView = headerContainer
         homeFeedTable.backgroundView = homeBackground
         
-        configureNavbar()
-        fetchHeaderAndBackgound()
-        applyConstriants()
-        
+        // configure delagtes
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
+        heroHeaderView.delegate = self
         
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        homeFeedTable.frame = view.bounds
-    }
-    
-    @objc func searchButtonTapped() {
-        pushInMainThreadTo(SearchVC())
+        // configure UIElements
+        fetchHeaderAndBackgound()
+        applyConstriants()
     }
     
     private func configureNavbar() {
@@ -44,6 +52,11 @@ class HomeVC: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
+    @objc func searchButtonTapped() {
+        pushInMainThreadTo(SearchVC())
+    }
+    
+    //MARK: - Apply constraints
     private func applyConstriants() {
         // Apply constraints for categorySelectButtons
         categorySelectButtons.translatesAutoresizingMaskIntoConstraints = false
@@ -64,15 +77,9 @@ class HomeVC: UIViewController {
         ])
     }
     
+    
+    //MARK: - Declare UIElements
     private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height*(7/17), height: UIScreen.main.bounds.height/1.40 ))
-    
-    private let skeletonLoadingView = SkeletonLoadingUIView()
-    
-    private let categorySelectButtons = HomeCategoryBarUIView()
-    
-    var heroHeaderView = HeroHeaderUIView()
-    
-    var homeBackground = HomeBackgroundUIView()
     
     private let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -81,6 +88,11 @@ class HomeVC: UIViewController {
         table.showsVerticalScrollIndicator = false
         return table
     }()
+    
+    private let categorySelectButtons = HomeCategoryBarUIView()
+    var heroHeaderView = HeroHeaderUIView()
+    var homeBackground = HomeBackgroundUIView()
+    let skeletonLoadingView = HomeLoadingUIView()
     
     let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
     

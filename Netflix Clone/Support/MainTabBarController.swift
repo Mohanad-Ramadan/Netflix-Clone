@@ -12,7 +12,7 @@ class MainTabBarVC: UITabBarController {
         super.viewDidLoad()
         
         let vc1 = UINavigationController(rootViewController: HomeVC())
-        let vc2 = UINavigationController(rootViewController: NewAndHotVC())
+        let vc2 = UINavigationController(rootViewController: NewHotVC())
         let vc3 = UINavigationController(rootViewController: MyNetflixVC())
         
         vc1.tabBarItem.image = UIImage(systemName: "house.fill")

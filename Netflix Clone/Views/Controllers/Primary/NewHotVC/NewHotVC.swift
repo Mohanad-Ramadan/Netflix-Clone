@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewAndHotVC: UIViewController {
+class NewHotVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

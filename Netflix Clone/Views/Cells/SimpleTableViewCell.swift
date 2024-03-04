@@ -51,7 +51,7 @@ class SimpleTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(playTitleButtonConstraints)
     }
     
-    private let entertainmentBackdropImageView = NFPosterImageView(cornerRadius: 6, autoLayout: false)
+    private let entertainmentBackdropImageView = NFWebImageView(cornerRadius: 6, autoLayout: false)
 
     private let titleLabel = NFBodyLabel(fontSize: 15, fontWeight: .semibold, lines: 2)
     

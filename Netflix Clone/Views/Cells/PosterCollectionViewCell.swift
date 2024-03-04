@@ -22,7 +22,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         posterImageView.downloadImageFrom(endpoint)
     }
     
-    private let posterImageView = NFPosterImageView(cornerRadius: 5)
+    private let posterImageView = NFWebImageView(cornerRadius: 5)
     
     static let identifier = "PosterCollectionViewCell"
     

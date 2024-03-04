@@ -49,7 +49,7 @@ class HomeBackgroundUIView: UIView {
     }
     
     //MARK: - Declare UIElements
-    private var backGroundPoster = NFPosterImageView(autoLayout: false)
+    private var backGroundPoster = NFWebImageView(autoLayout: false)
     
     
     required init?(coder: NSCoder) {fatalError()}
