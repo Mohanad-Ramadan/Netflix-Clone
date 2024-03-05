@@ -15,7 +15,6 @@ extension NewHotVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NewAndHotTableViewCell.identifier, for: indexPath) as? NewAndHotTableViewCell else {
             return UITableViewCell()
         }
@@ -61,7 +60,7 @@ extension NewHotVC: UITableViewDelegate, UITableViewDataSource {
                         // detail
                         let detail = fetchedDetials
                         let detailCategory = detail.separateGenres(with: " • ")
-                        print(mediaType)
+                        
                         // cell details configuration
                         cell.configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType))
                     case .failure(let failure):
@@ -166,9 +165,11 @@ extension NewHotVC: UITableViewDelegate, UITableViewDataSource {
         
         presentInMainThread(vc)
     }
-    
-    
+        
 }
 
-
-//MARK: 
+//extension NewHotVC: NewAndHotTableViewCellDelegate {
+//    func finishLoadingPoster() {
+//        loadingView.removeFromSuperview()
+//    }
+//}

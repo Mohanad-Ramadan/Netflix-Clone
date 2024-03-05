@@ -49,14 +49,16 @@ extension NewHotVC {
             isTheTappedEntertainmentTrend = false
             
         case ButtonTapped.everyoneWatching.rawValue:
-            NetworkManager.shared.getTrending { results in
-                switch results {
-                case .success(let entertainments):
+            Task{
+                do {
+                    let entertainments = try await NetworkManager.shared.getTrending()
                     self.entertainments = entertainments
-                    DispatchQueue.main.async {
-                        self.newAndHotTable.reloadData()
-                    }
-                case .failure(let error):
+                    newAndHotTable.reloadData()
+                } catch let error as APIError {
+//                    presentGFAlert(messageText: error.rawValue)
+                    print(error)
+                } catch {
+//                    presentDefaultError()
                     print(error.localizedDescription)
                 }
             }

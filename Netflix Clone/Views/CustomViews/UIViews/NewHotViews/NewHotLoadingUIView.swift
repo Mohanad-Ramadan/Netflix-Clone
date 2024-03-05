@@ -35,14 +35,14 @@ class NewHotLoadingUIView: UIView {
     
     private func configureMainViews(){
         let containerOneConstraints = [
-            containerOne.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor ,constant: 50),
+            containerOne.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor ,constant: 10),
             containerOne.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3),
             containerOne.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3),
             containerOne.heightAnchor.constraint(equalToConstant: 300)
         ]
         
         let containerTwoConstraints = [
-            containerTwo.topAnchor.constraint(equalTo: containerOne.bottomAnchor, constant: 10),
+            containerTwo.topAnchor.constraint(equalTo: containerOne.bottomAnchor, constant: 30),
             containerTwo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3),
             containerTwo.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3),
             containerTwo.heightAnchor.constraint(equalToConstant: 300)

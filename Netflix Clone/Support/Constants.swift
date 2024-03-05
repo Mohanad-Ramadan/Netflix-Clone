@@ -9,7 +9,14 @@ import Foundation
 
 
 struct Constants {
+    static func createUrlWith(endpoint: Endpoints) -> String{
+        let apiKey = "?api_key=db7efd1f212466edd2945ab1e9199ee1"
+        let baseURL = "https://api.themoviedb.org/3/"
+        return baseURL + endpoint.rawValue + apiKey
+    }
+    
     static let apiKey = "?api_key=db7efd1f212466edd2945ab1e9199ee1"
+    
     static let trendingAllURL = "https://api.themoviedb.org/3/trending/all/week\(apiKey)"
     static let trendingMoviesURL = "https://api.themoviedb.org/3/trending/movie/week\(apiKey)"
     static let upcomingMoviesURL = "https://api.themoviedb.org/3/movie/upcoming\(apiKey)"
@@ -30,6 +37,16 @@ struct Constants {
     static let entertainmentVCKey = "newButtonPressed2"
 }
 
+enum Endpoints: String {
+    case allTrending = "trending/all/week"
+    case weekTrendingMovies = "trending/movie/week"
+    case dayTrendingMovies = "trending/movie/day"
+    case weekTrendingTV = "trending/tv/week"
+    case dayTrendingTV = "trending/tv/day"
+    case popularMovies = "movie/popular"
+    case popularTV = "tv/popular"
+}
+
 
 //MARK: - Test url
 
@@ -40,8 +57,15 @@ struct Constants {
 // https://api.themoviedb.org/3/tv/top_rated?api_key=db7efd1f212466edd2945ab1e9199ee1&language=en-US&page=1
 
 //trending URL
+
+//tv and movies
+// https://api.themoviedb.org/3/trending/all/week?api_key=db7efd1f212466edd2945ab1e9199ee1
+
 //tv url
 // https://api.themoviedb.org/3/trending/tv/week?api_key=db7efd1f212466edd2945ab1e9199ee1
+
+// tv popular
+// https://api.themoviedb.org/3/tv/popular?api_key=db7efd1f212466edd2945ab1e9199ee1
 
 //movie url
 // https://api.themoviedb.org/3/trending/movie/week?api_key=db7efd1f212466edd2945ab1e9199ee1

@@ -7,8 +7,12 @@
 
 import UIKit
 
+//protocol NewAndHotTableViewCellDelegate:AnyObject {
+//    func finishLoadingPoster()
+//}
+
+
 class NewAndHotTableViewCell: UITableViewCell {
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
@@ -21,13 +25,11 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     //MARK: - Configure Cell
     func configureCellImages(with entertainment: MovieViewModel){
-        backdropImageView.downloadImageFrom(entertainment.backdropsPath ?? "noPath")
-        
+        backdropImageView.downloadImageFrom(entertainment.backdropsPath ?? "noPath") 
+//        {self.delegate.finishLoadingPoster()}
         logoView.downloadImageFrom(entertainment.logoPath ?? "noPath")
-        
         if let logoAspectRatio = entertainment.logoAspectRatio {
-            self.logoAspectRatio = logoAspectRatio > 4 ? 4 : logoAspectRatio
-            updateLogoViewConstraints()
+            updateLogoWidthBy(logoAspectRatio > 4 ? 4 : logoAspectRatio)
         }
     }
     
@@ -147,9 +149,9 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     
     //MARK: - Update Constraints
-    private func updateLogoViewConstraints() {
-        logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio))
-        let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: logoAspectRatio)
+    private func updateLogoWidthBy(_ aspectRatio: CGFloat) {
+        logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor))
+        let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: aspectRatio)
         widthConstraint.priority = .defaultHigh
         widthConstraint.isActive = true
         
@@ -207,11 +209,11 @@ class NewAndHotTableViewCell: UITableViewCell {
         
     private let genresLabel = NFBodyLabel(fontSize: 13)
     
-    private var logoAspectRatio = CGFloat(1)
-    var trendingSelected = true
     
+    var trendingSelected = true
     static let identifier = "NewAndHotTableViewCell"
     
+//    weak var delegate: NewAndHotTableViewCellDelegate!
     
     
     required init?(coder: NSCoder) {fatalError()}

@@ -55,6 +55,7 @@
 		1488403E2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1488403D2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift */; };
 		1488D3242B0E49600020AF07 /* HomeBackgroundUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1488D3232B0E49600020AF07 /* HomeBackgroundUIView.swift */; };
 		148DB47E2B682A7F00100298 /* Trailer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148DB47D2B682A7F00100298 /* Trailer.swift */; };
+		148EC12B2B97A57B00EFDD11 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */; };
 		14A491F02B8F62320090AF08 /* NFBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */; };
 		14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */; };
 		14A491F62B8FD8EF0090AF08 /* NFFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */; };
@@ -123,6 +124,7 @@
 		1488403D2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCategoryBarUIView.swift; sourceTree = "<group>"; };
 		1488D3232B0E49600020AF07 /* HomeBackgroundUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBackgroundUIView.swift; sourceTree = "<group>"; };
 		148DB47D2B682A7F00100298 /* Trailer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trailer.swift; sourceTree = "<group>"; };
+		148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 		14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFBodyLabel.swift; sourceTree = "<group>"; };
 		14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTitleLabel.swift; sourceTree = "<group>"; };
 		14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFFilledButton.swift; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				141E13FA2AD73191007418D5 /* NetworkManager.swift */,
+				148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */,
 				141230ED2AE5B2020025815E /* DataPersistenceManager.swift */,
 			);
 			path = Managers;
@@ -584,6 +587,7 @@
 				14EF75B82B8E1231004D0279 /* NFWebImageView.swift in Sources */,
 				1488403E2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift in Sources */,
 				14A491F02B8F62320090AF08 /* NFBodyLabel.swift in Sources */,
+				148EC12B2B97A57B00EFDD11 /* ErrorMessages.swift in Sources */,
 				140B13B22ADF561600AB2387 /* YoutubeResponse.swift in Sources */,
 				147094D42B4758410053CFBC /* MyNetflixTableViewCellExtension.swift in Sources */,
 				1482522E2B5F62430009C0EF /* EntertainmentDetialsDelegateExtensions.swift in Sources */,

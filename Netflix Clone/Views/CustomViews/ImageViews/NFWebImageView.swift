@@ -18,10 +18,14 @@ class NFWebImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
-    func downloadImageFrom(_ endpoint: String){
+    func downloadImageFrom(_ endpoint: String, completion: (() -> Void)? = nil){
         guard let url = URL(string: Constants.imageURL + endpoint) else {return}
         sd_imageTransition = .fade
-        sd_setImage(with: url)
+        sd_setImage(with: url) { _, _, _, _ in
+            if self.image != nil {
+                completion?()
+            }
+        }
     }
     
     

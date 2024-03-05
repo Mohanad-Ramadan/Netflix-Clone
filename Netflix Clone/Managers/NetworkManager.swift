@@ -8,13 +8,6 @@
 import UIKit
 
 
-//MARK: - APIError
-enum APIError: Error {
-    case failedToGetData, failedToDecodeData, invalidURL
-}
-
-
-
 //MARK: - NetworkManager
 class NetworkManager {
     static let shared = NetworkManager()
@@ -25,6 +18,28 @@ class NetworkManager {
         decoder.dateDecodingStrategy = .iso8601
     }
     
+    func getTrending() async throws -> [Entertainment] {
+        let endpoint = Constants.createUrlWith(endpoint: .allTrending)
+        
+        guard let url = URL(string: endpoint) else {
+            throw APIError.invalidURL
+        }
+        
+        let (data,response) = try await URLSession.shared.data(from: url)
+        
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            print(response)
+            throw APIError.invalidResponse
+        }
+        
+        do {
+            let fetchedData = try self.decoder.decode(EntertainmentResponse.self, from: data)
+            return fetchedData.results
+        } catch {
+            throw APIError.invalidData
+        }
+    }
+
     func getTrending(complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let url = URL(string: Constants.trendingAllURL) else {return}
         let session = URLSession(configuration:.default)
@@ -36,7 +51,7 @@ class NetworkManager {
                 let result = try self.decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
                 print("couldn't decode the results for trending movies ")
             }
             
@@ -57,7 +72,7 @@ class NetworkManager {
                 let result = try decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
                 print("couldn't decode the results for trending movies ")
             }
             
@@ -80,7 +95,7 @@ class NetworkManager {
                 let result = try decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
                 print("couldn't decode the results for trending TV error: \(error)")
             }
             
@@ -103,7 +118,7 @@ class NetworkManager {
                 let result = try decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
             }
             
         }
@@ -125,7 +140,7 @@ class NetworkManager {
                 let result = try decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
             }
             
         }
@@ -147,7 +162,7 @@ class NetworkManager {
                 let result = try decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
                 print("couldn't decode the results for popular")
             }
             
@@ -172,7 +187,7 @@ class NetworkManager {
                 let result = try decoder.decode(EntertainmentResponse.self, from: data)
                 complition(.success(result.results))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
             }
             
         }
@@ -181,13 +196,13 @@ class NetworkManager {
     
     func getImages(mediaType: String, id: Int, completion: @escaping (Result<Image, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)") else {
-            completion(.failure(APIError.invalidURL))
+            completion(.failure(NFError.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
             guard let data = data, error == nil else {
-                completion(.failure(error ?? APIError.failedToGetData))
+                completion(.failure(error ?? NFError.failedToGetData))
                 return
             }
             
@@ -198,20 +213,20 @@ class NetworkManager {
                 let result = try decoder.decode(Image.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(APIError.failedToDecodeData))
+                completion(.failure(NFError.failedToDecodeData))
             }
         }.resume()
     }
     
     func getCast(mediaType: String, id: Int, completion: @escaping (Result<Cast, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/credits\(Constants.apiKey)") else {
-            completion(.failure(APIError.invalidURL))
+            completion(.failure(NFError.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
             guard let data = data, error == nil else {
-                completion(.failure(error ?? APIError.failedToGetData))
+                completion(.failure(error ?? NFError.failedToGetData))
                 return
             }
             
@@ -222,20 +237,20 @@ class NetworkManager {
                 let result = try decoder.decode(Cast.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(APIError.failedToDecodeData))
+                completion(.failure(NFError.failedToDecodeData))
             }
         }.resume()
     }
     
     func getVedios(mediaType: String, id: Int, completion: @escaping (Result<Trailer, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/videos\(Constants.apiKey)") else {
-            completion(.failure(APIError.invalidURL))
+            completion(.failure(NFError.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
             guard let data = data, error == nil else {
-                completion(.failure(error ?? APIError.failedToGetData))
+                completion(.failure(error ?? NFError.failedToGetData))
                 return
             }
             
@@ -246,20 +261,20 @@ class NetworkManager {
                 let result = try decoder.decode(Trailer.self, from: data)
                 completion(.success(result))
             } catch {
-                completion(.failure(APIError.failedToDecodeData))
+                completion(.failure(NFError.failedToDecodeData))
             }
         }.resume()
     }
 
     func getDetails<T: Decodable>(mediaType: String, id: Int, completion: @escaping (Result<T, Error>) -> Void) {
         guard let detailsURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)\(Constants.apiKey)") else {
-            completion(.failure(APIError.invalidURL))
+            completion(.failure(NFError.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: URLRequest(url: detailsURL)) { data, _, error in
             guard let data = data, error == nil else {
-                completion(.failure(error ?? APIError.failedToGetData))
+                completion(.failure(error ?? NFError.failedToGetData))
                 return
             }
             
@@ -270,7 +285,7 @@ class NetworkManager {
                 completion(.success(result))
             } catch {
                 print(error)
-                completion(.failure(APIError.failedToDecodeData))
+                completion(.failure(NFError.failedToDecodeData))
             }
         }.resume()
     }
@@ -289,7 +304,7 @@ class NetworkManager {
                 let result = try JSONDecoder().decode(YoutubeResponse.self, from: data)
                 complition(.success(result.items[0].id.videoId))
             } catch {
-                complition(.failure(APIError.failedToGetData))
+                complition(.failure(NFError.failedToGetData))
                 print(String(describing: error))
             }
             
@@ -297,5 +312,12 @@ class NetworkManager {
         task.resume()
     }
     
+}
+
+
+
+//MARK: - APIError
+enum NFError: Error {
+    case failedToGetData, failedToDecodeData, invalidURL
 }
 

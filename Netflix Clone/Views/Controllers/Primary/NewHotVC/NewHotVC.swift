@@ -24,14 +24,11 @@ class NewHotVC: UIViewController {
     
     private func configureView(){
         view.addSubview(newAndHotTable)
+//        view.addSubview(loadingView)
         view.addSubview(categoryButtonsBar)
-        view.addSubview(loadingView)
-        
-        loadingView.frame = view.bounds
         
         newAndHotTable.delegate = self
         newAndHotTable.dataSource = self
-        
         applyConstriants()
     }
     
@@ -51,22 +48,27 @@ class NewHotVC: UIViewController {
     
     //MARK: - Apply constraints
     private func applyConstriants() {
-        
         // Apply constraints for categorySelectButtons
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
+        
+//        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             categoryButtonsBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             categoryButtonsBar.leftAnchor.constraint(equalTo: view.leftAnchor),
             categoryButtonsBar.widthAnchor.constraint(equalToConstant: view.bounds.width),
-            categoryButtonsBar.heightAnchor.constraint(equalToConstant: 70 )
-        ])
-        NSLayoutConstraint.activate([
+            categoryButtonsBar.heightAnchor.constraint(equalToConstant: 70),
+            
             newAndHotTable.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
             newAndHotTable.leftAnchor.constraint(equalTo: view.leftAnchor),
             newAndHotTable.rightAnchor.constraint(equalTo: view.rightAnchor),
-            newAndHotTable.bottomAnchor.constraint(equalTo: view.bottomAnchor )
+            newAndHotTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+//            loadingView.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
+//            loadingView.leftAnchor.constraint(equalTo: view.leftAnchor),
+//            loadingView.rightAnchor.constraint(equalTo: view.rightAnchor),
+//            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor) 
         ])
-        
     }
     
     //MARK: - Declare UIElements
