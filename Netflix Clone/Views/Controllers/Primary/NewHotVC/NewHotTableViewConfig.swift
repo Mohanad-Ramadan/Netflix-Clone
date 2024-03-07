@@ -34,14 +34,16 @@ extension NewHotVC {
         
         switch selectedButton {
         case ButtonTapped.comingSoon.rawValue:
-            NetworkManager.shared.getUpcomingMovies { results in
-                switch results {
-                case .success(let entertainments):
+            Task{
+                do {
+                    let entertainments = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
                     self.entertainments = entertainments
-                    DispatchQueue.main.async {
-                        self.newAndHotTable.reloadData()
-                    }
-                case .failure(let error):
+                    newAndHotTable.reloadData()
+                } catch let error as APIError {
+//                    presentGFAlert(messageText: error.rawValue)
+                    print(error)
+                } catch {
+//                    presentDefaultError()
                     print(error.localizedDescription)
                 }
             }
@@ -51,7 +53,7 @@ extension NewHotVC {
         case ButtonTapped.everyoneWatching.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getTrending()
+                    let entertainments = try await NetworkManager.shared.getDataOf(.allTrending)
                     self.entertainments = entertainments
                     newAndHotTable.reloadData()
                 } catch let error as APIError {
@@ -66,14 +68,16 @@ extension NewHotVC {
             isTheTappedEntertainmentTrend = true
             
         case ButtonTapped.toptenTv.rawValue:
-            NetworkManager.shared.getTrendingTV { results in
-                switch results {
-                case .success(let entertainments):
+            Task{
+                do {
+                    let entertainments = try await NetworkManager.shared.getDataOf(.allTrending)
                     self.entertainments = entertainments
-                    DispatchQueue.main.async {
-                        self.newAndHotTable.reloadData()
-                    }
-                case .failure(let error):
+                    newAndHotTable.reloadData()
+                } catch let error as APIError {
+//                    presentGFAlert(messageText: error.rawValue)
+                    print(error)
+                } catch {
+//                    presentDefaultError()
                     print(error.localizedDescription)
                 }
             }
@@ -81,14 +85,16 @@ extension NewHotVC {
             isTheTappedEntertainmentTrend = true
             
         default:
-            NetworkManager.shared.getTrendingMovies { results in
-                switch results {
-                case .success(let entertainments):
+            Task{
+                do {
+                    let entertainments = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
                     self.entertainments = entertainments
-                    DispatchQueue.main.async {
-                        self.newAndHotTable.reloadData()
-                    }
-                case .failure(let error):
+                    newAndHotTable.reloadData()
+                } catch let error as APIError {
+//                    presentGFAlert(messageText: error.rawValue)
+                    print(error)
+                } catch {
+//                    presentDefaultError()
                     print(error.localizedDescription)
                 }
             }

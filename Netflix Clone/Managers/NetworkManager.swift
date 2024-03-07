@@ -18,158 +18,19 @@ class NetworkManager {
         decoder.dateDecodingStrategy = .iso8601
     }
     
-    func getTrending() async throws -> [Entertainment] {
-        let endpoint = Constants.createUrlWith(endpoint: .allTrending)
-        
-        guard let url = URL(string: endpoint) else {
-            throw APIError.invalidURL
-        }
+    func getDataOf(_ endpoint: Endpoints) async throws -> [Entertainment] {
+        let endpoint = Constants.createUrlWith(endpoint)
+        guard let url = URL(string: endpoint) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)
-        
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            print(response)
-            throw APIError.invalidResponse
-        }
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
         do {
             let fetchedData = try self.decoder.decode(EntertainmentResponse.self, from: data)
             return fetchedData.results
-        } catch {
-            throw APIError.invalidData
-        }
-    }
-
-    func getTrending(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let url = URL(string: Constants.trendingAllURL) else {return}
-        let session = URLSession(configuration:.default)
-        let task = session.dataTask(with: url) { data, _ , error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let result = try self.decoder.decode(EntertainmentResponse.self, from: data)
-                complition(.success(result.results))
-            } catch {
-                complition(.failure(NFError.failedToGetData))
-                print("couldn't decode the results for trending movies ")
-            }
-            
-        }
-        task.resume()
+        } catch {throw APIError.invalidData}
     }
     
-    func getTrendingMovies(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let url = URL(string: Constants.trendingMoviesURL) else {return}
-        let session = URLSession(configuration:.default)
-        let task = session.dataTask(with: url) { data, _ , error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                complition(.success(result.results))
-            } catch {
-                complition(.failure(NFError.failedToGetData))
-                print("couldn't decode the results for trending movies ")
-            }
-            
-        }
-        task.resume()
-    }
-    
-    func getTrendingTV(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let url = URL(string: Constants.trendingTvURL) else {
-            return
-        }
-        let session = URLSession(configuration:.default)
-        let task = session.dataTask(with: url) { data, _ , error in
-            guard let data, error == nil else {
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                complition(.success(result.results))
-            } catch {
-                complition(.failure(NFError.failedToGetData))
-                print("couldn't decode the results for trending TV error: \(error)")
-            }
-            
-        }
-        task.resume()
-    }
-    
-    func getUpcomingMovies(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let url = URL(string: Constants.upcomingMoviesURL) else {
-            return
-        }
-        let session = URLSession(configuration:.default)
-        let task = session.dataTask(with: url) { data, _ , error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                complition(.success(result.results))
-            } catch {
-                complition(.failure(NFError.failedToGetData))
-            }
-            
-        }
-        task.resume()
-    }
-    
-    func getTopSeries(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let url = URL(string: Constants.topSeriesURL) else {
-            return
-        }
-        let session = URLSession(configuration:.default)
-        let task = session.dataTask(with: url) { data, _ , error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                complition(.success(result.results))
-            } catch {
-                complition(.failure(NFError.failedToGetData))
-            }
-            
-        }
-        task.resume()
-    }
-    
-    func getPopular(complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let url = URL(string: Constants.popularURl) else {
-            return
-        }
-        let session = URLSession(configuration:.default)
-        let task = session.dataTask(with: url) { data, _ , error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                complition(.success(result.results))
-            } catch {
-                complition(.failure(NFError.failedToGetData))
-                print("couldn't decode the results for popular")
-            }
-            
-        }
-        task.resume()
-        
-    }
     
     func search(query: String,complition: @escaping (Result<[Entertainment], Error>) -> Void){
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}

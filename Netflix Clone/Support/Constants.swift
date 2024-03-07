@@ -9,9 +9,12 @@ import Foundation
 
 
 struct Constants {
-    static func createUrlWith(endpoint: Endpoints) -> String{
+    static func createUrlWith(_ endpoint: Endpoints) -> String{
         let apiKey = "?api_key=db7efd1f212466edd2945ab1e9199ee1"
-        let baseURL = "https://api.themoviedb.org/3/"
+        let baseURL = "https://api.themoviedb.org/3"
+        if endpoint == .discoverUpcoming {
+            return "\(baseURL)\(endpoint.rawValue)&api_key=db7efd1f212466edd2945ab1e9199ee1"
+        }
         return baseURL + endpoint.rawValue + apiKey
     }
     
@@ -30,21 +33,20 @@ struct Constants {
     
     static let imageURL = "https://image.tmdb.org/t/p/w500"
     
-//    static let posterAPI = "144|49vDLfPI5EU7PUqtVLCippbJb5KuyJ5mRUY7yiIX"
-    
     static let notificationKey = "Fetch agian"
     static let categoryNewHotVCKey = "newButtonPressed"
     static let entertainmentVCKey = "newButtonPressed2"
 }
 
 enum Endpoints: String {
-    case allTrending = "trending/all/week"
-    case weekTrendingMovies = "trending/movie/week"
-    case dayTrendingMovies = "trending/movie/day"
-    case weekTrendingTV = "trending/tv/week"
-    case dayTrendingTV = "trending/tv/day"
-    case popularMovies = "movie/popular"
-    case popularTV = "tv/popular"
+    case allTrending = "/trending/all/week"
+    case weekTrendingMovies = "/trending/movie/week"
+    case dayTrendingMovies = "/trending/movie/day"
+    case weekTrendingTV = "/trending/tv/week"
+    case dayTrendingTV = "/trending/tv/day"
+    case popularMovies = "/movie/popular"
+    case popularTV = "/tv/popular"
+    case discoverUpcoming = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc"
 }
 
 
@@ -70,8 +72,8 @@ enum Endpoints: String {
 //movie url
 // https://api.themoviedb.org/3/trending/movie/week?api_key=db7efd1f212466edd2945ab1e9199ee1
 
-//upcoming URL
-// https://api.themoviedb.org/3/movie/upcoming?api_key=db7efd1f212466edd2945ab1e9199ee1
+// (upcoming)using discover api URL
+// https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc&api_key=db7efd1f212466edd2945ab1e9199ee1
 
 //details URL
 //movie https://api.themoviedb.org/3/movie/872585?api_key=db7efd1f212466edd2945ab1e9199ee1
