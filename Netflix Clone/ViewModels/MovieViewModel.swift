@@ -23,6 +23,7 @@ struct MovieViewModel {
     var backdropsPath: String?
     
     // Detail Parameter
+    var genres: [MovieDetail.Genre]?
     var category: String?
     var mediaType: String?
     var releaseDate: String?

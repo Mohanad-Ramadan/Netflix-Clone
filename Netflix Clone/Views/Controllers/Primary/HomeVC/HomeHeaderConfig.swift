@@ -9,15 +9,20 @@ import UIKit
 
 extension HomeVC {
     func fetchHeaderAndBackgound() {
-        NetworkManager.shared.getTrending { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let movie):
-                    guard let randomMovie = movie.randomElement() else { return }
-                    self.fetchImagesAndConfigureViews(for: randomMovie)
-                case .failure(let failure):
-                    print(failure.localizedDescription)
-                }
+        Task{
+            do {
+                let movies = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
+                let randomMovie = movies.randomElement()
+                self.fetchImagesAndConfigureViews(for: randomMovie!)
+                
+//                let movieImages = try await NetworkManager.shared.getImageFor(entertainmentId: randomMovie!.id, ofType: "movie")
+                
+            } catch let error as APIError {
+//                    presentGFAlert(messageText: error.rawValue)
+                print(error)
+            } catch {
+//                    presentDefaultError()
+                print(error.localizedDescription)
             }
         }
     }

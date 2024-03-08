@@ -27,7 +27,7 @@ class HomeTableViewCell: UITableViewCell {
     }
     
     
-    public func configureCollection(with entertainments: [Entertainment]){
+    func configureCollection(with entertainments: [Entertainment]){
         self.entertainments = entertainments
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
