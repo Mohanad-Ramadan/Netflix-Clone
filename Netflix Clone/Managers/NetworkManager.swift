@@ -82,30 +82,6 @@ class NetworkManager {
     }
     
     
-    func getImages(mediaType: String, id: Int, completion: @escaping (Result<Image, Error>) -> Void) {
-        guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)") else {
-            completion(.failure(NFError.invalidURL))
-            return
-        }
-        
-        URLSession.shared.dataTask(with: URLRequest(url: imageURL)) { data, _, error in
-            guard let data = data, error == nil else {
-                completion(.failure(error ?? NFError.failedToGetData))
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                
-                let result = try decoder.decode(Image.self, from: data)
-                completion(.success(result))
-            } catch {
-                completion(.failure(NFError.failedToDecodeData))
-            }
-        }.resume()
-    }
-    
     func getCast(mediaType: String, id: Int, completion: @escaping (Result<Cast, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/credits\(Constants.apiKey)") else {
             completion(.failure(NFError.invalidURL))

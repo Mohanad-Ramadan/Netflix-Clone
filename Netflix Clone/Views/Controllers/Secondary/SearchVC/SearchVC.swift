@@ -19,6 +19,7 @@ class SearchVC: UIViewController {
         
         navigationController?.navigationBar.tintColor = .label
         
+        navigationItem.hidesBackButton = true
         navigationItem.titleView = searchController.searchBar
         
         searchController.searchResultsUpdater = self
@@ -30,8 +31,7 @@ class SearchVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.hidesBackButton = true
-        navigationController?.navigationBar.isTranslucent = false
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
