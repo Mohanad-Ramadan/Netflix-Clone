@@ -8,7 +8,6 @@
 import UIKit
 
 class NewHotVC: UIViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
@@ -45,6 +44,11 @@ class NewHotVC: UIViewController {
     @objc func searchButtonTapped() {
         pushInMainThreadTo(SearchVC())
     }
+    
+    
+    //MARK: - Configure UIElements
+    
+    
     
     //MARK: - Apply constraints
     private func applyConstriants() {

@@ -47,6 +47,8 @@
 		147094D42B4758410053CFBC /* MyNetflixTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094D32B4758410053CFBC /* MyNetflixTableViewCellExtension.swift */; };
 		147094D72B47586E0053CFBC /* MyNetflixExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094D62B47586E0053CFBC /* MyNetflixExtension.swift */; };
 		147094D92B4759010053CFBC /* HomeTableViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094D82B4759000053CFBC /* HomeTableViewConfig.swift */; };
+		147BD90B2B9B942D0054A207 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147BD90A2B9B942D0054A207 /* UIHelper.swift */; };
+		147BD90D2B9BAAA50054A207 /* NewHotTableConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147BD90C2B9BAAA50054A207 /* NewHotTableConfig.swift */; };
 		14802AE42AEAD34D00C80527 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 14802AE32AEAD34D00C80527 /* SDWebImage */; };
 		14802AE62AEAD34D00C80527 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14802AE52AEAD34D00C80527 /* SDWebImageMapKit */; };
 		148252272B5EF7300009C0EF /* ThreeButtonUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148252262B5EF7300009C0EF /* ThreeButtonUIView.swift */; };
@@ -118,6 +120,8 @@
 		147094D32B4758410053CFBC /* MyNetflixTableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetflixTableViewCellExtension.swift; sourceTree = "<group>"; };
 		147094D62B47586E0053CFBC /* MyNetflixExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetflixExtension.swift; sourceTree = "<group>"; };
 		147094D82B4759000053CFBC /* HomeTableViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewConfig.swift; sourceTree = "<group>"; };
+		147BD90A2B9B942D0054A207 /* UIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
+		147BD90C2B9BAAA50054A207 /* NewHotTableConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotTableConfig.swift; sourceTree = "<group>"; };
 		148252262B5EF7300009C0EF /* ThreeButtonUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeButtonUIView.swift; sourceTree = "<group>"; };
 		1482522A2B5F2F010009C0EF /* ViewSwitchButtonsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSwitchButtonsUIView.swift; sourceTree = "<group>"; };
 		1482522D2B5F62430009C0EF /* EntertainmentDetialsDelegateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntertainmentDetialsDelegateExtensions.swift; sourceTree = "<group>"; };
@@ -297,6 +301,7 @@
 				141E13FA2AD73191007418D5 /* NetworkManager.swift */,
 				148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */,
 				141230ED2AE5B2020025815E /* DataPersistenceManager.swift */,
+				147BD90A2B9B942D0054A207 /* UIHelper.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -410,6 +415,7 @@
 				145FB1092AD402E50019A439 /* NewHotVC.swift */,
 				14DCE3D42B2240D400DCD959 /* NewHotProtocols.swift */,
 				14C7A4562B5B2B94001EEC08 /* NewHotTableViewConfig.swift */,
+				147BD90C2B9BAAA50054A207 /* NewHotTableConfig.swift */,
 			);
 			path = NewHotVC;
 			sourceTree = "<group>";
@@ -556,6 +562,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				147094CA2B4742FD0053CFBC /* DownloadExtension.swift in Sources */,
+				147BD90B2B9B942D0054A207 /* UIHelper.swift in Sources */,
 				142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */,
 				14DCE3D72B22490D00DCD959 /* New&HotTableViewCell.swift in Sources */,
 				147094CC2B4747150053CFBC /* TitleRowUIView.swift in Sources */,
@@ -576,6 +583,7 @@
 				145FB0F72AD3FEC30019A439 /* MainTabBarController.swift in Sources */,
 				1416D03F2B6734FB00BC363C /* Cast.swift in Sources */,
 				14EF75B52B8DFACB004D0279 /* NFImageView.swift in Sources */,
+				147BD90D2B9BAAA50054A207 /* NewHotTableConfig.swift in Sources */,
 				141E13FB2AD73191007418D5 /* NetworkManager.swift in Sources */,
 				14CFB1E32B56F55A0036FE91 /* HomeHeaderConfig.swift in Sources */,
 				14E3B0E92B5D668600D08C14 /* EntertainmentDetailsVC.swift in Sources */,
