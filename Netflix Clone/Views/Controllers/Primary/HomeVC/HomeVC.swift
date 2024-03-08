@@ -13,7 +13,7 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
         configureVC()
         configureViews()
-        fetchHeaderAndBackgound()
+        setupHeaderAndBackground()
     }
     
     //MARK: - Configure UIElements

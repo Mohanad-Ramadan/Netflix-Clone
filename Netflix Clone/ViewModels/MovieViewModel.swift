@@ -16,7 +16,7 @@ struct MovieViewModel {
     var posterPath: String?
     
     // Logo Parameter
-    var logoAspectRatio: CGFloat?
+    var logoAspectRatio: Double?
     var logoPath: String?
     
     // Backdrop Parameter
