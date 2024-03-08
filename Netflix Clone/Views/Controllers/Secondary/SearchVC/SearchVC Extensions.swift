@@ -29,7 +29,7 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         
         Task {
             do {
-                let images = try await NetworkManager.shared.getImageFor(entertainmentId: mediaId, ofType: mediaType)
+                let images = try await NetworkManager.shared.getImagesFor(entertainmentId: mediaId, ofType: mediaType)
                 let backdropPath = UIHelper.getBackdropPathFrom(images)
                 cell.configureCell(with: MovieViewModel(title: mediaTitle ,backdropsPath: backdropPath))
             } catch {
@@ -87,26 +87,19 @@ extension SearchVC: SearchResultsVCDelegate , UISearchResultsUpdating , UISearch
         guard let query = searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
               let resultController = searchController.searchResultsController as? SearchResultsVC else {return}
-        
         resultController.delegate = self
         
-        NetworkManager.shared.search(query: query) { results in
-            DispatchQueue.main.async {
-                switch results {
-                case .success(let entertainments):
-                    // Filter the results to (Movie and TV) media type only
-                    let rightResults :[Entertainment] = {
-                        let result = entertainments
-                        let filterResultsFormPersons = result.filter { $0.mediaType == "movie" || $0.mediaType == "tv" }
-                        return filterResultsFormPersons
-                    }()
-                    
-                    resultController.entertainments = rightResults
-                    resultController.searchResultTableView.reloadData()
-                    
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+        Task {
+            do {
+                let searchResults = try await NetworkManager.shared.fetchSearchsOf(query)
+                resultController.entertainments = UIHelper.removePersonsFrom(searchResults)
+                resultController.searchResultTableView.reloadData()
+            } catch let error as APIError {
+//                    presentGFAlert(messageText: error.rawValue)
+                print(error)
+            } catch {
+//                    presentDefaultError()
+                print(error.localizedDescription)
             }
         }
     }

@@ -45,32 +45,22 @@ class NetworkManager {
         } catch {throw APIError.invalidData}
     }
     
-    
-    func search(query: String,complition: @escaping (Result<[Entertainment], Error>) -> Void){
-        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {return}
-        guard let url = URL(string: Constants.searchURl + query) else {
-            return
-        }
-        let session = URLSession(configuration:.default)
-        let task = session.dataTask(with: url) { data, _ , error in
-            guard let data = data, error == nil else {
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let result = try decoder.decode(EntertainmentResponse.self, from: data)
-                complition(.success(result.results))
-            } catch {
-                complition(.failure(NFError.failedToGetData))
-            }
-            
-        }
-        task.resume()
+    func fetchSearchsOf(_ query: String) async throws -> [Entertainment] {
+        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {throw APIError.invalidURL}
+        let stringURL = Constants.createSearchURLFor(query)
+        guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
+        
+        let (data,response) = try await URLSession.shared.data(from: url)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
+        
+        do {
+            let fetchedData = try self.decoder.decode(EntertainmentResponse.self, from: data)
+            return fetchedData.results
+        } catch {throw APIError.invalidData}
     }
     
     
-    func getImageFor(entertainmentId id: Int, ofType mediaType: String) async throws -> Image {
+    func getImagesFor(entertainmentId id: Int, ofType mediaType: String) async throws -> Image {
         let stringURL = Constants.createImageURLWith(mediaType: mediaType, id: id)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         

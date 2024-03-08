@@ -13,7 +13,7 @@ struct Constants {
     static let baseURL = "https://api.themoviedb.org/3"
     
     static func createUrlWith(_ endpoint: Endpoints) -> String{
-        if endpoint == .discoverUpcoming {
+        if endpoint == .discoverUpcoming || endpoint == .search {
             return "\(Constants.baseURL)\(endpoint.rawValue)&api_key=db7efd1f212466edd2945ab1e9199ee1"
         }
         return Constants.baseURL + endpoint.rawValue + Constants.apiKey
@@ -33,13 +33,12 @@ struct Constants {
         }
     }
     
-    static let trendingAllURL = "https://api.themoviedb.org/3/trending/all/week\(apiKey)"
-    static let trendingMoviesURL = "https://api.themoviedb.org/3/trending/movie/week\(apiKey)"
-    static let upcomingMoviesURL = "https://api.themoviedb.org/3/movie/upcoming\(apiKey)"
-    static let topSeriesURL = "https://api.themoviedb.org/3/tv/top_rated\(apiKey)&language=en-US&page=1"
-    static let trendingTvURL = "https://api.themoviedb.org/3/trending/tv/week\(apiKey)"
-    static let popularURl = "https://api.themoviedb.org/3/movie/popular\(apiKey)"
-    static let discoverdMoviesURl = "https://api.themoviedb.org/3/discover/movie\(apiKey)"
+    static func createSearchURLFor(_ query: String) -> String {
+        let endpoint = Endpoints.search.rawValue
+        return "\(Constants.baseURL)\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1&query=\(query)"
+    }
+    
+
     static let searchURl = "https://api.themoviedb.org/3/search/multi\(apiKey)&include_adult=false&query="
     static let youtubeURL = "https://www.googleapis.com/youtube/v3/search?safeSearch=strict&key=AIzaSyA43IBo_SCZSMUn4HmhCF6q3DKdKxgBBbA&q="
     static let entertainmentIdURL = "https://api.themoviedb.org/3"
@@ -60,7 +59,7 @@ enum Endpoints: String {
     case popularMovies = "/movie/popular"
     case popularTV = "/tv/popular"
     case discoverUpcoming = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc"
-    
+    case search = "/search/multi?include_adult=false"
 }
 
 
@@ -88,7 +87,7 @@ enum Endpoints: String {
 
 // (upcoming)using discover api URL
 // https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc&api_key=db7efd1f212466edd2945ab1e9199ee1
-// https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=db7efd1f212466edd2945ab1e9199ee1
+// https://api.themoviedb.org/3/discover/tv?api_key=db7efd1f212466edd2945ab1e9199ee1&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc
 
 //details URL
 //movie https://api.themoviedb.org/3/movie/872585?api_key=db7efd1f212466edd2945ab1e9199ee1

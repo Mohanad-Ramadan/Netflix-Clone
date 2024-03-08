@@ -9,23 +9,18 @@ import Foundation
 
 extension NewHotVC {
     func setDataSource(for cell: NewAndHotTableViewCell ,from entertainment: Entertainment) {
-        NetworkManager.shared.getImages(mediaType: entertainment.mediaType ?? "movie", id: entertainment.id) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let fetchedImages):
-                    // logo
-                    let logoPath = UIHelper.getLogoDetailsFrom(fetchedImages)?.0
-                    let logoAspectRatio = UIHelper.getLogoDetailsFrom(fetchedImages)?.1
-                    
-                    // backdrop
-                    let backdropPath = UIHelper.getBackdropPathFrom(fetchedImages)
-
-                    // cell images configuration
-                    cell.configureCellImages(with: MovieViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
-                    
-                case .failure(let failure):
-                    print("Error getting images:", failure)
-                }
+        Task {
+            do {
+                let images = try await NetworkManager.shared.getImagesFor(entertainmentId: entertainment.id, ofType: entertainment.mediaType!)
+                // logo
+                let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
+                let logoAspectRatio = UIHelper.getLogoDetailsFrom(images)?.1
+                
+                // backdrop
+                let backdropPath = UIHelper.getBackdropPathFrom(images)
+                cell.configureCellImages(with: MovieViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
+            } catch {
+                print("Error getting images:", error.localizedDescription)
             }
         }
         

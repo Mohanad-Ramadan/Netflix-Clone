@@ -63,7 +63,7 @@ extension SearchResultsVC: UITableViewDelegate, UITableViewDataSource{
         
         Task {
             do {
-                let images = try await NetworkManager.shared.getImageFor(entertainmentId: mediaId, ofType: mediaType)
+                let images = try await NetworkManager.shared.getImagesFor(entertainmentId: mediaId, ofType: mediaType)
                 let backdropPath = UIHelper.getBackdropPathFrom(images)
                 cell.configureCell(with: MovieViewModel(title: mediaTitle ,backdropsPath: backdropPath))
             } catch {

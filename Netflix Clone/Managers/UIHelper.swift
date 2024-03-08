@@ -25,4 +25,10 @@ enum UIHelper {
         let backdrop = fetchedImages.backdrops.sorted(by: {$0.voteAverage > $1.voteAverage})[0]
         return backdrop.filePath
     }
+    
+    //MARK: - filter fetched search results from persons
+    static func removePersonsFrom(_ searchResults: [Entertainment]) -> [Entertainment] {
+        let results = searchResults.filter { $0.mediaType == "movie" || $0.mediaType == "tv" }
+        return results
+    }
 }
