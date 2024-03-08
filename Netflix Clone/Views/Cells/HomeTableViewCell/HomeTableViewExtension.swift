@@ -42,9 +42,9 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
                 case .success(let fetchedDetials):
                     // detail
                     let detail = fetchedDetials
-
+                    
                     // View Model congfigur
-                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
+                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, genres: detail.genres, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
                     vc.configureDetails(with: viewModel, isTrending: false, rank: trendRank)
                     
                 case .failure(let failure):

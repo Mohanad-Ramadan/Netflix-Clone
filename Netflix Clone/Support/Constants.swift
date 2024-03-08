@@ -9,16 +9,29 @@ import Foundation
 
 
 struct Constants {
+    static let apiKey = "?api_key=db7efd1f212466edd2945ab1e9199ee1"
+    static let baseURL = "https://api.themoviedb.org/3"
+    
     static func createUrlWith(_ endpoint: Endpoints) -> String{
-        let apiKey = "?api_key=db7efd1f212466edd2945ab1e9199ee1"
-        let baseURL = "https://api.themoviedb.org/3"
         if endpoint == .discoverUpcoming {
-            return "\(baseURL)\(endpoint.rawValue)&api_key=db7efd1f212466edd2945ab1e9199ee1"
+            return "\(Constants.baseURL)\(endpoint.rawValue)&api_key=db7efd1f212466edd2945ab1e9199ee1"
         }
-        return baseURL + endpoint.rawValue + apiKey
+        return Constants.baseURL + endpoint.rawValue + Constants.apiKey
     }
     
-    static let apiKey = "?api_key=db7efd1f212466edd2945ab1e9199ee1"
+    static func createImageURLWith(mediaType: String ,id: Int) -> String {
+        if mediaType == "movie" {return "\(Constants.baseURL)/movie/\(id)/images\(Constants.apiKey)"}
+        else {return "\(Constants.baseURL)/tv/\(id)/images\(Constants.apiKey)"}
+    }
+    
+    static func createMoreLikeURLWith(mediaType: String ,genresId: String) -> String {
+        let endpoint = "?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=\(genresId)"
+        if mediaType == "movie" {
+            return "\(Constants.baseURL)/discover/movie\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1"
+        } else {
+            return "\(Constants.baseURL)/discover/tv\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1"
+        }
+    }
     
     static let trendingAllURL = "https://api.themoviedb.org/3/trending/all/week\(apiKey)"
     static let trendingMoviesURL = "https://api.themoviedb.org/3/trending/movie/week\(apiKey)"
@@ -47,6 +60,7 @@ enum Endpoints: String {
     case popularMovies = "/movie/popular"
     case popularTV = "/tv/popular"
     case discoverUpcoming = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc"
+    
 }
 
 
@@ -73,7 +87,8 @@ enum Endpoints: String {
 // https://api.themoviedb.org/3/trending/movie/week?api_key=db7efd1f212466edd2945ab1e9199ee1
 
 // (upcoming)using discover api URL
-// https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc&api_key=db7efd1f212466edd2945ab1e9199ee1
+// https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc&api_key=db7efd1f212466edd2945ab1e9199ee1
+// https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&api_key=db7efd1f212466edd2945ab1e9199ee1
 
 //details URL
 //movie https://api.themoviedb.org/3/movie/872585?api_key=db7efd1f212466edd2945ab1e9199ee1

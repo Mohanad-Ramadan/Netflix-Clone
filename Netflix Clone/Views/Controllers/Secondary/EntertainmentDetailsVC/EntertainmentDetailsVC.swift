@@ -26,20 +26,21 @@ class EntertainmentDetailsVC: UIViewController {
         
         viewSwitchButtons.moreButtonTapped()
         
-        fetchMoreEntertainment()
-        
         layoutViews()
     }
     
-    private func fetchMoreEntertainment(){
-        NetworkManager.shared.getTrending { [weak self] results in
-            switch results {
-            case .success(let entertainments):
-                self?.moreEntertainments = entertainments.prefix(6).shuffled()
-                DispatchQueue.main.async {
-                    self?.moreIdeasCollection.reloadData()
-                }
-            case .failure(let error):
+    private func fetchMoreEntertainment(_ mainEntertainment: String ,genresId: String, mediaType: String){
+        Task{
+            do {
+                let entertainments = try await NetworkManager.shared.getMoreLike(genresId: genresId, ofMediaType: mediaType)
+                let moreWithNoDuplicates = entertainments.filter{!mainEntertainment.contains($0.title!)}
+                moreEntertainments = moreWithNoDuplicates.prefix(6).shuffled()
+                moreIdeasCollection.reloadData()
+            } catch let error as APIError {
+//                presentGFAlert(messageText: error.rawValue)
+                print(error)
+            } catch {
+//                presentDefaultError()
                 print(error.localizedDescription)
             }
         }
@@ -74,6 +75,15 @@ class EntertainmentDetailsVC: UIViewController {
         
         // pass the entertainment to trailer tableView cell
         entertainmentName = model.title
+        
+        // fetch more entertainment with generes and mediatype
+        var genresId: String {
+            let genres = model.genres?.prefix(2) ?? model.genres!.prefix(1)
+            let genreId = genres.map{String($0.id)}
+            let stringIds = genreId.joined(separator: ",")
+            return stringIds
+        }
+        fetchMoreEntertainment(entertainmentName! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
     }
     
     public func configureCast(with model: MovieViewModel){

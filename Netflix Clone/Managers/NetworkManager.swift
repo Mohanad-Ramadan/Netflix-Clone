@@ -19,8 +19,22 @@ class NetworkManager {
     }
     
     func getDataOf(_ endpoint: Endpoints) async throws -> [Entertainment] {
-        let endpoint = Constants.createUrlWith(endpoint)
-        guard let url = URL(string: endpoint) else {throw APIError.invalidURL}
+        let stringURL = Constants.createUrlWith(endpoint)
+        guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
+        
+        let (data,response) = try await URLSession.shared.data(from: url)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
+        
+        do {
+            let fetchedData = try self.decoder.decode(EntertainmentResponse.self, from: data)
+            return fetchedData.results
+        } catch {throw APIError.invalidData}
+    }
+    
+    
+    func getMoreLike(genresId: String, ofMediaType mediaType: String) async throws -> [Entertainment] {
+        let stringURL = Constants.createMoreLikeURLWith(mediaType: mediaType, genresId: genresId)
+        guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
@@ -54,6 +68,19 @@ class NetworkManager {
         }
         task.resume()
     }
+    
+    
+    func getImageFor(entertainmentId id: Int, ofType mediaType: String) async throws -> Image {
+        let stringURL = Constants.createImageURLWith(mediaType: mediaType, id: id)
+        guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
+        
+        let (data,response) = try await URLSession.shared.data(from: url)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
+        
+        do { return try self.decoder.decode(Image.self, from: data) }
+        catch { throw APIError.invalidData }
+    }
+    
     
     func getImages(mediaType: String, id: Int, completion: @escaping (Result<Image, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/images\(Constants.apiKey)") else {
