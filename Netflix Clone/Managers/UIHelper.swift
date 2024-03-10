@@ -31,4 +31,5 @@ enum UIHelper {
         let results = searchResults.filter { $0.mediaType == "movie" || $0.mediaType == "tv" }
         return results
     }
+    
 }

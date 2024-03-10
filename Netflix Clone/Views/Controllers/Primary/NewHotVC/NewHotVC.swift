@@ -35,20 +35,15 @@ class NewHotVC: UIViewController {
         let titleLabel = NFTitleLabel(text: "New & Hot")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
+        
         navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationItem.backButtonDisplayMode = .minimal
         
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.isTranslucent = false
     }
 
-    @objc func searchButtonTapped() {
-        pushInMainThreadTo(SearchVC())
-    }
-    
-    
-    //MARK: - Configure UIElements
-    
-    
+    @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}
     
     //MARK: - Apply constraints
     private func applyConstriants() {

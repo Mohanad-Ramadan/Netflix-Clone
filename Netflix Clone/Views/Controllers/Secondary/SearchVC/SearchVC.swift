@@ -8,7 +8,6 @@
 import UIKit
 
 class SearchVC: UIViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -24,19 +23,6 @@ class SearchVC: UIViewController {
         
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
-        
-        definesPresentationContext = true
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.isTranslucent = true
     }
 
     override func viewDidLayoutSubviews() {
@@ -52,9 +38,6 @@ class SearchVC: UIViewController {
     }()
     
     
-    var entertainments: [Entertainment] = [Entertainment]()
-    
-    
     private let searchController: UISearchController = {
         let controller = UISearchController(searchResultsController: SearchResultsVC())
         controller.hidesNavigationBarDuringPresentation = false
@@ -64,6 +47,8 @@ class SearchVC: UIViewController {
         return controller
     }()
     
+    
+    var entertainments: [Entertainment] = [Entertainment]()
     
 }
 

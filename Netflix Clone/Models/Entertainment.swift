@@ -12,7 +12,7 @@ struct EntertainmentResponse: Codable {
     let results: [Entertainment]
 }
 
-struct Entertainment: Codable {
+struct Entertainment: Codable, Hashable {
     let id: Int
     let originalName: String?
     let title: String?

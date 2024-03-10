@@ -39,7 +39,7 @@ class MyNetflixVC: UIViewController {
             UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .done, target: self, action: nil),
             UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         ]
-        
+        navigationItem.backButtonDisplayMode = .minimal
         navigationController?.navigationBar.tintColor = .label
     }
     

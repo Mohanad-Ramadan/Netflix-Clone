@@ -62,6 +62,7 @@
 		14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */; };
 		14A491F62B8FD8EF0090AF08 /* NFFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */; };
 		14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */; };
+		14BEB8042B9E049000B87AB8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEB8032B9E049000B87AB8 /* SearchViewController.swift */; };
 		14C7A4572B5B2B94001EEC08 /* NewHotTableViewConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C7A4562B5B2B94001EEC08 /* NewHotTableViewConfig.swift */; };
 		14CFB1E32B56F55A0036FE91 /* HomeHeaderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */; };
 		14DCE3D52B2240D400DCD959 /* NewHotProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCE3D42B2240D400DCD959 /* NewHotProtocols.swift */; };
@@ -133,6 +134,7 @@
 		14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTitleLabel.swift; sourceTree = "<group>"; };
 		14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFFilledButton.swift; sourceTree = "<group>"; };
 		14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotCategoryBarUIView.swift; sourceTree = "<group>"; };
+		14BEB8032B9E049000B87AB8 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		14C7A4562B5B2B94001EEC08 /* NewHotTableViewConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotTableViewConfig.swift; sourceTree = "<group>"; };
 		14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderConfig.swift; sourceTree = "<group>"; };
 		14DCE3D42B2240D400DCD959 /* NewHotProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotProtocols.swift; sourceTree = "<group>"; };
@@ -405,6 +407,7 @@
 				145FB10B2AD403180019A439 /* SearchVC.swift */,
 				143C55A02B1EA83000E58867 /* SearchVC Extensions.swift */,
 				146735F72ADDC07600A13493 /* SearchResultsVC.swift */,
+				14BEB8032B9E049000B87AB8 /* SearchViewController.swift */,
 			);
 			path = SearchVC;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 				14C7A4572B5B2B94001EEC08 /* NewHotTableViewConfig.swift in Sources */,
 				1435879D2B4327F60044171C /* Image.swift in Sources */,
 				14EC7D612B15174C00E5B395 /* HomeLoadingUIView.swift in Sources */,
+				14BEB8042B9E049000B87AB8 /* SearchViewController.swift in Sources */,
 				147094D72B47586E0053CFBC /* MyNetflixExtension.swift in Sources */,
 				148252272B5EF7300009C0EF /* ThreeButtonUIView.swift in Sources */,
 				146735F82ADDC07600A13493 /* SearchResultsVC.swift in Sources */,

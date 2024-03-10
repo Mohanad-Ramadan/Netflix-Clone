@@ -71,7 +71,6 @@ class NetworkManager {
         catch { throw APIError.invalidData }
     }
     
-    
     func getCast(mediaType: String, id: Int, completion: @escaping (Result<Cast, Error>) -> Void) {
         guard let imageURL = URL(string: "\(Constants.entertainmentIdURL)/\(mediaType)/\(id)/credits\(Constants.apiKey)") else {
             completion(.failure(NFError.invalidURL))

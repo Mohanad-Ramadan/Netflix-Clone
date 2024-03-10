@@ -17,19 +17,15 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell else {
-            return UITableViewCell()
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell else {return UITableViewCell()}
         
         let entertainment = entertainments[indexPath.row]
         
-        let mediaType = entertainment.mediaType!
-        let mediaId = entertainment.id
         let mediaTitle = entertainment.mediaType == "movie" ? entertainment.title : entertainment.originalName
         
         Task {
             do {
-                let images = try await NetworkManager.shared.getImagesFor(entertainmentId: mediaId, ofType: mediaType)
+                let images = try await NetworkManager.shared.getImagesFor(entertainmentId:entertainment.id ,ofType: entertainment.mediaType!)
                 let backdropPath = UIHelper.getBackdropPathFrom(images)
                 cell.configureCell(with: MovieViewModel(title: mediaTitle ,backdropsPath: backdropPath))
             } catch {

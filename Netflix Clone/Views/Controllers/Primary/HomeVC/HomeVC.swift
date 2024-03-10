@@ -49,11 +49,12 @@ class HomeVC: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         
+        navigationItem.backButtonDisplayMode = .minimal
         navigationController?.navigationBar.tintColor = .label
     }
     
     @objc func searchButtonTapped() {
-        pushInMainThreadTo(SearchVC())
+        pushInMainThreadTo(SearchViewController())
     }
     
     //MARK: - Apply constraints
