@@ -12,7 +12,7 @@ class SearchVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         view.addSubview(searchTable)
-        
+        fetchFirstSearchContent()
         searchTable.delegate = self
         searchTable.dataSource = self
         
@@ -28,6 +28,23 @@ class SearchVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         searchTable.frame = view.bounds
+    }
+    
+    func fetchFirstSearchContent() {
+        Task{
+            do {
+                let entertainments = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
+                self.entertainments = entertainments
+                print(entertainments)
+                searchTable.reloadData()
+            } catch let error as APIError {
+//                    presentGFAlert(messageText: error.rawValue)
+                print(error)
+            } catch {
+//                    presentDefaultError()
+                print(error.localizedDescription)
+            }
+        }
     }
     
     

@@ -21,13 +21,11 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         
         let entertainment = entertainments[indexPath.row]
         
-        let mediaTitle = entertainment.mediaType == "movie" ? entertainment.title : entertainment.originalName
-        
         Task {
             do {
-                let images = try await NetworkManager.shared.getImagesFor(entertainmentId:entertainment.id ,ofType: entertainment.mediaType!)
+                let images = try await NetworkManager.shared.getImagesFor(entertainmentId:entertainment.id ,ofType: entertainment.mediaType ?? "movie")
                 let backdropPath = UIHelper.getBackdropPathFrom(images)
-                cell.configureCell(with: MovieViewModel(title: mediaTitle ,backdropsPath: backdropPath))
+                cell.configureCell(with: MovieViewModel(title: entertainment.title ,backdropsPath: backdropPath))
             } catch {
                 print("Error getting images:", error.localizedDescription)
             }
