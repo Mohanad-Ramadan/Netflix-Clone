@@ -12,18 +12,24 @@ enum UIHelper {
     // MARK: get LogoPath
     static func getLogoDetailsFrom(_ fetchedImages: Image) -> (String,Double)? {
         let logos = fetchedImages.logos
-        if logos.isEmpty {return nil}
         
-        else if let englishLogo = logos.first(where: { $0.iso6391 == "en" }) {
+        if logos.isEmpty {
+            return nil
+        } else if let englishLogo = logos.first(where: { $0.iso6391 == "en" }) {
             return (englishLogo.filePath, englishLogo.aspectRatio)
-            
-        } else {return (logos[0].filePath, logos[0].aspectRatio)}
+        } else {
+            return (logos[0].filePath, logos[0].aspectRatio)
+        }
     }
     
     // MARK: - get backdropPath
-    static func getBackdropPathFrom(_ fetchedImages: Image) -> String {
-        let backdrop = fetchedImages.backdrops.sorted(by: {$0.voteAverage > $1.voteAverage})[0]
-        return backdrop.filePath
+    static func getBackdropPathFrom(_ fetchedImages: Image) -> String? {
+        let sortedBackdrops = fetchedImages.backdrops.sorted(by: {$0.voteAverage > $1.voteAverage})
+        if sortedBackdrops.isEmpty {
+            return nil
+        } else {
+            return sortedBackdrops[0].filePath
+        }
     }
     
     //MARK: - filter fetched search results from persons

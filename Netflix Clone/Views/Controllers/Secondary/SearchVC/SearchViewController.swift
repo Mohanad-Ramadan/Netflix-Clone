@@ -13,8 +13,7 @@ class SearchViewController: UIViewController {
         configureVC()
         configureTableView()
         configureTableDataSource()
-        fetchFirstSearchContent()
-//        updateSearchTable(with: entertainments)
+        fetchMediaAtFirstAppearnce()
     }
     
     //MARK: - Configure Search Controller
@@ -36,8 +35,14 @@ class SearchViewController: UIViewController {
     //MARK: - Configure Search table
     func configureTableView(){
         view.addSubview(searchTable)
-        searchTable.frame = view.bounds
         searchTable.delegate = self
+        searchTable.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            searchTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchTable.leftAnchor.constraint(equalTo: view.leftAnchor),
+            searchTable.rightAnchor.constraint(equalTo: view.rightAnchor),
+            searchTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
     
     func configureTableDataSource() {
@@ -62,7 +67,7 @@ class SearchViewController: UIViewController {
     }
     
     //MARK: - Update UI content
-    func fetchFirstSearchContent() {
+    func fetchMediaAtFirstAppearnce() {
         Task{
             do {
                 let entertainments = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
@@ -78,11 +83,34 @@ class SearchViewController: UIViewController {
         }
     }
     
+    func fetchSearched(with wantedMedia: String) {
+        Task{
+            do {
+                let fetchedMedia = try await NetworkManager.shared.getSearches(about: wantedMedia)
+                searchedEntertainments = fetchedMedia
+                updateSearchTable(with: searchedEntertainments)
+            } catch let error as APIError {
+                //                presentGFAlert(messageText: error.rawValue)
+                print(error)
+            } catch {
+                //                presentDefaultError()
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     func updateSearchTable(with entertainments: [Entertainment]) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, Entertainment>()
         snapShot.appendSections([.main])
-        snapShot.appendItems(entertainments)
-        dataSource.apply(snapShot, animatingDifferences: true)
+        
+        if entertainments == self.entertainments {
+            snapShot.appendItems(entertainments)
+            dataSource.apply(snapShot, animatingDifferences: false)
+        } else {
+            snapShot.appendItems(searchedEntertainments)
+            dataSource.apply(snapShot, animatingDifferences: true)
+        }
+        
     }
     
     //MARK: - Declare UIElements
@@ -114,9 +142,15 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITableViewDelegate,
                                 UISearchResultsUpdating {
     
-    
     func updateSearchResults(for searchController: UISearchController) {
-        //
+        guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            updateSearchTable(with: entertainments)
+            isStillSearching = false
+            return
+        }
+        
+        isStillSearching = true
+        fetchSearched(with: desiredMedia)
     }
     
     

@@ -85,7 +85,7 @@ extension SearchVC: SearchResultsVCDelegate , UISearchResultsUpdating , UISearch
         
         Task {
             do {
-                let searchResults = try await NetworkManager.shared.fetchSearchsOf(query)
+                let searchResults = try await NetworkManager.shared.getSearches(about: query)
                 resultController.entertainments = UIHelper.removePersonsFrom(searchResults)
                 resultController.searchResultTableView.reloadData()
             } catch let error as APIError {

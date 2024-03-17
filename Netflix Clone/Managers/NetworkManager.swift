@@ -45,7 +45,7 @@ class NetworkManager {
         } catch {throw APIError.invalidData}
     }
     
-    func fetchSearchsOf(_ query: String) async throws -> [Entertainment] {
+    func getSearches(about query: String) async throws -> [Entertainment] {
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {throw APIError.invalidURL}
         let stringURL = Constants.createSearchURLFor(query)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
