@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - Detial
+
 struct MovieDetail : Codable, GenreSeparatable{
     let title: String
     let id: Int

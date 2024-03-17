@@ -36,11 +36,8 @@ class NewHotVC: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         
-        navigationItem.rightBarButtonItem?.tintColor = .white
         navigationItem.backButtonDisplayMode = .minimal
-        
-        navigationController?.navigationBar.barTintColor = .black
-        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.tintColor = .label
     }
 
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}

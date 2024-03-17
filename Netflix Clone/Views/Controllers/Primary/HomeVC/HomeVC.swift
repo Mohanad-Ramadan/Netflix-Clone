@@ -53,9 +53,7 @@ class HomeVC: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
-    @objc func searchButtonTapped() {
-        pushInMainThreadTo(SearchViewController())
-    }
+    @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}
     
     //MARK: - Apply constraints
     private func applyConstriants() {

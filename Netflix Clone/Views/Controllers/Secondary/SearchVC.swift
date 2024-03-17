@@ -1,5 +1,5 @@
 //
-//  SearchViewController.swift
+//  SearchVC.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 10/03/2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
@@ -139,9 +139,7 @@ class SearchViewController: UIViewController {
     enum Section { case main }
 }
 
-extension SearchViewController: UITableViewDelegate,
-                                UISearchResultsUpdating {
-    
+extension SearchVC: UITableViewDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             updateSearchTable(with: entertainments)
