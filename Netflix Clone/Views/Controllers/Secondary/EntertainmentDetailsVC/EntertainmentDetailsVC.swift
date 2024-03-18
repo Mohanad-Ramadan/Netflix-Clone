@@ -29,32 +29,14 @@ class EntertainmentDetailsVC: UIViewController {
         layoutViews()
     }
     
-    private func fetchMoreEntertainment(_ mainEntertainment: String ,genresId: String, mediaType: String){
-        Task{
-            do {
-                let entertainments = try await NetworkManager.shared.getMoreLike(genresId: genresId, ofMediaType: mediaType)
-                let moreWithNoDuplicates = entertainments.filter{!mainEntertainment.contains($0.title!)}
-                moreEntertainments = moreWithNoDuplicates.prefix(6).shuffled()
-                moreIdeasCollection.reloadData()
-            } catch let error as APIError {
-//                presentGFAlert(messageText: error.rawValue)
-                print(error)
-            } catch {
-//                presentDefaultError()
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    
-    //MARK: - delete when finished developing the VC and replace method callers for this one
-    public func configureVCDetails(with model: MovieViewModel){
-        entertainmentTitle.text = model.title
-        overViewLabel.text = model.overview
-    }
-    
     //MARK: - Configure EntertainmentDetailsVC Method
-    public func configureDetails(with model: MovieViewModel, isTrending: Bool, rank: Int){
+    func configureCast(with model: MovieViewModel){
+        castLabel.text = model.cast
+        castLabel.lineBreakMode = .byTruncatingTail
+        directorLabel.text = model.director
+    }
+    
+    func configureDetails(with model: MovieViewModel, isTrending: Bool = false, rank: Int = 0){
         entertainmentTitle.text = model.title
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
@@ -77,19 +59,36 @@ class EntertainmentDetailsVC: UIViewController {
         entertainmentName = model.title
         
         // fetch more entertainment with generes and mediatype
-        var genresId: String {
-            let genres = model.genres?.prefix(2) ?? model.genres!.prefix(1)
-            let genreId = genres.map{String($0.id)}
-            let stringIds = genreId.joined(separator: ",")
+        var genresId: String? {
+            let genres = model.genres?.prefix(2) ?? model.genres?.prefix(1)
+            let genreId = genres?.map{String($0.id)}
+            let stringIds = genreId?.joined(separator: ",")
             return stringIds
         }
         fetchMoreEntertainment(entertainmentName! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
     }
     
-    public func configureCast(with model: MovieViewModel){
-        castLabel.text = model.cast
-        castLabel.lineBreakMode = .byTruncatingTail
-        directorLabel.text = model.director
+    private func fetchMoreEntertainment(_ mainEntertainment: String ,genresId: String?, mediaType: String){
+        Task{
+            do {
+                if let ids = genresId {
+                    let entertainments = try await NetworkManager.shared.getMoreLike(genresId: ids, ofMediaType: mediaType)
+                    let moreWithNoDuplicates = entertainments.filter{!mainEntertainment.contains($0.title!)}
+                    moreEntertainments = moreWithNoDuplicates.prefix(6).shuffled()
+                } else {
+                    let entertainments = try await NetworkManager.shared.getDataOf( mediaType == "movie" ? .weekTrendingMovies : .weekTrendingTV)
+                    let moreWithNoDuplicates = entertainments.filter{!mainEntertainment.contains($0.title!)}
+                    moreEntertainments = moreWithNoDuplicates.prefix(6).shuffled()
+                }
+                moreIdeasCollection.reloadData()
+            } catch let error as APIError {
+//                presentGFAlert(messageText: error.rawValue)
+                print(error)
+            } catch {
+//                presentDefaultError()
+                print(error.localizedDescription)
+            }
+        }
     }
     
     
@@ -100,7 +99,7 @@ class EntertainmentDetailsVC: UIViewController {
         return trialerQuery
     }
     
-    public func configureVideos(with model: MovieViewModel){
+    func configureVideos(with model: MovieViewModel){
         // Trailer Configuration
 //        guard let videosResult = model.videosResult else {return}
 //        guard let entertainmentName = model.title else {return}

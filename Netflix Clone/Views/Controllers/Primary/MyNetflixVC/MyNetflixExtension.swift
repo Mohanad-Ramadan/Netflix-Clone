@@ -47,7 +47,7 @@ extension MyNetflixVC :MyNetflixTableViewCellDelegate {
         
         DispatchQueue.main.async { [weak self] in
             let vc = EntertainmentDetailsVC()
-            vc.configureVCDetails(with: viewModel)
+            vc.configureDetails(with: viewModel)
             vc.hidesBottomBarWhenPushed = true
             self?.navigationController?.present(vc, animated: true)
         }

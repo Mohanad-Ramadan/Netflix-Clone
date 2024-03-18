@@ -23,7 +23,16 @@ struct Cast: Codable, CastSeparatable, ReturnDirector{
     
     func returnDirector() -> String {
         let directors = crew.filter { $0.job == "Director" }
-        return "Director: " + directors[0].name
+        let creator = crew.filter {$0.job == "Executive Producer"}
+        let writer = crew.filter {$0.job == "Novel" || $0.job == "Book"}
+        
+        if !directors.isEmpty {
+            return "Director: " + directors[0].name
+        } else if !creator.isEmpty, let secondCreator = creator[safe: 1] {
+            return "Creator: \(creator[0].name), \(secondCreator.name)"
+        } else {
+            return "Creator: " + writer[0].name
+        }
     }
     
     func returnThreeCastSeperated(with: String) -> String {

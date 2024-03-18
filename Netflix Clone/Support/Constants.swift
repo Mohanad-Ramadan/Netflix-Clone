@@ -112,6 +112,8 @@ enum Endpoints: String {
 // movie https://api.themoviedb.org/3/movie/872585/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
 
 //tv https://api.themoviedb.org/3/tv/108978/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
+//tv https://api.themoviedb.org/3/tv/126308/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
+
 
 // youtube api
 // https://www.googleapis.com/youtube/v3/search?safeSearch=strict&key=AIzaSyA43IBo_SCZSMUn4HmhCF6q3DKdKxgBBbA&q=Wonka%20They%20Call%20Me%20Lofty

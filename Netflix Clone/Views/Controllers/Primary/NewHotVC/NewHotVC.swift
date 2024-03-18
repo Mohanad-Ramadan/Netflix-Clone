@@ -38,6 +38,7 @@ class NewHotVC: UIViewController {
         
         navigationItem.backButtonDisplayMode = .minimal
         navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.isTranslucent = false
     }
 
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}

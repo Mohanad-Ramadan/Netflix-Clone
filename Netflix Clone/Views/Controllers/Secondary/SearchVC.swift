@@ -55,9 +55,13 @@ class SearchVC: UIViewController {
         func configure(cell: SimpleTableViewCell? ,with entertainment: Entertainment){
             Task {
                 do {
-                    let images = try await NetworkManager.shared.getImagesFor(entertainmentId:entertainment.id ,ofType: entertainment.mediaType ?? "movie")
+                    let mediaType = entertainment.mediaType ?? "movie"
+                    let id = entertainment.id
+                    let title = entertainment.title ?? entertainment.originalName
+                    
+                    let images = try await NetworkManager.shared.getImagesFor(entertainmentId: id ,ofType: mediaType)
                     let backdropPath = UIHelper.getBackdropPathFrom(images)
-                    cell?.configureCell(with: MovieViewModel(title: entertainment.title ,backdropsPath: backdropPath))
+                    cell?.configureCell(with: MovieViewModel(title: title ,backdropsPath: backdropPath))
                 } catch {
                     print("Error getting images:", error.localizedDescription)
                 }
