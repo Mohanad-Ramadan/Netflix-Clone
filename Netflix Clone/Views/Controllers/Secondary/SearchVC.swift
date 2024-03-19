@@ -59,7 +59,7 @@ class SearchVC: UIViewController {
                     let id = entertainment.id
                     let title = entertainment.title ?? entertainment.originalName
                     
-                    let images = try await NetworkManager.shared.getImagesFor(entertainmentId: id ,ofType: mediaType)
+                    let images = try await NetworkManager.shared.getImagesFor(mediaId: id ,ofType: mediaType)
                     let backdropPath = UIHelper.getBackdropPathFrom(images)
                     cell?.configureCell(with: MovieViewModel(title: title ,backdropsPath: backdropPath))
                 } catch {
@@ -90,7 +90,7 @@ class SearchVC: UIViewController {
     func fetchSearched(with wantedMedia: String) {
         Task{
             do {
-                let fetchedMedia = try await NetworkManager.shared.getSearches(about: wantedMedia)
+                let fetchedMedia = try await NetworkManager.shared.getSearches(of: wantedMedia)
                 searchedEntertainments = fetchedMedia
                 updateSearchTable(with: searchedEntertainments)
             } catch let error as APIError {

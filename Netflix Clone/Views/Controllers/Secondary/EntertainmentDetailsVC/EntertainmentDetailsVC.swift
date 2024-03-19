@@ -21,12 +21,9 @@ class EntertainmentDetailsVC: UIViewController {
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
         
-        trailerTable.delegate = self
-        trailerTable.dataSource = self
-        
         viewSwitchButtons.moreButtonTapped()
         
-        layoutViews()
+        applyConstraints()
     }
     
     //MARK: - Configure EntertainmentDetailsVC Method
@@ -55,9 +52,6 @@ class EntertainmentDetailsVC: UIViewController {
             top10DetailsLabel.text = "#\(rank) in \(mediaCategory) Today"
         }
         
-        // pass the entertainment to trailer tableView cell
-        entertainmentName = model.title
-        
         // fetch more entertainment with generes and mediatype
         var genresId: String? {
             let genres = model.genres?.prefix(2) ?? model.genres?.prefix(1)
@@ -65,7 +59,8 @@ class EntertainmentDetailsVC: UIViewController {
             let stringIds = genreId?.joined(separator: ",")
             return stringIds
         }
-        fetchMoreEntertainment(entertainmentName! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
+        
+        fetchMoreEntertainment(model.title! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
     }
     
     private func fetchMoreEntertainment(_ mainEntertainment: String ,genresId: String?, mediaType: String){
@@ -92,39 +87,6 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     
-    //MARK: - Videos Configuration
-    private func getFirstTrailerName(from videosResult: [Trailer.Reuslts]) -> String {
-        let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
-        let trialerQuery = trailerInfo.map { $0.name }[0]
-        return trialerQuery
-    }
-    
-    func configureVideos(with model: MovieViewModel){
-        // Trailer Configuration
-//        guard let videosResult = model.videosResult else {return}
-//        guard let entertainmentName = model.title else {return}
-//        
-//        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
-//        
-//        NetworkManager.shared.getYoutubeVideos(query: trialerVideoQuery) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let videoId):
-//                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoId)") else {
-//                        fatalError("can't get the youtube trailer url")
-//                    }
-//                    self.entertainmentTrailer.load(URLRequest(url: url))
-//                case .failure(let failure):
-//                    print("Error getting Trailer video:", failure)
-//                }
-//            }
-//        }
-//
-//        // pass th videos without the one taken for the entertainmentTrailer webView
-//        trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
-//        trailerVideosCount = trailers.count
-        
-    }
     
     //MARK: - Main Views constraints
     
@@ -241,47 +203,6 @@ class EntertainmentDetailsVC: UIViewController {
         viewSwitchButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
 
-    
-    // CollectionView and TableView Constriants and layout
-    private func switchedViewsLayout(){
-        // More CollectionView Constriants
-        let moreIdeasCollectionConstriants = [
-            moreIdeasCollection.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
-            moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-            moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
-            moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
-            moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
-        ]
-        // Trailer TableView Constriants
-        let trailerTableConstriants = [
-            trailerTable.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
-            trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-            trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
-            trailerTable.heightAnchor.constraint(equalToConstant: 290*CGFloat(trailerVideosCount ?? 0)),
-            trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor),
-        ]
-        
-        // Switching between views method
-        switch viewSwitchButtons.selectedButtonView {
-        case .moreIdeasView:
-            // Add the CollectionView to the superView
-            containterScrollView.addSubview(moreIdeasCollection)
-            NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
-            // Remove the TableView from the SuperView
-            trailerTable.removeFromSuperview()
-            trailerTable.removeConstraints(moreIdeasCollectionConstriants)
-        case .trailerView:
-            // Add the TableView to the superView
-            containterScrollView.addSubview(trailerTable)
-            NSLayoutConstraint.activate(trailerTableConstriants)
-            // Remove the TableView from the SuperView
-            moreIdeasCollection.removeFromSuperview()
-            moreIdeasCollection.removeConstraints(trailerTableConstriants)
-        default:
-            return
-        }
-    }
-    
     // remove top10Row view if entertainment tapped is not trending
     func removeTop10RowView(){
         // remove the top10 row view
@@ -299,20 +220,14 @@ class EntertainmentDetailsVC: UIViewController {
             top10Logo.widthAnchor.constraint(equalToConstant: 35)
         ])
         
-        // remake the constraints of views depend on top10 layout (playButton View)
+        // rearrange views depend on top10 layout (began from playButton View)
         playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
     }
     
-    private func applySwitchedViewsAndConstraints() {
-        switchedViewsLayout()
-        // Layout the views again
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.entertainmentVCKey), object: nil, queue: nil) { _ in
-            self.switchedViewsLayout()
-        }
-    }
+    func applySwitchedViewsAndConstraints() {}
     
     //MARK: Apply constriants function
-    private func layoutViews() {
+    func applyConstraints() {
         trailerVideoConstraints()
         scrollViewConstriants()
         neflixlogoAndGenresLabelConstriants()
@@ -331,8 +246,8 @@ class EntertainmentDetailsVC: UIViewController {
     
     
     //MARK: - Declare Main Views
-    
-    private let entertainmentTrailer: WKWebView = {
+
+    let entertainmentTrailer: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.scrollView.isScrollEnabled = false
@@ -340,7 +255,7 @@ class EntertainmentDetailsVC: UIViewController {
     }()
     
     
-    private let containterScrollView: UIScrollView = {
+    let containterScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.alwaysBounceHorizontal = false
@@ -376,9 +291,9 @@ class EntertainmentDetailsVC: UIViewController {
     
     private let threeButtons = ThreeButtonUIView()
     
-    private let viewSwitchButtons = ViewSwitchButtonsUIView()
+    let viewSwitchButtons = ViewSwitchButtonsUIView()
     
-    private let moreIdeasCollection: UICollectionView = {
+    let moreIdeasCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: (UIScreen.main.bounds.width/3)-8, height: 185)
         layout.minimumInteritemSpacing = 0
@@ -388,22 +303,7 @@ class EntertainmentDetailsVC: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
     var moreEntertainments: [Entertainment] = [Entertainment]()
-    
-    private let trailerTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
-        table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.backgroundColor = .black
-        table.allowsSelection = false
-        table.isScrollEnabled = false
-        table.showsVerticalScrollIndicator = false
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
-    var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
-    
-    var trailerVideosCount: Int?
-    var entertainmentName: String?
     
 }

@@ -28,7 +28,7 @@ extension HomeVC {
         Task {
             do {
                 // get logo and backdrop
-                let images = try await NetworkManager.shared.getImagesFor(entertainmentId: movie.id, ofType: movie.mediaType!)
+                let images = try await NetworkManager.shared.getImagesFor(mediaId: movie.id, ofType: movie.mediaType!)
                 let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
                 let backdropPath = UIHelper.getBackdropPathFrom(images)
                 self.heroHeaderView.configureHeaderView(with: MovieViewModel(logoPath: logoPath, backdropsPath: backdropPath))

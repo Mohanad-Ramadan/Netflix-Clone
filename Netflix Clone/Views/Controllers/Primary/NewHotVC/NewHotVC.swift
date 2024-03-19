@@ -23,7 +23,6 @@ class NewHotVC: UIViewController {
     
     private func configureView(){
         view.addSubview(newAndHotTable)
-//        view.addSubview(loadingView)
         view.addSubview(categoryButtonsBar)
         
         newAndHotTable.delegate = self
@@ -45,11 +44,7 @@ class NewHotVC: UIViewController {
     
     //MARK: - Apply constraints
     private func applyConstriants() {
-        // Apply constraints for categorySelectButtons
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
-        
-//        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             categoryButtonsBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             categoryButtonsBar.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -60,11 +55,6 @@ class NewHotVC: UIViewController {
             newAndHotTable.leftAnchor.constraint(equalTo: view.leftAnchor),
             newAndHotTable.rightAnchor.constraint(equalTo: view.rightAnchor),
             newAndHotTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-//            loadingView.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
-//            loadingView.leftAnchor.constraint(equalTo: view.leftAnchor),
-//            loadingView.rightAnchor.constraint(equalTo: view.rightAnchor),
-//            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor) 
         ])
     }
     
@@ -79,7 +69,6 @@ class NewHotVC: UIViewController {
     }()
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
-    let loadingView = NewHotLoadingUIView()
     var entertainments: [Entertainment] = [Entertainment]()
     
     var isTheTappedEntertainmentTrend: Bool?

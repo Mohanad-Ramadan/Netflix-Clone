@@ -19,11 +19,6 @@ struct Constants {
         return Constants.baseURL + endpoint.rawValue + Constants.apiKey
     }
     
-    static func createImageURLWith(mediaType: String ,id: Int) -> String {
-        if mediaType == "movie" {return "\(Constants.baseURL)/movie/\(id)/images\(Constants.apiKey)"}
-        else {return "\(Constants.baseURL)/tv/\(id)/images\(Constants.apiKey)"}
-    }
-    
     static func createMoreLikeURLWith(mediaType: String ,genresId: String) -> String {
         let endpoint = "?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=\(genresId)"
         if mediaType == "movie" {
@@ -33,13 +28,31 @@ struct Constants {
         }
     }
     
+    static func createImageURLWith(mediaType: String ,id: Int) -> String {
+        if mediaType == "movie" {return "\(Constants.baseURL)/movie/\(id)/images\(Constants.apiKey)"}
+        else {return "\(Constants.baseURL)/tv/\(id)/images\(Constants.apiKey)"}
+    }
+    
+    static func createCastURLWith(mediaType: String ,id: Int) -> String {
+        if mediaType == "movie" {return "\(Constants.baseURL)/movie/\(id)/credits\(Constants.apiKey)"}
+        else {return "\(Constants.baseURL)/tv/\(id)/credits\(Constants.apiKey)"}
+    }
+    
+    static func createTrailersURLWith(mediaType: String ,id: Int) -> String {
+        if mediaType == "movie" {return "\(Constants.baseURL)/movie/\(id)/videos\(Constants.apiKey)"}
+        else {return "\(Constants.baseURL)/tv/\(id)/videos\(Constants.apiKey)"}
+    }
+    
+    static func createDetailsURLWith(mediaType: String ,id: Int) -> String {
+        if mediaType == "movie" {return "\(Constants.baseURL)/movie/\(id)\(Constants.apiKey)"}
+        else {return "\(Constants.baseURL)/tv/\(id)\(Constants.apiKey)"}
+    }
+    
     static func createSearchURLFor(_ query: String) -> String {
         let endpoint = Endpoints.search.rawValue
         return "\(Constants.baseURL)\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1&query=\(query)"
     }
-    
 
-    static let searchURl = "https://api.themoviedb.org/3/search/multi\(apiKey)&include_adult=false&query="
     static let youtubeURL = "https://www.googleapis.com/youtube/v3/search?safeSearch=strict&key=AIzaSyA43IBo_SCZSMUn4HmhCF6q3DKdKxgBBbA&q="
     static let entertainmentIdURL = "https://api.themoviedb.org/3"
     

@@ -11,7 +11,7 @@ extension NewHotVC {
     func setDataSource(for cell: NewAndHotTableViewCell ,from entertainment: Entertainment) {
         Task {
             do {
-                let images = try await NetworkManager.shared.getImagesFor(entertainmentId: entertainment.id, ofType: entertainment.mediaType ?? "movie")
+                let images = try await NetworkManager.shared.getImagesFor(mediaId: entertainment.id, ofType: entertainment.mediaType ?? "movie")
                 // logo
                 let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
                 let logoAspectRatio = UIHelper.getLogoDetailsFrom(images)?.1
