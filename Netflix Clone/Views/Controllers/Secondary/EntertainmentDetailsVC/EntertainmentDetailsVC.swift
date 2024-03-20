@@ -36,7 +36,7 @@ class EntertainmentDetailsVC: UIViewController {
         directorLabel.text = model.director
     }
     
-    func configureDetails(with model: MovieViewModel, isTrending: Bool = false, rank: Int = 0){
+    func configureDetails(with model: MovieViewModel, isTrend: Bool = false, rank: Int = 0){
         entertainmentTitle.text = model.title
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
@@ -47,7 +47,7 @@ class EntertainmentDetailsVC: UIViewController {
         detailsLabel.runtimeLabel.text = model.runtime?.formatTimeFromMinutes()
         
         // If entertainment is trending
-        if isTrending == false {
+        if isTrend == false {
             removeTop10RowView()
         } else {
             let rank = rank

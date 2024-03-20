@@ -33,6 +33,10 @@ struct Constants {
         else {return "\(Constants.baseURL)/tv/\(id)/images\(Constants.apiKey)"}
     }
     
+    static func createSeasonURLWith(id: Int, seasonNum: Int) -> String {
+        "\(Constants.baseURL)/tv/\(id)/season/\(seasonNum)\(Constants.apiKey)"
+    }
+    
     static func createCastURLWith(mediaType: String ,id: Int) -> String {
         if mediaType == "movie" {return "\(Constants.baseURL)/movie/\(id)/credits\(Constants.apiKey)"}
         else {return "\(Constants.baseURL)/tv/\(id)/credits\(Constants.apiKey)"}
@@ -105,7 +109,11 @@ enum Endpoints: String {
 //details URL
 //movie https://api.themoviedb.org/3/movie/872585?api_key=db7efd1f212466edd2945ab1e9199ee1
 
+//tv https://api.themoviedb.org/3/tv/126308?api_key=db7efd1f212466edd2945ab1e9199ee1
 //tv https://api.themoviedb.org/3/tv/108978?api_key=db7efd1f212466edd2945ab1e9199ee1
+
+//season url
+//"https://api.themoviedb.org/3/tv/126308/season/1?api_key=db7efd1f212466edd2945ab1e9199ee1"
 
 //images URl
 // https://api.themoviedb.org/3/tv/57243/images?api_key=db7efd1f212466edd2945ab1e9199ee1
@@ -114,6 +122,8 @@ enum Endpoints: String {
 // https://image.tmdb.org/t/p/w500/vcFW09U4834DyFOeRZpsx9x1D3S.jpg
 
 // https://image.tmdb.org/t/p/w500/t0MpJBr0oS5Yc1eXHiL05T5UDIT.png
+// stillpath for episode (episode thumbnail)
+// https://image.tmdb.org/t/p/w500/cK5bnO5LeBimz6oibtnLCnOmUSJ.jpg
 
 //Videos
 // https://api.themoviedb.org/3/movie/872585/videos?api_key=db7efd1f212466edd2945ab1e9199ee1

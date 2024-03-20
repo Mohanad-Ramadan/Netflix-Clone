@@ -18,13 +18,17 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     init(for movie: Entertainment, isTrend: Bool = false, rank: Int = 0) {
         super.init()
         self.movie = movie
+        fetchData(isTrend: isTrend, rank: rank)
         
+    }
+    
+    private func fetchData(isTrend: Bool, rank: Int) {
         Task {
             do {
                 // get details
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
                 let viewModel = MovieViewModel(title: details.title, overview: details.overview, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime)
-                configureDetails(with: viewModel, isTrending: isTrend, rank: rank)
+                configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
                 
                 // get cast
                 let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: movie.id, ofType: "movie")
@@ -33,8 +37,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get trailers
-                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-                configureVideos(with: MovieViewModel(title: details.title ,videosResult: trailers))
+//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
@@ -48,30 +52,26 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         return trialerQuery
     }
     
-    func configureVideos(with model: MovieViewModel){
+    func configureTrailer(with model: MovieViewModel){
         // Trailer Configuration
-//        guard let videosResult = model.videosResult else {return}
-//        guard let entertainmentName = model.title else {return}
-//
-//        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
-//
-//        NetworkManager.shared.getYoutubeVideos(query: trialerVideoQuery) { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let videoId):
-//                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoId)") else {
-//                        fatalError("can't get the youtube trailer url")
-//                    }
-//                    self.entertainmentTrailer.load(URLRequest(url: url))
-//                case .failure(let failure):
-//                    print("Error getting Trailer video:", failure)
-//                }
-//            }
-//        }
-//
-//        // pass th videos without the one taken for the entertainmentTrailer webView
-//        trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
-//        trailerVideosCount = trailers.count
+        guard let videosResult = model.videosResult else {return}
+        guard let entertainmentName = model.title else {return}
+
+        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
+
+        Task {
+            do {
+                let trailerId = try await NetworkManager.shared.getTrailersIds(of: trialerVideoQuery)
+                guard let url = URL(string: "https://www.youtube.com/embed/\(trailerId)") else {
+                    fatalError("can't get the youtube trailer url")
+                }
+                self.entertainmentTrailer.load(URLRequest(url: url))
+            } catch { print(error.localizedDescription) }
+        }
+
+        // pass th videos without the one taken for the entertainmentTrailer webView
+        trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
+        trailerVideosCount = trailers.count
     }
     
     //MARK: - Dynamic Constraints
@@ -144,7 +144,9 @@ class MovieDetailsVC: EntertainmentDetailsVC {
 }
 
 
-//MARK: - TableView Delegate and DataSource
+
+
+//MARK: - Delegate and DataSource
 extension MovieDetailsVC: UITableViewDelegate,
                           UITableViewDataSource {
     
@@ -159,7 +161,7 @@ extension MovieDetailsVC: UITableViewDelegate,
         }
         
         let videoInfo = trailers[indexPath.row]
-        guard let titleText = entertainmentName else { return UITableViewCell() }
+        guard let titleText = movie.title else {return UITableViewCell()}
         cell.configureCell(with: videoInfo, and: titleText)
         return cell
     }

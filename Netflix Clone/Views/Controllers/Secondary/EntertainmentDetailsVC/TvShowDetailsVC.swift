@@ -15,13 +15,17 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
     init(for tvShow: Entertainment, isTrend: Bool = false, rank: Int = 0) {
         super.init()
         self.tvShow = tvShow
+        fetchData(isTrend: isTrend, rank: rank)
         
+    }
+    
+    private func fetchData(isTrend: Bool, rank: Int){
         Task {
             do {
                 // get details
                 let details: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: tvShow.id, ofType: "tv")
                 let viewModel = MovieViewModel(title: details.name, overview: details.overview, mediaType: "tv" ,releaseDate: details.lastAirDate)
-                configureDetails(with: viewModel, isTrending: isTrend, rank: rank)
+                configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
                 
                 // get cast
                 let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: tvShow.id, ofType: "tv")
@@ -35,7 +39,11 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         }
     }
     
+    //MARK: - Declare TvShows Subviews
+    
+    
     var tvShow: Entertainment!
+    var episodes: Season!
     
     required init?(coder: NSCoder) {fatalError()}
 }

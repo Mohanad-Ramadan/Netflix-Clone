@@ -87,6 +87,17 @@ class NetworkManager {
         do { return try self.decoder.decode(T.self, from: data) }
         catch { throw APIError.invalidData }
     }
+
+    func getSeasonDetailsFor(seriesId: Int, seasonNum: Int) async throws -> Season {
+        let stringURL = Constants.createSeasonURLWith(id: seriesId, seasonNum: seasonNum)
+        guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
+        
+        let (data,response) = try await URLSession.shared.data(from: url)
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
+        
+        do { return try self.decoder.decode(Season.self, from: data) }
+        catch { throw APIError.invalidData }
+    }
     
     func getSearches(of query: String) async throws -> [Entertainment] {
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {throw APIError.invalidURL}
