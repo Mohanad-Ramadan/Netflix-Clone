@@ -3,6 +3,54 @@
 <plist version="1.0">
 <dict>
 	<key>top-level-items</key>
-	<array/>
+	<array>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>0</string>
+					<key>EndingLineNumber</key>
+					<string>44</string>
+					<key>StartingColumnNumber</key>
+					<string>98</string>
+					<key>StartingLineNumber</key>
+					<string>43</string>
+					<key>Timestamp</key>
+					<string>732592396.675723</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Netflix Clone/Views/Cells/HomeTableViewCell/HomeTableViewExtension.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>
+</string>
+				<key>leading</key>
+				<string>                let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: mediaType)
+                let viewModel = MovieViewModel(title: details.title, overview: details.overview, mediaType: mediaType ,releaseDate: details.releaseDate, runtime: details.runtime)
+                vc.configureDetails(with: viewModel/*, isTrending: isTrending!*/, rank: trendRank)</string>
+				<key>trailing</key>
+				<string>                
+                // get cast
+                let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: id, ofType: mediaType)
+</string>
+			</dict>
+			<key>title</key>
+			<string>Fix trending issue</string>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+	</array>
 </dict>
 </plist>

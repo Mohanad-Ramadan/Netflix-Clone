@@ -28,14 +28,16 @@ extension HomeVC {
         Task {
             do {
                 // get logo and backdrop
-                let images = try await NetworkManager.shared.getImagesFor(mediaId: movie.id, ofType: movie.mediaType!)
+                let images = try await NetworkManager.shared.getImagesFor(mediaId: movie.id, ofType: "movie")
                 let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
                 let backdropPath = UIHelper.getBackdropPathFrom(images)
-                self.heroHeaderView.configureHeaderView(with: MovieViewModel(logoPath: logoPath, backdropsPath: backdropPath))
-                self.homeBackground.configureBackground(with: MovieViewModel(backdropsPath: backdropPath))
                 
                 // get genres
-                self.fetchAndConfigureDetails(for: movie, fetchType: MovieDetail.self)
+                let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
+                
+                // configure views
+                self.heroHeaderView.configureHeaderView(with: MovieViewModel(logoPath: logoPath, backdropsPath: backdropPath, category: details.separateGenres(with: " • ")))
+                self.homeBackground.configureBackground(with: MovieViewModel(backdropsPath: backdropPath))
                 
             } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
@@ -43,18 +45,6 @@ extension HomeVC {
             } catch {
 //                    presentDefaultError()
                 print(error.localizedDescription)
-            }
-        }
-    }
-    
-    private func fetchAndConfigureDetails<T: Decodable & GenreSeparatable>(for movie: Entertainment, fetchType: T.Type) {
-        NetworkManager.shared.getDetails(mediaType: movie.mediaType!, id: movie.id) { (result: Result<T, Error>) in
-            switch result {
-            case .success(let fetchedDetails):
-                let detailCategory = fetchedDetails.separateGenres(with: " • ")
-                self.heroHeaderView.configureHeaderView(with: MovieViewModel(category: detailCategory))
-            case .failure(let failure):
-                print("Error getting details:", failure)
             }
         }
     }

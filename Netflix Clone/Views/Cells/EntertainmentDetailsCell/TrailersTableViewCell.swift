@@ -24,25 +24,21 @@ class TrailersTableViewCell: UITableViewCell {
     public func configureCell(with videoInfo: Trailer.Reuslts, and entertainmentName: String){
         let videoName = videoInfo.name
         let videoType = videoInfo.type
-        let videoQuery = "\(entertainmentName) \(videoName) \(videoType)"
+        let trailerQuery = "\(entertainmentName) \(videoName) \(videoType)"
         let trailerTitle = "\(videoType): \(videoName)"
         
         // Configure the trailer title
         self.trailerTitle.text = trailerTitle
         
         // Configure the trailer webView
-        NetworkManager.shared.getYoutubeVideos(query: videoQuery) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let videoId):
-                    guard let url = URL(string: "https://www.youtube.com/embed/\(videoId)") else {
-                        fatalError("can't get the youtube trailer url")
-                    }
-                    self.trailerView.load(URLRequest(url: url))
-                case .failure(let failure):
-                    print("Error getting Trailer video:", failure)
+        Task {
+            do {
+                let trailerId = try await NetworkManager.shared.getTrailersIds(of: trailerQuery)
+                guard let url = URL(string: "https://www.youtube.com/embed/\(trailerId)") else {
+                    fatalError("can't get the youtube trailer url")
                 }
-            }
+                self.trailerView.load(URLRequest(url: url))
+            } catch { print(error.localizedDescription) }
         }
         
     }
