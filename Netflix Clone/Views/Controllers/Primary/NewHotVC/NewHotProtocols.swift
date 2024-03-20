@@ -28,77 +28,17 @@ extension NewHotVC: UITableViewDelegate,
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let vc = EntertainmentDetailsVC()
-        
-        let entertainment = entertainments[indexPath.row]
-        
-        let isTrending = self.isTheTappedEntertainmentTrend
+        let media = entertainments[indexPath.row]
+        let isTrend = self.isTheTappedEntertainmentTrend!
         let trendRank = indexPath.row+1
         
-        let mediaType = entertainment.mediaType ?? "movie"
-        let id = entertainment.id
-        
-        NetworkManager.shared.getDetails(mediaType: mediaType , id: id) { (result: Result<MovieDetail, Error>) in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let fetchedDetials):
-                    // detail
-                    let detail = fetchedDetials
-                    
-                    // View Model congfigur
-                    let viewModel = MovieViewModel(title: detail.title, overview: detail.overview, mediaType: mediaType ,releaseDate: detail.releaseDate, runtime: detail.runtime)
-                    vc.configureDetails(with: viewModel, isTrending: isTrending!, rank: trendRank)
-                    
-                case .failure(let failure):
-                    print("Error getting details:",failure)
-                }
-            }
+        if media.mediaType == nil || media.mediaType == "movie" {
+            let vc = MovieDetailsVC(for: media, isTrend: isTrend, rank: trendRank)
+            presentInMainThread(vc)
+        } else {
+            let vc = TvShowDetailsVC(for: media, isTrend: isTrend, rank: trendRank)
+            presentInMainThread(vc)
         }
-        
-        NetworkManager.shared.getCast(mediaType: mediaType, id: id) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let fetchedCast):
-                    // logo
-                    let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
-                    let director = fetchedCast.returnDirector()
-                    
-                    // View Model congfigur
-                    let viewModel = MovieViewModel(cast: cast, director: director)
-                    vc.configureCast(with: viewModel)
-                    
-                case .failure(let failure):
-                    print("Error getting Cast:", failure)
-                    
-                }
-            }
-        }
-        
-        NetworkManager.shared.getVedios(mediaType: mediaType, id: id) { result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let fetchedVideos):
-                    // YoutubeTrailers
-                    let videos = fetchedVideos.returnYoutubeTrailers()
-                    
-                    // View Model congfigur
-                    let viewModel = MovieViewModel(title: entertainment.title ,videosResult: videos)
-                    vc.configureVideos(with: viewModel)
-                    
-                case .failure(let failure):
-                    print("Error getting Vedios:", failure)   
-                }
-            }
-        }
-        
-        presentInMainThread(vc)
     }
         
 }
-
-//extension NewHotVC: NewAndHotTableViewCellDelegate {
-//    func finishLoadingPoster() {
-//        loadingView.removeFromSuperview()
-//    }
-//}
