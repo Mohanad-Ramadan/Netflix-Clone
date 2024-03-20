@@ -8,12 +8,37 @@
 import UIKit
 
 class MovieDetailsVC: EntertainmentDetailsVC {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         containterScrollView.addSubview(trailerTable)
         trailerTable.delegate = self
         trailerTable.dataSource = self
+    }
+    
+    init(for movie: Entertainment, isTrend: Bool = false, rank: Int = 0) {
+        super.init()
+        self.movie = movie
+        
+        Task {
+            do {
+                // get details
+                let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
+                let viewModel = MovieViewModel(title: details.title, overview: details.overview, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime)
+                configureDetails(with: viewModel, isTrending: isTrend, rank: rank)
+                
+                // get cast
+                let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: movie.id, ofType: "movie")
+                let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
+                let director = fetchedCast.returnDirector()
+                configureCast(with: MovieViewModel(cast: cast, director: director))
+                
+                // get trailers
+                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+                configureVideos(with: MovieViewModel(title: details.title ,videosResult: trailers))
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     //MARK: - Videos Configuration
@@ -113,4 +138,38 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
     var trailerVideosCount: Int?
     var entertainmentName: String?
+    var movie: Entertainment!
+    
+    required init?(coder: NSCoder) {fatalError()}
+}
+
+
+//MARK: - TableView Delegate and DataSource
+extension MovieDetailsVC: UITableViewDelegate,
+                          UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return trailers.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrailersTableViewCell.identifier, for: indexPath) as? TrailersTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        let videoInfo = trailers[indexPath.row]
+        guard let titleText = entertainmentName else { return UITableViewCell() }
+        cell.configureCell(with: videoInfo, and: titleText)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 280
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = .clear
+    }
+    
 }

@@ -26,6 +26,9 @@ class EntertainmentDetailsVC: UIViewController {
         applyConstraints()
     }
     
+    init() {super.init(nibName: nil, bundle: nil)}
+    required init?(coder: NSCoder) {fatalError()}
+    
     //MARK: - Configure EntertainmentDetailsVC Method
     func configureCast(with model: MovieViewModel){
         castLabel.text = model.cast
@@ -267,29 +270,29 @@ class EntertainmentDetailsVC: UIViewController {
     
     //MARK: - Declare Container Subviews
     
-    private let netflixLogo = NFImageView(image: .netflixClone)
+    let netflixLogo = NFImageView(image: .netflixClone)
     
-    private let categoryLabel = NFBodyLabel(color: .lightGray, fontSize: 10, fontWeight: .semibold)
+    let categoryLabel = NFBodyLabel(color: .lightGray, fontSize: 10, fontWeight: .semibold)
     
-    private let entertainmentTitle = NFBodyLabel(color: .white, fontSize: 21, fontWeight: .bold, lines: 0)
+    let entertainmentTitle = NFBodyLabel(color: .white, fontSize: 21, fontWeight: .bold, lines: 0)
     
-    private let detailsLabel = DetailsLabelUIView()
+    let detailsLabel = DetailsLabelUIView()
     
-    private let top10Logo = NFImageView(image: .top10)
+    let top10Logo = NFImageView(image: .top10)
     
-    private let top10DetailsLabel = NFBodyLabel(color: .white, fontSize: 17, fontWeight: .bold)
+    let top10DetailsLabel = NFBodyLabel(color: .white, fontSize: 17, fontWeight: .bold)
     
-    private let playButton = NFFilledButton(title: "Play", image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
+    let playButton = NFFilledButton(title: "Play", image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
     
-    private let overViewLabel = NFBodyLabel(color: .white, fontSize: 15, lines: 0)
+    let overViewLabel = NFBodyLabel(color: .white, fontSize: 15, lines: 0)
     
-    private let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
+    let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
-    private let expandCastButton = NFPlainButton(title: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
+    let expandCastButton = NFPlainButton(title: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
     
-    private let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
+    let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
-    private let threeButtons = ThreeButtonUIView()
+    let threeButtons = ThreeButtonUIView()
     
     let viewSwitchButtons = ViewSwitchButtonsUIView()
     
