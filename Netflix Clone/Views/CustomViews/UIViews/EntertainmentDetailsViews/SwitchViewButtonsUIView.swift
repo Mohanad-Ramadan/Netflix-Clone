@@ -7,22 +7,35 @@
 
 import UIKit
 
-class ViewSwitchButtonsUIView: UIView {
+
+enum SelectedView {
+    case moreIdeasView, trailerView
+}
+
+
+class SwitchViewButtonsUIView: UIView {
+    
+    protocol Delegate: AnyObject { func buttonOneAction(); func buttonTwoAction() }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
-        addSubview(moreButton)
-        addSubview(trailerButton)
+        addSubview(buttonOne)
+        addSubview(buttonTwo)
         addSubview(redSelectLine)
         buttonsTarget()
         applyConstraints()
     }
     
-    //MARK: - moreButton tapped at first load
-    @objc func moreButtonTapped() {
-        moreButton.sendActions(for: .touchUpInside)
+    init(buttonOneTitle: String, buttonTwoTitle: String) {
+        super.init(frame: .zero)
+        buttonOne.configuration?.title = buttonOneTitle
+        buttonTwo.configuration?.title = buttonTwoTitle
+        
     }
+    
+    //MARK: - moreButton tapped at first load
+    @objc func firstApperanceAction() {buttonOne.sendActions(for: .touchUpInside)}
     
     //MARK: - Button Pressed Actions
     @objc private func buttonPressed(_ sender: UIButton) {
@@ -34,55 +47,55 @@ class ViewSwitchButtonsUIView: UIView {
     }
     
     // Button backend method
-    func changeViewFor(_ sender: UIButton) {
-        selectedButtonView = sender == moreButton ? SelectedView.moreIdeasView : SelectedView.trailerView
+    func changeViewFor( _ sender: UIButton) {
+        selectedButtonView = sender == buttonOne ? SelectedView.moreIdeasView : SelectedView.trailerView
     }
     
     
     // Button UI change method
     func  handleUIFor(_ sender: UIButton) {
         let redLineMidPoint = redSelectLine.frame.midX
-        let moreButtonMidPoint = moreButton.frame.midX
-        let trailerButtonMidPoint = trailerButton.frame.midX
+        let moreButtonMidPoint = buttonOne.frame.midX
+        let trailerButtonMidPoint = buttonTwo.frame.midX
         
-        if sender == moreButton{
+        if sender == buttonOne{
             // Change redLine placment to be over moreButton
             redSelectLine.center = redLineMidPoint != moreButtonMidPoint ? CGPoint(x: moreButtonMidPoint, y: 0) : CGPoint(x: trailerButtonMidPoint, y: 0)
             
             // Change tapped moreButton color
-            moreButton.configuration?.baseForegroundColor = .white
-            trailerButton.configuration?.baseForegroundColor = .lightGray
+            buttonOne.configuration?.baseForegroundColor = .white
+            buttonTwo.configuration?.baseForegroundColor = .lightGray
         } else {
             // Change redLine placment to be over moreButton
             redSelectLine.center = redLineMidPoint != trailerButtonMidPoint ? CGPoint(x: trailerButtonMidPoint, y: 0) : CGPoint(x: moreButtonMidPoint, y: 0)
             
             // Change tapped trailerButton color
-            trailerButton.configuration?.baseForegroundColor = .white
-            moreButton.configuration?.baseForegroundColor = .lightGray
+            buttonTwo.configuration?.baseForegroundColor = .white
+            buttonOne.configuration?.baseForegroundColor = .lightGray
         }
     }
     
     //MARK: - Button target methods
     func buttonsTarget() {
-        moreButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        trailerButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        buttonOne.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        buttonTwo.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
     }
     
     //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
-            moreButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -4),
-            moreButton.topAnchor.constraint(equalTo: redSelectLine.bottomAnchor, constant: 4),
-            moreButton.heightAnchor.constraint(equalTo: moreButton.heightAnchor),
+            buttonOne.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -4),
+            buttonOne.topAnchor.constraint(equalTo: redSelectLine.bottomAnchor, constant: 4),
+            buttonOne.heightAnchor.constraint(equalTo: buttonOne.heightAnchor),
             
             // Button 2
-            trailerButton.leadingAnchor.constraint(equalTo: moreButton.trailingAnchor, constant: -10),
-            trailerButton.topAnchor.constraint(equalTo: moreButton.topAnchor),
-            trailerButton.heightAnchor.constraint(equalTo: moreButton.heightAnchor),
+            buttonTwo.leadingAnchor.constraint(equalTo: buttonOne.trailingAnchor, constant: -10),
+            buttonTwo.topAnchor.constraint(equalTo: buttonOne.topAnchor),
+            buttonTwo.heightAnchor.constraint(equalTo: buttonOne.heightAnchor),
             
             // Red select line
-            redSelectLine.centerXAnchor.constraint(equalTo: moreButton.centerXAnchor),
+            redSelectLine.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor),
             redSelectLine.topAnchor.constraint(equalTo: topAnchor),
             redSelectLine.heightAnchor.constraint(equalToConstant: 4),
             redSelectLine.widthAnchor.constraint(equalToConstant: 112),
@@ -97,17 +110,14 @@ class ViewSwitchButtonsUIView: UIView {
         return rectangle
     }()
     
-    private let moreButton = NFPlainButton(title: "More Like This", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
-    private let trailerButton = NFPlainButton(title: "Trailer & More", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let buttonOne = NFPlainButton(title: "Button", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let buttonTwo = NFPlainButton(title: "Button", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
     
     
     var selectedButtonView : SelectedView?
     
+    weak var delegate: Delegate?
+    
     required init?(coder: NSCoder) {fatalError()}
 
-}
-
-//MARK: - Change Views Enum
-enum SelectedView {
-    case moreIdeasView, trailerView
 }
