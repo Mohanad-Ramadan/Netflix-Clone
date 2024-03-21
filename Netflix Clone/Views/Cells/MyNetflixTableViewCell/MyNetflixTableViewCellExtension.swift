@@ -51,9 +51,4 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
     
 }
 
-//MARK: - cellTapped method in protocol
-
-protocol MyNetflixTableViewCellDelegate: AnyObject {
-    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, viewModel: MovieViewModel)
-}
 

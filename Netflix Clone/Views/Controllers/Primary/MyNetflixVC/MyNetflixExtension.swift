@@ -43,13 +43,7 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - CellTapedAction extension
 
 extension MyNetflixVC :MyNetflixTableViewCellDelegate {
-    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, viewModel: MovieViewModel) {
-        
-        DispatchQueue.main.async { [weak self] in
-            let vc = EntertainmentDetailsVC()
-            vc.configureDetails(with: viewModel)
-            vc.hidesBottomBarWhenPushed = true
-            self?.navigationController?.present(vc, animated: true)
-        }
+    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: EntertainmentDetailsVC) {
+        presentInMainThread(vc)
     }
 }

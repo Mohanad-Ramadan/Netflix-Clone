@@ -8,6 +8,9 @@
 import UIKit
 import SkeletonView
 
+protocol HomeTableViewCellDelegate: AnyObject {
+    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, navigateTo vc: EntertainmentDetailsVC)
+}
 
 class HomeTableViewCell: UITableViewCell {
     

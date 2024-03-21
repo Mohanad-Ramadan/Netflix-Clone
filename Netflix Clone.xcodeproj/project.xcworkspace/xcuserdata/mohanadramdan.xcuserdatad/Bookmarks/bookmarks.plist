@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>44</string>
+					<string>31</string>
 					<key>StartingColumnNumber</key>
-					<string>98</string>
+					<string>57</string>
 					<key>StartingLineNumber</key>
-					<string>43</string>
+					<string>30</string>
 					<key>Timestamp</key>
-					<string>732592396.675723</string>
+					<string>732675232.875335</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -37,64 +37,17 @@
 				<string>
 </string>
 				<key>leading</key>
-				<string>                let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: mediaType)
-                let viewModel = MovieViewModel(title: details.title, overview: details.overview, mediaType: mediaType ,releaseDate: details.releaseDate, runtime: details.runtime)
-                vc.configureDetails(with: viewModel/*, isTrending: isTrending!*/, rank: trendRank)</string>
+				<string>        collectionView.deselectItem(at: indexPath, animated: true)
+        let media = entertainments[indexPath.row]
+//        let isTrend = self.isTheTappedEntertainmentTrend!</string>
 				<key>trailing</key>
-				<string>                
-                // get cast
-                let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: id, ofType: mediaType)
+				<string>        let trendRank = indexPath.row+1
+        
+        if media.mediaType == nil || media.mediaType == "movie" {
 </string>
 			</dict>
 			<key>title</key>
 			<string>Fix trending issue</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>41</string>
-					<key>StartingColumnNumber</key>
-					<string>102</string>
-					<key>StartingLineNumber</key>
-					<string>40</string>
-					<key>Timestamp</key>
-					<string>732650129.385461</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Netflix Clone/Views/Controllers/Secondary/EntertainmentDetailsVC/MovieDetailsVC.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string>
-</string>
-				<key>leading</key>
-				<string>                // get trailers
-//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))</string>
-				<key>trailing</key>
-				<string>            } catch {
-                print(error.localizedDescription)
-            }
-</string>
-			</dict>
-			<key>title</key>
-			<string>commented to limit youtube api fetch countes</string>
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>

@@ -1,5 +1,5 @@
 //
-//  TVDetail.swift
+//  SeasonDetail.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 20/03/2024.

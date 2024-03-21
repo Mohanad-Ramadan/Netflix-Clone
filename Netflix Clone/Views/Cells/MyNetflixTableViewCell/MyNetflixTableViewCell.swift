@@ -9,6 +9,10 @@ import UIKit
 import SkeletonView
 
 
+protocol MyNetflixTableViewCellDelegate: AnyObject {
+    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: EntertainmentDetailsVC)
+}
+
 class MyNetflixTableViewCell: UITableViewCell {
     
     static let identifier = "MyNetflixTableViewCell"

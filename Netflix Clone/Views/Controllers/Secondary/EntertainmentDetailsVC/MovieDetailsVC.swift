@@ -10,7 +10,8 @@ import UIKit
 class MovieDetailsVC: EntertainmentDetailsVC {
     override func viewDidLoad() {
         super.viewDidLoad()
-        containterScrollView.addSubview(trailerTable)
+//        containterScrollView.addSubview(switchViewButtons)
+        
         trailerTable.delegate = self
         trailerTable.dataSource = self
     }
@@ -27,7 +28,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
             do {
                 // get details
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
-                let viewModel = MovieViewModel(title: details.title, overview: details.overview, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime)
+                
+                let viewModel = MovieViewModel(title: details.title, overview: details.overview, genres: details.genres, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime )
                 configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
                 
                 // get cast
@@ -74,11 +76,27 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         trailerVideosCount = trailers.count
     }
     
+    //MARK: - Configure constraints
+    
+//    // Switch Buttons Constraints
+//    private func switchViewButtonsConstriants() {
+//        switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
+//        switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
+//        switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+//        switchViewButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+//        switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
+//    }
+//    
+//    // apply constraints
+//    override func applyConstraints() {
+//        switchViewButtonsConstriants()
+//    }
+    
     //MARK: - Dynamic Constraints
     private func switchedViewsLayout(){
         // More CollectionView Constriants
         let moreIdeasCollectionConstriants = [
-            moreIdeasCollection.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
+            moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
             moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
             moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
             moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
@@ -86,7 +104,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         ]
         // Trailer TableView Constriants
         let trailerTableConstriants = [
-            trailerTable.topAnchor.constraint(equalTo: viewSwitchButtons.bottomAnchor),
+            trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
             trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
             trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
             trailerTable.heightAnchor.constraint(equalToConstant: 290*CGFloat(trailerVideosCount ?? 0)),
@@ -94,7 +112,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         ]
         
         // Switching between views method
-        switch viewSwitchButtons.selectedButtonView {
+        switch switchViewButtons.selectedButtonView {
         case .moreIdeasView:
             // Add the CollectionView to the superView
             containterScrollView.addSubview(moreIdeasCollection)
@@ -123,6 +141,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     }
     
     //MARK: - Declare Movie Subviews
+//    private let switchViewButtons = ViewSwitchButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
+    
     private let trailerTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)

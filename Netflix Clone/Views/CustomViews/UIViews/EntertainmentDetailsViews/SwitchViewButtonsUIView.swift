@@ -1,5 +1,5 @@
 //
-//  ViewSwitchButtonsUIView.swift
+//  SwitchViewButtonsUIView.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 23/01/2024.
@@ -27,11 +27,10 @@ class SwitchViewButtonsUIView: UIView {
         applyConstraints()
     }
     
-    init(buttonOneTitle: String, buttonTwoTitle: String) {
-        super.init(frame: .zero)
+    convenience init(buttonOneTitle: String, buttonTwoTitle: String) {
+        self.init()
         buttonOne.configuration?.title = buttonOneTitle
         buttonTwo.configuration?.title = buttonTwoTitle
-        
     }
     
     //MARK: - moreButton tapped at first load

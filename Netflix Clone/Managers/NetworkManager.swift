@@ -88,14 +88,14 @@ class NetworkManager {
         catch { throw APIError.invalidData }
     }
 
-    func getSeasonDetailsFor(seriesId: Int, seasonNum: Int) async throws -> Season {
+    func getSeasonDetailsFor(seriesId: Int, seasonNum: Int) async throws -> SeasonDetail {
         let stringURL = Constants.createSeasonURLWith(id: seriesId, seasonNum: seasonNum)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
-        do { return try self.decoder.decode(Season.self, from: data) }
+        do { return try self.decoder.decode(SeasonDetail.self, from: data) }
         catch { throw APIError.invalidData }
     }
     
