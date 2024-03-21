@@ -8,19 +8,13 @@
 import UIKit
 
 class MovieDetailsVC: EntertainmentDetailsVC {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        containterScrollView.addSubview(switchViewButtons)
-        
-        trailerTable.delegate = self
-        trailerTable.dataSource = self
-    }
+    override func viewDidLoad() {super.viewDidLoad(); configureMovieVC()}
     
     init(for movie: Entertainment, isTrend: Bool = false, rank: Int = 0) {
         super.init()
         self.movie = movie
         fetchData(isTrend: isTrend, rank: rank)
-        
+
     }
     
     private func fetchData(isTrend: Bool, rank: Int) {
@@ -39,12 +33,22 @@ class MovieDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get trailers
-//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    //MARK: - Configure Movie VC
+    func configureMovieVC() {
+        [switchViewButtons, moreIdeasCollection, trailerTable].forEach {containterScrollView.addSubview($0)}
+        configureParentVC()
+        switchViewButtonsConstriants()
+        switchViewButtons.firstApperanceAction()
+        trailerTable.delegate = self
+        trailerTable.dataSource = self
     }
     
     //MARK: - Videos Configuration
@@ -77,20 +81,14 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     }
     
     //MARK: - Configure constraints
-    
-//    // Switch Buttons Constraints
-//    private func switchViewButtonsConstriants() {
-//        switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
-//        switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
-//        switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        switchViewButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
-//        switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
-//    }
-//    
-//    // apply constraints
-//    override func applyConstraints() {
-//        switchViewButtonsConstriants()
-//    }
+    // Switch Buttons Constraints
+    private func switchViewButtonsConstriants() {
+        switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
+        switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
+        switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        switchViewButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
+    }
     
     //MARK: - Dynamic Constraints
     private func switchedViewsLayout(){
@@ -108,25 +106,24 @@ class MovieDetailsVC: EntertainmentDetailsVC {
             trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
             trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
             trailerTable.heightAnchor.constraint(equalToConstant: 290*CGFloat(trailerVideosCount ?? 0)),
-            trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor),
+            trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
         ]
+        
+        NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
+        NSLayoutConstraint.activate(trailerTableConstriants)
         
         // Switching between views method
         switch switchViewButtons.selectedButtonView {
         case .moreIdeasView:
-            // Add the CollectionView to the superView
-            containterScrollView.addSubview(moreIdeasCollection)
-            NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
-            // Remove the TableView from the SuperView
-            trailerTable.removeFromSuperview()
-            trailerTable.removeConstraints(moreIdeasCollectionConstriants)
+            // the case when I want to make the constraints moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
+            moreIdeasCollection.alpha = 1
+            trailerTable.alpha = 0.1
+            
         case .trailerView:
-            // Add the TableView to the superView
-            containterScrollView.addSubview(trailerTable)
-            NSLayoutConstraint.activate(trailerTableConstriants)
-            // Remove the TableView from the SuperView
-            moreIdeasCollection.removeFromSuperview()
-            moreIdeasCollection.removeConstraints(trailerTableConstriants)
+            // the case when I want to make the constraints trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
+            moreIdeasCollection.alpha = 0.1
+            trailerTable.alpha = 1
+            
         default:
             return
         }
@@ -141,7 +138,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     }
     
     //MARK: - Declare Movie Subviews
-//    private let switchViewButtons = ViewSwitchButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
+    private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
     
     private let trailerTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)

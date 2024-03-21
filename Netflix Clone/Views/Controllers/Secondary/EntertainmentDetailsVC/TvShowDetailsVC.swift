@@ -8,13 +8,7 @@
 import UIKit
 
 class TvShowDetailsVC: EntertainmentDetailsVC {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        containterScrollView.addSubview(switchViewButtons)
-        
-        episodeTable.delegate = self
-        episodeTable.dataSource = self
-    }
+    override func viewDidLoad() {super.viewDidLoad(); configureTVShowVC()}
     
     init(for tvShow: Entertainment, isTrend: Bool = false, rank: Int = 0) {
         super.init()
@@ -41,6 +35,27 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    //MARK: - Configure Movie VC
+    func configureTVShowVC() {
+        containterScrollView.addSubview(switchViewButtons)
+        configureParentVC()
+        switchViewButtonsConstriants()
+        switchViewButtons.firstApperanceAction()
+        episodeTable.delegate = self
+        episodeTable.dataSource = self
+    }
+    
+    //MARK: - Configure constraints
+    
+    // Switch Buttons Constraints
+    private func switchViewButtonsConstriants() {
+        switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
+        switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
+        switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        switchViewButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
     //MARK: - Dynamic Constraints
@@ -96,7 +111,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
     }
     
     //MARK: - Declare TvShows Subviews
-//    private let switchViewButtons = ViewSwitchButtonsUIView(buttonOneTitle: "Episodes", buttonTwoTitle: "More Like This")
+    private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "Episodes", buttonTwoTitle: "More Like This")
     
     private let stackContainer: UIStackView = {
         let view = UIStackView()

@@ -9,28 +9,23 @@ import UIKit
 import WebKit
 
 class EntertainmentDetailsVC: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureVC()
-    }
+    override func viewDidLoad() {super.viewDidLoad()}
     
     init() {super.init(nibName: nil, bundle: nil)}
     
     required init?(coder: NSCoder) {fatalError()}
     
     //MARK: - Configure VC
-    func configureVC() {
+    func configureParentVC() {
         view.backgroundColor = .black
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
         
-        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, top10Logo, top10DetailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons, switchViewButtons
+        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, top10Logo, top10DetailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons
         ].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
-        
-        switchViewButtons.firstApperanceAction()
 
         applyConstraints()
     }
@@ -78,7 +73,7 @@ class EntertainmentDetailsVC: UIViewController {
             do {
                 guard let ids = genresId else {return}
                 let entertainments = try await NetworkManager.shared.getMoreLike(genresId: ids, ofMediaType: mediaType)
-                let moreWithNoDuplicates = entertainments.filter{!mainMedia.contains($0.originalName ?? "no duplicate")}
+                let moreWithNoDuplicates = entertainments.filter{!mainMedia.contains(mediaType == "movie" ? $0.title ?? "no duplicate": $0.originalName ?? "no duplicate")}
                 moreEntertainments = moreWithNoDuplicates.prefix(6).shuffled()
                 moreIdeasCollection.reloadData()
             } catch let error as APIError {
@@ -198,15 +193,6 @@ class EntertainmentDetailsVC: UIViewController {
         threeButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
         threeButtons.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
-    
-    // Switch Buttons Constraints
-    private func switchViewButtonsConstriants() {
-        switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
-        switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
-        switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        switchViewButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
-        switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
-    }
 
     // remove top10Row view if entertainment tapped is not trending
     func removeTop10RowView(){
@@ -245,7 +231,6 @@ class EntertainmentDetailsVC: UIViewController {
         expandCastButtonConstriants()
         directorLabelConstriants()
         threeButtonsConstriants()
-        switchViewButtonsConstriants()
         applySwitchedViewsAndConstraints()
     }
     
@@ -295,8 +280,6 @@ class EntertainmentDetailsVC: UIViewController {
     let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
     let threeButtons = ThreeButtonUIView()
-    
-    let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
     
     let moreIdeasCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
