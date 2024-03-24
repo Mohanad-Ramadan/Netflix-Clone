@@ -33,8 +33,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get trailers
-//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
@@ -77,7 +77,6 @@ class MovieDetailsVC: EntertainmentDetailsVC {
 
         // pass th videos without the one taken for the entertainmentTrailer webView
         trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
-        trailerVideosCount = trailers.count
     }
     
     //MARK: - Configure constraints
@@ -102,31 +101,41 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         ]
         // Trailer TableView Constriants
         let trailerTableConstriants = [
-            trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
+            trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor, constant: -35),
             trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
             trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
-            trailerTable.heightAnchor.constraint(equalToConstant: 290*CGFloat(trailerVideosCount ?? 0)),
+            trailerTable.heightAnchor.constraint(equalToConstant: 290*3),
             trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
         ]
         
         // Switching between views method
         switch switchViewButtons.selectedButtonView {
         case .moreIdeasView:
-            // Add the CollectionView to the superView
-            containterScrollView.addSubview(moreIdeasCollection)
-            NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
             // fade away the TableView from the SuperView
-            //fix
-            trailerTable.removeFromSuperview()
-            trailerTable.removeConstraints(trailerTableConstriants)
+            UIView.animate(withDuration: 0.1) {
+                self.trailerTable.alpha = 0
+            } completion: { finished in
+                    self.trailerTable.removeFromSuperview()
+                    self.trailerTable.removeConstraints(trailerTableConstriants)
+                    // Add the CollectionView to the superView
+                    self.containterScrollView.addSubview(self.moreIdeasCollection)
+                    NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
+                    UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
+            }
+
         case .trailerView:
-            // Add the TableView to the superView
-            containterScrollView.addSubview(trailerTable)
-            NSLayoutConstraint.activate(trailerTableConstriants)
             // fade away the CollectionView from the SuperView
-            //fix
-            moreIdeasCollection.removeFromSuperview()
-            moreIdeasCollection.removeConstraints(moreIdeasCollectionConstriants)
+            UIView.animate(withDuration: 0.1) {
+                self.moreIdeasCollection.alpha = 0
+            } completion: { finished in
+                    self.moreIdeasCollection.removeFromSuperview()
+                    self.moreIdeasCollection.removeConstraints(moreIdeasCollectionConstriants)
+                    // Add the TableView to the superView
+                    self.containterScrollView.addSubview(self.trailerTable)
+                    NSLayoutConstraint.activate(trailerTableConstriants)
+                    UIView.animate(withDuration: 0.1) {self.trailerTable.alpha = 1}
+            }
+            
         default:
             return
         }
@@ -147,7 +156,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
         table.separatorStyle = .none
-        table.backgroundColor = .black
+        table.backgroundColor = .clear
         table.allowsSelection = false
         table.isScrollEnabled = false
         table.showsVerticalScrollIndicator = false
@@ -156,7 +165,6 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     }()
     
     var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
-    var trailerVideosCount: Int?
     var entertainmentName: String?
     var movie: Entertainment!
     
@@ -171,7 +179,7 @@ extension MovieDetailsVC: UITableViewDelegate,
                           UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trailers.count
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -188,10 +196,6 @@ extension MovieDetailsVC: UITableViewDelegate,
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 280
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = .clear
     }
     
 }
