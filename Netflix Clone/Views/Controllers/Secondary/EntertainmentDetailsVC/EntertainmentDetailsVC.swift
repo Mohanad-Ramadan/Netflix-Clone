@@ -21,8 +21,7 @@ class EntertainmentDetailsVC: UIViewController {
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
         
-        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, top10Logo, top10DetailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons
-        ].forEach {containterScrollView.addSubview($0)}
+        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, top10Logo, top10DetailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
@@ -110,7 +109,7 @@ class EntertainmentDetailsVC: UIViewController {
     
     // Netflixlogo + CategoryLabel Constraints
     private func neflixlogoAndGenresLabelConstriants() {
-        netflixLogo.topAnchor.constraint(equalTo: containterScrollView.topAnchor).isActive = true
+        netflixLogo.topAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.topAnchor).isActive = true
         netflixLogo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
         netflixLogo.heightAnchor.constraint(equalToConstant: 20).isActive = true
         netflixLogo.widthAnchor.constraint(equalToConstant: 20).isActive = true

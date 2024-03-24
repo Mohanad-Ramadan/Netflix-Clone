@@ -33,8 +33,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get trailers
-                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
@@ -109,21 +109,24 @@ class MovieDetailsVC: EntertainmentDetailsVC {
             trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
         ]
         
-        NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
-        NSLayoutConstraint.activate(trailerTableConstriants)
-        
         // Switching between views method
         switch switchViewButtons.selectedButtonView {
         case .moreIdeasView:
-            // the case when I want to make the constraints moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
-            moreIdeasCollection.alpha = 1
-            trailerTable.alpha = 0.1
-            
+            // Add the CollectionView to the superView
+            containterScrollView.addSubview(moreIdeasCollection)
+            NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
+            // fade away the TableView from the SuperView
+            //fix
+            trailerTable.removeFromSuperview()
+            trailerTable.removeConstraints(trailerTableConstriants)
         case .trailerView:
-            // the case when I want to make the constraints trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
-            moreIdeasCollection.alpha = 0.1
-            trailerTable.alpha = 1
-            
+            // Add the TableView to the superView
+            containterScrollView.addSubview(trailerTable)
+            NSLayoutConstraint.activate(trailerTableConstriants)
+            // fade away the CollectionView from the SuperView
+            //fix
+            moreIdeasCollection.removeFromSuperview()
+            moreIdeasCollection.removeConstraints(moreIdeasCollectionConstriants)
         default:
             return
         }

@@ -87,7 +87,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
             // fade away the TableView from the SuperView
             //fix
             episodeTable.removeFromSuperview()
-            episodeTable.removeConstraints(moreIdeasCollectionConstriants)
+            episodeTable.removeConstraints(episodeTableConstriants)
         case .trailerView:
             // Add the TableView to the superView
             containterScrollView.addSubview(episodeTable)
@@ -95,7 +95,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
             // fade away the CollectionView from the SuperView
             //fix
             moreIdeasCollection.removeFromSuperview()
-            moreIdeasCollection.removeConstraints(episodeTableConstriants)
+            moreIdeasCollection.removeConstraints(moreIdeasCollectionConstriants)
         default:
             return
         }

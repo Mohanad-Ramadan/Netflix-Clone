@@ -34,50 +34,48 @@ class SwitchViewButtonsUIView: UIView {
     }
     
     //MARK: - moreButton tapped at first load
-    @objc func firstApperanceAction() {buttonOne.sendActions(for: .touchUpInside)}
+    func firstApperanceAction() {buttonOne.sendActions(for: .touchUpInside)}
     
     //MARK: - Button Pressed Actions
-    @objc private func buttonPressed(_ sender: UIButton) {
-        handleUIFor(sender)
-        changeViewFor(sender)
+    @objc private func buttonOnePressed() {
+        handleUIForButtonOne()
+        selectedButtonView = SelectedView.moreIdeasView
 
         // Post key to Notifiy the Entertainment to layout subviews agian
         NotificationCenter.default.post(name: NSNotification.Name(Constants.entertainmentVCKey), object: nil)
     }
     
-    // Button backend method
-    func changeViewFor( _ sender: UIButton) {
-        selectedButtonView = sender == buttonOne ? SelectedView.moreIdeasView : SelectedView.trailerView
+    @objc private func buttonTwoPressed() {
+        handleUIForButtonTwo()
+        selectedButtonView = SelectedView.trailerView
+
+        // Post key to Notifiy the Entertainment to layout subviews agian
+        NotificationCenter.default.post(name: NSNotification.Name(Constants.entertainmentVCKey), object: nil)
     }
     
-    
     // Button UI change method
-    func  handleUIFor(_ sender: UIButton) {
-        let redLineMidPoint = redSelectLine.frame.midX
-        let moreButtonMidPoint = buttonOne.frame.midX
-        let trailerButtonMidPoint = buttonTwo.frame.midX
+    func handleUIForButtonOne() {
+        // Change redLine placment to be over moreButton
+        redSelectLine.center = CGPoint(x: buttonOne.frame.midX, y: 1)
         
-        if sender == buttonOne{
-            // Change redLine placment to be over moreButton
-            redSelectLine.center = redLineMidPoint != moreButtonMidPoint ? CGPoint(x: moreButtonMidPoint, y: 0) : CGPoint(x: trailerButtonMidPoint, y: 0)
-            
-            // Change tapped moreButton color
-            buttonOne.configuration?.baseForegroundColor = .white
-            buttonTwo.configuration?.baseForegroundColor = .lightGray
-        } else {
-            // Change redLine placment to be over moreButton
-            redSelectLine.center = redLineMidPoint != trailerButtonMidPoint ? CGPoint(x: trailerButtonMidPoint, y: 0) : CGPoint(x: moreButtonMidPoint, y: 0)
-            
-            // Change tapped trailerButton color
-            buttonTwo.configuration?.baseForegroundColor = .white
-            buttonOne.configuration?.baseForegroundColor = .lightGray
-        }
+        // Change tapped moreButton color
+        buttonOne.configuration?.baseForegroundColor = .white
+        buttonTwo.configuration?.baseForegroundColor = .lightGray
+    }
+    
+    func handleUIForButtonTwo() {
+        // Change redLine placment to be over moreButton
+        redSelectLine.center = CGPoint(x: buttonTwo.frame.midX, y: 1)
+        
+        // Change tapped moreButton color
+        buttonTwo.configuration?.baseForegroundColor = .white
+        buttonOne.configuration?.baseForegroundColor = .lightGray
     }
     
     //MARK: - Button target methods
     func buttonsTarget() {
-        buttonOne.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        buttonTwo.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        buttonOne.addTarget(self, action: #selector(buttonOnePressed), for: .touchUpInside)
+        buttonTwo.addTarget(self, action: #selector(buttonTwoPressed), for: .touchUpInside)
     }
     
     //MARK: - Constraints
@@ -85,7 +83,7 @@ class SwitchViewButtonsUIView: UIView {
         NSLayoutConstraint.activate([
             // Button 1
             buttonOne.leadingAnchor.constraint(equalTo: leadingAnchor, constant: -4),
-            buttonOne.topAnchor.constraint(equalTo: redSelectLine.bottomAnchor, constant: 4),
+            buttonOne.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             buttonOne.heightAnchor.constraint(equalTo: buttonOne.heightAnchor),
             
             // Button 2
@@ -97,7 +95,7 @@ class SwitchViewButtonsUIView: UIView {
             redSelectLine.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor),
             redSelectLine.topAnchor.constraint(equalTo: topAnchor),
             redSelectLine.heightAnchor.constraint(equalToConstant: 4),
-            redSelectLine.widthAnchor.constraint(equalToConstant: 112),
+            redSelectLine.widthAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -109,8 +107,8 @@ class SwitchViewButtonsUIView: UIView {
         return rectangle
     }()
     
-    private let buttonOne = NFPlainButton(title: "Button", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
-    private let buttonTwo = NFPlainButton(title: "Button", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let buttonOne = NFPlainButton(title: "", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let buttonTwo = NFPlainButton(title: "", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
     
     
     var selectedButtonView : SelectedView?
