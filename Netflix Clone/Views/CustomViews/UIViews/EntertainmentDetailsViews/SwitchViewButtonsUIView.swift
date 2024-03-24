@@ -20,9 +20,7 @@ class SwitchViewButtonsUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
-        addSubview(buttonOne)
-        addSubview(buttonTwo)
-        addSubview(redSelectLine)
+        [buttonOne,buttonTwo,redLineOne,redLineTwo].forEach{addSubview($0)}
         buttonsTarget()
         applyConstraints()
     }
@@ -56,7 +54,19 @@ class SwitchViewButtonsUIView: UIView {
     // Button UI change method
     func handleUIForButtonOne() {
         // Change redLine placment to be over moreButton
-        redSelectLine.center = CGPoint(x: buttonOne.frame.midX, y: 1)
+        self.layoutIfNeeded()
+        let redLineWidth = buttonOne.bounds.width - 25
+        let redLineOneOriginPoint = buttonOne.frame.minX + 10
+        let redLineTwoOriginPoint = buttonTwo.frame.minX + 10
+        
+        if buttonOne.configuration?.baseForegroundColor == .lightGray{
+            redLineOne.frame = CGRect(x: redLineOneOriginPoint, y: 0, width: 0, height: 4)
+            UIView.animate(withDuration: 0.2) {
+                self.redLineTwo.frame = CGRect(x: redLineTwoOriginPoint, y: 0, width: 0, height: 4)
+                self.redLineOne.frame = CGRect(x: redLineOneOriginPoint, y: 0, width: redLineWidth, height: 4)
+            }
+            redLineOne.center = CGPoint(x: buttonOne.frame.midX, y: 1)
+        }
         
         // Change tapped moreButton color
         buttonOne.configuration?.baseForegroundColor = .white
@@ -65,7 +75,19 @@ class SwitchViewButtonsUIView: UIView {
     
     func handleUIForButtonTwo() {
         // Change redLine placment to be over moreButton
-        redSelectLine.center = CGPoint(x: buttonTwo.frame.midX, y: 1)
+        self.layoutIfNeeded()
+        let redLineWidth = buttonTwo.bounds.width - 25
+        let redLineOneOriginPoint = buttonOne.frame.minX + 10
+        let redLineTwoOriginPoint = buttonTwo.frame.minX + 10
+        
+        if buttonTwo.configuration?.baseForegroundColor == .lightGray{
+            redLineTwo.frame = CGRect(x: redLineTwoOriginPoint, y: 0, width: 0, height: 4)
+            UIView.animate(withDuration: 0.2) {
+                self.redLineOne.frame = CGRect(x: redLineOneOriginPoint, y: 0, width: 0, height: 4)
+                self.redLineTwo.frame = CGRect(x: redLineTwoOriginPoint, y: 0, width: redLineWidth, height: 4)
+            }
+            redLineTwo.center = CGPoint(x: buttonTwo.frame.midX, y: 1)
+        }
         
         // Change tapped moreButton color
         buttonTwo.configuration?.baseForegroundColor = .white
@@ -89,21 +111,20 @@ class SwitchViewButtonsUIView: UIView {
             // Button 2
             buttonTwo.leadingAnchor.constraint(equalTo: buttonOne.trailingAnchor, constant: -10),
             buttonTwo.topAnchor.constraint(equalTo: buttonOne.topAnchor),
-            buttonTwo.heightAnchor.constraint(equalTo: buttonOne.heightAnchor),
-            
-            // Red select line
-            redSelectLine.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor),
-            redSelectLine.topAnchor.constraint(equalTo: topAnchor),
-            redSelectLine.heightAnchor.constraint(equalToConstant: 4),
-            redSelectLine.widthAnchor.constraint(equalToConstant: 50)
+            buttonTwo.heightAnchor.constraint(equalTo: buttonOne.heightAnchor)
         ])
     }
     
     //MARK: - Views Declaration
-    private let redSelectLine: UIView = {
+    private let redLineOne: UIView = {
         let rectangle = UIView()
         rectangle.backgroundColor = UIColor.red
-        rectangle.translatesAutoresizingMaskIntoConstraints = false
+        return rectangle
+    }()
+    
+    private let redLineTwo: UIView = {
+        let rectangle = UIView()
+        rectangle.backgroundColor = UIColor.red
         return rectangle
     }()
     
