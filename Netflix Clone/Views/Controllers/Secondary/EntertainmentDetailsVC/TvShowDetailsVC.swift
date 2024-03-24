@@ -41,10 +41,13 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
     func configureTVShowVC() {
         containterScrollView.addSubview(switchViewButtons)
         configureParentVC()
+        
         switchViewButtonsConstriants()
-        switchViewButtons.firstApperanceAction()
-        episodeTable.delegate = self
-        episodeTable.dataSource = self
+        switchViewButtons.delegate = self
+        switchViewButtons.triggerButtonOne()
+        
+        episodesTable.delegate = self
+        episodesTable.dataSource = self
     }
     
     //MARK: - Configure constraints
@@ -58,69 +61,55 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
-    //MARK: - Dynamic Constraints
-    private func switchedViewsLayout(){
-        // More CollectionView Constriants
-        let moreIdeasCollectionConstriants = [
-            moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-            moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-            moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
-            moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
-            moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
-        ]
-        // Trailer TableView Constriants
-        let episodeTableConstriants = [
-            episodeTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-            episodeTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-            episodeTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
-            //fix
-            episodeTable.heightAnchor.constraint(equalToConstant: 900),
-            episodeTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor),
-        ]
-        
-        // Switching between views method
-        switch switchViewButtons.selectedButtonView {
-        case .moreIdeasView:
+    private func moreIdeasCollectionConstriants() -> [NSLayoutConstraint] {
+        [moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
+        moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
+        moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
+        moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
+        moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
+    }
+    
+    private func episodesTableConstriants() -> [NSLayoutConstraint] {
+        [episodesTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
+         episodesTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
+         episodesTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
+         //fix
+         episodesTable.heightAnchor.constraint(equalToConstant: 900),
+         episodesTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor),]
+    }
+    
+    //MARK: - Switch mainViews methods
+    private func showMoreCollectionView() {
+        UIView.animate(withDuration: 0.1) {
+            self.episodesTable.alpha = 0
+        } completion: { finished in
+            self.episodesTable.removeFromSuperview()
+            self.episodesTable.removeConstraints(self.episodesTableConstriants())
             // Add the CollectionView to the superView
-            containterScrollView.addSubview(moreIdeasCollection)
-            NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
-            // fade away the TableView from the SuperView
-            //fix
-            episodeTable.removeFromSuperview()
-            episodeTable.removeConstraints(episodeTableConstriants)
-        case .trailerView:
-            // Add the TableView to the superView
-            containterScrollView.addSubview(episodeTable)
-            NSLayoutConstraint.activate(episodeTableConstriants)
-            // fade away the CollectionView from the SuperView
-            //fix
-            moreIdeasCollection.removeFromSuperview()
-            moreIdeasCollection.removeConstraints(moreIdeasCollectionConstriants)
-        default:
-            return
+            self.containterScrollView.addSubview(self.moreIdeasCollection)
+            NSLayoutConstraint.activate(self.moreIdeasCollectionConstriants())
+            UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
         }
     }
     
-    override func applySwitchedViewsAndConstraints() {
-        //fix
-        switchedViewsLayout()
-        // Layout the views again
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.entertainmentVCKey), object: nil, queue: nil) { _ in
-            self.switchedViewsLayout()
+    private func showEpisodesTableView() {
+        UIView.animate(withDuration: 0.1) {
+            self.moreIdeasCollection.alpha = 0
+        } completion: { finished in
+            self.moreIdeasCollection.removeFromSuperview()
+            self.moreIdeasCollection.removeConstraints(self.moreIdeasCollectionConstriants())
+            // Add the CollectionView to the superView
+            self.containterScrollView.addSubview(self.episodesTable)
+            NSLayoutConstraint.activate(self.episodesTableConstriants())
+            UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
         }
     }
     
     //MARK: - Declare TvShows Subviews
     private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "Episodes", buttonTwoTitle: "More Like This")
     
-    private let stackContainer: UIStackView = {
-        let view = UIStackView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let episodeTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
+    private let episodesTable: UITableView = {
+        let table = UITableView(frame: .zero, style: .plain)
         table.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.identifier)
         table.separatorStyle = .none
         table.backgroundColor = .black
@@ -139,11 +128,19 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
 }
 
 
+//MARK: - SwitchViw Buttons delegate
+extension TvShowDetailsVC: SwitchViewButtonsUIView.Delegate {
+    func buttonOneAction() {showEpisodesTableView()}
+    func buttonTwoAction() {showMoreCollectionView()}
+}
+
+
 //MARK: - Delegate and DataSource
 extension TvShowDetailsVC: UITableViewDelegate,
                           UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return episodes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -160,9 +157,5 @@ extension TvShowDetailsVC: UITableViewDelegate,
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 280
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = .white
     }
 }

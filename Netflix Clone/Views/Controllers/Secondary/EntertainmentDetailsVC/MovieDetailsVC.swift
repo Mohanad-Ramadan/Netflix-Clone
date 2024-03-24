@@ -33,8 +33,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get trailers
-                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
@@ -45,8 +45,11 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     func configureMovieVC() {
         [switchViewButtons, moreIdeasCollection, trailerTable].forEach {containterScrollView.addSubview($0)}
         configureParentVC()
+        
         switchViewButtonsConstriants()
-        switchViewButtons.firstApperanceAction()
+        switchViewButtons.delegate = self
+        switchViewButtons.triggerButtonOne()
+        
         trailerTable.delegate = self
         trailerTable.dataSource = self
     }
@@ -80,6 +83,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     }
     
     //MARK: - Configure constraints
+    
     // Switch Buttons Constraints
     private func switchViewButtonsConstriants() {
         switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
@@ -89,63 +93,46 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
-    //MARK: - Dynamic Constraints
-    private func switchedViewsLayout(){
-        // More CollectionView Constriants
-        let moreIdeasCollectionConstriants = [
-            moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-            moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-            moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
-            moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
-            moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
-        ]
-        // Trailer TableView Constriants
-        let trailerTableConstriants = [
-            trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor, constant: -35),
-            trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-            trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
-            trailerTable.heightAnchor.constraint(equalToConstant: 290*3),
-            trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.bottomAnchor)
-        ]
-        
-        // Switching between views method
-        switch switchViewButtons.selectedButtonView {
-        case .moreIdeasView:
-            // fade away the TableView from the SuperView
-            UIView.animate(withDuration: 0.1) {
-                self.trailerTable.alpha = 0
-            } completion: { finished in
-                    self.trailerTable.removeFromSuperview()
-                    self.trailerTable.removeConstraints(trailerTableConstriants)
-                    // Add the CollectionView to the superView
-                    self.containterScrollView.addSubview(self.moreIdeasCollection)
-                    NSLayoutConstraint.activate(moreIdeasCollectionConstriants)
-                    UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
-            }
-
-        case .trailerView:
-            // fade away the CollectionView from the SuperView
-            UIView.animate(withDuration: 0.1) {
-                self.moreIdeasCollection.alpha = 0
-            } completion: { finished in
-                    self.moreIdeasCollection.removeFromSuperview()
-                    self.moreIdeasCollection.removeConstraints(moreIdeasCollectionConstriants)
-                    // Add the TableView to the superView
-                    self.containterScrollView.addSubview(self.trailerTable)
-                    NSLayoutConstraint.activate(trailerTableConstriants)
-                    UIView.animate(withDuration: 0.1) {self.trailerTable.alpha = 1}
-            }
-            
-        default:
-            return
+    private func moreIdeasCollectionConstriants() -> [NSLayoutConstraint] {
+        [moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
+        moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
+        moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
+        moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
+        moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
+    }
+    
+    private func trailerTableConstriants() -> [NSLayoutConstraint] {
+        [trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
+         trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
+         trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
+         trailerTable.heightAnchor.constraint(equalToConstant: 290*3),
+         trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
+    }
+    
+    //MARK: - Switch mainViews methods
+    private func showMoreCollectionView() {
+        UIView.animate(withDuration: 0.1) {
+            self.trailerTable.alpha = 0
+        } completion: { finished in
+                self.trailerTable.removeFromSuperview()
+            self.trailerTable.removeConstraints(self.trailerTableConstriants())
+                // Add the CollectionView to the superView
+                self.containterScrollView.addSubview(self.moreIdeasCollection)
+            NSLayoutConstraint.activate(self.moreIdeasCollectionConstriants())
+                UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
         }
     }
     
-    override func applySwitchedViewsAndConstraints() {
-        switchedViewsLayout()
-        // Layout the views again
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.entertainmentVCKey), object: nil, queue: nil) { _ in
-            self.switchedViewsLayout()
+    private func showTrailerTableView() {
+        UIView.animate(withDuration: 0.1) {
+            self.moreIdeasCollection.alpha = 0
+        } completion: { finished in
+                self.moreIdeasCollection.removeFromSuperview()
+            self.moreIdeasCollection.removeConstraints(self.moreIdeasCollectionConstriants())
+                // Add the TableView to the superView
+                self.containterScrollView.addSubview(self.trailerTable)
+            NSLayoutConstraint.activate(self.trailerTableConstriants())
+                UIView.animate(withDuration: 0.1) {self.trailerTable.alpha = 1}
         }
     }
     
@@ -153,7 +140,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
     
     private let trailerTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
+        let table = UITableView(frame: .zero, style: .plain)
         table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
         table.separatorStyle = .none
         table.backgroundColor = .clear
@@ -171,8 +158,11 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     required init?(coder: NSCoder) {fatalError()}
 }
 
-
-
+//MARK: - SwitchViw Buttons delegate
+extension MovieDetailsVC: SwitchViewButtonsUIView.Delegate {
+    func buttonOneAction() {showMoreCollectionView()}
+    func buttonTwoAction() {showTrailerTableView()}
+}
 
 //MARK: - Delegate and DataSource
 extension MovieDetailsVC: UITableViewDelegate,

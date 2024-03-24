@@ -10,10 +10,7 @@ import UIKit
 class SimpleTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(entertainmentBackdropImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(playTitleButton)
-        
+        [entertainmentBackdropImageView, titleLabel, playTitleButton].forEach{addSubview($0)}
         applyConstraints()
     }
     
