@@ -114,6 +114,7 @@ enum Endpoints: String {
 
 //season url
 //"https://api.themoviedb.org/3/tv/126308/season/1?api_key=db7efd1f212466edd2945ab1e9199ee1"
+//"https://api.themoviedb.org/3/tv/108545/season/1?api_key=db7efd1f212466edd2945ab1e9199ee1"
 
 //images URl
 // https://api.themoviedb.org/3/tv/57243/images?api_key=db7efd1f212466edd2945ab1e9199ee1

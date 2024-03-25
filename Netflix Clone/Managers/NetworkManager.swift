@@ -90,6 +90,7 @@ class NetworkManager {
 
     func getSeasonDetailsFor(seriesId: Int, seasonNum: Int) async throws -> SeasonDetail {
         let stringURL = Constants.createSeasonURLWith(id: seriesId, seasonNum: seasonNum)
+        print(stringURL)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)

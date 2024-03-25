@@ -31,6 +31,11 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
                 let director = fetchedCast.returnDirector()
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
+                // get seasons
+//                let fetchedSeasons = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNum: 1)
+//                episodes = fetchedSeasons.episodes
+                print(tvShow.id)
+                
             } catch {
                 print(error.localizedDescription)
             }
@@ -39,7 +44,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
     
     //MARK: - Configure Movie VC
     func configureTVShowVC() {
-        containterScrollView.addSubview(switchViewButtons)
+        [switchViewButtons, moreIdeasCollection, episodesTable].forEach {containterScrollView.addSubview($0)}
         configureParentVC()
         
         switchViewButtonsConstriants()
@@ -73,9 +78,11 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         [episodesTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
          episodesTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
          episodesTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
-         //fix
-         episodesTable.heightAnchor.constraint(equalToConstant: 900),
-         episodesTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor),]
+         
+         episodesTable.heightAnchor.constraint(equalToConstant: 250*3),
+         episodesTable.widthAnchor.constraint(equalToConstant: view.bounds.width),
+//         episodesTable.heightAnchor.constraint(equalToConstant: CGFloat(250 * episodes.count)),
+         episodesTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
     }
     
     //MARK: - Switch mainViews methods
@@ -88,7 +95,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
             // Add the CollectionView to the superView
             self.containterScrollView.addSubview(self.moreIdeasCollection)
             NSLayoutConstraint.activate(self.moreIdeasCollectionConstriants())
-            UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
+            UIView.animate(withDuration: 0.1) {self.episodesTable.alpha = 1}
         }
     }
     
@@ -110,9 +117,9 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
     
     private let episodesTable: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
-        table.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.identifier)
+        table.register(EpisodesTableViewCell.self, forCellReuseIdentifier: EpisodesTableViewCell.identifier)
         table.separatorStyle = .none
-        table.backgroundColor = .black
+        table.backgroundColor = .clear
         table.allowsSelection = false
         table.isScrollEnabled = false
         table.showsVerticalScrollIndicator = false
@@ -140,22 +147,17 @@ extension TvShowDetailsVC: UITableViewDelegate,
                           UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return episodes.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell else {
-            return UITableViewCell()
-        }
-        
-//        let videoInfo = trailers[indexPath.row]
-//        guard let titleText = movie.title else {return UITableViewCell()}
-//        cell.configureCell(with: videoInfo, and: titleText)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EpisodesTableViewCell.identifier, for: indexPath) as? EpisodesTableViewCell else {return UITableViewCell()}
+//        let episode = episodes[indexPath.row]
+//        cell.configureCellDetail(from: episode)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 280
+        return 250
     }
 }
