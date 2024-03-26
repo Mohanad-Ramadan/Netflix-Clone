@@ -90,14 +90,13 @@ class NetworkManager {
 
     func getSeasonDetailsFor(seriesId: Int, seasonNum: Int) async throws -> SeasonDetail {
         let stringURL = Constants.createSeasonURLWith(id: seriesId, seasonNum: seasonNum)
-        print(stringURL)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
         do { return try self.decoder.decode(SeasonDetail.self, from: data) }
-        catch { throw APIError.invalidData }
+        catch {throw APIError.invalidData }
     }
     
     func getSearches(of query: String) async throws -> [Entertainment] {

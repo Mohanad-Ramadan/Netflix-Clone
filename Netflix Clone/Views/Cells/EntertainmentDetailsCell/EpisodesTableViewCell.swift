@@ -10,6 +10,7 @@ import UIKit
 class EpisodesTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .clear
         [episodeImageView, playEpisodeButton, titleLabel, runtime, overview].forEach{contentView.addSubview($0)}
         applyConstraints()
     }
@@ -17,8 +18,8 @@ class EpisodesTableViewCell: UITableViewCell {
     
     func configureCellDetail(from episode: SeasonDetail.Episode){
         episodeImageView.downloadImageFrom(episode.stillPath ?? "noPath")
-        titleLabel.text = "\(episode.episodeNumber). \(episode.name)"
-        runtime.text = episode.runtime.formatTimeFromMinutes()
+        titleLabel.text = "\(episode.episodeNumber ?? 0). \(episode.name ?? "")"
+        runtime.text = episode.runtime?.formatTimeFromMinutes()
         overview.text = episode.overview
     }
     
@@ -28,7 +29,9 @@ class EpisodesTableViewCell: UITableViewCell {
             episodeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
             episodeImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             episodeImageView.heightAnchor.constraint(equalToConstant: 85),
-            episodeImageView.widthAnchor.constraint(equalToConstant: 150)
+            episodeImageView.widthAnchor.constraint(equalToConstant: 150),
+            episodeImageView.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -5),
+            episodeImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
         ]
         
         let playButtonConstraints = [
@@ -38,6 +41,7 @@ class EpisodesTableViewCell: UITableViewCell {
         
         let titleLabelConstraints = [
             titleLabel.leadingAnchor.constraint(equalTo: episodeImageView.trailingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: 10),
             titleLabel.centerYAnchor.constraint(equalTo: episodeImageView.centerYAnchor),
             titleLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor)
         ]
@@ -51,7 +55,7 @@ class EpisodesTableViewCell: UITableViewCell {
             overview.leadingAnchor.constraint(equalTo: episodeImageView.leadingAnchor),
             overview.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             overview.topAnchor.constraint(equalTo: episodeImageView.bottomAnchor, constant: 10),
-            overview.heightAnchor.constraint(equalTo: overview.heightAnchor)
+            overview.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
         ]
         
         NSLayoutConstraint.activate(episodeImageViewConstraints)

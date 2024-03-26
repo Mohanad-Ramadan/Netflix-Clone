@@ -33,8 +33,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get trailers
-//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
@@ -80,6 +80,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
 
         // pass th videos without the one taken for the entertainmentTrailer webView
         trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
+        trailersCount = CGFloat(trailers.count)
     }
     
     //MARK: - Configure constraints
@@ -105,7 +106,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         [trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
          trailerTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
          trailerTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor,constant: -5),
-         trailerTable.heightAnchor.constraint(equalToConstant: 290*3),
+         trailerTable.heightAnchor.constraint(equalToConstant: 290 * (trailersCount ?? 1)),
          trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
     }
     
@@ -154,6 +155,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
     var entertainmentName: String?
     var movie: Entertainment!
+    var trailersCount: CGFloat?
     
     required init?(coder: NSCoder) {fatalError()}
 }
@@ -169,7 +171,7 @@ extension MovieDetailsVC: UITableViewDelegate,
                           UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return trailers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
