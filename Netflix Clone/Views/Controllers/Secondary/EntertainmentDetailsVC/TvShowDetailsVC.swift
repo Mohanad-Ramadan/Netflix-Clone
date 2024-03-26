@@ -33,9 +33,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
                 // get seasons
                 let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNum: 1)
                 episodes = seasonDetials.episodes
-                episodesCount = episodes.count
-                episodesTable.reloadData()
-                
+                updateEpisodesTable()
             } catch {
                 print(error.localizedDescription)
             }
@@ -53,6 +51,12 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         
         episodesTable.delegate = self
         episodesTable.dataSource = self
+    }
+    
+    func updateEpisodesTable() {
+        episodesCount = episodes.count
+        episodesTable.reloadData()
+        episodesTable.heightAnchor.constraint(equalToConstant: 190 * CGFloat(self.episodesCount!)).isActive = true
     }
     
     //MARK: - Configure constraints
@@ -79,7 +83,6 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         [episodesTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
          episodesTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
          episodesTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
-         episodesTable.heightAnchor.constraint(equalToConstant: 190 * CGFloat(episodesCount ?? 1)),
          episodesTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)
         ]
     }
@@ -89,7 +92,6 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         UIView.animate(withDuration: 0.1) {
             self.episodesTable.alpha = 0
         } completion: { finished in
-//            episodesTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)
             self.episodesTable.removeFromSuperview()
             self.episodesTable.removeConstraints(self.episodesTableConstriants())
             // Add the CollectionView to the superView
@@ -103,7 +105,6 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         UIView.animate(withDuration: 0.1) {
             self.moreIdeasCollection.alpha = 0
         } completion: { finished in
-//            moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)
             self.moreIdeasCollection.removeFromSuperview()
             self.moreIdeasCollection.removeConstraints(self.moreIdeasCollectionConstriants())
             // Add the CollectionView to the superView
@@ -120,6 +121,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         let table = UITableView(frame: .zero, style: .plain)
         table.register(EpisodesTableViewCell.self, forCellReuseIdentifier: EpisodesTableViewCell.identifier)
         table.separatorStyle = .none
+        table.rowHeight = 150
         table.backgroundColor = .clear
         table.allowsSelection = false
         table.showsVerticalScrollIndicator = false
