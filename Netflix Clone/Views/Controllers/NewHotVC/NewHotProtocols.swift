@@ -36,7 +36,7 @@ extension NewHotVC: UITableViewDelegate,
             let vc = MovieDetailsVC(for: media, isTrend: isTrend, rank: trendRank)
             presentInMainThread(vc)
         } else {
-            let vc = TvShowDetailsVC(for: media, isTrend: isTrend, rank: trendRank)
+            let vc = TVDetailsVC(for: media, isTrend: isTrend, rank: trendRank)
             presentInMainThread(vc)
         }
     }

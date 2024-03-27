@@ -1,5 +1,5 @@
 //
-//  TvShowDetailsVC.swift
+//  TVDetailsVC.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 19/03/2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TvShowDetailsVC: EntertainmentDetailsVC {
+class TVDetailsVC: EntertainmentDetailsVC {
     override func viewDidLoad() {super.viewDidLoad(); configureTVShowVC()}
     
     init(for tvShow: Entertainment, isTrend: Bool = false, rank: Int = 0) {
@@ -31,6 +31,7 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get seasons
+                seasonsCount = details.numberOfSeasons
                 let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNum: 1)
                 episodes = seasonDetials.episodes
                 updateEpisodesTable()
@@ -44,13 +45,20 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
     func configureTVShowVC() {
         [switchViewButtons, moreIdeasCollection, episodesTable].forEach {containterScrollView.addSubview($0)}
         configureParentVC()
+        configureEpisodeTable()
         
         switchViewButtonsConstriants()
         switchViewButtons.delegate = self
         switchViewButtons.triggerButtonOne()
-        
+    }
+    
+    func configureEpisodeTable() {
         episodesTable.delegate = self
         episodesTable.dataSource = self
+        episodeTableHeaderView.delegate = self
+        
+        episodeTableHeaderView.frame = CGRect(x: 0, y: 0, width: episodesTable.bounds.width, height: 50)
+        episodesTable.tableHeaderView = episodeTableHeaderView
     }
     
     func updateEpisodesTable() {
@@ -121,7 +129,6 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         let table = UITableView(frame: .zero, style: .plain)
         table.register(EpisodesTableViewCell.self, forCellReuseIdentifier: EpisodesTableViewCell.identifier)
         table.separatorStyle = .none
-        table.rowHeight = 150
         table.backgroundColor = .clear
         table.allowsSelection = false
         table.showsVerticalScrollIndicator = false
@@ -129,8 +136,11 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
         return table
     }()
     
+    private let episodeTableHeaderView = SeasonSelectHeaderView()
+    
     var tvShow: Entertainment!
     var seasons: SeasonDetail?
+    var seasonsCount: Int?
     var episodes: [SeasonDetail.Episode] = []
     var episodesCount: Int?
     
@@ -139,14 +149,21 @@ class TvShowDetailsVC: EntertainmentDetailsVC {
 
 
 //MARK: - SwitchViw Buttons delegate
-extension TvShowDetailsVC: SwitchViewButtonsUIView.Delegate {
+extension TVDetailsVC: SwitchViewButtonsUIView.Delegate {
     func buttonOneAction() {showEpisodesTableView()}
     func buttonTwoAction() {showMoreCollectionView()}
 }
 
+extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
+    func listButtonTapped() {
+        let seasonslistVC = SearchVC()
+        seasonslistVC.modalPresentationStyle = .fullScreen
+        presentInMainThread(seasonslistVC)
+    }
+}
 
 //MARK: - Delegate and DataSource
-extension TvShowDetailsVC: UITableViewDelegate,
+extension TVDetailsVC: UITableViewDelegate,
                            UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return episodes.count }

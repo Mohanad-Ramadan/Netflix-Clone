@@ -35,7 +35,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
             let vc = MovieDetailsVC(for: media, rank: trendRank)
             self.delegate?.homeTableViewCellDidTapped(self, navigateTo: vc)
         } else {
-            let vc = TvShowDetailsVC(for: media, rank: trendRank)
+            let vc = TVDetailsVC(for: media, rank: trendRank)
             self.delegate?.homeTableViewCellDidTapped(self, navigateTo: vc)
         }
         
