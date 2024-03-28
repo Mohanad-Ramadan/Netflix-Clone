@@ -38,7 +38,7 @@ class SeasonSelectHeaderView: UIView {
             seasonLabel.heightAnchor.constraint(equalTo: seasonLabel.heightAnchor),
             
             // Button Constraints
-            listSeasonsButton.trailingAnchor.constraint(equalTo: seasonLabel.trailingAnchor, constant: 10),
+            listSeasonsButton.leadingAnchor.constraint(equalTo: seasonLabel.trailingAnchor, constant: 10),
             listSeasonsButton.centerYAnchor.constraint(equalTo: centerYAnchor),
             listSeasonsButton.widthAnchor.constraint(equalTo: listSeasonsButton.widthAnchor),
             listSeasonsButton.heightAnchor.constraint(equalTo: listSeasonsButton.heightAnchor),

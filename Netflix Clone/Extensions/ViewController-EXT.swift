@@ -17,6 +17,15 @@ extension UIViewController {
         }
     }
     
+    func presentAsRoot(_ viewController: UIViewController){
+        DispatchQueue.main.async { [weak self] in
+            let vc = viewController
+            vc.hidesBottomBarWhenPushed = true
+            let navigationController = UINavigationController(rootViewController: vc)
+            self?.present(navigationController, animated: true, completion: nil)
+        }
+    }
+    
     func pushInMainThreadTo(_ viewController: UIViewController){
         DispatchQueue.main.async { [weak self] in
             let vc = viewController

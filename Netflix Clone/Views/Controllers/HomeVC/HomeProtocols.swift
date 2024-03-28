@@ -69,7 +69,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - CellTapedAction extension
 extension HomeVC :HomeTableViewCellDelegate {
     func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, navigateTo vc: EntertainmentDetailsVC) {
-        presentInMainThread(vc)
+        presentAsRoot(vc)
     }
     
 }

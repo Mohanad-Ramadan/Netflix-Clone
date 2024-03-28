@@ -44,6 +44,6 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
 
 extension MyNetflixVC :MyNetflixTableViewCellDelegate {
     func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: EntertainmentDetailsVC) {
-        presentInMainThread(vc)
+        presentAsRoot(vc)
     }
 }

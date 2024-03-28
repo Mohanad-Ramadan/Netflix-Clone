@@ -57,7 +57,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
         episodesTable.dataSource = self
         episodeTableHeaderView.delegate = self
         
-        episodeTableHeaderView.frame = CGRect(x: 0, y: 0, width: episodesTable.bounds.width, height: 50)
+        episodeTableHeaderView.frame = CGRect(x: 0, y: 0, width: episodesTable.bounds.width, height: 30)
         episodesTable.tableHeaderView = episodeTableHeaderView
     }
     
@@ -86,6 +86,8 @@ class TVDetailsVC: EntertainmentDetailsVC {
          moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)
         ]
     }
+    
+    
     
     private func episodesTableConstriants() -> [NSLayoutConstraint] {
         [episodesTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
@@ -156,9 +158,7 @@ extension TVDetailsVC: SwitchViewButtonsUIView.Delegate {
 
 extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
     func listButtonTapped() {
-        let seasonslistVC = SearchVC()
-        seasonslistVC.modalPresentationStyle = .fullScreen
-        presentInMainThread(seasonslistVC)
+        presentInMainThread(DownloadVC())
     }
 }
 

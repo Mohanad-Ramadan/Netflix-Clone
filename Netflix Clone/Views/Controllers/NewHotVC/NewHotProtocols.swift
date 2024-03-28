@@ -34,10 +34,10 @@ extension NewHotVC: UITableViewDelegate,
         
         if media.mediaType == nil || media.mediaType == "movie" {
             let vc = MovieDetailsVC(for: media, isTrend: isTrend, rank: trendRank)
-            presentInMainThread(vc)
+            presentAsRoot(vc)
         } else {
             let vc = TVDetailsVC(for: media, isTrend: isTrend, rank: trendRank)
-            presentInMainThread(vc)
+            presentAsRoot(vc)
         }
     }
         
