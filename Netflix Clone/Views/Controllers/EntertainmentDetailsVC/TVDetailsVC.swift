@@ -31,7 +31,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get seasons
-                seasonsCount = details.numberOfSeasons
+                seasonsCount = details.numberOfSeasons ?? 1
                 let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNum: 1)
                 episodes = seasonDetials.episodes
                 updateEpisodesTable()
@@ -87,8 +87,6 @@ class TVDetailsVC: EntertainmentDetailsVC {
         ]
     }
     
-    
-    
     private func episodesTableConstriants() -> [NSLayoutConstraint] {
         [episodesTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
          episodesTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
@@ -142,7 +140,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
     
     var tvShow: Entertainment!
     var seasons: SeasonDetail?
-    var seasonsCount: Int?
+    var seasonsCount: Int!
     var episodes: [SeasonDetail.Episode] = []
     var episodesCount: Int?
     
@@ -158,7 +156,8 @@ extension TVDetailsVC: SwitchViewButtonsUIView.Delegate {
 
 extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
     func listButtonTapped() {
-        presentInMainThread(DownloadVC())
+        let seasonListVC = SeasonsListVC(seasonsCount: seasonsCount)
+        presentInMainThread(seasonListVC)
     }
 }
 

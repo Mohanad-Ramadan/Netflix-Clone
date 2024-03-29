@@ -21,7 +21,7 @@ class EntertainmentDetailsVC: UIViewController {
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
         
-        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, top10Logo, top10DetailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
+        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
@@ -48,9 +48,9 @@ class EntertainmentDetailsVC: UIViewController {
         detailsLabel.runtimeLabel.text = model.runtime?.formatTimeFromMinutes()
         
         // If entertainment is trending
-        if isTrend == false {
-            removeTop10RowView()
-        } else {
+        setupTop10Logo(isTrend: isTrend)
+        
+        if isTrend == true {
             let rank = rank
             let mediaCategory = model.mediaType == "movie" ? "Movies" : "Tv Shows"
             top10DetailsLabel.text = "#\(rank) in \(mediaCategory) Today"
@@ -136,20 +136,33 @@ class EntertainmentDetailsVC: UIViewController {
     }
     
     // View based on Category Constriants
-    private func top10LogoAndDetailsConstraints() {
-        top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
-        top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
-        top10Logo.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        top10Logo.widthAnchor.constraint(equalToConstant: 35).isActive = true
+    private func setupTop10Logo(isTrend: Bool) {
+        if isTrend {
+            view.addSubview(top10Logo)
+            view.addSubview(top10DetailsLabel)
+            
+            top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
+            top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
+            top10Logo.heightAnchor.constraint(equalToConstant: 35).isActive = true
+            top10Logo.widthAnchor.constraint(equalToConstant: 35).isActive = true
+            
+            top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor).isActive = true
+            top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor).isActive = true
+            top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+            
+            playButton.removeConstraint(playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5))
+            playButton.topAnchor.constraint(equalTo: top10Logo.bottomAnchor, constant: 5).isActive = true
+            
+        } else {
+            top10Logo.removeFromSuperview()
+            top10DetailsLabel.removeFromSuperview()
+        }
         
-        top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor).isActive = true
-        top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor).isActive = true
-        top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // Details Label Constraints
     private func playButtonConstriants() {
-        playButton.topAnchor.constraint(equalTo: top10Logo.bottomAnchor, constant: 5).isActive = true
+        playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
         playButton.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
         playButton.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
     }
@@ -194,25 +207,25 @@ class EntertainmentDetailsVC: UIViewController {
     }
 
     // remove top10Row view if entertainment tapped is not trending
-    func removeTop10RowView(){
-        // remove the top10 row view
-        top10DetailsLabel.removeFromSuperview()
-        top10DetailsLabel.removeConstraints([
-            top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor),
-            top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor, constant: 5),
-            top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5)
-        ])
-        top10Logo.removeFromSuperview()
-        top10Logo.removeConstraints([
-            top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor),
-            top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor),
-            top10Logo.heightAnchor.constraint(equalToConstant: 35),
-            top10Logo.widthAnchor.constraint(equalToConstant: 35)
-        ])
-        
-        // rearrange views depend on top10 layout (began from playButton View)
-        playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
-    }
+//    func removeTop10RowView(){
+//        // remove the top10 row view
+//        top10DetailsLabel.removeFromSuperview()
+//        top10DetailsLabel.removeConstraints([
+//            top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor),
+//            top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor, constant: 5),
+//            top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5)
+//        ])
+//        top10Logo.removeFromSuperview()
+//        top10Logo.removeConstraints([
+//            top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor),
+//            top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor),
+//            top10Logo.heightAnchor.constraint(equalToConstant: 35),
+//            top10Logo.widthAnchor.constraint(equalToConstant: 35)
+//        ])
+//        
+//        // rearrange views depend on top10 layout (began from playButton View)
+//        playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
+//    }
     
     func applySwitchedViewsAndConstraints() {}
     
@@ -223,7 +236,6 @@ class EntertainmentDetailsVC: UIViewController {
         neflixlogoAndGenresLabelConstriants()
         entertainmentTitleConstriants()
         detailsLabelConstriants()
-        top10LogoAndDetailsConstraints()
         playButtonConstriants()
         overViewLabelConstriants()
         castLabelConstriants()
