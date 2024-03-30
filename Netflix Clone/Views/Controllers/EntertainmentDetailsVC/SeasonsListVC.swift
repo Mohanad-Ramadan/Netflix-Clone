@@ -17,91 +17,123 @@ class SeasonsListVC: UIViewController {
     
     init(seasonsCount: Int) {
         super.init(nibName: nil, bundle: nil)
-        
+        createListViews(with: 1)
     }
     
     required init?(coder: NSCoder) {fatalError()}
     
     //MARK: - Configure Views
     func configureViews() {
-        [bluryBackground, stackContainer, exitButtonBackground, exitButton].forEach{view.addSubview($0)}
-        bluryBackground.addGrayBlurEffect()
+        [bluryBackground, containerView, exitButtonBackground].forEach{view.addSubview($0)}
         
+        [upperPaddingView, stackContainer, lowerPaddingView].forEach{containerView.addSubview($0)}
+        
+        exitButtonBackground.addSubview(exitButton)
+        
+        bluryBackground.addGrayBlurEffect()
+    }
+    
+    private func createListViews(with totalSeasons: Int) {
+        for season in 1...totalSeasons {
+            let seasonView = NFPlainButton(title: "Season \(season)", fontSize: 18, fontWeight: .regular, fontColorOnly: .lightGray)
+            seasonView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            seasonsButtons.append(seasonView)
+            stackContainer.addArrangedSubview(seasonView)
+        }
+    }
+    
+    private func configureButtonsTarget() {
+        
+    }
+    
+    private func animateTappedButton(){
         
     }
     
     private func applyConstraints() {
+        // background frame
         bluryBackground.frame = view.bounds
         
-        stackContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        stackContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        stackContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        stackContainer.bottomAnchor.constraint(equalTo: exitButton.topAnchor, constant: -10).isActive = true
+        // upper portion of the vc constraints
+        containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        containerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        containerView.bottomAnchor.constraint(equalTo: exitButtonBackground.topAnchor).isActive = true
         
-        exitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        exitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        exitButton.widthAnchor.constraint(equalTo: exitButton.widthAnchor).isActive = true
-        exitButton.heightAnchor.constraint(equalTo: exitButton.heightAnchor).isActive = true
+        // containerView subviews constriants
+        upperPaddingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        upperPaddingView.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 20).isActive = true
+        upperPaddingView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        upperPaddingView.heightAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.height*0.5).isActive = true
         
-        exitButtonBackground.centerXAnchor.constraint(equalTo: exitButton.centerXAnchor).isActive = true
-        exitButtonBackground.centerYAnchor.constraint(equalTo: exitButton.centerYAnchor).isActive = true
+        stackContainer.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
+        stackContainer.topAnchor.constraint(equalTo: upperPaddingView.bottomAnchor).isActive = true
+        stackContainer.centerYAnchor.constraint(lessThanOrEqualTo: containerView.centerYAnchor).isActive = true
+        stackContainer.heightAnchor.constraint(equalTo: stackContainer.heightAnchor).isActive = true
+        stackContainer.bottomAnchor.constraint(equalTo: lowerPaddingView.topAnchor).isActive = true
+        
+        lowerPaddingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        lowerPaddingView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        lowerPaddingView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        lowerPaddingView.heightAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.height*0.5).isActive = true
+        
+        // exitButton constraints
+        exitButtonBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        exitButtonBackground.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
         exitButtonBackground.widthAnchor.constraint(equalToConstant: 50).isActive = true
         exitButtonBackground.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-    }
-    
-    private func createListViews(with totalSeasons: Int) {
+        
+        exitButton.centerXAnchor.constraint(equalTo: exitButtonBackground.centerXAnchor).isActive = true
+        exitButton.centerYAnchor.constraint(equalTo: exitButtonBackground.centerYAnchor).isActive = true
+        exitButton.widthAnchor.constraint(equalTo: exitButton.widthAnchor).isActive = true
+        exitButton.heightAnchor.constraint(equalTo: exitButton.heightAnchor).isActive = true
+        
         
     }
     
     //MARK: - Declare Views & Variables
-    let seasonsListView = NFPlainButton(title: "Season 1", fontSize: 26, fontWeight: .regular, fontColorOnly: .gray)
-    
-    let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 20, imageColor: .black)
+    let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
     
     let exitButtonBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 60
+        view.layer.cornerRadius = 25
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let bluryBackground = UIView()
     
+    let lowerPaddingView : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let upperPaddingView : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let containerView : UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     let stackContainer : UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
-        view.distribution = .equalSpacing
+        view.spacing = 20
+        view.distribution = .fill
         view.alignment = .center
-        view.backgroundColor = .carrot
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     
-    let seasonsButtons = [NFPlainButton]()
+    var seasonsButtons = [NFPlainButton]()
 }
 
-
-extension UIView {
-    func addGrayBlurEffect() {
-        // Create a blur effect
-        let blurEffect = UIBlurEffect(style: .regular)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        
-        // Add the blur view as a subview
-        blurView.frame = bounds
-        addSubview(blurView)
-        
-        // Ensure that the blur view matches the size of the parent view
-        blurView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            blurView.topAnchor.constraint(equalTo: topAnchor),
-            blurView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            blurView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            blurView.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-        
-    }
-}
