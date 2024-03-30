@@ -33,8 +33,8 @@ struct Constants {
         else {return "\(Constants.baseURL)/tv/\(id)/images\(Constants.apiKey)"}
     }
     
-    static func createSeasonURLWith(id: Int, seasonNum: Int) -> String {
-        "\(Constants.baseURL)/tv/\(id)/season/\(seasonNum)\(Constants.apiKey)"
+    static func createSeasonURLWith(id: Int, seasonNumber: Int) -> String {
+        "\(Constants.baseURL)/tv/\(id)/season/\(seasonNumber)\(Constants.apiKey)"
     }
     
     static func createCastURLWith(mediaType: String ,id: Int) -> String {

@@ -8,6 +8,9 @@
 import UIKit
 
 class SeasonsListVC: UIViewController {
+    
+    protocol Delegate: AnyObject {func selectSeason(number seasonNumber: Int)}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -17,7 +20,7 @@ class SeasonsListVC: UIViewController {
     
     init(seasonsCount: Int) {
         super.init(nibName: nil, bundle: nil)
-        setupSeasonsButtons(with: 5)
+        setupSeasonsButtons(with: seasonsCount)
         setupStackBeforAnimation()
     }
     
@@ -31,12 +34,9 @@ class SeasonsListVC: UIViewController {
     //MARK: - Configure Views
     func configureViews() {
         [bluryBackground, containerView, exitButtonBackground].forEach{view.addSubview($0)}
-        
         [upperPaddingView, stackContainer, lowerPaddingView].forEach{containerView.addSubview($0)}
-        
         exitButtonBackground.addSubview(exitButton)
         exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
-        
         bluryBackground.addGrayBlurEffect()
     }
     
@@ -63,25 +63,32 @@ class SeasonsListVC: UIViewController {
         }
     }
     
-    @objc func buttonPressed() {
-        print("hi")
+    @objc func buttonPressed(_ sender: UIButton) {
+        for button in seasonsButtons {
+            if button == sender {
+                guard let buttonIndex = seasonsButtons.firstIndex(of: button) else { return }
+                delegate.selectSeason(number: buttonIndex+1)
+                print(buttonIndex)
+            }
+        }
+        dismiss(animated: true)
     }
     
-    @objc func exitButtonTapped() {navigationController?.popToRootViewController(animated: true)}
-
+    
+    @objc func exitButtonTapped() {dismiss(animated: true)}
     
     //MARK: - Animate Stack's SubViews
     private func setupStackBeforAnimation() {
-        for button in seasonsButtons {
-            button.alpha = 0
-            button.transform = CGAffineTransform(translationX: 0, y: 50)
+        for buttonIndex in seasonsButtons.indices {
+            seasonsButtons[buttonIndex].alpha = 0
+            seasonsButtons[buttonIndex].transform = CGAffineTransform(translationX: 0, y: CGFloat(buttonIndex*15))
         }
     }
     
     private func animateButtonsAppearing(){
         for buttonIndex in self.seasonsButtons.indices {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(buttonIndex) * 0.05) {
-                UIView.animate(withDuration: 0.5) {
+                UIView.animate(withDuration: 0.3) {
                     self.seasonsButtons[buttonIndex].alpha = 1
                     self.seasonsButtons[buttonIndex].transform = .identity
                 }
@@ -127,8 +134,8 @@ class SeasonsListVC: UIViewController {
         
         exitButton.centerXAnchor.constraint(equalTo: exitButtonBackground.centerXAnchor).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: exitButtonBackground.centerYAnchor).isActive = true
-        exitButton.widthAnchor.constraint(equalTo: exitButton.widthAnchor).isActive = true
-        exitButton.heightAnchor.constraint(equalTo: exitButton.heightAnchor).isActive = true
+        exitButton.widthAnchor.constraint(equalTo: exitButtonBackground.widthAnchor).isActive = true
+        exitButton.heightAnchor.constraint(equalTo: exitButtonBackground.heightAnchor).isActive = true
         
         
     }
@@ -176,5 +183,6 @@ class SeasonsListVC: UIViewController {
     
     
     var seasonsButtons = [NFPlainButton]()
+    weak var delegate: Delegate!
 }
 

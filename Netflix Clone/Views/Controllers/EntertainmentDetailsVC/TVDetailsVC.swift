@@ -32,7 +32,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
                 
                 // get seasons
                 seasonsCount = details.numberOfSeasons ?? 1
-                let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNum: 1)
+                let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNumber: 1)
                 episodes = seasonDetials.episodes
                 updateEpisodesTable()
             } catch {
@@ -50,6 +50,8 @@ class TVDetailsVC: EntertainmentDetailsVC {
         switchViewButtonsConstriants()
         switchViewButtons.delegate = self
         switchViewButtons.triggerButtonOne()
+        
+        
     }
     
     func configureEpisodeTable() {
@@ -148,7 +150,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
 }
 
 
-//MARK: - SwitchViw Buttons delegate
+//MARK: - Subviews Delegates
 extension TVDetailsVC: SwitchViewButtonsUIView.Delegate {
     func buttonOneAction() {showEpisodesTableView()}
     func buttonTwoAction() {showMoreCollectionView()}
@@ -157,7 +159,18 @@ extension TVDetailsVC: SwitchViewButtonsUIView.Delegate {
 extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
     func listButtonTapped() {
         let seasonListVC = SeasonsListVC(seasonsCount: seasonsCount)
+        seasonListVC.delegate = self
         presentInMainThread(seasonListVC)
+    }
+}
+
+extension TVDetailsVC: SeasonsListVC.Delegate {
+    func selectSeason(number seasonNumber: Int) {
+        Task {
+            let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNumber: seasonNumber)
+            episodes = seasonDetials.episodes
+            updateEpisodesTable()
+        }
     }
 }
 
