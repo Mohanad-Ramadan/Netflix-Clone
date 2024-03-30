@@ -43,24 +43,22 @@ class TVDetailsVC: EntertainmentDetailsVC {
     
     //MARK: - Configure Movie VC
     func configureTVShowVC() {
-        [switchViewButtons, moreIdeasCollection, episodesTable].forEach {containterScrollView.addSubview($0)}
+        [switchViewButtons, episodesContainerView, moreIdeasCollection].forEach {containterScrollView.addSubview($0)}
+        
+        configureEpisodeContainer()
         configureParentVC()
-        configureEpisodeTable()
         
         switchViewButtonsConstriants()
         switchViewButtons.delegate = self
         switchViewButtons.triggerButtonOne()
-        
-        
     }
     
-    func configureEpisodeTable() {
+    func configureEpisodeContainer() {
+        [episodesHeaderView, episodesTable].forEach {episodesContainerView.addSubview($0)}
         episodesTable.delegate = self
         episodesTable.dataSource = self
-        episodeTableHeaderView.delegate = self
-        
-        episodeTableHeaderView.frame = CGRect(x: 0, y: 0, width: episodesTable.bounds.width, height: 30)
-        episodesTable.tableHeaderView = episodeTableHeaderView
+        episodesHeaderView.translatesAutoresizingMaskIntoConstraints = false
+        episodesHeaderView.delegate = self
     }
     
     func updateEpisodesTable() {
@@ -89,25 +87,36 @@ class TVDetailsVC: EntertainmentDetailsVC {
         ]
     }
     
-    private func episodesTableConstriants() -> [NSLayoutConstraint] {
-        [episodesTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-         episodesTable.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-         episodesTable.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
-         episodesTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)
+    private func episodesContainerConstriants() -> [NSLayoutConstraint] {
+        [
+            episodesContainerView.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
+            episodesContainerView.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
+            episodesContainerView.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
+            episodesContainerView.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor),
+            
+            episodesHeaderView.topAnchor.constraint(equalTo: episodesContainerView.topAnchor),
+            episodesHeaderView.leadingAnchor.constraint(equalTo: episodesContainerView.leadingAnchor),
+            episodesHeaderView.trailingAnchor.constraint(equalTo: episodesContainerView.trailingAnchor),
+            episodesHeaderView.heightAnchor.constraint(equalToConstant: 30),
+            
+            episodesTable.topAnchor.constraint(equalTo: episodesHeaderView.bottomAnchor),
+            episodesTable.leadingAnchor.constraint(equalTo: episodesContainerView.leadingAnchor),
+            episodesTable.trailingAnchor.constraint(equalTo: episodesContainerView.trailingAnchor),
+            episodesTable.bottomAnchor.constraint(equalTo: episodesContainerView.bottomAnchor)
         ]
     }
     
     //MARK: - Switch mainViews methods
     private func showMoreCollectionView() {
         UIView.animate(withDuration: 0.1) {
-            self.episodesTable.alpha = 0
+            self.episodesContainerView.alpha = 0
         } completion: { finished in
-            self.episodesTable.removeFromSuperview()
-            self.episodesTable.removeConstraints(self.episodesTableConstriants())
+            self.episodesContainerView.removeFromSuperview()
+            self.episodesContainerView.removeConstraints(self.episodesContainerConstriants())
             // Add the CollectionView to the superView
             self.containterScrollView.addSubview(self.moreIdeasCollection)
             NSLayoutConstraint.activate(self.moreIdeasCollectionConstriants())
-            UIView.animate(withDuration: 0.1) {self.episodesTable.alpha = 1}
+            UIView.animate(withDuration: 0.1) {self.episodesContainerView.alpha = 1}
         }
     }
     
@@ -118,13 +127,21 @@ class TVDetailsVC: EntertainmentDetailsVC {
             self.moreIdeasCollection.removeFromSuperview()
             self.moreIdeasCollection.removeConstraints(self.moreIdeasCollectionConstriants())
             // Add the CollectionView to the superView
-            self.containterScrollView.addSubview(self.episodesTable)
-            NSLayoutConstraint.activate(self.episodesTableConstriants())
+            self.containterScrollView.addSubview(self.episodesContainerView)
+            NSLayoutConstraint.activate(self.episodesContainerConstriants())
             UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
         }
     }
     
+    
     //MARK: - Declare TvShows Subviews
+    private let episodesContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "Episodes", buttonTwoTitle: "More Like This")
     
     private let episodesTable: UITableView = {
@@ -138,7 +155,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
         return table
     }()
     
-    private let episodeTableHeaderView = SeasonSelectHeaderView()
+    private let episodesHeaderView = SeasonSelectHeaderView()
     
     var tvShow: Entertainment!
     var seasons: SeasonDetail?
@@ -169,6 +186,7 @@ extension TVDetailsVC: SeasonsListVC.Delegate {
     func selectSeason(number seasonNumber: Int) {
         Task {
             currentSeason = seasonNumber
+            episodesHeaderView.seasonLabel.text = "Season \(seasonNumber)"
             let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNumber: seasonNumber)
             episodes = seasonDetials.episodes
             updateEpisodesTable()

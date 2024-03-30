@@ -53,7 +53,7 @@ class SeasonSelectHeaderView: UIView {
         
     }
     
-    private let seasonLabel = NFBodyLabel(text: "Seasons", fontSize: 16)
+    let seasonLabel = NFBodyLabel(text: "Seasons 1", fontSize: 16)
     private let listSeasonsButton = NFSymbolButton(imageName: "chevron.down", imageSize: 10)
     private let infoButton = NFSymbolButton(imageName: "info.circle.fill", imageSize: 25, imageColor: .lightGray)
     
