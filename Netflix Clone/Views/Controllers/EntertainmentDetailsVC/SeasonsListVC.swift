@@ -17,7 +17,13 @@ class SeasonsListVC: UIViewController {
     
     init(seasonsCount: Int) {
         super.init(nibName: nil, bundle: nil)
-        createListViews(with: 1)
+        setupSeasonsButtons(with: 5)
+        setupStackBeforAnimation()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        animateButtonsAppearing()
     }
     
     required init?(coder: NSCoder) {fatalError()}
@@ -29,12 +35,21 @@ class SeasonsListVC: UIViewController {
         [upperPaddingView, stackContainer, lowerPaddingView].forEach{containerView.addSubview($0)}
         
         exitButtonBackground.addSubview(exitButton)
+        exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
         
         bluryBackground.addGrayBlurEffect()
     }
     
-    private func createListViews(with totalSeasons: Int) {
+    private func setupSeasonsButtons(with totalSeasons: Int) {
+        decalreSeasonsButtons(with: totalSeasons)
+        addButtonsTarget()
+    }
+    
+    
+    private func decalreSeasonsButtons(with totalSeasons: Int) {
+        var seasonIndex = 0
         for season in 1...totalSeasons {
+            seasonIndex += 1
             let seasonView = NFPlainButton(title: "Season \(season)", fontSize: 18, fontWeight: .regular, fontColorOnly: .lightGray)
             seasonView.heightAnchor.constraint(equalToConstant: 40).isActive = true
             seasonsButtons.append(seasonView)
@@ -42,14 +57,40 @@ class SeasonsListVC: UIViewController {
         }
     }
     
-    private func configureButtonsTarget() {
-        
+    private func addButtonsTarget() {
+        for button in seasonsButtons {
+            button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        }
     }
     
-    private func animateTappedButton(){
-        
+    @objc func buttonPressed() {
+        print("hi")
     }
     
+    @objc func exitButtonTapped() {navigationController?.popToRootViewController(animated: true)}
+
+    
+    //MARK: - Animate Stack's SubViews
+    private func setupStackBeforAnimation() {
+        for button in seasonsButtons {
+            button.alpha = 0
+            button.transform = CGAffineTransform(translationX: 0, y: 50)
+        }
+    }
+    
+    private func animateButtonsAppearing(){
+        for buttonIndex in self.seasonsButtons.indices {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(buttonIndex) * 0.05) {
+                UIView.animate(withDuration: 0.5) {
+                    self.seasonsButtons[buttonIndex].alpha = 1
+                    self.seasonsButtons[buttonIndex].transform = .identity
+                }
+            }
+        }
+    }
+    
+    
+    //MARK: - Constraints
     private func applyConstraints() {
         // background frame
         bluryBackground.frame = view.bounds
