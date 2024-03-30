@@ -18,10 +18,11 @@ class SeasonsListVC: UIViewController {
         applyConstraints()
     }
     
-    init(seasonsCount: Int) {
+    init(seasonsCount: Int, currentSeason: Int) {
         super.init(nibName: nil, bundle: nil)
         setupSeasonsButtons(with: seasonsCount)
         setupStackBeforAnimation()
+        setActiveSeasonButton(is: currentSeason)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,12 +42,12 @@ class SeasonsListVC: UIViewController {
     }
     
     private func setupSeasonsButtons(with totalSeasons: Int) {
-        decalreSeasonsButtons(with: totalSeasons)
+        decalreUIButtons(with: totalSeasons)
         addButtonsTarget()
     }
     
     
-    private func decalreSeasonsButtons(with totalSeasons: Int) {
+    private func decalreUIButtons(with totalSeasons: Int) {
         var seasonIndex = 0
         for season in 1...totalSeasons {
             seasonIndex += 1
@@ -67,8 +68,9 @@ class SeasonsListVC: UIViewController {
         for button in seasonsButtons {
             if button == sender {
                 guard let buttonIndex = seasonsButtons.firstIndex(of: button) else { return }
-                delegate.selectSeason(number: buttonIndex+1)
-                print(buttonIndex)
+                let seasonNumber = buttonIndex+1
+                setActiveSeasonButton(is: seasonNumber)
+                delegate.selectSeason(number: seasonNumber)
             }
         }
         dismiss(animated: true)
@@ -78,21 +80,42 @@ class SeasonsListVC: UIViewController {
     @objc func exitButtonTapped() {dismiss(animated: true)}
     
     //MARK: - Animate Stack's SubViews
-    private func setupStackBeforAnimation() {
-        for buttonIndex in seasonsButtons.indices {
-            seasonsButtons[buttonIndex].alpha = 0
-            seasonsButtons[buttonIndex].transform = CGAffineTransform(translationX: 0, y: CGFloat(buttonIndex*15))
+    private func setActiveSeasonButton(is number: Int) {
+        let activeButton = seasonsButtons[number-1]
+        activeButton.configuration?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = .systemFont(ofSize: 27)
+            outgoing.foregroundColor = .white
+            return outgoing
         }
     }
     
-    private func animateButtonsAppearing(){
+    private func setupStackBeforAnimation() {
+        let totalButtons = self.seasonsButtons.count
+        let halfViewheight = view.bounds.height/3
+        
+        for buttonIndex in seasonsButtons.indices {
+            let portionOfHeight = Double(buttonIndex + 1) / Double(totalButtons)
+            let heightAdded = portionOfHeight * halfViewheight
+            
+            seasonsButtons[buttonIndex].alpha = 0
+            seasonsButtons[buttonIndex].transform = CGAffineTransform(translationX: 0, y: heightAdded)
+        }
+    }
+    
+    private func animateButtonsAppearing() {
+        let totalButtons = self.seasonsButtons.count
+        let totalDuration: TimeInterval = 0.5 // Total time for all buttons to appear (1 second)
+        
         for buttonIndex in self.seasonsButtons.indices {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(buttonIndex) * 0.05) {
-                UIView.animate(withDuration: 0.3) {
-                    self.seasonsButtons[buttonIndex].alpha = 1
-                    self.seasonsButtons[buttonIndex].transform = .identity
-                }
+            let portionOfTotalDuration = Double(buttonIndex + 1) / Double(totalButtons)
+            let duration = portionOfTotalDuration * totalDuration
+            
+            UIView.animate(withDuration: duration) {
+                self.seasonsButtons[buttonIndex].alpha = 1
+                self.seasonsButtons[buttonIndex].transform = .identity
             }
+            
         }
     }
     
@@ -180,7 +203,6 @@ class SeasonsListVC: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     
     var seasonsButtons = [NFPlainButton]()
     weak var delegate: Delegate!

@@ -145,6 +145,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
     var seasonsCount: Int!
     var episodes: [SeasonDetail.Episode] = []
     var episodesCount: Int?
+    var currentSeason = 1
     
     required init?(coder: NSCoder) {fatalError()}
 }
@@ -158,7 +159,7 @@ extension TVDetailsVC: SwitchViewButtonsUIView.Delegate {
 
 extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
     func listButtonTapped() {
-        let seasonListVC = SeasonsListVC(seasonsCount: seasonsCount)
+        let seasonListVC = SeasonsListVC(seasonsCount: seasonsCount, currentSeason: currentSeason )
         seasonListVC.delegate = self
         presentInMainThread(seasonListVC)
     }
@@ -167,6 +168,7 @@ extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
 extension TVDetailsVC: SeasonsListVC.Delegate {
     func selectSeason(number seasonNumber: Int) {
         Task {
+            currentSeason = seasonNumber
             let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNumber: seasonNumber)
             episodes = seasonDetials.episodes
             updateEpisodesTable()
