@@ -141,6 +141,9 @@ class EntertainmentDetailsVC: UIViewController {
             view.addSubview(top10Logo)
             view.addSubview(top10DetailsLabel)
             
+            view.sendSubviewToBack(top10DetailsLabel)
+            view.sendSubviewToBack(top10Logo)
+            
             top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
             top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
             top10Logo.heightAnchor.constraint(equalToConstant: 35).isActive = true
@@ -152,13 +155,12 @@ class EntertainmentDetailsVC: UIViewController {
             
             playButton.removeConstraint(playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5))
             playButton.topAnchor.constraint(equalTo: top10Logo.bottomAnchor, constant: 5).isActive = true
-            
         } else {
             top10Logo.removeFromSuperview()
             top10DetailsLabel.removeFromSuperview()
         }
-        
     }
+    
     
     // Details Label Constraints
     private func playButtonConstriants() {
