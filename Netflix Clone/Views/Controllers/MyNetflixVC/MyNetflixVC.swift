@@ -24,7 +24,7 @@ class MyNetflixVC: UIViewController {
         
         applyConstraints()
         
-        fetchDownloadedEntertainment()
+        fetchDownloadedMedia()
         
     }
     
@@ -43,13 +43,13 @@ class MyNetflixVC: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
-    private func fetchDownloadedEntertainment() {
+    private func fetchDownloadedMedia() {
         // Notify the View to fetch the data agian
         NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
-            self.fetchDownloadedEntertainment()
+            self.fetchDownloadedMedia()
         }
         // Calling API request method
-        DataPersistenceManager.shared.fetchDownloadedEntertainments { [weak self] results in
+        DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
             switch results {
             case .success(let entertainments):
                 self?.entertainments = entertainments
@@ -115,7 +115,7 @@ class MyNetflixVC: UIViewController {
         return table
     }()
     
-    var entertainments: [EntertainmentItems] = [EntertainmentItems]()
+    var entertainments: [MediaItems] = [MediaItems]()
     
 
 }

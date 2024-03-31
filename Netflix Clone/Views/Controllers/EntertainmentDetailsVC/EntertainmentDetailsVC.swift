@@ -1,5 +1,5 @@
 //
-//  EntertainmentDetailsVC.swift
+//  MediaDetailsVC.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 21/01/2024.
@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class EntertainmentDetailsVC: UIViewController {
+class MediaDetailsVC: UIViewController {
     override func viewDidLoad() {super.viewDidLoad()}
     
     init() {super.init(nibName: nil, bundle: nil)}
@@ -18,6 +18,8 @@ class EntertainmentDetailsVC: UIViewController {
     //MARK: - Configure VC
     func configureParentVC() {
         view.backgroundColor = .black
+        navigationController?.navigationBar.isHidden = true
+        
         view.addSubview(entertainmentTrailer)
         view.addSubview(containterScrollView)
         
@@ -64,16 +66,16 @@ class EntertainmentDetailsVC: UIViewController {
             return stringIds
         }
         
-        fetchMoreEntertainment(model.title! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
+        fetchMoreMedia(model.title! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
     }
     
-    private func fetchMoreEntertainment(_ mainMedia: String ,genresId: String?, mediaType: String){
+    private func fetchMoreMedia(_ mainMedia: String ,genresId: String?, mediaType: String){
         Task{
             do {
                 guard let ids = genresId else {return}
                 let entertainments = try await NetworkManager.shared.getMoreLike(genresId: ids, ofMediaType: mediaType)
                 let moreWithNoDuplicates = entertainments.filter{!mainMedia.contains(mediaType == "movie" ? $0.title ?? "no duplicate": $0.originalName ?? "no duplicate")}
-                moreEntertainments = moreWithNoDuplicates.prefix(6).shuffled()
+                moreMedias = moreWithNoDuplicates.prefix(6).shuffled()
                 moreIdeasCollection.reloadData()
             } catch let error as APIError {
 //                presentGFAlert(messageText: error.rawValue)
@@ -85,6 +87,29 @@ class EntertainmentDetailsVC: UIViewController {
         }
     }
     
+    //MARK: - Trailer Configuration
+    func configureTrailer(with model: MovieViewModel){
+        guard let videosResult = model.videosResult else {return}
+        guard let entertainmentName = model.title else {return}
+        
+        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
+        
+        Task {
+            do {
+                let trailerId = try await NetworkManager.shared.getTrailersIds(of: trialerVideoQuery)
+                guard let url = URL(string: "https://www.youtube.com/embed/\(trailerId)") else {
+                    fatalError("can't get the youtube trailer url")
+                }
+                self.entertainmentTrailer.load(URLRequest(url: url))
+            } catch { print(error.localizedDescription) }
+        }
+    }
+    
+    func getFirstTrailerName(from videosResult: [Trailer.Reuslts]) -> String {
+        let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
+        let trialerQuery = trailerInfo.map { $0.name }[0]
+        return trialerQuery
+    }
     
     
     //MARK: - Main Views constraints
@@ -208,26 +233,6 @@ class EntertainmentDetailsVC: UIViewController {
         threeButtons.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 
-    // remove top10Row view if entertainment tapped is not trending
-//    func removeTop10RowView(){
-//        // remove the top10 row view
-//        top10DetailsLabel.removeFromSuperview()
-//        top10DetailsLabel.removeConstraints([
-//            top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor),
-//            top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor, constant: 5),
-//            top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5)
-//        ])
-//        top10Logo.removeFromSuperview()
-//        top10Logo.removeConstraints([
-//            top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor),
-//            top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor),
-//            top10Logo.heightAnchor.constraint(equalToConstant: 35),
-//            top10Logo.widthAnchor.constraint(equalToConstant: 35)
-//        ])
-//        
-//        // rearrange views depend on top10 layout (began from playButton View)
-//        playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
-//    }
     
     func applySwitchedViewsAndConstraints() {}
     
@@ -253,6 +258,7 @@ class EntertainmentDetailsVC: UIViewController {
     let entertainmentTrailer: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.clipsToBounds = true
         webView.scrollView.isScrollEnabled = false
         return webView
     }()
@@ -305,6 +311,6 @@ class EntertainmentDetailsVC: UIViewController {
         return collectionView
     }()
     
-    var moreEntertainments: [Entertainment] = [Entertainment]()
+    var moreMedias: [Media] = [Media]()
     
 }

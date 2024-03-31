@@ -10,7 +10,7 @@ import SkeletonView
 
 
 protocol MyNetflixTableViewCellDelegate: AnyObject {
-    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: EntertainmentDetailsVC)
+    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC)
 }
 
 class MyNetflixTableViewCell: UITableViewCell {
@@ -19,7 +19,7 @@ class MyNetflixTableViewCell: UITableViewCell {
     
     weak var delegate: MyNetflixTableViewCellDelegate?
     
-    var entertainments: [EntertainmentItems] = [EntertainmentItems]()
+    var entertainments: [MediaItems] = [MediaItems]()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -37,7 +37,7 @@ class MyNetflixTableViewCell: UITableViewCell {
     }
     
     
-    public func configureCollection(with entertainments: [EntertainmentItems]){
+    public func configureCollection(with entertainments: [MediaItems]){
         self.entertainments = entertainments
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()

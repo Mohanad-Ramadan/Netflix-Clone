@@ -48,7 +48,7 @@ extension NewHotVC {
                 }
             }
             // notify if it is trending category or not
-            isTheTappedEntertainmentTrend = false
+            isTheTappedMediaTrend = false
             
         case ButtonTapped.everyoneWatching.rawValue:
             Task{
@@ -65,12 +65,12 @@ extension NewHotVC {
                 }
             }
             // notify if it is trending category or not
-            isTheTappedEntertainmentTrend = true
+            isTheTappedMediaTrend = true
             
         case ButtonTapped.toptenTv.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.allTrending)
+                    let entertainments = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
                     self.entertainments = entertainments
                     newAndHotTable.reloadData()
                 } catch let error as APIError {
@@ -82,7 +82,7 @@ extension NewHotVC {
                 }
             }
             // notify if it is trending category or not
-            isTheTappedEntertainmentTrend = true
+            isTheTappedMediaTrend = true
             
         default:
             Task{
@@ -99,7 +99,7 @@ extension NewHotVC {
                 }
             }
             // notify if it is trending category or not
-            isTheTappedEntertainmentTrend = true
+            isTheTappedMediaTrend = true
             
         }
         

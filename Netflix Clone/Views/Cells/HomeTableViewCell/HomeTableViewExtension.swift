@@ -28,7 +28,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let media = entertainments[indexPath.row]
-//        let isTrend = self.isTheTappedEntertainmentTrend!
+//        let isTrend = self.isTheTappedMediaTrend!
         let trendRank = indexPath.row+1
         
         if media.mediaType == nil || media.mediaType == "movie" {
@@ -45,7 +45,7 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         
         let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {[weak self] _ in
             let downloadAction = UIAction(title: "Download", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-                self?.downloadEntertainmentAt(indexPath)
+                self?.downloadMediaAt(indexPath)
             }
             return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
         }

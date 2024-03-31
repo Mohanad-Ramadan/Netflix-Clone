@@ -46,13 +46,13 @@ class SearchVC: UIViewController {
     }
     
     func configureTableDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, Entertainment>(tableView: searchTable) { tableView, indexPath, entertainment -> UITableViewCell? in
+        dataSource = UITableViewDiffableDataSource<Section, Media>(tableView: searchTable) { tableView, indexPath, entertainment -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell
             configure(cell: cell, with: entertainment)
             return cell
         }
         
-        func configure(cell: SimpleTableViewCell? ,with entertainment: Entertainment){
+        func configure(cell: SimpleTableViewCell? ,with entertainment: Media){
             Task {
                 do {
                     let mediaType = entertainment.mediaType ?? "movie"
@@ -91,8 +91,8 @@ class SearchVC: UIViewController {
         Task{
             do {
                 let fetchedMedia = try await NetworkManager.shared.getSearches(of: wantedMedia)
-                searchedEntertainments = fetchedMedia
-                updateSearchTable(with: searchedEntertainments)
+                searchedMedias = fetchedMedia
+                updateSearchTable(with: searchedMedias)
             } catch let error as APIError {
                 //                presentGFAlert(messageText: error.rawValue)
                 print(error)
@@ -103,15 +103,15 @@ class SearchVC: UIViewController {
         }
     }
     
-    func updateSearchTable(with entertainments: [Entertainment]) {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, Entertainment>()
+    func updateSearchTable(with entertainments: [Media]) {
+        var snapShot = NSDiffableDataSourceSnapshot<Section, Media>()
         snapShot.appendSections([.main])
         
         if entertainments == self.entertainments {
             snapShot.appendItems(entertainments)
             dataSource.apply(snapShot, animatingDifferences: false)
         } else {
-            snapShot.appendItems(searchedEntertainments)
+            snapShot.appendItems(searchedMedias)
             dataSource.apply(snapShot, animatingDifferences: true)
         }
         
@@ -126,10 +126,10 @@ class SearchVC: UIViewController {
         return table
     }()
     
-    var dataSource: UITableViewDiffableDataSource<Section, Entertainment>!
+    var dataSource: UITableViewDiffableDataSource<Section, Media>!
     
-    var entertainments = [Entertainment]()
-    var searchedEntertainments = [Entertainment]()
+    var entertainments = [Media]()
+    var searchedMedias = [Media]()
     var isStillSearching = false
     
     let searchController: UISearchController = {

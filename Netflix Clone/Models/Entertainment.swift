@@ -8,11 +8,11 @@
 import Foundation
 
 
-struct EntertainmentResponse: Codable {
-    let results: [Entertainment]
+struct MediaResponse: Codable {
+    let results: [Media]
 }
 
-struct Entertainment: Codable, Hashable {
+struct Media: Codable, Hashable {
     let id: Int
     let originalName: String?
     let title: String?

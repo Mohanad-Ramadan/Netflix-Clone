@@ -33,7 +33,7 @@ enum UIHelper {
     }
     
     //MARK: - filter fetched search results from persons
-    static func removePersonsFrom(_ searchResults: [Entertainment]) -> [Entertainment] {
+    static func removePersonsFrom(_ searchResults: [Media]) -> [Media] {
         let results = searchResults.filter { $0.mediaType == "movie" || $0.mediaType == "tv" }
         return results
     }

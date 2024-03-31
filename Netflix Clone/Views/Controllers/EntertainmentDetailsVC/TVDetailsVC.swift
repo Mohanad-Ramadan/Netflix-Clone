@@ -7,10 +7,10 @@
 
 import UIKit
 
-class TVDetailsVC: EntertainmentDetailsVC {
+class TVDetailsVC: MediaDetailsVC {
     override func viewDidLoad() {super.viewDidLoad(); configureTVShowVC()}
     
-    init(for tvShow: Entertainment, isTrend: Bool = false, rank: Int = 0) {
+    init(for tvShow: Media, isTrend: Bool = false, rank: Int = 0) {
         super.init()
         self.tvShow = tvShow
         fetchData(isTrend: isTrend, rank: rank)
@@ -35,6 +35,11 @@ class TVDetailsVC: EntertainmentDetailsVC {
                 let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNumber: 1)
                 episodes = seasonDetials.episodes
                 updateEpisodesTable()
+                
+                // get trailers
+                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
+                configureTrailer(with: MovieViewModel(title: details.name ,videosResult: trailers))
+                
             } catch {
                 print(error.localizedDescription)
             }
@@ -157,7 +162,7 @@ class TVDetailsVC: EntertainmentDetailsVC {
     
     private let episodesHeaderView = SeasonSelectHeaderView()
     
-    var tvShow: Entertainment!
+    var tvShow: Media!
     var seasons: SeasonDetail?
     var seasonsCount: Int!
     var episodes: [SeasonDetail.Episode] = []

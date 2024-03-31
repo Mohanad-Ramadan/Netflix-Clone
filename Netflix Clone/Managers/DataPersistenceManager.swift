@@ -21,14 +21,14 @@ class DataPersistenceManager {
     static let shared = DataPersistenceManager()
     
     
-    func downloadEntertainmentWith(model: Entertainment, completion: @escaping (Result<Void,Error>) -> Void ){
+    func downloadMediaWith(model: Media, completion: @escaping (Result<Void,Error>) -> Void ){
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         
         let context = appDelegate.persistentContainer.viewContext
         
         
-        let item = EntertainmentItems(context: context)
+        let item = MediaItems(context: context)
         
         item.id = Int64(model.id)
         item.originalName = model.originalName
@@ -46,15 +46,15 @@ class DataPersistenceManager {
         
     }
     
-    func fetchDownloadedEntertainments(completion: @escaping (Result<[EntertainmentItems],Error>) -> Void ){
+    func fetchDownloadedMedias(completion: @escaping (Result<[MediaItems],Error>) -> Void ){
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         
         let context = appDelegate.persistentContainer.viewContext
         
-        let request: NSFetchRequest<EntertainmentItems>
+        let request: NSFetchRequest<MediaItems>
         
-        request = EntertainmentItems.fetchRequest()
+        request = MediaItems.fetchRequest()
         
         do {
             let entertainments = try context.fetch(request)
@@ -65,7 +65,7 @@ class DataPersistenceManager {
         
     }
     
-    func deleteEntertainments(model: EntertainmentItems, completion: @escaping (Result<Void,Error>) -> Void ){
+    func deleteMedias(model: MediaItems, completion: @escaping (Result<Void,Error>) -> Void ){
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         

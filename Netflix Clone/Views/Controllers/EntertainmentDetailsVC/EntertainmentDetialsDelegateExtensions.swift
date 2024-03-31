@@ -1,5 +1,5 @@
 //
-//  EntertainmentDetialsDelegateExtensions.swift
+//  MediaDetialsDelegateExtensions.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 23/01/2024.
@@ -8,9 +8,9 @@
 import UIKit
 
 //MARK: - CollectionView Delegate
-extension EntertainmentDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
+extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return moreEntertainments.count
+        return moreMedias.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -19,7 +19,7 @@ extension EntertainmentDetailsVC: UICollectionViewDelegate, UICollectionViewData
             return UICollectionViewCell()
         }
         
-        let poster = moreEntertainments[indexPath.row].posterPath ?? ""
+        let poster = moreMedias[indexPath.row].posterPath ?? ""
         cell.configureCell(with: poster)
         return cell
     }
@@ -27,14 +27,14 @@ extension EntertainmentDetailsVC: UICollectionViewDelegate, UICollectionViewData
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        collectionView.deselectItem(at: indexPath, animated: true)
 //        
-//        let entertainment = moreEntertainments[indexPath.row]
+//        let entertainment = moreMedias[indexPath.row]
 //        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
 //        
 //        NetworkManager.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
 //            switch result {
 //            case .success(let videoElement):
 //                DispatchQueue.main.async { [weak self] in
-//                    let vc = EntertainmentDetailsVC()
+//                    let vc = MediaDetailsVC()
 //                    let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
 //                    
 //                    vc.configureMovieInfo(with: viewModel )

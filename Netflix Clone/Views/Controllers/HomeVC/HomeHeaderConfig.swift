@@ -24,7 +24,7 @@ extension HomeVC {
         }
     }
     
-    private func fetchImagesAndConfigureViews(for movie: Entertainment) {
+    private func fetchImagesAndConfigureViews(for movie: Media) {
         Task {
             do {
                 // get logo and backdrop

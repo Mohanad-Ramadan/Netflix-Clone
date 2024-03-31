@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MovieDetailsVC: EntertainmentDetailsVC {
+class MovieDetailsVC: MediaDetailsVC {
     override func viewDidLoad() {super.viewDidLoad(); configureMovieVC()}
     
-    init(for movie: Entertainment, isTrend: Bool = false, rank: Int = 0) {
+    init(for movie: Media, isTrend: Bool = false, rank: Int = 0) {
         super.init()
         self.movie = movie
         fetchData(isTrend: isTrend, rank: rank)
@@ -33,8 +33,8 @@ class MovieDetailsVC: EntertainmentDetailsVC {
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 
                 // get trailers
-                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
@@ -54,31 +54,10 @@ class MovieDetailsVC: EntertainmentDetailsVC {
         trailerTable.dataSource = self
     }
     
-    //MARK: - Videos Configuration
-    private func getFirstTrailerName(from videosResult: [Trailer.Reuslts]) -> String {
-        let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
-        let trialerQuery = trailerInfo.map { $0.name }[0]
-        return trialerQuery
-    }
-    
-    func configureTrailer(with model: MovieViewModel){
-        // Trailer Configuration
-        guard let videosResult = model.videosResult else {return}
-        guard let entertainmentName = model.title else {return}
-
-        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
-
-        Task {
-            do {
-                let trailerId = try await NetworkManager.shared.getTrailersIds(of: trialerVideoQuery)
-                guard let url = URL(string: "https://www.youtube.com/embed/\(trailerId)") else {
-                    fatalError("can't get the youtube trailer url")
-                }
-                self.entertainmentTrailer.load(URLRequest(url: url))
-            } catch { print(error.localizedDescription) }
-        }
-
+    //MARK: - Trailer Configuration
+    override func configureTrailer(with model: MovieViewModel){
         // pass th videos without the one taken for the entertainmentTrailer webView
+        guard let videosResult = model.videosResult else {return}
         trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
         trailersCount = CGFloat(trailers.count)
     }
@@ -154,7 +133,7 @@ class MovieDetailsVC: EntertainmentDetailsVC {
     
     var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
     var entertainmentName: String?
-    var movie: Entertainment!
+    var movie: Media!
     var trailersCount: CGFloat?
     
     required init?(coder: NSCoder) {fatalError()}

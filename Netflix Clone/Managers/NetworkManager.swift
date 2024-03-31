@@ -18,7 +18,7 @@ class NetworkManager {
         decoder.dateDecodingStrategy = .iso8601
     }
     
-    func getDataOf(_ endpoint: Endpoints) async throws -> [Entertainment] {
+    func getDataOf(_ endpoint: Endpoints) async throws -> [Media] {
         let stringURL = Constants.createUrlWith(endpoint)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
@@ -26,12 +26,12 @@ class NetworkManager {
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
         do {
-            let fetchedData = try self.decoder.decode(EntertainmentResponse.self, from: data)
+            let fetchedData = try self.decoder.decode(MediaResponse.self, from: data)
             return fetchedData.results
         } catch {throw APIError.invalidData}
     }
     
-    func getMoreLike(genresId: String, ofMediaType mediaType: String) async throws -> [Entertainment] {
+    func getMoreLike(genresId: String, ofMediaType mediaType: String) async throws -> [Media] {
         let stringURL = Constants.createMoreLikeURLWith(mediaType: mediaType, genresId: genresId)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
@@ -39,7 +39,7 @@ class NetworkManager {
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
         do {
-            let fetchedData = try self.decoder.decode(EntertainmentResponse.self, from: data)
+            let fetchedData = try self.decoder.decode(MediaResponse.self, from: data)
             return fetchedData.results
         } catch {throw APIError.invalidData}
     }
@@ -99,7 +99,7 @@ class NetworkManager {
         catch {throw APIError.invalidData }
     }
     
-    func getSearches(of query: String) async throws -> [Entertainment] {
+    func getSearches(of query: String) async throws -> [Media] {
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {throw APIError.invalidURL}
         let stringURL = Constants.createSearchURLFor(query)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
@@ -108,7 +108,7 @@ class NetworkManager {
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
         do {
-            let fetchedData = try self.decoder.decode(EntertainmentResponse.self, from: data)
+            let fetchedData = try self.decoder.decode(MediaResponse.self, from: data)
             return fetchedData.results
         } catch {throw APIError.invalidData}
     }

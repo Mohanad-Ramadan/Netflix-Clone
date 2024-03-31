@@ -29,7 +29,7 @@ extension NewHotVC: UITableViewDelegate,
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let media = entertainments[indexPath.row]
-        let isTrend = self.isTheTappedEntertainmentTrend!
+        let isTrend = self.isTheTappedMediaTrend!
         let trendRank = indexPath.row+1
         
         if media.mediaType == nil || media.mediaType == "movie" {

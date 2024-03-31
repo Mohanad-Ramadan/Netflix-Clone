@@ -33,7 +33,7 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
         switch editingStyle {
         case .delete:
             
-            DataPersistenceManager.shared.deleteEntertainments(model: entertainments[indexPath.row]) { [weak self] results in
+            DataPersistenceManager.shared.deleteMedias(model: entertainments[indexPath.row]) { [weak self] results in
                 switch results {
                 case .success():
                     print("deleted")
@@ -59,7 +59,7 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //            switch result {
 //            case .success(let videoElement):
 //                DispatchQueue.main.async { [weak self] in
-//                    let vc = EntertainmentDetailsVC()
+//                    let vc = MediaDetailsVC()
 //                    let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
 //                    
 //                    vc.configureVCDetails(with: viewModel )

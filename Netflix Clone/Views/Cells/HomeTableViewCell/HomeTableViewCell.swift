@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 protocol HomeTableViewCellDelegate: AnyObject {
-    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, navigateTo vc: EntertainmentDetailsVC)
+    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, navigateTo vc: MediaDetailsVC)
 }
 
 class HomeTableViewCell: UITableViewCell {
@@ -30,15 +30,15 @@ class HomeTableViewCell: UITableViewCell {
     }
     
     
-    func configureCollection(with entertainments: [Entertainment]){
+    func configureCollection(with entertainments: [Media]){
         self.entertainments = entertainments
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
     }
     
-    func downloadEntertainmentAt(_ indexpath: IndexPath ) {
-        DataPersistenceManager.shared.downloadEntertainmentWith(model: entertainments[indexpath.row]) { results in
+    func downloadMediaAt(_ indexpath: IndexPath ) {
+        DataPersistenceManager.shared.downloadMediaWith(model: entertainments[indexpath.row]) { results in
             switch results {
             case .success():
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
@@ -52,7 +52,7 @@ class HomeTableViewCell: UITableViewCell {
     
     weak var delegate: HomeTableViewCellDelegate?
     
-    var entertainments: [Entertainment] = [Entertainment]()
+    var entertainments: [Media] = [Media]()
     
     private let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()

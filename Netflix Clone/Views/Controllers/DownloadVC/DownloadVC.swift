@@ -17,10 +17,10 @@ class DownloadVC: UIViewController {
         downloadTable.dataSource = self
 
         configureNavBar()
-        fetchEntertainmentAt()
+        fetchMediaAt()
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
-            self.fetchEntertainmentAt()
+            self.fetchMediaAt()
         }
         
     }
@@ -38,8 +38,8 @@ class DownloadVC: UIViewController {
         title = "Downloads"
     }
     
-    private func fetchEntertainmentAt() {
-        DataPersistenceManager.shared.fetchDownloadedEntertainments { [weak self] results in
+    private func fetchMediaAt() {
+        DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
             switch results {
             case .success(let entertainments):
                 self?.entertainments = entertainments
@@ -61,7 +61,7 @@ class DownloadVC: UIViewController {
         return collectionView
     }()
     
-    var entertainments: [EntertainmentItems] = [EntertainmentItems]()
+    var entertainments: [MediaItems] = [MediaItems]()
     
 }
 
