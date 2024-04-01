@@ -7,12 +7,7 @@
 
 import UIKit
 
-//protocol NewAndHotTableViewCellDelegate:AnyObject {
-//    func finishLoadingPoster()
-//}
-
-
-class NewAndHotTableViewCell: UITableViewCell {
+class NewHotTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
@@ -22,11 +17,39 @@ class NewAndHotTableViewCell: UITableViewCell {
         applyConstraints()
     }
     
+    func configure(with entertainment: Media) {
+        Task {
+            do {
+                let id = entertainment.id
+                let mediaType = entertainment.mediaType
+                
+                // images
+                let images = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
+                let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
+                let logoAspectRatio = UIHelper.getLogoDetailsFrom(images)?.1
+                let backdropPath = UIHelper.getBackdropPathFrom(images)
+                configureCellImages(with: MovieViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
+                
+                // details
+                if mediaType == nil || mediaType == "movie" {
+                    let detail: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "movie")
+                    let detailCategory = detail.separateGenres(with: " • ")
+                    configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType ,releaseDate: detail.releaseDate))
+                } else {
+                    let detail: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "tv")
+                    let detailCategory = detail.separateGenres(with: " • ")
+                    configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType))
+                }
+            } catch { print("Error getting images:", error.localizedDescription) }
+            
+        }
+         
+    }
+    
     
     //MARK: - Configure Cell
     func configureCellImages(with entertainment: MovieViewModel){
-        backdropImageView.downloadImageFrom(entertainment.backdropsPath ?? "noPath") 
-//        {self.delegate.finishLoadingPoster()}
+        backdropImageView.downloadImageFrom(entertainment.backdropsPath ?? "noPath")
         logoView.downloadImageFrom(entertainment.logoPath ?? "noPath")
         if let logoAspectRatio = entertainment.logoAspectRatio {
             updateLogoWidthBy(logoAspectRatio > 4 ? 4 : logoAspectRatio)
@@ -212,8 +235,6 @@ class NewAndHotTableViewCell: UITableViewCell {
     
     var trendingSelected = true
     static let identifier = "NewAndHotTableViewCell"
-    
-//    weak var delegate: NewAndHotTableViewCellDelegate!
     
     
     required init?(coder: NSCoder) {fatalError()}

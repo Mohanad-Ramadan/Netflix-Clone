@@ -9,7 +9,7 @@ import Foundation
 
 extension NewHotVC {
     
-    func setDataSource(for cell: NewAndHotTableViewCell ,from entertainment: Media) {
+    func setDataSource(for cell: NewHotTableViewCell ,from entertainment: Media) {
         
         Task {
             do {

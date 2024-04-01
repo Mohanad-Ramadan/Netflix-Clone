@@ -22,11 +22,11 @@ class NewHotVC: UIViewController {
     }
     
     private func configureView(){
-        view.addSubview(newAndHotTable)
+        view.addSubview(comingSoonTable)
         view.addSubview(categoryButtonsBar)
         
-        newAndHotTable.delegate = self
-        newAndHotTable.dataSource = self
+        comingSoonTable.delegate = self
+        comingSoonTable.dataSource = self
         applyConstriants()
     }
     
@@ -53,17 +53,17 @@ class NewHotVC: UIViewController {
             categoryButtonsBar.widthAnchor.constraint(equalToConstant: view.bounds.width),
             categoryButtonsBar.heightAnchor.constraint(equalToConstant: 70),
             
-            newAndHotTable.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
-            newAndHotTable.leftAnchor.constraint(equalTo: view.leftAnchor),
-            newAndHotTable.rightAnchor.constraint(equalTo: view.rightAnchor),
-            newAndHotTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            comingSoonTable.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
+            comingSoonTable.leftAnchor.constraint(equalTo: view.leftAnchor),
+            comingSoonTable.rightAnchor.constraint(equalTo: view.rightAnchor),
+            comingSoonTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
     
     //MARK: - Declare UIElements
-    var newAndHotTable: UITableView = {
+    var comingSoonTable: UITableView = {
         let table = UITableView()
-        table.register(NewAndHotTableViewCell.self, forCellReuseIdentifier: NewAndHotTableViewCell.identifier)
+        table.register(NewHotTableViewCell.self, forCellReuseIdentifier: NewHotTableViewCell.identifier)
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +71,7 @@ class NewHotVC: UIViewController {
     }()
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
-    var entertainments: [Media] = [Media]()
+    var media: [Media] = [Media]()
     
     var isTheTappedMediaTrend: Bool?
 }

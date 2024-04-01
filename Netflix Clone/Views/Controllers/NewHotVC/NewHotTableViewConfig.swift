@@ -25,7 +25,7 @@ extension NewHotVC {
             self.fetchData()
             
             // Scroll to top again
-            self.newAndHotTable.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
+            self.comingSoonTable.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
         }
     }
     
@@ -36,9 +36,9 @@ extension NewHotVC {
         case ButtonTapped.comingSoon.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
-                    self.entertainments = entertainments
-                    newAndHotTable.reloadData()
+                    let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
+                    self.media = media
+                    comingSoonTable.reloadData()
                 } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                     print(error)
@@ -53,9 +53,9 @@ extension NewHotVC {
         case ButtonTapped.everyoneWatching.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.allTrending)
-                    self.entertainments = entertainments
-                    newAndHotTable.reloadData()
+                    let media = try await NetworkManager.shared.getDataOf(.allTrending)
+                    self.media = media
+                    comingSoonTable.reloadData()
                 } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                     print(error)
@@ -70,9 +70,9 @@ extension NewHotVC {
         case ButtonTapped.toptenTv.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
-                    self.entertainments = entertainments
-                    newAndHotTable.reloadData()
+                    let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
+                    self.media = media
+                    comingSoonTable.reloadData()
                 } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                     print(error)
@@ -87,9 +87,9 @@ extension NewHotVC {
         default:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
-                    self.entertainments = entertainments
-                    newAndHotTable.reloadData()
+                    let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
+                    self.media = media
+                    comingSoonTable.reloadData()
                 } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                     print(error)
