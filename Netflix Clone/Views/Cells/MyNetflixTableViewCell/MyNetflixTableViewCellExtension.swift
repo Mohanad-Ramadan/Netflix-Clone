@@ -15,26 +15,26 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else {return UICollectionViewCell()}
         
-        let poster = entertainments[indexPath.row].posterPath ?? ""
+        let poster = media[indexPath.row].posterPath ?? ""
         cell.configureCell(with: poster)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return entertainments.count
+        return media.count
     }
     
     
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        collectionView.deselectItem(at: indexPath, animated: true)
 //        
-//        let entertainment = entertainments[indexPath.row]
+//        let entertainment = media[indexPath.row]
 //        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
 //        
 //        NetworkManager.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
 //            switch result {
 //            case .success(let videoElement):
-//                let entertainment = self?.entertainments[indexPath.row]
+//                let entertainment = self?.media[indexPath.row]
 //                guard let movieOverview = entertainment?.overview else {
 //                    return
 //                }

@@ -10,7 +10,7 @@ import UIKit
 
 extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return entertainments.count
+        return media.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -19,7 +19,7 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let poster = entertainments[indexPath.row].posterPath ?? ""
+        let poster = media[indexPath.row].posterPath ?? ""
         cell.configureCell(with: poster)
         
         return cell
@@ -33,14 +33,14 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
         switch editingStyle {
         case .delete:
             
-            DataPersistenceManager.shared.deleteMedias(model: entertainments[indexPath.row]) { [weak self] results in
+            DataPersistenceManager.shared.deleteMedias(model: media[indexPath.row]) { [weak self] results in
                 switch results {
                 case .success():
                     print("deleted")
                 case .failure(let failure):
                     print(failure.localizedDescription)
                 }
-                self?.entertainments.remove(at: indexPath.row)
+                self?.media.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
             
@@ -52,7 +52,7 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        collectionView.deselectItem(at: indexPath, animated: true)
 //        
-//        let entertainment = entertainments[indexPath.row]
+//        let entertainment = media[indexPath.row]
 //        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
 //        
 //        NetworkManager.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in

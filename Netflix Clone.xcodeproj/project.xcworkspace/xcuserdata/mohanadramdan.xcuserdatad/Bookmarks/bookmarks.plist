@@ -34,12 +34,12 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>d!
+				<string>
 </string>
 				<key>leading</key>
 				<string>        collectionView.deselectItem(at: indexPath, animated: true)
-        let media = entertainments[indexPath.row]
-//        let isTrend = self.isTheTappedEntertainmentTren</string>
+        let media = media[indexPath.row]
+//        let isTrend = self.isTheTappedMediaTrend!</string>
 				<key>trailing</key>
 				<string>        let trendRank = indexPath.row+1
         

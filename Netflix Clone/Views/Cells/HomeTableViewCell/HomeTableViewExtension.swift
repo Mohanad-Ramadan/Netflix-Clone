@@ -15,19 +15,19 @@ extension HomeTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else {return UICollectionViewCell()}
         
-        let poster = entertainments[indexPath.row].posterPath ?? ""
+        let poster = media[indexPath.row].posterPath ?? ""
         cell.configureCell(with: poster)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return entertainments.count
+        return media.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let media = entertainments[indexPath.row]
+        let media = media[indexPath.row]
 //        let isTrend = self.isTheTappedMediaTrend!
         let trendRank = indexPath.row+1
         

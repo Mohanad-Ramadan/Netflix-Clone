@@ -19,8 +19,8 @@ extension HomeVC {
         case Sections.PopularTV.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.popularTV)
-                    cell.configureCollection(with: entertainments)
+                    let media = try await NetworkManager.shared.getDataOf(.popularTV)
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
                     print(error)
@@ -33,8 +33,8 @@ extension HomeVC {
         case Sections.WeekTrendingTV.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
-                    cell.configureCollection(with: entertainments)
+                    let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
                     print(error)
@@ -47,8 +47,8 @@ extension HomeVC {
         case Sections.PopularMovies.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.popularMovies)
-                    cell.configureCollection(with: entertainments)
+                    let media = try await NetworkManager.shared.getDataOf(.popularMovies)
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
                     print(error)
@@ -61,8 +61,8 @@ extension HomeVC {
         case Sections.WeekTrendingMovies.rawValue:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
-                    cell.configureCollection(with: entertainments)
+                    let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
                     print(error)
@@ -75,8 +75,8 @@ extension HomeVC {
         default:
             Task{
                 do {
-                    let entertainments = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
-                    cell.configureCollection(with: entertainments)
+                    let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
                     print(error)

@@ -57,8 +57,8 @@ class DataPersistenceManager {
         request = MediaItems.fetchRequest()
         
         do {
-            let entertainments = try context.fetch(request)
-            completion(.success(entertainments))
+            let media = try context.fetch(request)
+            completion(.success(media))
         }catch {
             completion(.failure(DataBaseError.faliedTofetchData))
         }

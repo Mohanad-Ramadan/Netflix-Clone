@@ -19,7 +19,7 @@ class MyNetflixTableViewCell: UITableViewCell {
     
     weak var delegate: MyNetflixTableViewCellDelegate?
     
-    var entertainments: [MediaItems] = [MediaItems]()
+    var media: [MediaItems] = [MediaItems]()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -37,8 +37,8 @@ class MyNetflixTableViewCell: UITableViewCell {
     }
     
     
-    public func configureCollection(with entertainments: [MediaItems]){
-        self.entertainments = entertainments
+    public func configureCollection(with media: [MediaItems]){
+        self.media = media
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }

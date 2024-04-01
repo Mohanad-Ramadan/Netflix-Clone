@@ -24,7 +24,7 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         cell.delegate = self
-        cell.configureCollection(with: entertainments)
+        cell.configureCollection(with: media)
         
         return cell
     }

@@ -30,15 +30,15 @@ class HomeTableViewCell: UITableViewCell {
     }
     
     
-    func configureCollection(with entertainments: [Media]){
-        self.entertainments = entertainments
+    func configureCollection(with media: [Media]){
+        self.media = media
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
     }
     
     func downloadMediaAt(_ indexpath: IndexPath ) {
-        DataPersistenceManager.shared.downloadMediaWith(model: entertainments[indexpath.row]) { results in
+        DataPersistenceManager.shared.downloadMediaWith(model: media[indexpath.row]) { results in
             switch results {
             case .success():
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
@@ -52,7 +52,7 @@ class HomeTableViewCell: UITableViewCell {
     
     weak var delegate: HomeTableViewCellDelegate?
     
-    var entertainments: [Media] = [Media]()
+    var media: [Media] = [Media]()
     
     private let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()

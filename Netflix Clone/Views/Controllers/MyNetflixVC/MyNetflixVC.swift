@@ -51,8 +51,8 @@ class MyNetflixVC: UIViewController {
         // Calling API request method
         DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
             switch results {
-            case .success(let entertainments):
-                self?.entertainments = entertainments
+            case .success(let media):
+                self?.media = media
                 self?.downloadTable.reloadData()
             case .failure(let failure):
                 print(failure.localizedDescription)
@@ -115,7 +115,7 @@ class MyNetflixVC: UIViewController {
         return table
     }()
     
-    var entertainments: [MediaItems] = [MediaItems]()
+    var media: [MediaItems] = [MediaItems]()
     
 
 }

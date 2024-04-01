@@ -74,9 +74,9 @@ class SearchVC: UIViewController {
     func fetchMediaAtFirstAppearnce() {
         Task{
             do {
-                let entertainments = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
-                self.entertainments = entertainments
-                updateSearchTable(with: entertainments)
+                let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
+                self.media = media
+                updateSearchTable(with: media)
             } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                 print(error)
@@ -103,12 +103,12 @@ class SearchVC: UIViewController {
         }
     }
     
-    func updateSearchTable(with entertainments: [Media]) {
+    func updateSearchTable(with media: [Media]) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, Media>()
         snapShot.appendSections([.main])
         
-        if entertainments == self.entertainments {
-            snapShot.appendItems(entertainments)
+        if media == self.media {
+            snapShot.appendItems(media)
             dataSource.apply(snapShot, animatingDifferences: false)
         } else {
             snapShot.appendItems(searchedMedias)
@@ -128,7 +128,7 @@ class SearchVC: UIViewController {
     
     var dataSource: UITableViewDiffableDataSource<Section, Media>!
     
-    var entertainments = [Media]()
+    var media = [Media]()
     var searchedMedias = [Media]()
     var isStillSearching = false
     
@@ -146,7 +146,7 @@ class SearchVC: UIViewController {
 extension SearchVC: UITableViewDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            updateSearchTable(with: entertainments)
+            updateSearchTable(with: media)
             isStillSearching = false
             return
         }
