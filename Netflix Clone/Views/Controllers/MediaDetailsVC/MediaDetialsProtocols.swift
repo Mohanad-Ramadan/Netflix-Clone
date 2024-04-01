@@ -1,5 +1,5 @@
 //
-//  MediaDetialsDelegateExtensions.swift
+//  MediaDetialsProtocols.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 23/01/2024.

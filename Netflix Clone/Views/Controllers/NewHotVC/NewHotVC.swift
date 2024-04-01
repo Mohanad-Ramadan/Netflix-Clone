@@ -38,6 +38,8 @@ class NewHotVC: UIViewController {
         navigationItem.backButtonDisplayMode = .minimal
         navigationController?.navigationBar.tintColor = .label
         navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}
@@ -46,7 +48,7 @@ class NewHotVC: UIViewController {
     private func applyConstriants() {
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            categoryButtonsBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            categoryButtonsBar.topAnchor.constraint(equalTo: view.topAnchor),
             categoryButtonsBar.leftAnchor.constraint(equalTo: view.leftAnchor),
             categoryButtonsBar.widthAnchor.constraint(equalToConstant: view.bounds.width),
             categoryButtonsBar.heightAnchor.constraint(equalToConstant: 70),

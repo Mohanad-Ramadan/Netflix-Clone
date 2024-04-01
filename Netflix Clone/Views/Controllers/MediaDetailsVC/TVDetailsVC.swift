@@ -37,8 +37,8 @@ class TVDetailsVC: MediaDetailsVC {
                 updateEpisodesTable()
                 
                 // get trailers
-                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
-                configureTrailer(with: MovieViewModel(title: details.name ,videosResult: trailers))
+//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
+//                configureTrailer(with: MovieViewModel(title: details.name ,videosResult: trailers))
                 
             } catch {
                 print(error.localizedDescription)
