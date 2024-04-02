@@ -9,12 +9,12 @@ import Foundation
 
 extension NewHotVC {
     
-    func setDataSource(for cell: NewHotTableViewCell ,from entertainment: Media) {
+    func setDataSource(for cell: NewHotTableViewCell ,from media: Media) {
         
         Task {
             do {
-                let id = entertainment.id
-                let mediaType = entertainment.mediaType
+                let id = media.id
+                let mediaType = media.mediaType
                 
                 // images
                 let images = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
@@ -27,11 +27,11 @@ extension NewHotVC {
                 if mediaType == nil || mediaType == "movie" {
                     let detail: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "movie")
                     let detailCategory = detail.separateGenres(with: " • ")
-                    cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType ,releaseDate: detail.releaseDate))
+                    cell.configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: media.mediaType ,releaseDate: detail.releaseDate))
                 } else {
                     let detail: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "tv")
                     let detailCategory = detail.separateGenres(with: " • ")
-                    cell.configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType))
+                    cell.configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: media.mediaType))
                 }
             } catch { print("Error getting images:", error.localizedDescription) }
             

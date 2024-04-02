@@ -46,18 +46,18 @@ class SearchVC: UIViewController {
     }
     
     func configureTableDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, Media>(tableView: searchTable) { tableView, indexPath, entertainment -> UITableViewCell? in
+        dataSource = UITableViewDiffableDataSource<Section, Media>(tableView: searchTable) { tableView, indexPath, media -> UITableViewCell? in
             let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell
-            configure(cell: cell, with: entertainment)
+            configure(cell: cell, with: media)
             return cell
         }
         
-        func configure(cell: SimpleTableViewCell? ,with entertainment: Media){
+        func configure(cell: SimpleTableViewCell? ,with media: Media){
             Task {
                 do {
-                    let mediaType = entertainment.mediaType ?? "movie"
-                    let id = entertainment.id
-                    let title = entertainment.title ?? entertainment.originalName
+                    let mediaType = media.mediaType ?? "movie"
+                    let id = media.id
+                    let title = media.title ?? media.originalName
                     
                     let images = try await NetworkManager.shared.getImagesFor(mediaId: id ,ofType: mediaType)
                     let backdropPath = UIHelper.getBackdropPathFrom(images)

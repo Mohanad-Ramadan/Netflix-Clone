@@ -21,10 +21,10 @@ class TrailersTableViewCell: UITableViewCell {
         applyConstraints()
     }
 
-    public func configureCell(with videoInfo: Trailer.Reuslts, and entertainmentName: String){
+    public func configureCell(with videoInfo: Trailer.Reuslts, and mediaName: String){
         let videoName = videoInfo.name
         let videoType = videoInfo.type
-        let trailerQuery = "\(entertainmentName) \(videoName) \(videoType)"
+        let trailerQuery = "\(mediaName) \(videoName) \(videoType)"
         let trailerTitle = "\(videoType): \(videoName)"
         
         // Configure the trailer title

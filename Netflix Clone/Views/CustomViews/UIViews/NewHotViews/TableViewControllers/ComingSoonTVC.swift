@@ -44,8 +44,8 @@ class ComingSoonTVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NewHotTableViewCell.identifier, for: indexPath) as? NewHotTableViewCell else {return UITableViewCell()}
-        let entertainment = media[indexPath.row]
-        cell.configure(with: entertainment)
+        let media = media[indexPath.row]
+        cell.configure(with: media)
         return cell
     }
     

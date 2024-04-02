@@ -27,15 +27,15 @@ extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        collectionView.deselectItem(at: indexPath, animated: true)
 //        
-//        let entertainment = moreMedias[indexPath.row]
-//        guard let entertainmentName = entertainment.title ?? entertainment.originalName else {return}
+//        let media = moreMedias[indexPath.row]
+//        guard let mediaName = media.title ?? media.originalName else {return}
 //        
-//        NetworkManager.shared.getYoutubeTrailer(query: entertainmentName + " trailer") { [weak self] result in
+//        NetworkManager.shared.getYoutubeTrailer(query: mediaName + " trailer") { [weak self] result in
 //            switch result {
 //            case .success(let videoElement):
 //                DispatchQueue.main.async { [weak self] in
 //                    let vc = MediaDetailsVC()
-//                    let viewModel = MovieInfoViewModel(title: entertainmentName, youtubeVideo: videoElement, titleOverview: entertainment.overview ?? "Unknown")
+//                    let viewModel = MovieInfoViewModel(title: mediaName, youtubeVideo: videoElement, titleOverview: media.overview ?? "Unknown")
 //                    
 //                    vc.configureMovieInfo(with: viewModel )
 //                    vc.hidesBottomBarWhenPushed = true

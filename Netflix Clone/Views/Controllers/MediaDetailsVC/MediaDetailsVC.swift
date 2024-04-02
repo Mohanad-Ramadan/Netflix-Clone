@@ -20,10 +20,10 @@ class MediaDetailsVC: UIViewController {
         view.backgroundColor = .black
         navigationController?.navigationBar.isHidden = true
         
-        view.addSubview(entertainmentTrailer)
+        view.addSubview(mediaTrailer)
         view.addSubview(containterScrollView)
         
-        [netflixLogo, categoryLabel, entertainmentTitle, detailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
+        [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
@@ -40,7 +40,7 @@ class MediaDetailsVC: UIViewController {
     }
     
     func configureDetails(with model: MovieViewModel, isTrend: Bool = false, rank: Int = 0){
-        entertainmentTitle.text = model.title
+        mediaTitle.text = model.title
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
         
@@ -49,7 +49,7 @@ class MediaDetailsVC: UIViewController {
         detailsLabel.dateLabel.text = model.releaseDate?.extract().year
         detailsLabel.runtimeLabel.text = model.runtime?.formatTimeFromMinutes()
         
-        // If entertainment is trending
+        // If media is trending
         setupTop10Logo(isTrend: isTrend)
         
         if isTrend == true {
@@ -58,7 +58,7 @@ class MediaDetailsVC: UIViewController {
             top10DetailsLabel.text = "#\(rank) in \(mediaCategory) Today"
         }
         
-        // fetch more entertainment with generes and mediatype
+        // fetch more media with generes and mediatype
         var genresId: String? {
             let genres = model.genres?.prefix(2) ?? model.genres?.prefix(1)
             let genreId = genres?.map{String($0.id)}
@@ -90,9 +90,9 @@ class MediaDetailsVC: UIViewController {
     //MARK: - Trailer Configuration
     func configureTrailer(with model: MovieViewModel){
         guard let videosResult = model.videosResult else {return}
-        guard let entertainmentName = model.title else {return}
+        guard let mediaName = model.title else {return}
         
-        let trialerVideoQuery = "\(entertainmentName) \(getFirstTrailerName(from: videosResult))"
+        let trialerVideoQuery = "\(mediaName) \(getFirstTrailerName(from: videosResult))"
         
         Task {
             do {
@@ -100,7 +100,7 @@ class MediaDetailsVC: UIViewController {
                 guard let url = URL(string: "https://www.youtube.com/embed/\(trailerId)") else {
                     fatalError("can't get the youtube trailer url")
                 }
-                self.entertainmentTrailer.load(URLRequest(url: url))
+                self.mediaTrailer.load(URLRequest(url: url))
             } catch { print(error.localizedDescription) }
         }
     }
@@ -116,17 +116,17 @@ class MediaDetailsVC: UIViewController {
     
     // Trailer Video
     private func trailerVideoConstraints() {
-        entertainmentTrailer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        entertainmentTrailer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        entertainmentTrailer.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        entertainmentTrailer.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        mediaTrailer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        mediaTrailer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        mediaTrailer.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        mediaTrailer.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     // ScrollView Constraints
     private func scrollViewConstriants() {
-        containterScrollView.topAnchor.constraint(equalTo: entertainmentTrailer.bottomAnchor, constant: 10).isActive = true
-        containterScrollView.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        containterScrollView.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        containterScrollView.topAnchor.constraint(equalTo: mediaTrailer.bottomAnchor, constant: 10).isActive = true
+        containterScrollView.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        containterScrollView.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
         containterScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
@@ -135,29 +135,29 @@ class MediaDetailsVC: UIViewController {
     // Netflixlogo + CategoryLabel Constraints
     private func neflixlogoAndGenresLabelConstriants() {
         netflixLogo.topAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.topAnchor).isActive = true
-        netflixLogo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
+        netflixLogo.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor).isActive = true
         netflixLogo.heightAnchor.constraint(equalToConstant: 20).isActive = true
         netflixLogo.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
         categoryLabel.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
         categoryLabel.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor).isActive = true
-        categoryLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        categoryLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // Title Constraints
-    private func entertainmentTitleConstriants() {
-        entertainmentTitle.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor).isActive = true
-        entertainmentTitle.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        entertainmentTitle.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+    private func mediaTitleConstriants() {
+        mediaTitle.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor).isActive = true
+        mediaTitle.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        mediaTitle.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // Details Label Constraints
     private func detailsLabelConstriants() {
         detailsLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailsLabel.topAnchor.constraint(equalTo: entertainmentTitle.bottomAnchor).isActive = true
-        detailsLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
+        detailsLabel.topAnchor.constraint(equalTo: mediaTitle.bottomAnchor).isActive = true
+        detailsLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
         detailsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        detailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        detailsLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // View based on Category Constriants
@@ -170,13 +170,13 @@ class MediaDetailsVC: UIViewController {
             view.sendSubviewToBack(top10Logo)
             
             top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
-            top10Logo.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor).isActive = true
+            top10Logo.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor).isActive = true
             top10Logo.heightAnchor.constraint(equalToConstant: 35).isActive = true
             top10Logo.widthAnchor.constraint(equalToConstant: 35).isActive = true
             
             top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor).isActive = true
             top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor).isActive = true
-            top10DetailsLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+            top10DetailsLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
             
             playButton.removeConstraint(playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5))
             playButton.topAnchor.constraint(equalTo: top10Logo.bottomAnchor, constant: 5).isActive = true
@@ -190,21 +190,21 @@ class MediaDetailsVC: UIViewController {
     // Details Label Constraints
     private func playButtonConstriants() {
         playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
-        playButton.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        playButton.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        playButton.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        playButton.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // OverView Label Constraints
     private func overViewLabelConstriants() {
         overViewLabel.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 15).isActive = true
-        overViewLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        overViewLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        overViewLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        overViewLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // Cast Label Constraints
     private func castLabelConstriants() {
         castLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
-        castLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
+        castLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
         castLabel.widthAnchor.constraint(equalTo: castLabel.widthAnchor).isActive = true
     }
     
@@ -213,23 +213,23 @@ class MediaDetailsVC: UIViewController {
         expandCastButton.configuration?.contentInsets = .init(top: 0, leading: 2, bottom: 1, trailing: 0)
         expandCastButton.centerYAnchor.constraint(equalTo: castLabel.centerYAnchor).isActive = true
         expandCastButton.leadingAnchor.constraint(equalTo: castLabel.trailingAnchor).isActive = true
-        expandCastButton.trailingAnchor.constraint(lessThanOrEqualTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        expandCastButton.trailingAnchor.constraint(lessThanOrEqualTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
 
     
     // Director Label Constriatns
     private func directorLabelConstriants() {
         directorLabel.topAnchor.constraint(equalTo: castLabel.bottomAnchor, constant: 5).isActive = true
-        directorLabel.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        directorLabel.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        directorLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        directorLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
     
     // Three Buttons Constraints
     private func threeButtonsConstriants() {
         threeButtons.translatesAutoresizingMaskIntoConstraints = false
         threeButtons.topAnchor.constraint(equalTo: directorLabel.bottomAnchor, constant: 5).isActive = true
-        threeButtons.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5).isActive = true
-        threeButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        threeButtons.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        threeButtons.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
         threeButtons.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 
@@ -241,7 +241,7 @@ class MediaDetailsVC: UIViewController {
         trailerVideoConstraints()
         scrollViewConstriants()
         neflixlogoAndGenresLabelConstriants()
-        entertainmentTitleConstriants()
+        mediaTitleConstriants()
         detailsLabelConstriants()
         playButtonConstriants()
         overViewLabelConstriants()
@@ -255,7 +255,7 @@ class MediaDetailsVC: UIViewController {
     
     //MARK: - Declare Main Views
 
-    let entertainmentTrailer: WKWebView = {
+    let mediaTrailer: WKWebView = {
         let webView = WKWebView()
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.clipsToBounds = true
@@ -280,7 +280,7 @@ class MediaDetailsVC: UIViewController {
     
     let categoryLabel = NFBodyLabel(color: .lightGray, fontSize: 10, fontWeight: .semibold)
     
-    let entertainmentTitle = NFBodyLabel(color: .white, fontSize: 21, fontWeight: .bold, lines: 0)
+    let mediaTitle = NFBodyLabel(color: .white, fontSize: 21, fontWeight: .bold, lines: 0)
     
     let detailsLabel = DetailsLabelUIView()
     

@@ -79,14 +79,14 @@ class TVDetailsVC: MediaDetailsVC {
         switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
         switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
         switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        switchViewButtons.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5).isActive = true
+        switchViewButtons.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
         switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
     private func moreIdeasCollectionConstriants() -> [NSLayoutConstraint] {
         [moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-         moreIdeasCollection.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-         moreIdeasCollection.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
+         moreIdeasCollection.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5),
+         moreIdeasCollection.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5),
          moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
          moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)
         ]
@@ -95,8 +95,8 @@ class TVDetailsVC: MediaDetailsVC {
     private func episodesContainerConstriants() -> [NSLayoutConstraint] {
         [
             episodesContainerView.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-            episodesContainerView.leadingAnchor.constraint(equalTo: entertainmentTrailer.leadingAnchor, constant: 5),
-            episodesContainerView.trailingAnchor.constraint(equalTo: entertainmentTrailer.trailingAnchor, constant: -5),
+            episodesContainerView.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5),
+            episodesContainerView.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5),
             episodesContainerView.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor),
             
             episodesHeaderView.topAnchor.constraint(equalTo: episodesContainerView.topAnchor),

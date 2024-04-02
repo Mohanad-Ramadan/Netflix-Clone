@@ -17,11 +17,11 @@ class NewHotTableViewCell: UITableViewCell {
         applyConstraints()
     }
     
-    func configure(with entertainment: Media) {
+    func configure(with media: Media) {
         Task {
             do {
-                let id = entertainment.id
-                let mediaType = entertainment.mediaType
+                let id = media.id
+                let mediaType = media.mediaType
                 
                 // images
                 let images = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
@@ -34,11 +34,11 @@ class NewHotTableViewCell: UITableViewCell {
                 if mediaType == nil || mediaType == "movie" {
                     let detail: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "movie")
                     let detailCategory = detail.separateGenres(with: " • ")
-                    configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType ,releaseDate: detail.releaseDate))
+                    configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: media.mediaType ,releaseDate: detail.releaseDate))
                 } else {
                     let detail: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "tv")
                     let detailCategory = detail.separateGenres(with: " • ")
-                    configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: entertainment.mediaType))
+                    configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: media.mediaType))
                 }
             } catch { print("Error getting images:", error.localizedDescription) }
             
@@ -48,23 +48,23 @@ class NewHotTableViewCell: UITableViewCell {
     
     
     //MARK: - Configure Cell
-    func configureCellImages(with entertainment: MovieViewModel){
-        backdropImageView.downloadImageFrom(entertainment.backdropsPath ?? "noPath")
-        logoView.downloadImageFrom(entertainment.logoPath ?? "noPath")
-        if let logoAspectRatio = entertainment.logoAspectRatio {
+    func configureCellImages(with media: MovieViewModel){
+        backdropImageView.downloadImageFrom(media.backdropsPath ?? "noPath")
+        logoView.downloadImageFrom(media.logoPath ?? "noPath")
+        if let logoAspectRatio = media.logoAspectRatio {
             updateLogoWidthBy(logoAspectRatio > 4 ? 4 : logoAspectRatio)
         }
     }
     
-    func configureCellDetails(with entertainment: MovieViewModel){
-        titleLabel.text = entertainment.title
-        entertainmetType.text = entertainment.mediaType == "tv" ? "S E R I E S" : "F I L M"
-        overViewLabel.text = entertainment.overview
-        genresLabel.text = entertainment.category
+    func configureCellDetails(with media: MovieViewModel){
+        titleLabel.text = media.title
+        entertainmetType.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
+        overViewLabel.text = media.overview
+        genresLabel.text = media.category
         
-        if let date = entertainment.releaseDate {
+        if let date = media.releaseDate {
             let dayMonthDate = date.extract().dayMonth
-            entertainmentDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
+            mediaDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
             dayLabel.text = date.extract().day
             monthlable.text = date.extract().month
         }
@@ -123,10 +123,10 @@ class NewHotTableViewCell: UITableViewCell {
     
     //Date Label
     private func setupDateLabelConstraints() {
-        entertainmentDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
-        entertainmentDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
-        entertainmentDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        entertainmentDate.widthAnchor.constraint(equalTo: entertainmentDate.widthAnchor).isActive = true
+        mediaDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+        mediaDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
+        mediaDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        mediaDate.widthAnchor.constraint(equalTo: mediaDate.widthAnchor).isActive = true
     }
     
     //Type and Logo constraints
@@ -138,7 +138,7 @@ class NewHotTableViewCell: UITableViewCell {
             netflixLogo.widthAnchor.constraint(equalToConstant: 8).isActive = true
         } else {
             netflixLogo.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
-            netflixLogo.topAnchor.constraint(equalTo: entertainmentDate.bottomAnchor, constant: 5).isActive = true
+            netflixLogo.topAnchor.constraint(equalTo: mediaDate.bottomAnchor, constant: 5).isActive = true
             netflixLogo.heightAnchor.constraint(equalToConstant: 15).isActive = true
             netflixLogo.widthAnchor.constraint(equalToConstant: 8).isActive = true
         }
@@ -193,7 +193,7 @@ class NewHotTableViewCell: UITableViewCell {
         } else {
             addSubview(monthlable)
             addSubview(dayLabel)
-            addSubview(entertainmentDate)
+            addSubview(mediaDate)
             setupMonthAndDayLabelConstraints()
             setupDateLabelConstraints()
             
@@ -220,7 +220,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
-    private let entertainmentDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
+    private let mediaDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
     
     private let netflixLogo = NFImageView(image: .netflixClone)
     
