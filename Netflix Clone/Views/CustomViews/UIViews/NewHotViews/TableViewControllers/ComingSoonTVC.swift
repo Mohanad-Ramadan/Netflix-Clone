@@ -17,6 +17,7 @@ class ComingSoonTVC: UITableViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         
+        
         fetchComingSoonMedia()
     }
     

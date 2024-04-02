@@ -27,6 +27,7 @@ class TopMoviesTVC: UITableViewController {
                 let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
                 self.media = media
                 tableView.reloadData()
+                print("movie")
             } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                 print(error)

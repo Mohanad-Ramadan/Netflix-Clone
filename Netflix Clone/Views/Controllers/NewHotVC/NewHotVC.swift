@@ -10,29 +10,21 @@ import UIKit
 class NewHotVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavbar()
         view.backgroundColor = .black
-        
-        configureMainViews()
-        configureHorizontalView()
+        configureNavbar()
+        configureViews()
         handleUIAndDataFetching()
         applyConstriants()
     }
     
     //MARK: - Configure UIElements
-    private func configureMainViews(){
+    private func configureViews(){
         view.addSubview(categoryButtonsBar)
         view.addSubview(scrollView)
-    }
-    
-    private func configureHorizontalView(){
-        
-        [comingSoonTable/*, everybodyTable, topTVShowsTable, topMoviesTable*/].forEach{
+        scrollView.addSubview(tablesStackView)
+        [comingSoonTable, everybodyTable, topTVShowsTable, topMoviesTable].forEach{
             add(childTVC: $0, to: tablesStackView)
         }
-        scrollView.addSubview(tablesStackView)
-        
-        
     }
     
     private func add(childTVC: UITableViewController, to containerView: UIStackView) {
@@ -84,11 +76,10 @@ class NewHotVC: UIViewController {
     }
     
     //MARK: - Declare UIElements
-    let scrollView: UIScrollView = {
+    lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
-//        scrollView.isPagingEnabled = true
-        scrollView.backgroundColor = .midnightBlue
+        scrollView.isPagingEnabled = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -96,21 +87,18 @@ class NewHotVC: UIViewController {
     let tablesStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
-//        view.distribution = .fillEqually
-        view.spacing = 20
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
+    
     let comingSoonTable: UITableViewController = ComingSoonTVC()
+    
     let everybodyTable: UITableViewController = EverybodyTVC()
+    
     let topMoviesTable: UITableViewController = TopMoviesTVC()
+    
     let topTVShowsTable: UITableViewController = TopTVShowsTVC()
-    
-    
-    var media: [Media] = [Media]()
-    
-    var isTheTappedMediaTrend: Bool?
 }
 

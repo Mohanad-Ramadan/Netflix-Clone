@@ -27,6 +27,7 @@ class EverybodyTVC: UITableViewController {
                 let media = try await NetworkManager.shared.getDataOf(.allTrending)
                 self.media = media
                 tableView.reloadData()
+                print("every")
             } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                 print(error)
