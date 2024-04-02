@@ -10,24 +10,36 @@ import UIKit
 class NewHotVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureVC()
-        configureView()
+        configureNavbar()
+        view.backgroundColor = .black
+        
+        configureMainViews()
+        configureHorizontalView()
         handleUIAndDataFetching()
+        applyConstriants()
     }
     
     //MARK: - Configure UIElements
-    private func configureVC(){
-        configureNavbar()
-        view.backgroundColor = .black
+    private func configureMainViews(){
+        view.addSubview(categoryButtonsBar)
+        view.addSubview(scrollView)
     }
     
-    private func configureView(){
-        view.addSubview(comingSoonTable)
-        view.addSubview(categoryButtonsBar)
+    private func configureHorizontalView(){
         
-        comingSoonTable.delegate = self
-        comingSoonTable.dataSource = self
-        applyConstriants()
+        [comingSoonTable/*, everybodyTable, topTVShowsTable, topMoviesTable*/].forEach{
+            add(childTVC: $0, to: tablesStackView)
+        }
+        scrollView.addSubview(tablesStackView)
+        
+        
+    }
+    
+    private func add(childTVC: UITableViewController, to containerView: UIStackView) {
+        addChild(childTVC)
+        childTVC.view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
+        containerView.addArrangedSubview(childTVC.view)
+        childTVC.didMove(toParent: self)
     }
     
     private func configureNavbar() {
@@ -47,30 +59,56 @@ class NewHotVC: UIViewController {
     //MARK: - Apply constraints
     private func applyConstriants() {
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             categoryButtonsBar.topAnchor.constraint(equalTo: view.topAnchor),
             categoryButtonsBar.leftAnchor.constraint(equalTo: view.leftAnchor),
             categoryButtonsBar.widthAnchor.constraint(equalToConstant: view.bounds.width),
             categoryButtonsBar.heightAnchor.constraint(equalToConstant: 70),
             
-            comingSoonTable.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
-            comingSoonTable.leftAnchor.constraint(equalTo: view.leftAnchor),
-            comingSoonTable.rightAnchor.constraint(equalTo: view.rightAnchor),
-            comingSoonTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+        
+        tablesStackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
+     
+        let scrollContentGuide = scrollView.contentLayoutGuide
+        NSLayoutConstraint.activate([
+            tablesStackView.topAnchor.constraint(equalTo: scrollContentGuide.topAnchor),
+            tablesStackView.leadingAnchor.constraint(equalTo: scrollContentGuide.leadingAnchor),
+            tablesStackView.trailingAnchor.constraint(equalTo: scrollContentGuide.trailingAnchor),
+            tablesStackView.bottomAnchor.constraint(equalTo: scrollContentGuide.bottomAnchor)
         ])
     }
     
     //MARK: - Declare UIElements
-    var comingSoonTable: UITableView = {
-        let table = UITableView()
-        table.register(NewHotTableViewCell.self, forCellReuseIdentifier: NewHotTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.showsVerticalScrollIndicator = false
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+//        scrollView.isPagingEnabled = true
+        scrollView.backgroundColor = .midnightBlue
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let tablesStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+//        view.distribution = .fillEqually
+        view.spacing = 20
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
+    let comingSoonTable: UITableViewController = ComingSoonTVC()
+    let everybodyTable: UITableViewController = EverybodyTVC()
+    let topMoviesTable: UITableViewController = TopMoviesTVC()
+    let topTVShowsTable: UITableViewController = TopTVShowsTVC()
+    
+    
     var media: [Media] = [Media]()
     
     var isTheTappedMediaTrend: Bool?
