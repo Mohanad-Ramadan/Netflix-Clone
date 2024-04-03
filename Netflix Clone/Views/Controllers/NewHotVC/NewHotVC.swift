@@ -22,9 +22,7 @@ class NewHotVC: UIViewController {
         view.addSubview(categoryButtonsBar)
         view.addSubview(scrollView)
         scrollView.addSubview(tablesStackView)
-        [comingSoonTable, everybodyTable, topTVShowsTable, topMoviesTable].forEach{
-            add(childTVC: $0, to: tablesStackView)
-        }
+        [comingSoonTable, everybodyTable, topTVShowsTable, topMoviesTable].forEach{add(childTVC: $0, to: tablesStackView)}
     }
     
     private func add(childTVC: UITableViewController, to containerView: UIStackView) {
@@ -50,13 +48,13 @@ class NewHotVC: UIViewController {
     
     //MARK: - Apply constraints
     private func applyConstriants() {
-        categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
         
+        categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            categoryButtonsBar.topAnchor.constraint(equalTo: view.topAnchor),
+            categoryButtonsBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
             categoryButtonsBar.leftAnchor.constraint(equalTo: view.leftAnchor),
             categoryButtonsBar.widthAnchor.constraint(equalToConstant: view.bounds.width),
-            categoryButtonsBar.heightAnchor.constraint(equalToConstant: 70),
+            categoryButtonsBar.heightAnchor.constraint(equalToConstant: 50),
             
             scrollView.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -64,8 +62,8 @@ class NewHotVC: UIViewController {
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
         
+        
         tablesStackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
-     
         let scrollContentGuide = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
             tablesStackView.topAnchor.constraint(equalTo: scrollContentGuide.topAnchor),
