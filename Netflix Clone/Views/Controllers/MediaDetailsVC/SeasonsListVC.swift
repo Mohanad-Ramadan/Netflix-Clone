@@ -59,9 +59,7 @@ class SeasonsListVC: UIViewController {
     }
     
     private func addButtonsTarget() {
-        for button in seasonsButtons {
-            button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        }
+        for button in seasonsButtons {button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)}
     }
     
     @objc func buttonPressed(_ sender: UIButton) {

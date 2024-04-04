@@ -8,6 +8,9 @@
 import UIKit
 
 class NewHotCategoryBarUIView: UIView {
+    
+    protocol Delegate: AnyObject {func buttonPressed(num buttonNumber: Int)}
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -36,22 +39,15 @@ class NewHotCategoryBarUIView: UIView {
     
     //MARK: - Button pressed Actions
     @objc private func buttonPressed(_ sender: UIButton) {
-        self.handleUI(sender)
-        self.handleButtonIndex(buttonPressed: sender)
+        self.handleUI(for: sender)
         
-        // Post key to Notifiy the NewAndHotVC to fetch agian
-        NotificationCenter.default.post(name: NSNotification.Name(Constants.categoryNewHotVCKey), object: nil)
-    }
-    
-    // Get selected button index
-    func handleButtonIndex(buttonPressed: UIButton) {
-        if let index = buttons.firstIndex(of: buttonPressed) {
-            selectedButtonIndex = index
-        }
+        guard let index = buttons.firstIndex(of: sender) else { return }
+        delegate.buttonPressed(num: index+1)
+        
     }
     
     // Selected button UI change
-    func handleUI(_ sender: UIButton) {
+    func handleUI(for sender: UIButton) {
         // Change colors
         for button in buttons {
             button.configuration?.baseBackgroundColor = (button == sender) ? .white : .black
@@ -137,7 +133,7 @@ class NewHotCategoryBarUIView: UIView {
     
     private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
     
-    var selectedButtonIndex = 0
+    weak var delegate: Delegate!
     
     
     required init?(coder: NSCoder) {fatalError()}

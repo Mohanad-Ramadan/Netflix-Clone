@@ -13,7 +13,6 @@ class NewHotVC: UIViewController {
         view.backgroundColor = .black
         configureNavbar()
         configureViews()
-        handleUIAndDataFetching()
         applyConstriants()
     }
     
@@ -23,6 +22,9 @@ class NewHotVC: UIViewController {
         view.addSubview(scrollView)
         scrollView.addSubview(tablesStackView)
         [comingSoonTable, everybodyTable, topTVShowsTable, topMoviesTable].forEach{add(childTVC: $0, to: tablesStackView)}
+        
+        categoryButtonsBar.delegate = self
+        categoryButtonsBar.comingSoonButtonTapped()
     }
     
     private func add(childTVC: UITableViewController, to containerView: UIStackView) {
@@ -100,3 +102,20 @@ class NewHotVC: UIViewController {
     let topTVShowsTable: UITableViewController = TopTVShowsTVC()
 }
 
+
+extension NewHotVC: NewHotCategoryBarUIView.Delegate {
+    func buttonPressed(num buttonNumber: Int) {
+        switch buttonNumber {
+        case 1:
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        case 2:
+            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: true)
+        case 3:
+            scrollView.setContentOffset(CGPoint(x: 2 * scrollView.bounds.width, y: 0), animated: true)
+        case 4:
+            scrollView.setContentOffset(CGPoint(x: 3 * scrollView.bounds.width, y: 0), animated: true)
+        default:
+            print("None of the buttons")
+        }
+    }
+}
