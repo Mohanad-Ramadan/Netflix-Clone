@@ -14,19 +14,17 @@ class NewHotVC: UIViewController {
         configureNavbar()
         configureViews()
         applyConstriants()
-        
     }
     
     //MARK: - Configure UIElements
     private func configureViews(){
-        view.addSubview(categoryButtonsBar)
-        view.addSubview(scrollView)
-        scrollView.addSubview(tablesStackView)
         [comingSoonTable, everybodyTable, topTVShowsTable, topMoviesTable].forEach{add(childTVC: $0, to: tablesStackView)}
+        scrollView.addSubview(tablesStackView)
+        view.addSubview(scrollView)
+        view.addSubview(categoryButtonsBar)
         
         categoryButtonsBar.delegate = self
         scrollView.delegate = self
-        categoryButtonsBar.comingSoonButtonTapped()
     }
     
     private func add(childTVC: UITableViewController, to containerView: UIStackView) {
@@ -46,6 +44,7 @@ class NewHotVC: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        
     }
 
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}
@@ -110,16 +109,16 @@ extension NewHotVC: NewHotCategoryBarUIView.Delegate {
     func buttonPressed(buttonIndex: Int) {
         switch buttonIndex {
         case 0:
-            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 0)
         case 1:
-            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: true)
+            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 1)
         case 2:
-            scrollView.setContentOffset(CGPoint(x: 2 * scrollView.bounds.width, y: 0), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 2 * scrollView.bounds.width, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 2)
         case 3:
-            scrollView.setContentOffset(CGPoint(x: 3 * scrollView.bounds.width, y: 0), animated: true)
+            scrollView.setContentOffset(CGPoint(x: 3 * scrollView.bounds.width, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 3)
         default:
             print("None of the buttons")

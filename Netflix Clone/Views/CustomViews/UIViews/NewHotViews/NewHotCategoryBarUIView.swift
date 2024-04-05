@@ -31,12 +31,6 @@ class NewHotCategoryBarUIView: UIView{
         toptenMoviesButton.configureButtonImageWith(UIImage(resource: .top10), width: 20, height: 20, placement: .leading, padding: 8)
     }
     
-    //MARK: - Make comingSoonButton tapped at first view load
-    @objc func comingSoonButtonTapped() {
-        comingSoonButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        comingSoonButton.sendActions(for: .touchUpInside)
-    }
-    
     //MARK: - Button pressed Actions
     @objc private func buttonPressed(_ sender: UIButton) {
         guard let index = buttons.firstIndex(of: sender) else { return }
@@ -119,7 +113,7 @@ class NewHotCategoryBarUIView: UIView{
         return view
     }()
     
-    private let comingSoonButton = NFFilledButton(title: "Coming Soon", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let comingSoonButton = NFFilledButton(title: "Coming Soon", titleColor: .black, backgroundColor: .white, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
     private let everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
     private let toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
     private let toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
