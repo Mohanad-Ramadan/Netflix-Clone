@@ -7,9 +7,9 @@
 
 import UIKit
 
-class NewHotCategoryBarUIView: UIView {
+class NewHotCategoryBarUIView: UIView{
     
-    protocol Delegate: AnyObject {func buttonPressed(num buttonNumber: Int)}
+    protocol Delegate: AnyObject {func buttonPressed(buttonIndex: Int)}
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,41 +39,35 @@ class NewHotCategoryBarUIView: UIView {
     
     //MARK: - Button pressed Actions
     @objc private func buttonPressed(_ sender: UIButton) {
-        self.handleUI(for: sender)
-        
         guard let index = buttons.firstIndex(of: sender) else { return }
-        delegate.buttonPressed(num: index+1)
-        
+        self.animateButton(atIndex: index)
+        delegate.buttonPressed(buttonIndex: index)
     }
     
     // Selected button UI change
-    func handleUI(for sender: UIButton) {
-        // Change colors
+    func animateButton(atIndex buttonIndex: Int) {
+        let tappedButton = buttons[buttonIndex]
+        // Change tapped button color and reset the others
         for button in buttons {
-            button.configuration?.baseBackgroundColor = (button == sender) ? .white : .black
-            button.configuration?.baseForegroundColor = (button == sender) ? .black : .white
+            button.configuration?.baseBackgroundColor = (button == tappedButton) ? .white : .black
+            button.configuration?.baseForegroundColor = (button == tappedButton) ? .black : .white
         }
-        
         // change scrollView offset when a button is tapped
-        let buttonFirstPoint = sender.frame.minX
-        let buttonLastPoint = sender.frame.maxX
-        let buttonMidPoint = sender.frame.midX
-        
+        let buttonFirstPoint = tappedButton.frame.minX
+        let buttonLastPoint = tappedButton.frame.maxX
+        let buttonMidPoint = tappedButton.frame.midX
         let scrollViewFrame = scrollView.frame.maxX
         
-        if buttons[0] == sender {
+        if buttons[0] == tappedButton {
             let targetOffset = CGPoint(x: buttonFirstPoint, y: 0)
             scrollView.setContentOffset(targetOffset, animated: true)
-            
-        } else if buttons[buttons.count-1] == sender {
+        } else if buttons[buttons.count-1] == tappedButton {
             let targetOffset = CGPoint(x: buttonLastPoint - scrollViewFrame, y: 0)
             scrollView.setContentOffset(targetOffset, animated: true)
-            
         } else {
             let targetOffset = CGPoint(x: buttonMidPoint - scrollViewFrame/2, y: 0)
             scrollView.setContentOffset(targetOffset, animated: true)
         }
-        
     }
     
     //MARK: - Button target methods
@@ -117,7 +111,7 @@ class NewHotCategoryBarUIView: UIView {
         return scrollView
     }()
     
-    let buttonsStackView: UIStackView = {
+    private let buttonsStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
         view.distribution = .fillProportionally
@@ -132,9 +126,10 @@ class NewHotCategoryBarUIView: UIView {
     
     
     private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
-    
+
     weak var delegate: Delegate!
-    
     
     required init?(coder: NSCoder) {fatalError()}
 }
+
+

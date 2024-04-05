@@ -10,13 +10,10 @@ import UIKit
 class ComingSoonTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //tableView configure
         tableView.backgroundColor = .clear
         tableView.register(NewHotTableViewCell.self, forCellReuseIdentifier:  NewHotTableViewCell.identifier)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        
         
         fetchComingSoonMedia()
     }
@@ -39,9 +36,8 @@ class ComingSoonTVC: UITableViewController {
     }
     
     private var media: [Media] = [Media]()
-
-    // MARK: - Table view data source
     
+    // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return media.count }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

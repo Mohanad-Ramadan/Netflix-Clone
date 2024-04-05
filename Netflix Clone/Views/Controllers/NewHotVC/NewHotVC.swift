@@ -14,6 +14,7 @@ class NewHotVC: UIViewController {
         configureNavbar()
         configureViews()
         applyConstriants()
+        
     }
     
     //MARK: - Configure UIElements
@@ -24,6 +25,7 @@ class NewHotVC: UIViewController {
         [comingSoonTable, everybodyTable, topTVShowsTable, topMoviesTable].forEach{add(childTVC: $0, to: tablesStackView)}
         
         categoryButtonsBar.delegate = self
+        scrollView.delegate = self
         categoryButtonsBar.comingSoonButtonTapped()
     }
     
@@ -103,19 +105,47 @@ class NewHotVC: UIViewController {
 }
 
 
+//MARK: - Categroy Bar Delegate
 extension NewHotVC: NewHotCategoryBarUIView.Delegate {
-    func buttonPressed(num buttonNumber: Int) {
-        switch buttonNumber {
-        case 1:
+    func buttonPressed(buttonIndex: Int) {
+        switch buttonIndex {
+        case 0:
             scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        case 2:
+            categoryButtonsBar.animateButton(atIndex: 0)
+        case 1:
             scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: true)
-        case 3:
+            categoryButtonsBar.animateButton(atIndex: 1)
+        case 2:
             scrollView.setContentOffset(CGPoint(x: 2 * scrollView.bounds.width, y: 0), animated: true)
-        case 4:
+            categoryButtonsBar.animateButton(atIndex: 2)
+        case 3:
             scrollView.setContentOffset(CGPoint(x: 3 * scrollView.bounds.width, y: 0), animated: true)
+            categoryButtonsBar.animateButton(atIndex: 3)
         default:
             print("None of the buttons")
         }
+    }
+}
+
+
+//MARK: - ScrollView Delegate
+extension NewHotVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offset = scrollView.contentOffset.x
+        let tableWidth = view.bounds.width
+        
+        let firstOffestTriger = tableWidth/2
+        let secondOffestTriger = firstOffestTriger + tableWidth
+        let thirdOffestTriger = secondOffestTriger + tableWidth
+        let forthOffestTriger = thirdOffestTriger + tableWidth
+        
+        switch offset {
+        case 0...firstOffestTriger: categoryButtonsBar.animateButton(atIndex: 0)
+        case firstOffestTriger...secondOffestTriger: categoryButtonsBar.animateButton(atIndex: 1)
+        case secondOffestTriger...thirdOffestTriger: categoryButtonsBar.animateButton(atIndex: 2)
+        case thirdOffestTriger...forthOffestTriger: categoryButtonsBar.animateButton(atIndex: 3)
+        default: break
+        }
+
     }
 }
