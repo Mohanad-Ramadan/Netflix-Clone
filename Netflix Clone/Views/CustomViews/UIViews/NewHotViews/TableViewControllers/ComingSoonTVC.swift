@@ -11,9 +11,11 @@ class ComingSoonTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .clear
-        tableView.register(NewHotTableViewCell.self, forCellReuseIdentifier:  NewHotTableViewCell.identifier)
+        tableView.register(ComingSoonTableCell.self, forCellReuseIdentifier:  ComingSoonTableCell.identifierComing)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
+//        tableView.estimatedRowHeight = 400
+//        tableView.rowHeight = UITableView.automaticDimension
         
         fetchMedia()
     }
@@ -42,13 +44,13 @@ class ComingSoonTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return media.count }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewHotTableViewCell.identifier, for: indexPath) as? NewHotTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ComingSoonTableCell.identifierComing, for: indexPath) as? ComingSoonTableCell else {return UITableViewCell()}
         let media = media[indexPath.row]
         cell.configure(with: media)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 430 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 460 }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

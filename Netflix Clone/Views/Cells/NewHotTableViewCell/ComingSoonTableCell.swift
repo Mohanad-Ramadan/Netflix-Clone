@@ -8,16 +8,26 @@
 import UIKit
 
 class ComingSoonTableCell: NewHotTableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        [monthlable ,dayLabel ,mediaDate ,backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
+        
+        applyConstraints()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    private func applyConstraints() {
+        setupMonthAndDayLabelConstraints()
+        setupBackdropImageViewConstraints(comingSoonCell: true)
+        setupDateLabelConstraints()
+        setupNetflixLogoConstraints(bottomTo: mediaDate)
+        setupTypeLabelConstraints()
+        setupButtonsConstraints()
+        setupLogoViewConstraints()
+        setupTitleOverviewLabelConstraints()
+        setupCategoryLabelConstraints()
     }
-
+    
+    static let identifierComing = "ComingSoonTableCell"
+    
+    required init?(coder: NSCoder) {fatalError()}
 }

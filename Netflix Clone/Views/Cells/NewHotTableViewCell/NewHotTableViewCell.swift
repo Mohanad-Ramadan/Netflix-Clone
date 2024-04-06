@@ -11,10 +11,10 @@ class NewHotTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
-        [backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel
-        ].forEach { contentView.addSubview($0) }
+//        [backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel
+//        ].forEach { contentView.addSubview($0) }
         
-        applyConstraints()
+//        applyConstraints()
     }
     
     func configure(with media: Media) {
@@ -74,7 +74,7 @@ class NewHotTableViewCell: UITableViewCell {
     //MARK: - Subviews Constraints
     
     //Month and Day label constraints
-    private func setupMonthAndDayLabelConstraints() {
+     func setupMonthAndDayLabelConstraints() {
         // Day label constraints
         monthlable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
         monthlable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
@@ -89,14 +89,14 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     // Backdrop image view constraints
-    private func setupBackdropImageViewConstraints() {
-        if trendingSelected {
-            backdropImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3).isActive = true
+    func setupBackdropImageViewConstraints(comingSoonCell: Bool = false) {
+        if comingSoonCell {
+            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10).isActive = true
             backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
             backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
             backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3).isActive = true
         } else {
-            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10).isActive = true
+            backdropImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3).isActive = true
             backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
             backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
             backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3).isActive = true
@@ -104,7 +104,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     // Buttons constraints
-    private func setupButtonsConstraints() {
+     func setupButtonsConstraints() {
         infoButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
         infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         infoButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -115,34 +115,29 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     //Logo view
-    private func setupLogoViewConstraints() {
+     func setupLogoViewConstraints() {
         logoView.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor,constant: 10).isActive = true
         logoView.heightAnchor.constraint(equalToConstant: 45).isActive = true
         logoView.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
     }
     
     //Date Label
-    private func setupDateLabelConstraints() {
+     func setupDateLabelConstraints() {
         mediaDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
         mediaDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
         mediaDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
         mediaDate.widthAnchor.constraint(equalTo: mediaDate.widthAnchor).isActive = true
     }
     
+    func setupNetflixLogoConstraints(bottomTo view: UIView) {
+        netflixLogo.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+        netflixLogo.topAnchor.constraint(equalTo: view.bottomAnchor, constant: 10).isActive = true
+        netflixLogo.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        netflixLogo.widthAnchor.constraint(equalToConstant: 8).isActive = true
+    }
+    
     //Type and Logo constraints
-    private func setupTypeLabelConstraints() {
-        if trendingSelected {
-            netflixLogo.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
-            netflixLogo.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: 10).isActive = true
-            netflixLogo.heightAnchor.constraint(equalToConstant: 15).isActive = true
-            netflixLogo.widthAnchor.constraint(equalToConstant: 8).isActive = true
-        } else {
-            netflixLogo.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
-            netflixLogo.topAnchor.constraint(equalTo: mediaDate.bottomAnchor, constant: 5).isActive = true
-            netflixLogo.heightAnchor.constraint(equalToConstant: 15).isActive = true
-            netflixLogo.widthAnchor.constraint(equalToConstant: 8).isActive = true
-        }
-        
+     func setupTypeLabelConstraints() {
         entertainmetType.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor, constant: 4).isActive = true
         entertainmetType.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
         entertainmetType.bottomAnchor.constraint(equalTo: titleLabel.topAnchor).isActive = true
@@ -150,7 +145,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     // Title and overview label constraints
-    private func setupTitleOverviewLabelConstraints() {
+     func setupTitleOverviewLabelConstraints() {
         titleLabel.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor, constant: 5).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -163,7 +158,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     // Category label constraints
-    private func setupCategoryLabelConstraints() {
+     func setupCategoryLabelConstraints() {
         genresLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
         genresLabel.leadingAnchor.constraint(equalTo: overViewLabel.leadingAnchor).isActive = true
         genresLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
@@ -172,7 +167,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     
     //MARK: - Update Constraints
-    private func updateLogoWidthBy(_ aspectRatio: CGFloat) {
+     func updateLogoWidthBy(_ aspectRatio: CGFloat) {
         logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor))
         let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: aspectRatio)
         widthConstraint.priority = .defaultHigh
@@ -182,55 +177,56 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     //MARK: - Apply Constraints
-    private func applyConstraints() {
-        if trendingSelected {
-            setupBackdropImageViewConstraints()
-            setupButtonsConstraints()
-            setupLogoViewConstraints()
-            setupTypeLabelConstraints()
-            setupTitleOverviewLabelConstraints()
-            setupCategoryLabelConstraints()
-        } else {
-            addSubview(monthlable)
-            addSubview(dayLabel)
-            addSubview(mediaDate)
-            setupMonthAndDayLabelConstraints()
-            setupDateLabelConstraints()
-            
-            setupTypeLabelConstraints()
-            setupBackdropImageViewConstraints()
-            setupButtonsConstraints()
-            setupLogoViewConstraints()
-            setupTitleOverviewLabelConstraints()
-            setupCategoryLabelConstraints()
-        }
-    }
+//     func applyConstraints() {
+//        if trendingSelected {
+//            setupBackdropImageViewConstraints()
+//            setupButtonsConstraints()
+//            setupLogoViewConstraints()
+//            setupNetflixLogoConstraints(bottomTo: mediaDate)
+//            setupTypeLabelConstraints()
+//            setupTitleOverviewLabelConstraints()
+//            setupCategoryLabelConstraints()
+//        } else {
+//            addSubview(monthlable)
+//            addSubview(dayLabel)
+//            addSubview(mediaDate)
+//            setupMonthAndDayLabelConstraints()
+//            setupDateLabelConstraints()
+//            
+//            setupTypeLabelConstraints()
+//            setupBackdropImageViewConstraints()
+//            setupButtonsConstraints()
+//            setupLogoViewConstraints()
+//            setupTitleOverviewLabelConstraints()
+//            setupCategoryLabelConstraints()
+//        }
+//    }
     
     
     //MARK: - Declare Subviews 
-    private let monthlable = NFBodyLabel(color: .lightGray, fontSize: 16, fontWeight: .semibold, textAlignment: .center)
+     let monthlable = NFBodyLabel(color: .lightGray, fontSize: 16, fontWeight: .semibold, textAlignment: .center)
     
-    private let dayLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
+     let dayLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
     
-    private let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
+     let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
     
-    private let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+     let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
-    private let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+     let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
-    private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
+     let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
-    private let mediaDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
+     let mediaDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
     
-    private let netflixLogo = NFImageView(image: .netflixClone)
+     let netflixLogo = NFImageView(image: .netflixClone)
     
-    private let entertainmetType = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
+     let entertainmetType = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
         
-    private let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
+     let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
     
-    private let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
+     let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
         
-    private let genresLabel = NFBodyLabel(fontSize: 13)
+     let genresLabel = NFBodyLabel(fontSize: 13)
     
     
     var trendingSelected = true
