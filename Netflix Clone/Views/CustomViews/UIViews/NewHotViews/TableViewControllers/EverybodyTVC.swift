@@ -11,7 +11,7 @@ class EverybodyTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .clear
-        tableView.register(NewHotTableViewCell.self, forCellReuseIdentifier:  NewHotTableViewCell.identifier)
+        tableView.register(EveryonesTableCell.self, forCellReuseIdentifier:  EveryonesTableCell.identifier)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         configureTableHeader()
@@ -49,7 +49,7 @@ class EverybodyTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return media.count }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewHotTableViewCell.identifier, for: indexPath) as? NewHotTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EveryonesTableCell.identifier, for: indexPath) as? EveryonesTableCell else {return UITableViewCell()}
         let media = media[indexPath.row]
         cell.configure(with: media)
         return cell

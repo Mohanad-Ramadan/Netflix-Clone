@@ -11,7 +11,7 @@ class TopMoviesTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = .clear
-        tableView.register(NewHotTableViewCell.self, forCellReuseIdentifier:  NewHotTableViewCell.identifier)
+        tableView.register(TopMediaTableCell.self, forCellReuseIdentifier:  TopMediaTableCell.identifier)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         configureTableHeader()
@@ -27,7 +27,7 @@ class TopMoviesTVC: UITableViewController {
     // fetch media function
     func fetchMedia() {
         guard media.isEmpty else {return}
-        defer { print("done fetching") }
+//        defer { print("done fetching") }
         Task{
             do {
                 let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
@@ -50,13 +50,14 @@ class TopMoviesTVC: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return media.count }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: NewHotTableViewCell.identifier, for: indexPath) as? NewHotTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TopMediaTableCell.identifier, for: indexPath) as? TopMediaTableCell else {return UITableViewCell()}
         let media = media[indexPath.row]
+        cell.configureMediaRank(at: indexPath.row)
         cell.configure(with: media)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 430 }
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { return 460 }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

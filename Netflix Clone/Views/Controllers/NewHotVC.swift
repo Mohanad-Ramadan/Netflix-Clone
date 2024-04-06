@@ -154,7 +154,7 @@ extension NewHotVC: UIScrollViewDelegate {
             topTVShowsTable.fetchMedia()
         case secondOffestTriger...thirdOffestTriger: 
             categoryButtonsBar.animateButton(atIndex: 2)
-            topTVShowsTable.fetchMedia()
+            topMoviesTable.fetchMedia()
         case thirdOffestTriger...forthOffestTriger: 
             categoryButtonsBar.animateButton(atIndex: 3)
         default: break

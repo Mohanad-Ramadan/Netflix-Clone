@@ -62,36 +62,16 @@ class NewHotTableViewCell: UITableViewCell {
         overViewLabel.text = media.overview
         genresLabel.text = media.category
         
-        if let date = media.releaseDate {
-            let dayMonthDate = date.extract().dayMonth
-            mediaDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
-            dayLabel.text = date.extract().day
-            monthlable.text = date.extract().month
-        }
     }
     
     
     //MARK: - Subviews Constraints
     
-    //Month and Day label constraints
-     func setupMonthAndDayLabelConstraints() {
-        // Day label constraints
-        monthlable.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
-        monthlable.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
-        monthlable.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        monthlable.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        // Day label constraints
-        dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
-        dayLabel.topAnchor.constraint(equalTo: monthlable.bottomAnchor).isActive = true
-        dayLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        dayLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
-    }
     
     // Backdrop image view constraints
-    func setupBackdropImageViewConstraints(comingSoonCell: Bool = false) {
-        if comingSoonCell {
-            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10).isActive = true
+    func setupBackdropImageViewConstraints(dayLabel: UIView? = nil) {
+        if (dayLabel != nil) {
+            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel!.trailingAnchor, constant: 10).isActive = true
             backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
             backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
             backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3).isActive = true
@@ -119,14 +99,6 @@ class NewHotTableViewCell: UITableViewCell {
         logoView.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor,constant: 10).isActive = true
         logoView.heightAnchor.constraint(equalToConstant: 45).isActive = true
         logoView.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
-    }
-    
-    //Date Label
-     func setupDateLabelConstraints() {
-        mediaDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
-        mediaDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
-        mediaDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        mediaDate.widthAnchor.constraint(equalTo: mediaDate.widthAnchor).isActive = true
     }
     
     func setupNetflixLogoConstraints(bottomTo view: UIView) {
@@ -176,38 +148,7 @@ class NewHotTableViewCell: UITableViewCell {
         layoutIfNeeded()
     }
     
-    //MARK: - Apply Constraints
-//     func applyConstraints() {
-//        if trendingSelected {
-//            setupBackdropImageViewConstraints()
-//            setupButtonsConstraints()
-//            setupLogoViewConstraints()
-//            setupNetflixLogoConstraints(bottomTo: mediaDate)
-//            setupTypeLabelConstraints()
-//            setupTitleOverviewLabelConstraints()
-//            setupCategoryLabelConstraints()
-//        } else {
-//            addSubview(monthlable)
-//            addSubview(dayLabel)
-//            addSubview(mediaDate)
-//            setupMonthAndDayLabelConstraints()
-//            setupDateLabelConstraints()
-//            
-//            setupTypeLabelConstraints()
-//            setupBackdropImageViewConstraints()
-//            setupButtonsConstraints()
-//            setupLogoViewConstraints()
-//            setupTitleOverviewLabelConstraints()
-//            setupCategoryLabelConstraints()
-//        }
-//    }
-    
-    
-    //MARK: - Declare Subviews 
-     let monthlable = NFBodyLabel(color: .lightGray, fontSize: 16, fontWeight: .semibold, textAlignment: .center)
-    
-     let dayLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
-    
+    //MARK: - Declare Subviews
      let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
     
      let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
@@ -215,8 +156,6 @@ class NewHotTableViewCell: UITableViewCell {
      let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
      let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
-    
-     let mediaDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
     
      let netflixLogo = NFImageView(image: .netflixClone)
     
@@ -227,11 +166,6 @@ class NewHotTableViewCell: UITableViewCell {
      let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
         
      let genresLabel = NFBodyLabel(fontSize: 13)
-    
-    
-    var trendingSelected = true
-    static let identifier = "NewAndHotTableViewCell"
-    
     
     required init?(coder: NSCoder) {fatalError()}
 }
