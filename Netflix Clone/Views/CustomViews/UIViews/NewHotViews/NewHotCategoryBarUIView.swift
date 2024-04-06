@@ -25,10 +25,10 @@ class NewHotCategoryBarUIView: UIView{
         scrollView.addSubview(buttonsStackView)
         buttons.forEach{buttonsStackView.addArrangedSubview($0)}
         
-        comingSoonButton.configureButtonImageWith(UIImage(resource: .popcorn), width: 20, height: 20, placement: .leading, padding: 8)
-        everyoneWatchingButton.configureButtonImageWith(UIImage(resource: .fire), width: 20, height: 20, placement: .leading, padding: 8)
-        toptenTvShowsButton.configureButtonImageWith(UIImage(resource: .top10), width: 20, height: 20, placement: .leading, padding: 8)
-        toptenMoviesButton.configureButtonImageWith(UIImage(resource: .top10), width: 20, height: 20, placement: .leading, padding: 8)
+        comingSoonButton.configureButtonImageWith(UIImage(resource: .popcorn), width: 20, height: 20, placement: .leading, padding: 4)
+        everyoneWatchingButton.configureButtonImageWith(UIImage(resource: .fire), width: 20, height: 20, placement: .leading, padding: 4)
+        toptenTvShowsButton.configureButtonImageWith(UIImage(resource: .top10), width: 25, height: 25, placement: .leading, padding: 4)
+        toptenMoviesButton.configureButtonImageWith(UIImage(resource: .top10), width: 25, height: 25, placement: .leading, padding: 4)
     }
     
     //MARK: - Button pressed Actions

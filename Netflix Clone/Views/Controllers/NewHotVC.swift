@@ -44,14 +44,12 @@ class NewHotVC: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        
     }
 
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}
     
     //MARK: - Apply constraints
     private func applyConstriants() {
-        
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             categoryButtonsBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
@@ -80,6 +78,7 @@ class NewHotVC: UIViewController {
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.isPagingEnabled = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -94,13 +93,10 @@ class NewHotVC: UIViewController {
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
     
-    let comingSoonTable: UITableViewController = ComingSoonTVC()
-    
-    let everybodyTable: UITableViewController = EverybodyTVC()
-    
-    let topMoviesTable: UITableViewController = TopMoviesTVC()
-    
-    let topTVShowsTable: UITableViewController = TopTVShowsTVC()
+    let comingSoonTable = ComingSoonTVC()
+    let everybodyTable = EverybodyTVC()
+    let topMoviesTable = TopMoviesTVC()
+    let topTVShowsTable = TopTVShowsTVC()
 }
 
 
@@ -109,19 +105,26 @@ extension NewHotVC: NewHotCategoryBarUIView.Delegate {
     func buttonPressed(buttonIndex: Int) {
         switch buttonIndex {
         case 0:
+            comingSoonTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
             scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 0)
+            
         case 1:
+            everybodyTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
             scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 1)
+            
         case 2:
+            topTVShowsTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
             scrollView.setContentOffset(CGPoint(x: 2 * scrollView.bounds.width, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 2)
+            
         case 3:
+            topMoviesTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
             scrollView.setContentOffset(CGPoint(x: 3 * scrollView.bounds.width, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 3)
-        default:
-            print("None of the buttons")
+            
+        default: break
         }
     }
 }
@@ -133,6 +136,7 @@ extension NewHotVC: UIScrollViewDelegate {
         let offset = scrollView.contentOffset.x
         let tableWidth = view.bounds.width
         
+        // offests triggers the paging feature to next tableView
         let firstOffestTriger = tableWidth/2
         let secondOffestTriger = firstOffestTriger + tableWidth
         let thirdOffestTriger = secondOffestTriger + tableWidth

@@ -242,7 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				143C55982B1E7A4F00E58867 /* HomeVC */,
-				14DCE3D32B22408500DCD959 /* NewHotVC */,
+				145FB1092AD402E50019A439 /* NewHotVC.swift */,
 				147094D52B4758560053CFBC /* MyNetflixVC */,
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
 				147094C82B4742C90053CFBC /* DownloadVC */,
@@ -422,14 +422,6 @@
 				142FF7D62B911DB00061375F /* NFSymbolButton.swift */,
 			);
 			path = Buttons;
-			sourceTree = "<group>";
-		};
-		14DCE3D32B22408500DCD959 /* NewHotVC */ = {
-			isa = PBXGroup;
-			children = (
-				145FB1092AD402E50019A439 /* NewHotVC.swift */,
-			);
-			path = NewHotVC;
 			sourceTree = "<group>";
 		};
 		14EC7D5F2B15174C00E5B395 /* CustomViews */ = {

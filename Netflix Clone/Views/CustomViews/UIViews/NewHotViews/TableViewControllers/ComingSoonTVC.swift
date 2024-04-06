@@ -15,11 +15,12 @@ class ComingSoonTVC: UITableViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         
-        fetchComingSoonMedia()
+        fetchMedia()
     }
     
     // fetch media function
-    private func fetchComingSoonMedia() {
+    func fetchMedia() {
+        guard media.isEmpty else {return}
         Task{
             do {
                 let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)

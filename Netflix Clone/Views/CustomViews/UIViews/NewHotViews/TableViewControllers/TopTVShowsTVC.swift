@@ -16,12 +16,20 @@ class TopTVShowsTVC: UITableViewController {
         tableView.register(NewHotTableViewCell.self, forCellReuseIdentifier:  NewHotTableViewCell.identifier)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        
-        fetchComingSoonMedia()
+        configureTableHeader()
+        fetchMedia()
+    }
+    
+    func configureTableHeader() {
+        let headerTitle = NFPlainButton(title: "Top 10 TV Shows", fontSize: 20, fontWeight: .bold)
+        headerTitle.configureButtonImageWith(.top10, width: 25, height: 25, placement: .leading, padding: 5)
+        headerTitle.frame = CGRect(x: 0, y: 0, width: headerTitle.bounds.width, height: 50)
+        tableView.tableHeaderView = headerTitle
     }
     
     // fetch media function
-    private func fetchComingSoonMedia() {
+    func fetchMedia() {
+        guard media.isEmpty else {return}
         Task{
             do {
                 let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
@@ -37,7 +45,7 @@ class TopTVShowsTVC: UITableViewController {
         }
     }
     
-    private var media: [Media] = [Media]()
+    var media: [Media] = [Media]()
 
     // MARK: - Table view data source
     
