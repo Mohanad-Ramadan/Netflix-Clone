@@ -15,7 +15,6 @@ class EverybodyTVC: UITableViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         configureTableHeader()
-        fetchMedia()
     }
     
     func configureTableHeader() {
@@ -43,7 +42,7 @@ class EverybodyTVC: UITableViewController {
         }
     }
     
-    var media: [Media] = [Media]()
+    private var media: [Media] = [Media]()
 
     // MARK: - Table view data source
     

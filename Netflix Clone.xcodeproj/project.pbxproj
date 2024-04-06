@@ -69,10 +69,11 @@
 		14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */; };
 		14A491F62B8FD8EF0090AF08 /* NFFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */; };
 		14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */; };
+		14AFC5E82BC1C707000BC75E /* ComingSoonTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AFC5E72BC1C707000BC75E /* ComingSoonTableCell.swift */; };
 		14BEB8042B9E049000B87AB8 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEB8032B9E049000B87AB8 /* SearchVC.swift */; };
 		14CFB1E32B56F55A0036FE91 /* HomeHeaderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */; };
 		14D08B5D2BAB660500677EFC /* SeasonDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D08B5C2BAB660500677EFC /* SeasonDetail.swift */; };
-		14DCE3D72B22490D00DCD959 /* New&HotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCE3D62B22490D00DCD959 /* New&HotTableViewCell.swift */; };
+		14DCE3D72B22490D00DCD959 /* NewHotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCE3D62B22490D00DCD959 /* NewHotTableViewCell.swift */; };
 		14E3B0E92B5D668600D08C14 /* MediaDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E3B0E82B5D668600D08C14 /* MediaDetailsVC.swift */; };
 		14EC06AC2B6C4B3600565B57 /* DetailsLabelUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC06AB2B6C4B3600565B57 /* DetailsLabelUIView.swift */; };
 		14EC7D5A2B14FE5700E5B395 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 14EC7D592B14FE5700E5B395 /* SkeletonView */; };
@@ -147,10 +148,11 @@
 		14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFTitleLabel.swift; sourceTree = "<group>"; };
 		14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFFilledButton.swift; sourceTree = "<group>"; };
 		14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotCategoryBarUIView.swift; sourceTree = "<group>"; };
+		14AFC5E72BC1C707000BC75E /* ComingSoonTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComingSoonTableCell.swift; sourceTree = "<group>"; };
 		14BEB8032B9E049000B87AB8 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderConfig.swift; sourceTree = "<group>"; };
 		14D08B5C2BAB660500677EFC /* SeasonDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonDetail.swift; sourceTree = "<group>"; };
-		14DCE3D62B22490D00DCD959 /* New&HotTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "New&HotTableViewCell.swift"; sourceTree = "<group>"; };
+		14DCE3D62B22490D00DCD959 /* NewHotTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotTableViewCell.swift; sourceTree = "<group>"; };
 		14E3B0E82B5D668600D08C14 /* MediaDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailsVC.swift; sourceTree = "<group>"; };
 		14EC06AB2B6C4B3600565B57 /* DetailsLabelUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsLabelUIView.swift; sourceTree = "<group>"; };
 		14EC7D602B15174C00E5B395 /* HomeLoadingUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLoadingUIView.swift; sourceTree = "<group>"; };
@@ -397,12 +399,13 @@
 			path = TVDetailsVCViews;
 			sourceTree = "<group>";
 		};
-		148C84452B62D729005CAF01 /* New&HotTableViewCell */ = {
+		148C84452B62D729005CAF01 /* NewHotTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				14DCE3D62B22490D00DCD959 /* New&HotTableViewCell.swift */,
+				14DCE3D62B22490D00DCD959 /* NewHotTableViewCell.swift */,
+				14AFC5E72BC1C707000BC75E /* ComingSoonTableCell.swift */,
 			);
-			path = "New&HotTableViewCell";
+			path = NewHotTableViewCell;
 			sourceTree = "<group>";
 		};
 		14A491F32B8F66A20090AF08 /* Labels */ = {
@@ -439,7 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				147094CF2B4757AF0053CFBC /* HomeTableViewCell */,
-				148C84452B62D729005CAF01 /* New&HotTableViewCell */,
+				148C84452B62D729005CAF01 /* NewHotTableViewCell */,
 				147094D22B47581D0053CFBC /* MyNetflixTableViewCell */,
 				1434BF2B2B61D21F00EA70F6 /* MediaDetailsCell */,
 				140A72DB2AD8325800CCA9FA /* PosterCollectionViewCell.swift */,
@@ -569,7 +572,7 @@
 				147094CA2B4742FD0053CFBC /* DownloadExtension.swift in Sources */,
 				147BD90B2B9B942D0054A207 /* UIHelper.swift in Sources */,
 				142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */,
-				14DCE3D72B22490D00DCD959 /* New&HotTableViewCell.swift in Sources */,
+				14DCE3D72B22490D00DCD959 /* NewHotTableViewCell.swift in Sources */,
 				147094CC2B4747150053CFBC /* TitleRowUIView.swift in Sources */,
 				140A09A32BA91BCD00D17AD3 /* MovieDetailsVC.swift in Sources */,
 				145EDE812B8BC3EC00B49A48 /* UIColor-EXT.swift in Sources */,
@@ -619,6 +622,7 @@
 				145FB0F52AD3FEC30019A439 /* SceneDelegate.swift in Sources */,
 				141230EC2AE5AED80025815E /* NetflixCloneModel.xcdatamodeld in Sources */,
 				145EDE7D2B8BC39200B49A48 /* String-EXT.swift in Sources */,
+				14AFC5E82BC1C707000BC75E /* ComingSoonTableCell.swift in Sources */,
 				1400D3942ADC4A3200491F75 /* Constants.swift in Sources */,
 				1400D3982ADC5B7800491F75 /* MovieViewModel.swift in Sources */,
 				145FB10A2AD402E50019A439 /* NewHotVC.swift in Sources */,

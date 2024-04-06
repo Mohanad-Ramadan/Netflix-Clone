@@ -18,7 +18,7 @@ class NewHotVC: UIViewController {
     
     //MARK: - Configure UIElements
     private func configureViews(){
-        [comingSoonTable, everybodyTable, topTVShowsTable, topMoviesTable].forEach{add(childTVC: $0, to: tablesStackView)}
+        [comingSoonTable, everyonesTable, topTVShowsTable, topMoviesTable].forEach{add(childTVC: $0, to: tablesStackView)}
         scrollView.addSubview(tablesStackView)
         view.addSubview(scrollView)
         view.addSubview(categoryButtonsBar)
@@ -94,7 +94,7 @@ class NewHotVC: UIViewController {
     let categoryButtonsBar = NewHotCategoryBarUIView()
     
     let comingSoonTable = ComingSoonTVC()
-    let everybodyTable = EverybodyTVC()
+    let everyonesTable = EverybodyTVC()
     let topMoviesTable = TopMoviesTVC()
     let topTVShowsTable = TopTVShowsTVC()
 }
@@ -105,24 +105,27 @@ extension NewHotVC: NewHotCategoryBarUIView.Delegate {
     func buttonPressed(buttonIndex: Int) {
         switch buttonIndex {
         case 0:
-            comingSoonTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
-            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
             categoryButtonsBar.animateButton(atIndex: 0)
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+            comingSoonTable.tableView.setContentOffset(.zero, animated: true)
             
         case 1:
-            everybodyTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
-            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: false)
+            everyonesTable.fetchMedia()
             categoryButtonsBar.animateButton(atIndex: 1)
+            scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width, y: 0), animated: false)
+            everyonesTable.tableView.setContentOffset(.zero, animated: true)
             
         case 2:
-            topTVShowsTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
-            scrollView.setContentOffset(CGPoint(x: 2 * scrollView.bounds.width, y: 0), animated: false)
+            topTVShowsTable.fetchMedia()
             categoryButtonsBar.animateButton(atIndex: 2)
+            scrollView.setContentOffset(CGPoint(x: 2 * scrollView.bounds.width, y: 0), animated: false)
+            topTVShowsTable.tableView.setContentOffset(.zero, animated: true)
             
         case 3:
-            topMoviesTable.tableView.scrollToRow(at: .init(row: 0, section: 0), at: .top, animated: true)
-            scrollView.setContentOffset(CGPoint(x: 3 * scrollView.bounds.width, y: 0), animated: false)
+            topMoviesTable.fetchMedia()
             categoryButtonsBar.animateButton(atIndex: 3)
+            scrollView.setContentOffset(CGPoint(x: 3 * scrollView.bounds.width, y: 0), animated: false)
+            topMoviesTable.tableView.setContentOffset(.zero, animated: true)
             
         default: break
         }
@@ -143,10 +146,17 @@ extension NewHotVC: UIScrollViewDelegate {
         let forthOffestTriger = thirdOffestTriger + tableWidth
         
         switch offset {
-        case 0...firstOffestTriger: categoryButtonsBar.animateButton(atIndex: 0)
-        case firstOffestTriger...secondOffestTriger: categoryButtonsBar.animateButton(atIndex: 1)
-        case secondOffestTriger...thirdOffestTriger: categoryButtonsBar.animateButton(atIndex: 2)
-        case thirdOffestTriger...forthOffestTriger: categoryButtonsBar.animateButton(atIndex: 3)
+        case 0...firstOffestTriger: 
+            categoryButtonsBar.animateButton(atIndex: 0)
+            everyonesTable.fetchMedia()
+        case firstOffestTriger...secondOffestTriger: 
+            categoryButtonsBar.animateButton(atIndex: 1)
+            topTVShowsTable.fetchMedia()
+        case secondOffestTriger...thirdOffestTriger: 
+            categoryButtonsBar.animateButton(atIndex: 2)
+            topTVShowsTable.fetchMedia()
+        case thirdOffestTriger...forthOffestTriger: 
+            categoryButtonsBar.animateButton(atIndex: 3)
         default: break
         }
 

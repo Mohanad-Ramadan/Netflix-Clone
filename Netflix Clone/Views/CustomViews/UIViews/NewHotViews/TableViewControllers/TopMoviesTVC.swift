@@ -15,7 +15,6 @@ class TopMoviesTVC: UITableViewController {
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         configureTableHeader()
-        fetchMedia()
     }
     
     func configureTableHeader() {
@@ -28,6 +27,7 @@ class TopMoviesTVC: UITableViewController {
     // fetch media function
     func fetchMedia() {
         guard media.isEmpty else {return}
+        defer { print("done fetching") }
         Task{
             do {
                 let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
@@ -43,7 +43,7 @@ class TopMoviesTVC: UITableViewController {
         }
     }
     
-    var media: [Media] = [Media]()
+    private var media: [Media] = [Media]()
 
     // MARK: - Table view data source
     
