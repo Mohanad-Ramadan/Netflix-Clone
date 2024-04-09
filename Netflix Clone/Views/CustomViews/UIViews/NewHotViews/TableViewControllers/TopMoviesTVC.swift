@@ -30,7 +30,8 @@ class TopMoviesTVC: UITableViewController {
 //        defer { print("done fetching") }
         Task{
             do {
-                let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
+                var media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
+                media.removeSubrange(10...)
                 self.media = media
                 tableView.reloadData()
             } catch let error as APIError {

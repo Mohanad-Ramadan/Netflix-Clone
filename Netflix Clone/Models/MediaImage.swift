@@ -1,5 +1,5 @@
 //
-//  Image.swift
+//  MediaImage.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 01/01/2024.
@@ -8,8 +8,8 @@
 import Foundation
 
 
-// MARK: - Image
-struct Image: Codable {
+// MARK: - MediaImage
+struct MediaImage: Codable {
     let logos: [ImageDetails]
     let backdrops: [ImageDetails]
 }

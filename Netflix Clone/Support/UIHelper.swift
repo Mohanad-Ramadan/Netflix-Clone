@@ -10,7 +10,7 @@ import Foundation
 enum UIHelper {
     
     // MARK: get LogoPath
-    static func getLogoDetailsFrom(_ fetchedImages: Image) -> (String,Double)? {
+    static func getLogoDetailsFrom(_ fetchedImages: MediaImage) -> (String,Double)? {
         let logos = fetchedImages.logos
         
         if logos.isEmpty {
@@ -23,7 +23,7 @@ enum UIHelper {
     }
     
     // MARK: - get backdropPath
-    static func getBackdropPathFrom(_ fetchedImages: Image) -> String? {
+    static func getBackdropPathFrom(_ fetchedImages: MediaImage) -> String? {
         let sortedBackdrops = fetchedImages.backdrops.sorted(by: {$0.voteAverage > $1.voteAverage})
         if sortedBackdrops.isEmpty {
             return nil

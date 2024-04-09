@@ -44,14 +44,14 @@ class NetworkManager {
         } catch {throw APIError.invalidData}
     }
     
-    func getImagesFor(mediaId id: Int, ofType mediaType: String) async throws -> Image {
+    func getImagesFor(mediaId id: Int, ofType mediaType: String) async throws -> MediaImage {
         let stringURL = Constants.createImageURLWith(mediaType: mediaType, id: id)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
-        do { return try self.decoder.decode(Image.self, from: data) }
+        do { return try self.decoder.decode(MediaImage.self, from: data) }
         catch { throw APIError.invalidData }
     }
     

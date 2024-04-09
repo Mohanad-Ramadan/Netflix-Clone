@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import SwiftUI
 
 class HomeVC: UIViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
@@ -94,7 +94,6 @@ class HomeVC: UIViewController {
     let loadingView = HomeLoadingUIView()
     
     let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
-    
 }
 
 

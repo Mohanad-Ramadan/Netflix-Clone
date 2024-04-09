@@ -31,7 +31,8 @@ class TopTVShowsTVC: UITableViewController {
         guard media.isEmpty else {return}
         Task{
             do {
-                let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
+                var media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
+                media.removeSubrange(10...)
                 self.media = media
                 tableView.reloadData()
             } catch let error as APIError {
