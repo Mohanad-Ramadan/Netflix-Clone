@@ -12,15 +12,20 @@ class LaunchScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUserView()
+        insertSpertatorView()
         setupSplashView()
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        removeSplashScreen()
     }
     
     func setupSplashView() {
-        addChild(splashViewlet)
-        splashViewlet.view.frame = view.bounds
-        view.addSubview(splashViewlet.view)
-        splashViewlet.didMove(toParent: self)
+        addChild(splashView)
+        splashView.view.frame = view.bounds
+        view.addSubview(splashView.view)
+        splashView.didMove(toParent: self)
     }
     
     func setupUserView() {
@@ -30,7 +35,25 @@ class LaunchScreenVC: UIViewController {
         userView.didMove(toParent: self)
     }
     
+    func removeSplashScreen() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+            UIView.animate(withDuration: 0.3) {
+                self.splashView.view.alpha = 0
+            } completion: { finish in
+                self.splashView.view.removeFromSuperview()
+                self.speratorBackGround.removeFromSuperview()
+            }
+            
+        }
+    }
     
-    let splashViewlet = UIHostingController(rootView: LaunchScreenView())
+    func insertSpertatorView() {
+        view.addSubview(speratorBackGround)
+        speratorBackGround.frame = view.bounds
+        speratorBackGround.backgroundColor = .black
+    }
+    
+    let speratorBackGround = UIView()
+    let splashView = UIHostingController(rootView: LaunchScreenView())
     let userView = UIHostingController(rootView: UserView())
 }

@@ -9,13 +9,13 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct LaunchScreenView: View {
-    
     var body: some View {
         AnimatedImage(url: getURL())
             .customLoopCount(1)
             .resizable()
             .scaledToFit()
             .ignoresSafeArea()
+            .background(.black)
     }
     
     func getURL() -> URL{
