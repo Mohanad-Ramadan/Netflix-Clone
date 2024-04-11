@@ -32,11 +32,12 @@ class LaunchScreenVC: UIViewController {
         addChild(userView)
         userView.view.frame = view.bounds
         view.addSubview(userView.view)
+        userView.rootView.delegate = self
         userView.didMove(toParent: self)
     }
     
     func removeSplashScreen() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.2){
             UIView.animate(withDuration: 0.3) {
                 self.splashView.view.alpha = 0
             } completion: { finish in
@@ -56,4 +57,12 @@ class LaunchScreenVC: UIViewController {
     let speratorBackGround = UIView()
     let splashView = UIHostingController(rootView: LaunchScreenView())
     let userView = UIHostingController(rootView: UserView())
+    let mainAppController = MainTabBarVC()
+}
+
+//MARK: - 
+extension LaunchScreenVC: UserView.Delegate {
+    func buttonDidTapped() {
+        //
+    }
 }

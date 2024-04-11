@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct UserView: View {
+    protocol Delegate: AnyObject {func buttonDidTapped()}
+    weak var delegate: Delegate!
+    
     var body: some View {
         VStack {
             HStack {
                 UserBlock(user: "mohanad", resource: .profil)
+                    .onTapGesture {delegate.buttonDidTapped()}
                 UserBlock(user: "Kids", resource: .kids)
             }
             AddProfile()
@@ -20,9 +24,12 @@ struct UserView: View {
     }
 }
 
+
+
 struct UserBlock: View {
     @State var user: String
     @State var resource: ImageResource
+    
     var body: some View {
         VStack {
             Image(resource)
@@ -37,8 +44,8 @@ struct UserBlock: View {
     }
 }
 
-struct AddProfile: View {
 
+struct AddProfile: View {
     var body: some View {
         VStack {
             ZStack {
@@ -54,10 +61,8 @@ struct AddProfile: View {
             Text("Add Profile")
                 .bold()
         }
-        
     }
 }
 
-#Preview {
-    UserView()
-}
+
+#Preview { UserView() }

@@ -257,12 +257,12 @@
 			children = (
 				14ECA5292BC4BE8800E71F11 /* LaunchScreenVC.swift */,
 				145FB0F62AD3FEC30019A439 /* MainTabBarVC.swift */,
+				145FB1092AD402E50019A439 /* NewHotVC.swift */,
+				14BEB8032B9E049000B87AB8 /* SearchVC.swift */,
 				143C55982B1E7A4F00E58867 /* HomeVC */,
 				147094D52B4758560053CFBC /* MyNetflixVC */,
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
 				147094C82B4742C90053CFBC /* DownloadVC */,
-				145FB1092AD402E50019A439 /* NewHotVC.swift */,
-				14BEB8032B9E049000B87AB8 /* SearchVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
