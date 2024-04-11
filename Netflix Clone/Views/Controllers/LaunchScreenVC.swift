@@ -11,6 +11,7 @@ import SwiftUI
 class LaunchScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupMainTabController()
         setupUserView()
         insertSpertatorView()
         setupSplashView()
@@ -21,6 +22,15 @@ class LaunchScreenVC: UIViewController {
         removeSplashScreen()
     }
     
+    //MARK: - Configure TabBarController
+    func setupMainTabController() {
+        addChild(mainAppController)
+        mainAppController.view.frame = view.bounds
+        view.addSubview(mainAppController.view)
+        mainAppController.didMove(toParent: self)
+    }
+    
+    //MARK: - Configure SwiftUI views
     func setupSplashView() {
         addChild(splashView)
         splashView.view.frame = view.bounds
@@ -36,6 +46,7 @@ class LaunchScreenVC: UIViewController {
         userView.didMove(toParent: self)
     }
     
+    //MARK: - Animate splashScreen
     func removeSplashScreen() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.2){
             UIView.animate(withDuration: 0.3) {
@@ -48,19 +59,23 @@ class LaunchScreenVC: UIViewController {
         }
     }
     
+    // seperator in between splashScreen and userView to fix
+    // the laggy transtion when splashScreen finished
     func insertSpertatorView() {
         view.addSubview(speratorBackGround)
         speratorBackGround.frame = view.bounds
         speratorBackGround.backgroundColor = .black
     }
     
+    //MARK: - Declare Views
     let speratorBackGround = UIView()
     let splashView = UIHostingController(rootView: LaunchScreenView())
     let userView = UIHostingController(rootView: UserView())
     let mainAppController = MainTabBarVC()
+    
 }
 
-//MARK: - 
+//MARK: - UserView Delegate
 extension LaunchScreenVC: UserView.Delegate {
     func buttonDidTapped() {
         //

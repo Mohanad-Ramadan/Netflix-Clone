@@ -7,18 +7,18 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import Lottie
 
 struct LaunchScreenView: View {
     var body: some View {
-        AnimatedImage(url: getURL())
-            .customLoopCount(1)
+        AnimatedImage(url: url)
+            .incrementalLoad(true)
             .resizable()
             .scaledToFit()
             .ignoresSafeArea()
-            .background(.black)
     }
     
-    func getURL() -> URL{
+    private var url: URL{
         let bundelURL = Bundle.main.path(forResource: "NetflixGif", ofType: "gif")
         let url = URL(fileURLWithPath: bundelURL ?? "")
         return url

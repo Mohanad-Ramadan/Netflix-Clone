@@ -54,7 +54,6 @@
 		147D7E9B2BBB2FC600118925 /* TopMoviesTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147D7E9A2BBB2FC600118925 /* TopMoviesTVC.swift */; };
 		147D7E9D2BBB2FD900118925 /* TopTVShowsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147D7E9C2BBB2FD900118925 /* TopTVShowsTVC.swift */; };
 		14802AE42AEAD34D00C80527 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 14802AE32AEAD34D00C80527 /* SDWebImage */; };
-		14802AE62AEAD34D00C80527 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14802AE52AEAD34D00C80527 /* SDWebImageMapKit */; };
 		148252272B5EF7300009C0EF /* ThreeButtonUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148252262B5EF7300009C0EF /* ThreeButtonUIView.swift */; };
 		1482522B2B5F2F010009C0EF /* SwitchViewButtonsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482522A2B5F2F010009C0EF /* SwitchViewButtonsUIView.swift */; };
 		1482522E2B5F62430009C0EF /* MediaDetialsProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482522D2B5F62430009C0EF /* MediaDetialsProtocols.swift */; };
@@ -72,10 +71,11 @@
 		14AFC5EA2BC1F013000BC75E /* EveryonesTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AFC5E92BC1F013000BC75E /* EveryonesTableCell.swift */; };
 		14AFC5EC2BC1F025000BC75E /* TopMediaTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AFC5EB2BC1F025000BC75E /* TopMediaTableCell.swift */; };
 		14B6FC4F2BC3188F003C6B8D /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6FC4E2BC3188F003C6B8D /* LaunchScreenView.swift */; };
-		14B6FC562BC324C4003C6B8D /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 14B6FC552BC324C4003C6B8D /* SDWebImageSwiftUI */; };
 		14BEB8042B9E049000B87AB8 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEB8032B9E049000B87AB8 /* SearchVC.swift */; };
 		14CFB1E32B56F55A0036FE91 /* HomeHeaderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CFB1E22B56F55A0036FE91 /* HomeHeaderConfig.swift */; };
 		14D08B5D2BAB660500677EFC /* SeasonDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D08B5C2BAB660500677EFC /* SeasonDetail.swift */; };
+		14D2C40F2BC8803E001A89CA /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 14D2C40E2BC8803E001A89CA /* Lottie */; };
+		14D2C41B2BC89D02001A89CA /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 14D2C41A2BC89D02001A89CA /* SDWebImageSwiftUI */; };
 		14DCE3D72B22490D00DCD959 /* NewHotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCE3D62B22490D00DCD959 /* NewHotTableViewCell.swift */; };
 		14E3B0E92B5D668600D08C14 /* MediaDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E3B0E82B5D668600D08C14 /* MediaDetailsVC.swift */; };
 		14EC06AC2B6C4B3600565B57 /* DetailsLabelUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC06AB2B6C4B3600565B57 /* DetailsLabelUIView.swift */; };
@@ -179,8 +179,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14B6FC562BC324C4003C6B8D /* SDWebImageSwiftUI in Frameworks */,
-				14802AE62AEAD34D00C80527 /* SDWebImageMapKit in Frameworks */,
+				14D2C41B2BC89D02001A89CA /* SDWebImageSwiftUI in Frameworks */,
+				14D2C40F2BC8803E001A89CA /* Lottie in Frameworks */,
 				14EC7D5A2B14FE5700E5B395 /* SkeletonView in Frameworks */,
 				14802AE42AEAD34D00C80527 /* SDWebImage in Frameworks */,
 			);
@@ -533,9 +533,9 @@
 			name = "Netflix Clone";
 			packageProductDependencies = (
 				14802AE32AEAD34D00C80527 /* SDWebImage */,
-				14802AE52AEAD34D00C80527 /* SDWebImageMapKit */,
 				14EC7D592B14FE5700E5B395 /* SkeletonView */,
-				14B6FC552BC324C4003C6B8D /* SDWebImageSwiftUI */,
+				14D2C40E2BC8803E001A89CA /* Lottie */,
+				14D2C41A2BC89D02001A89CA /* SDWebImageSwiftUI */,
 			);
 			productName = "Netflix Clone";
 			productReference = 145FB0EF2AD3FEC30019A439 /* Netflix Clone.app */;
@@ -569,6 +569,7 @@
 				14802AE22AEAD34D00C80527 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				14EC7D582B14FE5700E5B395 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				14B6FC542BC324C4003C6B8D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				14D2C40D2BC8803E001A89CA /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = 145FB0F02AD3FEC30019A439 /* Products */;
 			projectDirPath = "";
@@ -895,6 +896,14 @@
 				minimumVersion = 3.0.2;
 			};
 		};
+		14D2C40D2BC8803E001A89CA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.2;
+			};
+		};
 		14EC7D582B14FE5700E5B395 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
@@ -911,12 +920,12 @@
 			package = 14802AE22AEAD34D00C80527 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
 		};
-		14802AE52AEAD34D00C80527 /* SDWebImageMapKit */ = {
+		14D2C40E2BC8803E001A89CA /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 14802AE22AEAD34D00C80527 /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImageMapKit;
+			package = 14D2C40D2BC8803E001A89CA /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
-		14B6FC552BC324C4003C6B8D /* SDWebImageSwiftUI */ = {
+		14D2C41A2BC89D02001A89CA /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 14B6FC542BC324C4003C6B8D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
