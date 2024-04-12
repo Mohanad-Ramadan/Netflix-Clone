@@ -11,9 +11,9 @@ struct UserView: View {
     protocol Delegate: AnyObject {func buttonDidTapped()}
     weak var delegate: Delegate!
     
-    @State private var mohanadAnimationStarted = false
-    @State private var kidsAnimationStarted = false
-    @State private var addProfileAnimationStarted = false
+    @State private var animateUserOne = false
+    @State private var animateUserTwo = false
+    @State private var animateAddProfile = false
     
     var body: some View {
         VStack {
@@ -23,32 +23,32 @@ struct UserView: View {
             VStack {
                 HStack(spacing: 20) {
                     UserBlock(user: "mohanad", resource: .profil)
-                        .scaleEffect(mohanadAnimationStarted ? 1 : 0)
+                        .scaleEffect(animateUserOne ? 1 : 0)
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                withAnimation(.bouncy(duration: 0.8)) {
-                                    mohanadAnimationStarted = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.2) {
+                                withAnimation(.bouncy(duration: 0.7)) {
+                                    animateUserOne = true
                                 }
                             }
                         }
                     
                     UserBlock(user: "Kids", resource: .kids)
-                        .scaleEffect(kidsAnimationStarted ? 1 : 0)
+                        .scaleEffect(animateUserTwo ? 1 : 0)
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                withAnimation(.bouncy(duration: 0.8)) {
-                                    kidsAnimationStarted = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.3) {
+                                withAnimation(.bouncy(duration: 0.7)) {
+                                    animateUserTwo = true
                                 }
                             }
                         }
                 }
                 
                 AddProfile()
-                    .scaleEffect(addProfileAnimationStarted ? 1 : 0)
+                    .scaleEffect(animateAddProfile ? 1 : 0)
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                            withAnimation(.bouncy(duration: 0.8)) {
-                                addProfileAnimationStarted = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.4) {
+                            withAnimation(.bouncy(duration: 0.7)) {
+                                animateAddProfile = true
                             }
                         }
                     }
