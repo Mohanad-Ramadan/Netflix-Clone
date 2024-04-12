@@ -11,19 +11,70 @@ struct UserView: View {
     protocol Delegate: AnyObject {func buttonDidTapped()}
     weak var delegate: Delegate!
     
+    @State private var mohanadAnimationStarted = false
+    @State private var kidsAnimationStarted = false
+    @State private var addProfileAnimationStarted = false
+    
     var body: some View {
         VStack {
-            HStack {
-                UserBlock(user: "mohanad", resource: .profil)
-                    .onTapGesture {delegate.buttonDidTapped()}
-                UserBlock(user: "Kids", resource: .kids)
+            StaticNavBar()
+                .frame(alignment: .top)
+            Spacer()
+            VStack {
+                HStack(spacing: 20) {
+                    UserBlock(user: "mohanad", resource: .profil)
+                        .scaleEffect(mohanadAnimationStarted ? 1 : 0)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                withAnimation(.bouncy(duration: 0.8)) {
+                                    mohanadAnimationStarted = true
+                                }
+                            }
+                        }
+                    
+                    UserBlock(user: "Kids", resource: .kids)
+                        .scaleEffect(kidsAnimationStarted ? 1 : 0)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                withAnimation(.bouncy(duration: 0.8)) {
+                                    kidsAnimationStarted = true
+                                }
+                            }
+                        }
+                }
+                
+                AddProfile()
+                    .scaleEffect(addProfileAnimationStarted ? 1 : 0)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            withAnimation(.bouncy(duration: 0.8)) {
+                                addProfileAnimationStarted = true
+                            }
+                        }
+                    }
             }
-            AddProfile()
+            Spacer()
+            Spacer()
         }
-        .padding(.bottom, 100)
     }
 }
 
+struct StaticNavBar: View {
+    var body: some View {
+        ZStack {
+            Text("Who's Watching?")
+                .bold()
+                .font(.title3)
+                .frame(maxWidth: .infinity)
+            Button("Edit", action: {})
+                .bold()
+                .font(.subheadline)
+                .foregroundStyle(.white)
+                .frame(width: 50)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+        }
+    }
+}
 
 
 struct UserBlock: View {
@@ -56,7 +107,7 @@ struct AddProfile: View {
                     .stroke(Color(.lightGray), lineWidth: 1)
                     .frame(width: 100, height: 100)
                     .padding(.bottom, 5)
-                .padding(.top, 5)
+                    .padding(.top, 5)
             }
             Text("Add Profile")
                 .bold()
