@@ -1,16 +1,13 @@
 //
-//  UserView.swift
+//  UserSelectView.swift
 //  Netflix Clone
 //
-//  Created by Mohanad Ramdan on 09/04/2024.
+//  Created by Mohanad Ramdan on 13/04/2024.
 //
 
 import SwiftUI
 
-struct UserView: View {
-    protocol Delegate: AnyObject {func buttonDidTapped()}
-    weak var delegate: Delegate!
-    
+struct UserSelectView: View {
     @State private var animateUserOne = false
     @State private var animateUserTwo = false
     @State private var animateAddProfile = false
@@ -31,11 +28,14 @@ struct UserView: View {
                                 }
                             }
                         }
+                        .onTapGesture {
+                            //
+                        }
                     
                     UserBlock(user: "Kids", resource: .kids)
                         .scaleEffect(animateUserTwo ? 1 : 0)
                         .onAppear {
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.3) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.4) {
                                 withAnimation(.bouncy(duration: 0.7)) {
                                     animateUserTwo = true
                                 }
@@ -46,7 +46,7 @@ struct UserView: View {
                 AddProfile()
                     .scaleEffect(animateAddProfile ? 1 : 0)
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.4) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.6) {
                             withAnimation(.bouncy(duration: 0.7)) {
                                 animateAddProfile = true
                             }
@@ -76,7 +76,7 @@ struct StaticNavBar: View {
     }
 }
 
-
+// UsersProfile
 struct UserBlock: View {
     @State var user: String
     @State var resource: ImageResource
@@ -95,7 +95,7 @@ struct UserBlock: View {
     }
 }
 
-
+// AddButton
 struct AddProfile: View {
     var body: some View {
         VStack {
@@ -115,5 +115,6 @@ struct AddProfile: View {
     }
 }
 
-
-#Preview { UserView() }
+#Preview {
+    UserSelectView()
+}

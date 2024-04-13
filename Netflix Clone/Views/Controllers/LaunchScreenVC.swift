@@ -70,14 +70,14 @@ class LaunchScreenVC: UIViewController {
     //MARK: - Declare Views
     let speratorBackGround = UIView()
     let splashView = UIHostingController(rootView: LaunchScreenView())
-    let userView = UIHostingController(rootView: UserView())
+    let userView = UIHostingController(rootView: ProfileView())
     let mainAppController = MainTabBarVC()
     
 }
 
 //MARK: - UserView Delegate
-extension LaunchScreenVC: UserView.Delegate {
-    func buttonDidTapped() {
+extension LaunchScreenVC: ProfileView.Delegate {
+    func finishLoadingUser() {
         //
     }
 }
