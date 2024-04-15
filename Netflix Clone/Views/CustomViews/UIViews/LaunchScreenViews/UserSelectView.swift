@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct UserSelectView: View {
+    // Environment variables
+    @Environment(LaunchData.self) private var launchData
+    // animation variables
     @State private var animateUserOne = false
     @State private var animateUserTwo = false
     @State private var animateAddProfile = false
+    @State private var animateToCenter = false
+    //ConstantValue
+    let virticalSpacing = UIScreen.main.bounds.height * 0.2
     
     var body: some View {
-        VStack {
-            StaticNavBar()
-                .frame(alignment: .top)
-            Spacer()
+        VStack(spacing: virticalSpacing) {
+            StaticNavBarView().frame(alignment: .top)
+            
             VStack {
                 HStack(spacing: 20) {
                     UserBlock(user: "mohanad", resource: .profil)
@@ -40,7 +45,7 @@ struct UserSelectView: View {
                         }
                 }
                 
-                AddProfile()
+                AddProfileView()
                     .scaleEffect(animateAddProfile ? 1 : 0)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.6) {
@@ -50,45 +55,65 @@ struct UserSelectView: View {
                         }
                     }
             }
-            Spacer()
-            Spacer()
+        }
+        Spacer()
+    }
+    
+    //MARK: - UserProfile view
+    @ViewBuilder
+    func ProfileView(_ user: UserProfile) -> some View {
+        VStack(spacing: 8) {
+            GeometryReader { _ in
+                Image(user.image)
+                    .resizable()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(6)
+                    .padding(.bottom, 5)
+            }
+            .frame(width: 100, height: 100)
+            .anchorPreference(key: NFProfileKey.self, value: .bounds, transform: { anchor in
+                [user.sourceAnchorID: anchor]
+            })
+            .onTapGesture {
+                launchData.watchingProfle = user
+                launchData.animateProfile = true
+            }
+            
+            Text(user.name)
+                .bold()
         }
     }
+    
 }
 
-
 struct UserBlock: View {
+    @Environment(LaunchData.self) private var laucnhData
     @State var user: String
     @State var resource: ImageResource
     @State var profileTapped = false
     
     var body: some View {
-        VStack {
-            GeometryReader { geo in
-                let position = geo.frame(in: .global)
+        VStack(spacing: 8) {
+            GeometryReader { _ in
                 Image(resource)
                     .resizable()
                     .frame(width: 100, height: 100)
                     .cornerRadius(6)
                     .padding(.bottom, 5)
-                    .preference(key: ProfileBlockAnchorKey.self, value: position.origin)
             }
             .frame(width: 100, height: 100)
-            .overlayPreferenceValue (ProfileBlockAnchorKey.self) { newValue in
-                if profileTapped { SelectedProfileView(startPosition: newValue) }
+            .onTapGesture {
+                profileTapped = true
             }
-            .onTapGesture {profileTapped = true}
             
             Text(user)
                 .bold()
         }
-        .padding(8)
     }
 }
 
 
 struct SelectedProfileView: View {
-    @State var startPosition: CGPoint
     @State var animateView = false
     
     let finishSize = UIScreen.main.bounds.width/2
@@ -109,73 +134,7 @@ struct SelectedProfileView: View {
 }
 
 
-struct LoadingSpinner: View {
-    @State var isAnimating = false
-    let redAccent = Color(.red.darker)
-    
-    var body: some View {
-        Circle()
-            .stroke(.linearGradient(colors: [
-                redAccent,
-                redAccent,
-                redAccent,
-                redAccent,
-                redAccent.opacity(0.9),
-                redAccent.opacity(0.8),
-                redAccent.opacity(0.7),
-                redAccent.opacity(0.5),
-                redAccent.opacity(0.4),
-                redAccent.opacity(0.1),
-                .clear,
-                .clear
-            ], startPoint: .top, endPoint: .bottom), lineWidth: 10)
-            .rotationEffect(.init(degrees: isAnimating ? 360 : 0))
-            .frame(width: 100, height: 100)
-            .onAppear{
-                withAnimation(.linear(duration: 0.7).repeatForever(autoreverses: false)) { isAnimating = true }
-            }
-            
-    }
-}
-
-
-struct AddProfile: View {
-    var body: some View {
-        VStack {
-            ZStack {
-                Image(.addProfile)
-                    .resizable()
-                    .frame(width: 100,height: 100)
-                RoundedRectangle(cornerRadius: 6)
-                    .stroke(Color(.lightGray), lineWidth: 1)
-                    .frame(width: 100, height: 100)
-                    .padding(.bottom, 5)
-                    .padding(.top, 5)
-            }
-            Text("Add Profile")
-                .bold()
-        }
-    }
-}
-
-
-struct StaticNavBar: View {
-    var body: some View {
-        ZStack {
-            Text("Who's Watching?")
-                .bold()
-                .font(.title3)
-                .frame(maxWidth: .infinity)
-            Button("Edit", action: {})
-                .bold()
-                .font(.subheadline)
-                .foregroundStyle(.white)
-                .frame(width: 50)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-        }
-    }
-}
-
 #Preview {
     UserSelectView()
+        .environment(LaunchData())
 }

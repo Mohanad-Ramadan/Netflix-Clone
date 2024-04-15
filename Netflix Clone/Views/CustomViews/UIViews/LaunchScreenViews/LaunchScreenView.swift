@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
-import Lottie
 
 struct LaunchScreenView: View {
     var body: some View {
