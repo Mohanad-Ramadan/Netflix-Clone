@@ -1,5 +1,5 @@
 //
-//  UserSelectView.swift
+//  UserProfilesView.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 13/04/2024.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserSelectView: View {
+struct UserProfilesView: View {
     // Environment variables
     @Environment(LaunchData.self) private var launchData
     // animation variables
@@ -21,10 +21,9 @@ struct UserSelectView: View {
     var body: some View {
         VStack(spacing: virticalSpacing) {
             StaticNavBarView().frame(alignment: .top)
-            
             VStack {
                 HStack(spacing: 20) {
-                    UserBlock(user: "mohanad", resource: .profil)
+                    ProfileCardView(mockProfiles[0])
                         .scaleEffect(animateUserOne ? 1 : 0)
                         .onAppear {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.2) {
@@ -34,7 +33,7 @@ struct UserSelectView: View {
                             }
                         }
                     
-                    UserBlock(user: "Kids", resource: .kids)
+                    ProfileCardView(mockProfiles[1])
                         .scaleEffect(animateUserTwo ? 1 : 0)
                         .onAppear {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5 + 0.4) {
@@ -56,15 +55,18 @@ struct UserSelectView: View {
                     }
             }
         }
+        .overlayPreferenceValue(NFProfileKey.self) { value in
+            SelectedCardView(value)
+        }
         Spacer()
     }
     
-    //MARK: - UserProfile view
+    //MARK: - UserProfile View
     @ViewBuilder
-    func ProfileView(_ user: UserProfile) -> some View {
+    func ProfileCardView(_ profile: UserProfile) -> some View {
         VStack(spacing: 8) {
             GeometryReader { _ in
-                Image(user.image)
+                Image(profile.image)
                     .resizable()
                     .frame(width: 100, height: 100)
                     .cornerRadius(6)
@@ -72,69 +74,68 @@ struct UserSelectView: View {
             }
             .frame(width: 100, height: 100)
             .anchorPreference(key: NFProfileKey.self, value: .bounds, transform: { anchor in
-                [user.sourceAnchorID: anchor]
+                [profile.sourceAnchorID: anchor]
             })
             .onTapGesture {
-                launchData.watchingProfle = user
+                launchData.profileSelected = profile
                 launchData.animateProfile = true
             }
             
-            Text(user.name)
+            Text(profile.name)
                 .bold()
         }
     }
     
-}
-
-struct UserBlock: View {
-    @Environment(LaunchData.self) private var laucnhData
-    @State var user: String
-    @State var resource: ImageResource
-    @State var profileTapped = false
+    //MARK: - SelectedCard View
+    @State private var animateSelectedCard = false
+    let cardEndSize = UIScreen.main.bounds.width/2
     
-    var body: some View {
-        VStack(spacing: 8) {
-            GeometryReader { _ in
-                Image(resource)
+    @ViewBuilder
+    func SelectedCardView(_ value: [String: Anchor<CGRect>]) -> some View {
+        GeometryReader { geo in
+            if let profile = launchData.profileSelected, let sourceAnchorID = value[profile.sourceAnchorID], launchData.animateProfile {
+                // Decalre selected profile variables
+                let cardGeo = geo[sourceAnchorID]
+                let cardPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
+                // Decalre View
+                Image(.profil)
                     .resizable()
-                    .frame(width: 100, height: 100)
                     .cornerRadius(6)
-                    .padding(.bottom, 5)
-            }
-            .frame(width: 100, height: 100)
-            .onTapGesture {
-                profileTapped = true
+                    .frame(width: animateSelectedCard ? cardEndSize : 100, height: animateSelectedCard ? cardEndSize : 100)
+                    .padding(animateSelectedCard ? 70 : 0)
+                    .position(cardPosition)
+                    .onAppear {
+                        withAnimation {animateSelectedCard = true}
+                    }
             }
             
-            Text(user)
-                .bold()
         }
     }
+    
 }
 
-
-struct SelectedProfileView: View {
-    @State var animateView = false
-    
-    let finishSize = UIScreen.main.bounds.width/2
-    let screenCenter = CGPoint(x: UIScreen.main.bounds.width/4, y: UIScreen.main.bounds.height/4)
-    
-    var body: some View {
-        VStack {
-            Image(.profil)
-                .resizable()
-                .cornerRadius(6)
-                .frame(width: animateView ? finishSize : 100, height: animateView ? finishSize : 100)
-                .padding(animateView ? 70 : 0)
-            
-        }
-        .onAppear {withAnimation {animateView = true}}
-        
-    }
-}
+//struct SelectedProfileView: View {
+//    @State var animateView = false
+//
+//    let finishSize = UIScreen.main.bounds.width/2
+//    let screenCenter = CGPoint(x: UIScreen.main.bounds.width/4, y: UIScreen.main.bounds.height/4)
+//
+//    var body: some View {
+//        VStack {
+//            Image(.profil)
+//                .resizable()
+//                .cornerRadius(6)
+//                .frame(width: animateView ? finishSize : 100, height: animateView ? finishSize : 100)
+//                .padding(animateView ? 70 : 0)
+//
+//        }
+//        .onAppear {withAnimation {animateView = true}}
+//
+//    }
+//}
 
 
 #Preview {
-    UserSelectView()
+    UserProfilesView()
         .environment(LaunchData())
 }

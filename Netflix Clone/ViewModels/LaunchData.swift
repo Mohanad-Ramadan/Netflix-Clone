@@ -10,7 +10,7 @@ import Observation
 
 @Observable
 class LaunchData {
-    var watchingProfle: UserProfile?
+    var profileSelected: UserProfile?
     var animateProfile: Bool = false
     var showProfileView: Bool = false 
 }

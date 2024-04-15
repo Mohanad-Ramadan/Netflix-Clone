@@ -13,7 +13,7 @@ struct ProfileView: View {
     @State private var launchData = LaunchData()
     
     var body: some View {
-        UserSelectView()
+        UserProfilesView()
             .environment(launchData)
     }
 }

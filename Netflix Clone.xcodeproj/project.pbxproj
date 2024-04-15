@@ -39,7 +39,7 @@
 		145FB10A2AD402E50019A439 /* NewHotVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB1092AD402E50019A439 /* NewHotVC.swift */; };
 		145FB10E2AD403430019A439 /* DownloadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB10D2AD403430019A439 /* DownloadVC.swift */; };
 		145FB1162AD46CE40019A439 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB1152AD46CE40019A439 /* HomeTableViewCell.swift */; };
-		146621DC2BCA6513009B810B /* UserSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146621DB2BCA6513009B810B /* UserSelectView.swift */; };
+		146621DC2BCA6513009B810B /* UserProfilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146621DB2BCA6513009B810B /* UserProfilesView.swift */; };
 		147094C72B4737FB0053CFBC /* MyNetflixVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094C62B4737FB0053CFBC /* MyNetflixVC.swift */; };
 		147094CA2B4742FD0053CFBC /* DownloadExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094C92B4742FD0053CFBC /* DownloadExtension.swift */; };
 		147094CC2B4747150053CFBC /* TitleRowUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094CB2B4747150053CFBC /* TitleRowUIView.swift */; };
@@ -133,7 +133,7 @@
 		145FB1092AD402E50019A439 /* NewHotVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotVC.swift; sourceTree = "<group>"; };
 		145FB10D2AD403430019A439 /* DownloadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadVC.swift; sourceTree = "<group>"; };
 		145FB1152AD46CE40019A439 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
-		146621DB2BCA6513009B810B /* UserSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectView.swift; sourceTree = "<group>"; };
+		146621DB2BCA6513009B810B /* UserProfilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilesView.swift; sourceTree = "<group>"; };
 		147094C62B4737FB0053CFBC /* MyNetflixVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetflixVC.swift; sourceTree = "<group>"; };
 		147094C92B4742FD0053CFBC /* DownloadExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadExtension.swift; sourceTree = "<group>"; };
 		147094CB2B4747150053CFBC /* TitleRowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleRowUIView.swift; sourceTree = "<group>"; };
@@ -512,7 +512,7 @@
 			children = (
 				14B6FC4E2BC3188F003C6B8D /* LaunchScreenView.swift */,
 				14B213F22BCB909D00676234 /* ProfileView.swift */,
-				146621DB2BCA6513009B810B /* UserSelectView.swift */,
+				146621DB2BCA6513009B810B /* UserProfilesView.swift */,
 				14CC5CCD2BCDC0AC00A5805D /* StaticNavBarView.swift */,
 				14CC5CCB2BCDC07D00A5805D /* AddProfileView.swift */,
 				14CC5CC92BCDBF9400A5805D /* NFLoadingSpinnerView.swift */,
@@ -712,7 +712,7 @@
 				145FB1082AD402A80019A439 /* HomeVC.swift in Sources */,
 				147094D12B4757D40053CFBC /* HomeTableViewExtension.swift in Sources */,
 				14CC5CCA2BCDBF9400A5805D /* NFLoadingSpinnerView.swift in Sources */,
-				146621DC2BCA6513009B810B /* UserSelectView.swift in Sources */,
+				146621DC2BCA6513009B810B /* UserProfilesView.swift in Sources */,
 				14CC5CD22BCDE50B00A5805D /* UserProfile.swift in Sources */,
 				141230EE2AE5B2020025815E /* DataPersistenceManager.swift in Sources */,
 				145EDE7B2B8BBF3E00B49A48 /* ViewController-EXT.swift in Sources */,
