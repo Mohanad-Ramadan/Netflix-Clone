@@ -15,12 +15,14 @@ struct UserProfilesView: View {
     @State private var animateUserTwo = false
     @State private var animateAddProfile = false
     @State private var hideProfiles = false
-    //ConstantValue
+    //Constant Value
     let virticalSpacing = UIScreen.main.bounds.height * 0.2
     
     var body: some View {
-        VStack(spacing: virticalSpacing) {
-            StaticNavBarView().frame(alignment: .top)
+        VStack {
+            StaticNavBarView()
+                .padding(.bottom, virticalSpacing)
+                .opacity(hideProfiles ? 0:1)
             VStack {
                 HStack(spacing: 20) {
                     ProfileCardView(mockProfiles[0])
@@ -43,7 +45,6 @@ struct UserProfilesView: View {
                             }
                         }
                 }
-                
                 AddProfileView()
                     .scaleEffect(animateAddProfile ? 1 : 0)
                     .onAppear {
@@ -55,11 +56,12 @@ struct UserProfilesView: View {
                     }
             }
             .opacity(hideProfiles ? 0:1)
+            .overlayPreferenceValue(NFProfileKey.self) { value in
+                SelectedCardView(value)
+            }
+            Spacer()
         }
-        .overlayPreferenceValue(NFProfileKey.self) { value in
-            SelectedCardView(value)
-        }
-        Spacer()
+        
     }
     
     //MARK: - UserProfile View
@@ -87,7 +89,7 @@ struct UserProfilesView: View {
     
     //MARK: - SelectedCard View
     @State private var animateSelectedCard = false
-    let cardEndSize = UIScreen.main.bounds.width/2
+    let cardEndSize = UIScreen.main.bounds.width/2.3
     let spinnerOffest = UIScreen.main.bounds.height*0.08
     
     @ViewBuilder
@@ -99,7 +101,7 @@ struct UserProfilesView: View {
                 let cardGeo = geo[sourceAnchorID]
                 let screenGeo = geo.frame(in: .global)
                 let cardPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
-                let endPosition = CGPoint(x: screenGeo.midX, y: screenGeo.midY)
+                let endPosition = CGPoint(x: screenGeo.width/2, y: screenGeo.height/3)
                 // Decalre View
                 VStack {
                     Image(profile.image)

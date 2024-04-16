@@ -9,18 +9,18 @@ import SwiftUI
 
 struct StaticNavBarView: View {
     var body: some View {
-        ZStack {
-            Text("Who's Watching?")
-                .bold()
-                .font(.title3)
-                .frame(maxWidth: .infinity)
-            Button("Edit", action: {})
-                .bold()
-                .font(.subheadline)
-                .foregroundStyle(.white)
-                .frame(width: 50)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-        }
+        Button("Edit", action: {})
+            .bold()
+            .font(.subheadline)
+            .foregroundStyle(.white)
+            .frame(width: 50)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .overlay {
+                Text("Who's Watching?")
+                    .bold()
+                    .font(.title3)
+                    .frame(maxWidth: .infinity)
+            }
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  LaunchScreenView.swift
+//  SplashScreenView.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 07/04/2024.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-struct LaunchScreenView: View {
+struct SplashScreenView: View {
     var body: some View {
         AnimatedImage(url: url)
             .incrementalLoad(true)
@@ -25,5 +25,5 @@ struct LaunchScreenView: View {
 }
 
 #Preview {
-    LaunchScreenView()
+    SplashScreenView()
 }

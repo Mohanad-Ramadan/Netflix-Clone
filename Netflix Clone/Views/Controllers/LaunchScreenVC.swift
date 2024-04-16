@@ -51,6 +51,7 @@ class LaunchScreenVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.2){
             UIView.animate(withDuration: 0.3) {
                 self.splashView.view.alpha = 0
+                self.speratorBackGround.alpha = 0
             } completion: { finish in
                 self.splashView.view.removeFromSuperview()
                 self.speratorBackGround.removeFromSuperview()
@@ -69,14 +70,14 @@ class LaunchScreenVC: UIViewController {
     
     //MARK: - Declare Views
     let speratorBackGround = UIView()
-    let splashView = UIHostingController(rootView: LaunchScreenView())
-    let userView = UIHostingController(rootView: ProfileView())
+    let splashView = UIHostingController(rootView: SplashScreenView())
+    let userView = UIHostingController(rootView: LaunchView())
     let mainAppController = MainTabBarVC()
     
 }
 
 //MARK: - UserView Delegate
-extension LaunchScreenVC: ProfileView.Delegate {
+extension LaunchScreenVC: LaunchView.Delegate {
     func finishLoadingUser() {
         //
     }
