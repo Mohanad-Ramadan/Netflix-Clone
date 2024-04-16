@@ -28,7 +28,7 @@ struct NFLoadingSpinnerView: View {
                 .clear
             ], startPoint: .top, endPoint: .bottom), lineWidth: 10)
             .rotationEffect(.init(degrees: isAnimating ? 360 : 0))
-            .frame(width: 100, height: 100)
+            .frame(width: 90, height: 90)
             .onAppear{
                 withAnimation(.linear(duration: 0.7).repeatForever(autoreverses: false)) { isAnimating = true }
             }

@@ -14,7 +14,7 @@ struct UserProfilesView: View {
     @State private var animateUserOne = false
     @State private var animateUserTwo = false
     @State private var animateAddProfile = false
-    @State private var animateToCenter = false
+    @State private var hideProfiles = false
     //ConstantValue
     let virticalSpacing = UIScreen.main.bounds.height * 0.2
     
@@ -54,6 +54,7 @@ struct UserProfilesView: View {
                         }
                     }
             }
+            .opacity(hideProfiles ? 0:1)
         }
         .overlayPreferenceValue(NFProfileKey.self) { value in
             SelectedCardView(value)
@@ -73,66 +74,53 @@ struct UserProfilesView: View {
                     .padding(.bottom, 5)
             }
             .frame(width: 100, height: 100)
-            .anchorPreference(key: NFProfileKey.self, value: .bounds, transform: { anchor in
-                [profile.sourceAnchorID: anchor]
-            })
+            .anchorPreference(key: NFProfileKey.self, value: .bounds, transform:
+                                { anchor in [profile.sourceAnchorID: anchor] })
             .onTapGesture {
                 launchData.profileSelected = profile
                 launchData.animateProfile = true
+                hideProfiles = true
             }
-            
-            Text(profile.name)
-                .bold()
+            Text(profile.name).bold()
         }
     }
     
     //MARK: - SelectedCard View
     @State private var animateSelectedCard = false
     let cardEndSize = UIScreen.main.bounds.width/2
+    let spinnerOffest = UIScreen.main.bounds.height*0.08
     
     @ViewBuilder
     func SelectedCardView(_ value: [String: Anchor<CGRect>]) -> some View {
         GeometryReader { geo in
+            // Safely unwrap the selected profile
             if let profile = launchData.profileSelected, let sourceAnchorID = value[profile.sourceAnchorID], launchData.animateProfile {
                 // Decalre selected profile variables
                 let cardGeo = geo[sourceAnchorID]
+                let screenGeo = geo.frame(in: .global)
                 let cardPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
+                let endPosition = CGPoint(x: screenGeo.midX, y: screenGeo.midY)
                 // Decalre View
-                Image(.profil)
-                    .resizable()
-                    .cornerRadius(6)
-                    .frame(width: animateSelectedCard ? cardEndSize : 100, height: animateSelectedCard ? cardEndSize : 100)
-                    .padding(animateSelectedCard ? 70 : 0)
-                    .position(cardPosition)
-                    .onAppear {
-                        withAnimation {animateSelectedCard = true}
-                    }
+                VStack {
+                    Image(profile.image)
+                        .resizable()
+                        .cornerRadius(6)
+                        .frame(width: animateSelectedCard ? cardEndSize : 100, height: animateSelectedCard ? cardEndSize : 100)
+                        .padding(animateSelectedCard ? 70 : 0)
+                        .position(animateSelectedCard ? endPosition : cardPosition)
+                        .onAppear {
+                            withAnimation(.bouncy(extraBounce: 0.1).speed(1.5)) {animateSelectedCard = true}
+                        }
+                    NFLoadingSpinnerView()
+                        .offset(y: spinnerOffest)
+                        .opacity(animateSelectedCard ? 1 : 0)
+                }
+                
             }
-            
         }
     }
     
 }
-
-//struct SelectedProfileView: View {
-//    @State var animateView = false
-//
-//    let finishSize = UIScreen.main.bounds.width/2
-//    let screenCenter = CGPoint(x: UIScreen.main.bounds.width/4, y: UIScreen.main.bounds.height/4)
-//
-//    var body: some View {
-//        VStack {
-//            Image(.profil)
-//                .resizable()
-//                .cornerRadius(6)
-//                .frame(width: animateView ? finishSize : 100, height: animateView ? finishSize : 100)
-//                .padding(animateView ? 70 : 0)
-//
-//        }
-//        .onAppear {withAnimation {animateView = true}}
-//
-//    }
-//}
 
 
 #Preview {
