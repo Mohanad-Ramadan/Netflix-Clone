@@ -24,6 +24,19 @@ struct StaticNavBarView: View {
     }
 }
 
-#Preview {
-    StaticNavBarView()
+struct viewtiny: View {
+    var body: some View {
+        GeometryReader { geo in
+            Image(.profil)
+                .resizable()
+                .frame(width: 25, height: 25)
+                .position(x: 325, y: 782.5)
+                .ignoresSafeArea()
+        }
+        .background(.gray)
+    }
 }
+
+//#Preview {
+//    viewtiny()
+//}

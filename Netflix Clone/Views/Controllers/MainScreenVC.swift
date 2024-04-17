@@ -11,13 +11,12 @@ import SwiftUI
 class MainScreenVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupMainTabController()
-        setupUserView()
+        setupLaunchView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        removeLaunchScreen()
+//        removeLaunchScreen()
     }
     
     //MARK: - Configure TabBarController
@@ -26,31 +25,38 @@ class MainScreenVC: UIViewController {
         mainAppController.view.frame = view.bounds
         view.addSubview(mainAppController.view)
         mainAppController.didMove(toParent: self)
+        mainAppController.view.sendSubviewToBack(launchView.view)
     }
     
     //MARK: - Configure SwiftUI views
-    func setupUserView() {
-        addChild(userView)
-        userView.view.frame = view.bounds
-        view.addSubview(userView.view)
-        userView.rootView.delegate = self
-        userView.didMove(toParent: self)
+    func setupLaunchView() {
+        addChild(launchView)
+        launchView.view.frame = view.bounds
+        view.addSubview(launchView.view)
+        launchView.rootView.delegate = self
+        launchView.didMove(toParent: self)
     }
     
     //MARK: - Animate splashScreen
     func removeLaunchScreen() {
-        //
+        DispatchQueue.main.asyncAfter(deadline: .now()+5) {
+            self.launchView.view.removeFromSuperview()
+        }
     }
     
     //MARK: - Declare Views
-    let userView = UIHostingController(rootView: LaunchView())
+    let launchView = UIHostingController(rootView: LaunchView())
     let mainAppController = AppTabBarController()
     
 }
 
 //MARK: - UserView Delegate
 extension MainScreenVC: LaunchView.Delegate {
+    func addMainController() {setupMainTabController(); print("good morning")}
+    
     func finishLoadingUser() {
         //
     }
 }
+
+

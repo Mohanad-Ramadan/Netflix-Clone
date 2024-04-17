@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LaunchView: View {
     // Bridge View with LaunchVC with delegate
-    protocol Delegate: AnyObject {func finishLoadingUser()}
+    protocol Delegate: AnyObject {func finishLoadingUser(); func addMainController()}
     weak var delegate: Delegate!
     // Declare View properties
     @State private var launchData = LaunchData()
@@ -18,7 +18,7 @@ struct LaunchView: View {
     
     var body: some View {
         ZStack{
-            UserProfilesView()
+            UserProfilesView(userTappedCallBack: startAddingMainScreen)
                 .environment(launchData)
                 .padding(.horizontal, 5)
             SplashScreenView()
@@ -34,6 +34,9 @@ struct LaunchView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {splashScreenOn = false}
     }
     
+    private func startAddingMainScreen() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {delegate.addMainController()}
+    }
 }
 
 #Preview {

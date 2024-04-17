@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class AppTabBarController: UITabBarController {
     override func viewDidLoad() {
@@ -21,14 +22,16 @@ class AppTabBarController: UITabBarController {
         vc2.tabBarItem.image = UIImage(systemName: "play.rectangle.on.rectangle")
         vc2.title = "New & Hot"
         
-        vc3.tabBarItem.image = UIImage(systemName: "arrow.down.circle")
+        vc3.tabBarItem.image = UIImage(resource: .profil).sd_resizedImage(with: CGSize(width: 25, height: 25), scaleMode: .aspectFit)?.withRenderingMode(.alwaysOriginal)
         vc3.title = "My Netflix"
         
         tabBar.tintColor = .label
         
         setViewControllers([vc1,vc2,vc3], animated: true)
+        
+        // getting the frame of MyNetflix item in the tabBar
     }
-
-
+    
+    
 }
 

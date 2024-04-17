@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct UserProfilesView: View {
+    // callBack to ParentView
+    let userTappedCallBack: (() -> Void)?
     // Environment variables
     @Environment(LaunchData.self) private var launchData
     // animation variables
@@ -82,6 +84,7 @@ struct UserProfilesView: View {
                 launchData.profileSelected = profile
                 launchData.animateProfile = true
                 hideProfiles = true
+                userTappedCallBack!()
             }
             Text(profile.name).bold()
         }
@@ -126,6 +129,6 @@ struct UserProfilesView: View {
 
 
 #Preview {
-    UserProfilesView()
+    UserProfilesView(userTappedCallBack: nil)
         .environment(LaunchData())
 }
