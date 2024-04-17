@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  AppTabBarController.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 09/10/2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainTabBarVC: UITabBarController {
+class AppTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         

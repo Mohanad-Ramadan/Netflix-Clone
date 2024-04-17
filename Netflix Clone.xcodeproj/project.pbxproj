@@ -33,7 +33,7 @@
 		145EDE812B8BC3EC00B49A48 /* UIColor-EXT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145EDE802B8BC3EC00B49A48 /* UIColor-EXT.swift */; };
 		145FB0F32AD3FEC30019A439 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB0F22AD3FEC30019A439 /* AppDelegate.swift */; };
 		145FB0F52AD3FEC30019A439 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB0F42AD3FEC30019A439 /* SceneDelegate.swift */; };
-		145FB0F72AD3FEC30019A439 /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB0F62AD3FEC30019A439 /* MainTabBarVC.swift */; };
+		145FB0F72AD3FEC30019A439 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB0F62AD3FEC30019A439 /* AppTabBarController.swift */; };
 		145FB0FC2AD3FEC40019A439 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 145FB0FB2AD3FEC40019A439 /* Assets.xcassets */; };
 		145FB1082AD402A80019A439 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB1072AD402A80019A439 /* HomeVC.swift */; };
 		145FB10A2AD402E50019A439 /* NewHotVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB1092AD402E50019A439 /* NewHotVC.swift */; };
@@ -89,7 +89,7 @@
 		14EC06AC2B6C4B3600565B57 /* DetailsLabelUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC06AB2B6C4B3600565B57 /* DetailsLabelUIView.swift */; };
 		14EC7D5A2B14FE5700E5B395 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 14EC7D592B14FE5700E5B395 /* SkeletonView */; };
 		14EC7D612B15174C00E5B395 /* HomeLoadingUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EC7D602B15174C00E5B395 /* HomeLoadingUIView.swift */; };
-		14ECA52A2BC4BE8800E71F11 /* LaunchScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ECA5292BC4BE8800E71F11 /* LaunchScreenVC.swift */; };
+		14ECA52A2BC4BE8800E71F11 /* MainScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ECA5292BC4BE8800E71F11 /* MainScreenVC.swift */; };
 		14ECA52D2BC4D84400E71F11 /* NetflixGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 14ECA52C2BC4D84400E71F11 /* NetflixGif.gif */; };
 		14EF75B52B8DFACB004D0279 /* NFImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EF75B42B8DFACB004D0279 /* NFImageView.swift */; };
 		14EF75B82B8E1231004D0279 /* NFWebImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14EF75B72B8E1231004D0279 /* NFWebImageView.swift */; };
@@ -126,7 +126,7 @@
 		145FB0EF2AD3FEC30019A439 /* Netflix Clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Netflix Clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		145FB0F22AD3FEC30019A439 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		145FB0F42AD3FEC30019A439 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		145FB0F62AD3FEC30019A439 /* MainTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarVC.swift; sourceTree = "<group>"; };
+		145FB0F62AD3FEC30019A439 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 		145FB0FB2AD3FEC40019A439 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		145FB1002AD3FEC40019A439 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		145FB1072AD402A80019A439 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
@@ -179,7 +179,7 @@
 		14E3B0E82B5D668600D08C14 /* MediaDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailsVC.swift; sourceTree = "<group>"; };
 		14EC06AB2B6C4B3600565B57 /* DetailsLabelUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsLabelUIView.swift; sourceTree = "<group>"; };
 		14EC7D602B15174C00E5B395 /* HomeLoadingUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeLoadingUIView.swift; sourceTree = "<group>"; };
-		14ECA5292BC4BE8800E71F11 /* LaunchScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenVC.swift; sourceTree = "<group>"; };
+		14ECA5292BC4BE8800E71F11 /* MainScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenVC.swift; sourceTree = "<group>"; };
 		14ECA52C2BC4D84400E71F11 /* NetflixGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = NetflixGif.gif; sourceTree = "<group>"; };
 		14EF75B42B8DFACB004D0279 /* NFImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFImageView.swift; sourceTree = "<group>"; };
 		14EF75B72B8E1231004D0279 /* NFWebImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFWebImageView.swift; sourceTree = "<group>"; };
@@ -274,8 +274,8 @@
 				147094D52B4758560053CFBC /* MyNetflixVC */,
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
 				147094C82B4742C90053CFBC /* DownloadVC */,
-				14ECA5292BC4BE8800E71F11 /* LaunchScreenVC.swift */,
-				145FB0F62AD3FEC30019A439 /* MainTabBarVC.swift */,
+				14ECA5292BC4BE8800E71F11 /* MainScreenVC.swift */,
+				145FB0F62AD3FEC30019A439 /* AppTabBarController.swift */,
 				145FB1092AD402E50019A439 /* NewHotVC.swift */,
 				14BEB8032B9E049000B87AB8 /* SearchVC.swift */,
 			);
@@ -664,7 +664,7 @@
 				14FC660C2B964E86001863B0 /* NFLoadingUIView.swift in Sources */,
 				1482522B2B5F2F010009C0EF /* SwitchViewButtonsUIView.swift in Sources */,
 				147094D92B4759010053CFBC /* HomeTableViewConfig.swift in Sources */,
-				145FB0F72AD3FEC30019A439 /* MainTabBarVC.swift in Sources */,
+				145FB0F72AD3FEC30019A439 /* AppTabBarController.swift in Sources */,
 				1416D03F2B6734FB00BC363C /* Cast.swift in Sources */,
 				14EF75B52B8DFACB004D0279 /* NFImageView.swift in Sources */,
 				141E13FB2AD73191007418D5 /* NetworkManager.swift in Sources */,
@@ -676,7 +676,7 @@
 				14FDAABB2AD49E580027DFED /* HeroHeaderUIView.swift in Sources */,
 				145FB0F32AD3FEC30019A439 /* AppDelegate.swift in Sources */,
 				147D7E972BBB2F9900118925 /* ComingSoonTVC.swift in Sources */,
-				14ECA52A2BC4BE8800E71F11 /* LaunchScreenVC.swift in Sources */,
+				14ECA52A2BC4BE8800E71F11 /* MainScreenVC.swift in Sources */,
 				142FF7D52B91183A0061375F /* NFPlainButton.swift in Sources */,
 				14EF75B82B8E1231004D0279 /* NFWebImageView.swift in Sources */,
 				14D08B5D2BAB660500677EFC /* SeasonDetail.swift in Sources */,

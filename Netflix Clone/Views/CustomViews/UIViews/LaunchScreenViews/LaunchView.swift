@@ -13,14 +13,27 @@ struct LaunchView: View {
     weak var delegate: Delegate!
     // Declare View properties
     @State private var launchData = LaunchData()
-     
+    @State private var splashScreenOn = true
+    
+    
     var body: some View {
         ZStack{
             UserProfilesView()
                 .environment(launchData)
+                .padding(.horizontal, 5)
+            SplashScreenView()
+                .opacity(splashScreenOn ? 1:0)
+                .animation(.easeIn, value: splashScreenOn)
+                .onAppear(perform: removeSplashScreen)
         }
         
     }
+    
+    
+    private func removeSplashScreen() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {splashScreenOn = false}
+    }
+    
 }
 
 #Preview {

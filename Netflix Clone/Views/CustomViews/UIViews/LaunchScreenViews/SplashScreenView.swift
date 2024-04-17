@@ -12,9 +12,9 @@ struct SplashScreenView: View {
     var body: some View {
         AnimatedImage(url: url)
             .incrementalLoad(true)
-            .resizable()
             .scaledToFit()
             .ignoresSafeArea()
+            .background(.black)
     }
     
     private var url: URL{
