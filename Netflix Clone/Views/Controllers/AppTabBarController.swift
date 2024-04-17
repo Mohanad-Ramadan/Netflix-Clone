@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 class AppTabBarController: UITabBarController {
     override func viewDidLoad() {
@@ -28,8 +27,6 @@ class AppTabBarController: UITabBarController {
         tabBar.tintColor = .label
         
         setViewControllers([vc1,vc2,vc3], animated: true)
-        
-        // getting the frame of MyNetflix item in the tabBar
     }
     
     

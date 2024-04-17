@@ -23,9 +23,8 @@ class MainScreenVC: UIViewController {
     func setupMainTabController() {
         addChild(mainAppController)
         mainAppController.view.frame = view.bounds
-        view.addSubview(mainAppController.view)
+        view.insertSubview(mainAppController.view, belowSubview: launchView.view)
         mainAppController.didMove(toParent: self)
-        mainAppController.view.sendSubviewToBack(launchView.view)
     }
     
     //MARK: - Configure SwiftUI views
@@ -35,6 +34,7 @@ class MainScreenVC: UIViewController {
         view.addSubview(launchView.view)
         launchView.rootView.delegate = self
         launchView.didMove(toParent: self)
+        
     }
     
     //MARK: - Animate splashScreen

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LaunchView: View {
-    // Bridge View with LaunchVC with delegate
+    // Delegate protocol
     protocol Delegate: AnyObject {func finishLoadingUser(); func addMainController()}
     weak var delegate: Delegate!
     // Declare View properties

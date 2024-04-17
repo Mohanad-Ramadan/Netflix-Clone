@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum UIHelper {
     
@@ -38,4 +39,19 @@ enum UIHelper {
         return results
     }
     
+    //MARK: - get the last tab image position
+    static func getMyNetflixTabFrame(from mainTC: UITabBarController) -> CGPoint {
+        let tabBar = mainTC.tabBar
+        let mainVC = mainTC.viewControllers![0]
+        // item midX point
+        let itemHalfWidth = (tabBar.bounds.width / CGFloat(tabBar.items!.count)) / 2
+        let tabBarWidth = tabBar.bounds.width
+        let itemMidX = tabBarWidth - itemHalfWidth
+        // item midY point
+        let tabBarHeight = tabBar.frame(in: mainVC.view)!.minY
+        let imageMidY = tabBarHeight - (tabBar.items![2].image!.size.width/2)
+        
+        let imagePosition = CGPoint(x: itemMidX , y: imageMidY + 1)
+        return imagePosition
+    }
 }
