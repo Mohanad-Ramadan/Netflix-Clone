@@ -22,7 +22,7 @@ struct LaunchView: View {
     
     var body: some View {
         ZStack{
-            UserProfilesView(userTappedCallBack: startAddingMainScreen, selectedCardEndPoint: delegate.getTabItemPosition)
+            UserProfilesView(userTappedCallBack: startAddingMainScreen, cardEndPosition: delegate.getTabItemPosition)
                 .environment(launchData)
                 .padding(.horizontal, 5)
             SplashScreenView()

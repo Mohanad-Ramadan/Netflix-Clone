@@ -18,7 +18,6 @@ struct UserProfilesView: View {
     @State private var animateAddProfile = false
     @State private var hideSelectView = false
     @State private var animateToTabBar = false
-    @State private var removeLoadingSpinner = false
     // Constant Value
     let virticalSpacing = UIScreen.main.bounds.height * 0.2
     
@@ -96,17 +95,17 @@ struct UserProfilesView: View {
     
     private func clearViewBackground() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            removeLoadingSpinner = true
             withAnimation {animateToTabBar = true}
         }
     }
     
     //MARK: - SelectedCard View
-    @State private var animateSelectedCard = false
+    @State private var animateToCenter = false
     let cardEndSize = UIScreen.main.bounds.width/2.3
     let spinnerOffest = UIScreen.main.bounds.height*0.08
-    let selectedCardEndPoint: () -> CGPoint
+    let cardEndPosition: () -> CGPoint
     
+    // View method
     @ViewBuilder
     func SelectedCardView(_ value: [String: Anchor<CGRect>]) -> some View {
         GeometryReader { geo in
@@ -115,28 +114,49 @@ struct UserProfilesView: View {
                 // Decalre selected profile constants
                 let cardGeo = geo[sourceAnchorID]
                 let screenGeo = geo.frame(in: .global)
-                let cardPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
-                let endPosition = CGPoint(x: screenGeo.width/2, y: screenGeo.height/3)
+                let startPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
+                let screenCenter = CGPoint(x: screenGeo.width/2, y: screenGeo.height/3)
                 let imageTabScale = (25/cardEndSize)
+                // Path animation to tabBar
+                let tabBarItemPath = Path { path in
+                    path.move(to: screenCenter)
+                    path.addLine(to: cardEndPosition())
+                }
+                
+                tabBarItemPath.stroke(lineWidth: 1)
+                
                 // Decalre View
                 VStack {
                     Image(profile.image)
                         .resizable()
-                        .cornerRadius(6)
-                        .frame(width: animateSelectedCard ? cardEndSize : 100, height: animateSelectedCard ? cardEndSize : 100)
-                        .scaleEffect(CGSize(width: animateToTabBar ? imageTabScale : 1, height: animateToTabBar ? imageTabScale : 1))
-                        .padding(animateSelectedCard ? 70 : 0)
-                        .position(animateSelectedCard ? endPosition : cardPosition)
-                        .animation(.bouncy(extraBounce: 0.1).speed(1.5), value: animateSelectedCard)
+                        .cornerRadius(animateToTabBar ? 2:6)
+                        .frame(
+                            width: animateToCenter ? cardEndSize : 100,
+                            height: animateToCenter ? cardEndSize : 100
+                        )
+                        .scaleEffect(
+                            CGSize(
+                                width: animateToTabBar ? imageTabScale : 1,
+                                height: animateToTabBar ? imageTabScale : 1
+                            )
+                        )
+                        .padding(animateToCenter ? 70 : 0)
+                        .position(
+                            animateToCenter ? 
+                            (animateToTabBar ? cardEndPosition() : screenCenter)
+                            :
+                            startPosition
+                        )
+                        .animation(.bouncy(extraBounce: 0.1).speed(1.5), value: animateToCenter)
                         .animation(.linear.speed(2), value: animateToTabBar)
-                        .onAppear {animateSelectedCard = true}
+                        .onAppear {animateToCenter = true}
                     
-                    NFLoadingSpinnerView()
+                    LoadingSpinnerView()
                         .offset(y: spinnerOffest)
-                        .opacity(animateSelectedCard ? 1 : 0)
-                        .opacity(removeLoadingSpinner ? 0 : 1)
-                        .animation(.linear.speed(2), value: animateSelectedCard)
-                        .animation(.linear.speed(2), value: removeLoadingSpinner)
+                        .opacity(animateToCenter ? 1 : 0)
+                        .opacity(animateToTabBar ? 0 : 1)
+                        .animation(.linear.speed(2), value: animateToCenter)
+                        .animation(.linear.speed(2), value: animateToTabBar)
                 }
                 
             }
@@ -145,10 +165,32 @@ struct UserProfilesView: View {
     
 }
 
+//MARK: - AnimateCardPath
+struct AnimateCardPath: ViewModifier, Animatable {
+    let source: CGPoint
+    let center: CGPoint
+    let destination: CGPoint
+    var animateToCenter: Bool
+    var animateToTabBar: Bool
+    var path: Path
+    var progress: CGFloat
+    
+    var animatableData: CGFloat {
+        get {progress}
+        set {progress = newValue}
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .position()
+    }
+    
+}
+
 
 #Preview {
-    UserProfilesView(userTappedCallBack: {}, selectedCardEndPoint: staticPreview)
+    UserProfilesView(userTappedCallBack: {}, cardEndPosition: staticPreview)
         .environment(LaunchData())
 }
 
-func staticPreview() -> CGPoint {CGPoint(x: 325, y: 783.5)}
+func staticPreview() -> CGPoint {CGPoint(x: 240, y: 550)}

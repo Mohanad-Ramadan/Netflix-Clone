@@ -75,7 +75,7 @@
 		14B213F32BCB909D00676234 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B213F22BCB909D00676234 /* LaunchView.swift */; };
 		14B6FC4F2BC3188F003C6B8D /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */; };
 		14BEB8042B9E049000B87AB8 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEB8032B9E049000B87AB8 /* SearchVC.swift */; };
-		14CC5CCA2BCDBF9400A5805D /* NFLoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CC92BCDBF9400A5805D /* NFLoadingSpinnerView.swift */; };
+		14CC5CCA2BCDBF9400A5805D /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */; };
 		14CC5CCC2BCDC07D00A5805D /* AddProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CCB2BCDC07D00A5805D /* AddProfileView.swift */; };
 		14CC5CCE2BCDC0AC00A5805D /* StaticNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CCD2BCDC0AC00A5805D /* StaticNavBarView.swift */; };
 		14CC5CD02BCDC63E00A5805D /* LaunchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CCF2BCDC63E00A5805D /* LaunchData.swift */; };
@@ -168,7 +168,7 @@
 		14B213F22BCB909D00676234 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		14BEB8032B9E049000B87AB8 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
-		14CC5CC92BCDBF9400A5805D /* NFLoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFLoadingSpinnerView.swift; sourceTree = "<group>"; };
+		14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
 		14CC5CCB2BCDC07D00A5805D /* AddProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProfileView.swift; sourceTree = "<group>"; };
 		14CC5CCD2BCDC0AC00A5805D /* StaticNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticNavBarView.swift; sourceTree = "<group>"; };
 		14CC5CCF2BCDC63E00A5805D /* LaunchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchData.swift; sourceTree = "<group>"; };
@@ -467,6 +467,17 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
+		14B3AE022BD0BD8D00F5BFA6 /* UserProfilesViews */ = {
+			isa = PBXGroup;
+			children = (
+				146621DB2BCA6513009B810B /* UserProfilesView.swift */,
+				14CC5CCD2BCDC0AC00A5805D /* StaticNavBarView.swift */,
+				14CC5CCB2BCDC07D00A5805D /* AddProfileView.swift */,
+				14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */,
+			);
+			path = UserProfilesViews;
+			sourceTree = "<group>";
+		};
 		14CC5CC72BCCA15800A5805D /* UIKit Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,10 +523,7 @@
 			children = (
 				14B213F22BCB909D00676234 /* LaunchView.swift */,
 				14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */,
-				146621DB2BCA6513009B810B /* UserProfilesView.swift */,
-				14CC5CCD2BCDC0AC00A5805D /* StaticNavBarView.swift */,
-				14CC5CCB2BCDC07D00A5805D /* AddProfileView.swift */,
-				14CC5CC92BCDBF9400A5805D /* NFLoadingSpinnerView.swift */,
+				14B3AE022BD0BD8D00F5BFA6 /* UserProfilesViews */,
 			);
 			path = LaunchScreenViews;
 			sourceTree = "<group>";
@@ -711,7 +719,7 @@
 				145EDE7F2B8BC39C00B49A48 /* Int-EXT.swift in Sources */,
 				145FB1082AD402A80019A439 /* HomeVC.swift in Sources */,
 				147094D12B4757D40053CFBC /* HomeTableViewExtension.swift in Sources */,
-				14CC5CCA2BCDBF9400A5805D /* NFLoadingSpinnerView.swift in Sources */,
+				14CC5CCA2BCDBF9400A5805D /* LoadingSpinnerView.swift in Sources */,
 				146621DC2BCA6513009B810B /* UserProfilesView.swift in Sources */,
 				14CC5CD22BCDE50B00A5805D /* UserProfile.swift in Sources */,
 				141230EE2AE5B2020025815E /* DataPersistenceManager.swift in Sources */,

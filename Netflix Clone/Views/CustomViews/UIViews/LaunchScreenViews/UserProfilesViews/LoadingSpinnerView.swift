@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NFLoadingSpinnerView: View {
+struct LoadingSpinnerView: View {
     @State var isAnimating = false
     let redAccent = Color(.red.darker)
     
@@ -37,5 +37,5 @@ struct NFLoadingSpinnerView: View {
 }
 
 #Preview {
-    NFLoadingSpinnerView()
+    LoadingSpinnerView()
 }
