@@ -14,11 +14,6 @@ class MainScreenVC: UIViewController {
         setupLaunchView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        removeLaunchScreen()
-    }
-    
     //MARK: - Configure TabBarController
     func setupMainTabController() {
         addChild(mainAppController)
@@ -31,17 +26,10 @@ class MainScreenVC: UIViewController {
     func setupLaunchView() {
         addChild(launchView)
         launchView.view.frame = view.bounds
+        launchView.view.backgroundColor = .clear
         view.addSubview(launchView.view)
         launchView.rootView.delegate = self
         launchView.didMove(toParent: self)
-        
-    }
-    
-    //MARK: - Animate splashScreen
-    func removeLaunchScreen() {
-        DispatchQueue.main.asyncAfter(deadline: .now()+5) {
-            self.launchView.view.removeFromSuperview()
-        }
     }
     
     //MARK: - Declare Views
@@ -52,11 +40,11 @@ class MainScreenVC: UIViewController {
 
 //MARK: - UserView Delegate
 extension MainScreenVC: LaunchView.Delegate {
+    func getTabItemPosition() -> CGPoint {UIHelper.getMyNetflixTabFrame(from: mainAppController)}
+    
     func addMainController() {setupMainTabController(); print("good morning")}
     
-    func finishLoadingUser() {
-        //
-    }
+    func endWithLaunchView() {self.launchView.view.removeFromSuperview()}
 }
 
 

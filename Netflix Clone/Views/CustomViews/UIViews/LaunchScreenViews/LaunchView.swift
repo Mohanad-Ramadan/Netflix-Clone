@@ -9,7 +9,11 @@ import SwiftUI
 
 struct LaunchView: View {
     // Delegate protocol
-    protocol Delegate: AnyObject {func finishLoadingUser(); func addMainController()}
+    protocol Delegate: AnyObject {
+        func endWithLaunchView()
+        func addMainController()
+        func getTabItemPosition() -> CGPoint
+    }
     weak var delegate: Delegate!
     // Declare View properties
     @State private var launchData = LaunchData()
@@ -18,7 +22,7 @@ struct LaunchView: View {
     
     var body: some View {
         ZStack{
-            UserProfilesView(userTappedCallBack: startAddingMainScreen)
+            UserProfilesView(userTappedCallBack: startAddingMainScreen, selectedCardEndPoint: delegate.getTabItemPosition)
                 .environment(launchData)
                 .padding(.horizontal, 5)
             SplashScreenView()
@@ -39,6 +43,6 @@ struct LaunchView: View {
     }
 }
 
-#Preview {
-    LaunchView()
-}
+//#Preview {
+//    LaunchView()
+//}
