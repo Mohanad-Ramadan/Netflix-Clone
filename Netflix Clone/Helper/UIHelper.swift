@@ -61,9 +61,9 @@ enum UIHelper {
     enum SwiftUI {
         // animate a drawing path
         struct AnimateCardPath: ViewModifier, Animatable {
-            let from: CGPoint
-            let center: CGPoint
-            let destination: CGPoint
+            var from: CGPoint
+            var center: CGPoint
+            var destination: CGPoint
             var animateFirstPortion: Bool
             var animateSecondPortion: Bool
             var path: Path

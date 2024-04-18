@@ -80,52 +80,70 @@ struct UserProfilesView: View {
                     .padding(.bottom, 5)
             }
             .frame(width: 100, height: 100)
-            .anchorPreference(key: RectPositionKey.self, value: .bounds, transform:
-                                { anchor in [profile.sourceAnchorID: anchor] })
+            .anchorPreference(key: RectPositionKey.self,
+                              value: .bounds,
+                              transform: {
+                anchor in [profile.sourceAnchorID: anchor]
+            })
             .onTapGesture {
                 launchData.profileSelected = profile
                 launchData.animateProfile = true
                 hideSelectView = true
                 userTappedCallBack()
-                clearViewBackground()
+                animateCardToTabBar()
             }
             Text(profile.name).bold()
         }
     }
     
-    private func clearViewBackground() {
+    private func animateCardToTabBar() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation {animateToTabBar = true}
+            withAnimation {
+                animateToTabBar = true
+                selectedCardPathProgress = 1
+            }
         }
     }
     
     //MARK: - SelectedCard View
     @State private var animateToCenter = false
+    @State private var selectedCardPathProgress: CGFloat = 0
+    
+    // Constant
     let cardEndSize = UIScreen.main.bounds.width/2.3
     let spinnerOffest = UIScreen.main.bounds.height*0.08
+    let pathControlPoint = CGPoint(
+        x: UIScreen.main.bounds.width * 0.9,
+        y: -UIScreen.main.bounds.height * 0.4
+    )
     let cardEndPosition: () -> CGPoint
     
-    // View method
+    // View
     @ViewBuilder
     func SelectedCardView(_ value: [String: Anchor<CGRect>]) -> some View {
         GeometryReader { geo in
+            
             // Safely unwrap the selected profile
             if let profile = launchData.profileSelected, let sourceAnchorID = value[profile.sourceAnchorID], launchData.animateProfile {
+                
                 // Decalre selected profile constants
                 let cardGeo = geo[sourceAnchorID]
                 let screenGeo = geo.frame(in: .global)
                 let startPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
                 let screenCenter = CGPoint(x: screenGeo.width/2, y: screenGeo.height/3)
                 let imageTabScale = (25/cardEndSize)
+                
                 // Path animation to tabBar
                 let tabBarItemPath = Path { path in
                     path.move(to: screenCenter)
-                    path.addLine(to: cardEndPosition())
+                    path.addQuadCurve(
+                        to: cardEndPosition(),
+                        control: pathControlPoint
+                    )
                 }
+                tabBarItemPath.stroke(lineWidth: 2)
                 
-                tabBarItemPath.stroke(lineWidth: 1)
-                
-                // Decalre View
+                // Layout the Subviews
                 VStack {
                     Image(profile.image)
                         .resizable()
@@ -141,11 +159,16 @@ struct UserProfilesView: View {
                             )
                         )
                         .padding(animateToCenter ? 70 : 0)
-                        .position(
-                            animateToCenter ? 
-                            (animateToTabBar ? cardEndPosition() : screenCenter)
-                            :
-                            startPosition
+                        .modifier(
+                            UIHelper.SwiftUI.AnimateCardPath(
+                                from: startPosition,
+                                center: screenCenter,
+                                destination: cardEndPosition(),
+                                animateFirstPortion: animateToCenter,
+                                animateSecondPortion: animateToTabBar,
+                                path: tabBarItemPath,
+                                progress: selectedCardPathProgress
+                            )
                         )
                         .animation(.bouncy(extraBounce: 0.1).speed(1.5), value: animateToCenter)
                         .animation(.linear.speed(2), value: animateToTabBar)
@@ -161,28 +184,6 @@ struct UserProfilesView: View {
                 
             }
         }
-    }
-    
-}
-
-//MARK: - AnimateCardPath
-struct AnimateCardPath: ViewModifier, Animatable {
-    let source: CGPoint
-    let center: CGPoint
-    let destination: CGPoint
-    var animateToCenter: Bool
-    var animateToTabBar: Bool
-    var path: Path
-    var progress: CGFloat
-    
-    var animatableData: CGFloat {
-        get {progress}
-        set {progress = newValue}
-    }
-    
-    func body(content: Content) -> some View {
-        content
-            .position()
     }
     
 }
