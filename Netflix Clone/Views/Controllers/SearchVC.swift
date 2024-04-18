@@ -60,7 +60,7 @@ class SearchVC: UIViewController {
                     let title = media.title ?? media.originalName
                     
                     let images = try await NetworkManager.shared.getImagesFor(mediaId: id ,ofType: mediaType)
-                    let backdropPath = UIHelper.getBackdropPathFrom(images)
+                    let backdropPath = UIHelper.UIKit.getBackdropPathFrom(images)
                     cell?.configureCell(with: MovieViewModel(title: title ,backdropsPath: backdropPath))
                 } catch {
                     print("Error getting images:", error.localizedDescription)

@@ -25,9 +25,9 @@ class NewHotTableViewCell: UITableViewCell {
                 
                 // images
                 let images = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
-                let logoAspectRatio = UIHelper.getLogoDetailsFrom(images)?.1
-                let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
-                let backdropPath = UIHelper.getBackdropPathFrom(images)
+                let logoAspectRatio = UIHelper.UIKit.getLogoDetailsFrom(images)?.1
+                let logoPath = UIHelper.UIKit.getLogoDetailsFrom(images)?.0
+                let backdropPath = UIHelper.UIKit.getBackdropPathFrom(images)
                 configureCellImages(with: MovieViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
                 
                 // details

@@ -461,8 +461,8 @@
 		14B213EC2BCB81DE00676234 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				14CC5CC72BCCA15800A5805D /* UIKit Helper */,
-				14CC5CC82BCCA16C00A5805D /* SwiftUI Helper */,
+				147BD90A2B9B942D0054A207 /* UIHelper.swift */,
+				14B213ED2BCB820100676234 /* RectPositionKey.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -476,22 +476,6 @@
 				14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */,
 			);
 			path = UserProfilesViews;
-			sourceTree = "<group>";
-		};
-		14CC5CC72BCCA15800A5805D /* UIKit Helper */ = {
-			isa = PBXGroup;
-			children = (
-				147BD90A2B9B942D0054A207 /* UIHelper.swift */,
-			);
-			path = "UIKit Helper";
-			sourceTree = "<group>";
-		};
-		14CC5CC82BCCA16C00A5805D /* SwiftUI Helper */ = {
-			isa = PBXGroup;
-			children = (
-				14B213ED2BCB820100676234 /* RectPositionKey.swift */,
-			);
-			path = "SwiftUI Helper";
 			sourceTree = "<group>";
 		};
 		14EC7D5F2B15174C00E5B395 /* CustomViews */ = {

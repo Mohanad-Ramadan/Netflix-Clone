@@ -40,7 +40,7 @@ class MainScreenVC: UIViewController {
 
 //MARK: - UserView Delegate
 extension MainScreenVC: LaunchView.Delegate {
-    func getTabItemPosition() -> CGPoint {UIHelper.getMyNetflixTabFrame(from: mainAppController)}
+    func getTabItemPosition() -> CGPoint {UIHelper.UIKit.getMyNetflixTabFrame(from: mainAppController)}
     
     func addMainController() {setupMainTabController(); print("good morning")}
     

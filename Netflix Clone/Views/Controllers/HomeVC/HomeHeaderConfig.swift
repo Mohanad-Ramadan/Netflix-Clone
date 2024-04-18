@@ -29,8 +29,8 @@ extension HomeVC {
             do {
                 // get logo and backdrop
                 let images = try await NetworkManager.shared.getImagesFor(mediaId: movie.id, ofType: "movie")
-                let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
-                let backdropPath = UIHelper.getBackdropPathFrom(images)
+                let logoPath = UIHelper.UIKit.getLogoDetailsFrom(images)?.0
+                let backdropPath = UIHelper.UIKit.getBackdropPathFrom(images)
                 
                 // get genres
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
