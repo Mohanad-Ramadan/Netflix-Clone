@@ -39,6 +39,13 @@ extension MainScreenVC: LaunchView.Delegate {
     func getTabItemPosition() -> CGPoint {UIHelper.UIKit.getMyNetflixTabFrame(from: mainAppController)}
     func addMainController() {setupMainTabController()}
     func endWithLaunchView() {self.launchView.view.removeFromSuperview()}
+    
+    func launchComplete() {
+        mainAppController.tabBar.items![2].image = UIImage(resource: .profil).sd_resizedImage(with: CGSize(width: 25, height: 25), scaleMode: .aspectFit)?.withRenderingMode(.alwaysOriginal)
+        launchView.view.removeFromSuperview()
+        launchView.removeFromParent()
+    }
+    
 }
 
 

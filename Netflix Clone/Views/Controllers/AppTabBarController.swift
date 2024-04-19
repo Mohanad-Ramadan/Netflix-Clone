@@ -21,7 +21,7 @@ class AppTabBarController: UITabBarController {
         vc2.tabBarItem.image = UIImage(systemName: "play.rectangle.on.rectangle")
         vc2.title = "New & Hot"
         
-        vc3.tabBarItem.image = UIImage(resource: .profil).sd_resizedImage(with: CGSize(width: 25, height: 25), scaleMode: .aspectFit)?.withRenderingMode(.alwaysOriginal)
+        vc3.tabBarItem.image = UIImage().sd_resizedImage(with: CGSize(width: 25, height: 25), scaleMode: .aspectFit)?.withRenderingMode(.alwaysOriginal)
         vc3.title = "My Netflix"
         
         tabBar.tintColor = .label

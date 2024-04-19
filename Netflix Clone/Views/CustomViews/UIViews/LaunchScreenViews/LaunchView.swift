@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct LaunchView: View {
+    // Declare delegate instance
     weak var delegate: Delegate!
+    
     // Declare View properties
     @State private var launchData = LaunchData()
     @State private var splashScreenOn = true
@@ -27,6 +29,10 @@ struct LaunchView: View {
                 .onAppear(perform: removeSplashScreen)
         }
         .environment(launchData)
+        .onChange(of: launchData.launchFinishs) { _, done in
+            guard done else {return}
+            delegate.launchComplete()
+        }
     }
     
     
@@ -39,15 +45,14 @@ struct LaunchView: View {
     }
 }
 
+
 //MARK: - Delegate protocol
 extension LaunchView{
     protocol Delegate: AnyObject {
         func endWithLaunchView()
         func addMainController()
         func getTabItemPosition() -> CGPoint
+        func launchComplete()
     }
 }
 
-//#Preview {
-//    LaunchView()
-//}

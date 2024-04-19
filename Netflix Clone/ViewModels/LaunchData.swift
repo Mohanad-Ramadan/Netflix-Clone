@@ -18,4 +18,5 @@ class LaunchData {
     var animateToCenter = false
     var animateToTabBar = false
     var cardPathProgress: CGFloat = 0
+    var launchFinishs = false
 }
