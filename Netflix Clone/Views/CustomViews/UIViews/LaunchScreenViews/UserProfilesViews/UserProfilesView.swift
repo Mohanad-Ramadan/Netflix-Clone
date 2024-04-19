@@ -17,7 +17,7 @@ struct UserProfilesView: View {
     @State private var animateUserTwo = false
     @State private var animateAddProfile = false
     @State private var hideSelectView = false
-    @State private var animateToTabBar = false
+    
     // Constant Value
     let virticalSpacing = UIScreen.main.bounds.height * 0.2
     
@@ -61,11 +61,7 @@ struct UserProfilesView: View {
             .opacity(hideSelectView ? 0:1)
             Spacer()
         }
-        .overlayPreferenceValue(RectPositionKey.self) { value in
-            SelectedCardView(value)
-        }
-        .background(animateToTabBar ? .clear:.black)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(launchData.animateToTabBar ? .clear:.black)
     }
     
     //MARK: - UserProfile View
@@ -96,89 +92,12 @@ struct UserProfilesView: View {
         }
     }
     
+    //MARK: - AnimateToTabBar method
+    
+    // delay the animation after selected profile loads
     private func animateCardToTabBar() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation {animateToTabBar = true; cardPathProgress = 1}
-        }
-    }
-    
-    //MARK: - SelectedCard View
-    @State private var animateToCenter = false
-    @State private var cardPathProgress: CGFloat = 0
-    
-    // Constant
-    let cardEndSize = UIScreen.main.bounds.width/2.3
-    let pathControlPoint = CGPoint(
-        x: UIScreen.main.bounds.width,
-        y: -UIScreen.main.bounds.height * 0.4
-    )
-    let cardEndPosition: () -> CGPoint
-    
-    // View
-    @ViewBuilder
-    func SelectedCardView(_ value: [String: Anchor<CGRect>]) -> some View {
-        GeometryReader { geo in
-            
-            // Safely unwrap the selected profile
-            if let profile = launchData.profileSelected, let sourceAnchorID = value[profile.sourceAnchorID], launchData.animateProfile {
-                
-                // Decalre selected profile constants
-                let cardGeo = geo[sourceAnchorID]
-                let screenGeo = geo.frame(in: .global)
-                let startPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
-                let screenCenter = CGPoint(x: screenGeo.width/2, y: screenGeo.height/2.5)
-                let imageTabScale = (25/cardEndSize)
-                
-                // Path animation to tabBar
-                let tabBarItemPath = Path { path in
-                    path.move(to: screenCenter)
-                    path.addQuadCurve(
-                        to: cardEndPosition(),
-                        control: pathControlPoint
-                    )
-                }
-                tabBarItemPath.stroke(lineWidth: 2)
-                
-                // Layout the Subviews
-                ZStack {
-                    Image(profile.image)
-                        .resizable()
-                        .cornerRadius(animateToTabBar ? 2:6)
-                        .frame(
-                            width: animateToCenter ? cardEndSize : 100,
-                            height: animateToCenter ? cardEndSize : 100
-                        )
-                        .scaleEffect(
-                            CGSize(
-                                width: animateToTabBar ? imageTabScale : 1,
-                                height: animateToTabBar ? imageTabScale : 1
-                            )
-                        )
-                        .modifier(
-                            UIHelper.SwiftUI.AnimateCardPath(
-                                from: startPosition,
-                                center: screenCenter,
-                                to: cardEndPosition(),
-                                animateFirstPortion: animateToCenter,
-                                animateSecondPortion: animateToTabBar,
-                                path: tabBarItemPath,
-                                pathProgress: cardPathProgress
-                            )
-                        )
-                        .animation(.snappy.speed(0.8), value: cardPathProgress)
-                        .animation(.bouncy(extraBounce: 0.1).speed(1.5), value: animateToCenter)
-                        .animation(.linear.speed(2), value: animateToTabBar)
-                        .onAppear {animateToCenter = true}
-                    
-                    LoadingSpinnerView()
-                        .offset(y: 100)
-                        .opacity(animateToCenter ? 1 : 0)
-                        .opacity(animateToTabBar ? 0 : 1)
-                        .animation(.linear.speed(2), value: animateToCenter)
-                        .animation(.linear.speed(2), value: animateToTabBar)
-                }
-                
-            }
+            withAnimation {launchData.animateToTabBar = true; launchData.cardPathProgress = 1}
         }
     }
     
@@ -186,8 +105,6 @@ struct UserProfilesView: View {
 
 
 #Preview {
-    UserProfilesView(userTappedCallBack: {}, cardEndPosition: staticPreview)
+    UserProfilesView(userTappedCallBack: {})
         .environment(LaunchData())
 }
-
-func staticPreview() -> CGPoint {CGPoint(x: 240, y: 550)}

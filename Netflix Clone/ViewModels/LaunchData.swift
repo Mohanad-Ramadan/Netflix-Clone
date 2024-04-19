@@ -12,5 +12,10 @@ import Observation
 class LaunchData {
     var profileSelected: UserProfile?
     var animateProfile: Bool = false
-    var showProfileView: Bool = false 
+    var showProfileView: Bool = false
+    
+    // SelectedCard Data
+    var animateToCenter = false
+    var animateToTabBar = false
+    var cardPathProgress: CGFloat = 0
 }

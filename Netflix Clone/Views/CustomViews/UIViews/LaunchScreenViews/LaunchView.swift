@@ -22,20 +22,17 @@ struct LaunchView: View {
     
     var body: some View {
         ZStack{
-            GeometryReader {_ in
-                Rectangle()
-                    .frame(width: 25, height: 25)
-                    .position(delegate.getTabItemPosition())
-            }
-            UserProfilesView(userTappedCallBack: startAddingMainScreen, cardEndPosition: delegate.getTabItemPosition)
-                .environment(launchData)
+            UserProfilesView(userTappedCallBack: startAddingMainScreen)
                 .padding(.horizontal, 5)
+                .overlayPreferenceValue(RectPositionKey.self) { value in
+                    SelectedProfileView(value: value, cardEndPosition: delegate.getTabItemPosition)
+                }
             SplashScreenView()
                 .opacity(splashScreenOn ? 1:0)
                 .animation(.easeIn, value: splashScreenOn)
                 .onAppear(perform: removeSplashScreen)
         }
-        
+        .environment(launchData)
     }
     
     

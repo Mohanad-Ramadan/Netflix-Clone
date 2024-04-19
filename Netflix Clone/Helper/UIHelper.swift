@@ -54,12 +54,12 @@ enum UIHelper {
             // item midX point
             let itemHalfWidth = (tabBar.bounds.width / CGFloat(tabBar.items!.count)) / 2
             let tabBarWidth = tabBar.bounds.width
-            let itemMidX = tabBarWidth - itemHalfWidth - 1
+            let imageXPoint = tabBarWidth - itemHalfWidth
             // item midY point
             let tabBarMidY = tabBar.frame(in: mainVC.view)!.midY - (bottomInset+topInset)
-            let imageYPosition = tabBarMidY - 5
+            let imageYPoint = tabBarMidY - 5
             
-            let imagePosition = CGPoint(x: itemMidX , y: imageYPosition)
+            let imagePosition = CGPoint(x: imageXPoint , y: imageYPoint)
             return imagePosition
         }
     }
