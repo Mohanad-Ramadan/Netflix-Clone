@@ -42,20 +42,28 @@ enum UIHelper {
         
         // get the last tab image position
         static func getMyNetflixTabFrame(from mainTC: UITabBarController) -> CGPoint {
+            // get home indicator frame for windowScene
+            let scenes = UIApplication.shared.connectedScenes
+            guard let windowScene = scenes.first as? UIWindowScene, let window = windowScene.windows.first else {return .zero}
+            let bottomInset = window.safeAreaInsets.bottom
+            let topInset = window.safeAreaInsets.top
+            
+            // calculate the position
             let tabBar = mainTC.tabBar
             let mainVC = mainTC.viewControllers![0]
             // item midX point
             let itemHalfWidth = (tabBar.bounds.width / CGFloat(tabBar.items!.count)) / 2
             let tabBarWidth = tabBar.bounds.width
-            let itemMidX = tabBarWidth - itemHalfWidth
+            let itemMidX = tabBarWidth - itemHalfWidth - 1
             // item midY point
-            let tabBarHeight = tabBar.frame(in: mainVC.view)!.minY
-            let imageMidY = tabBarHeight - (tabBar.items![2].image!.size.width/2)
+            let tabBarMidY = tabBar.frame(in: mainVC.view)!.midY - (bottomInset+topInset)
+            let imageYPosition = tabBarMidY - 5
             
-            let imagePosition = CGPoint(x: itemMidX , y: imageMidY + 1)
+            let imagePosition = CGPoint(x: itemMidX , y: imageYPosition)
             return imagePosition
         }
     }
+    
     
     //MARK: - SwiftUI helper
     enum SwiftUI {

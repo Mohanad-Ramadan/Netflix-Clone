@@ -22,6 +22,11 @@ struct LaunchView: View {
     
     var body: some View {
         ZStack{
+            GeometryReader {_ in
+                Rectangle()
+                    .frame(width: 25, height: 25)
+                    .position(delegate.getTabItemPosition())
+            }
             UserProfilesView(userTappedCallBack: startAddingMainScreen, cardEndPosition: delegate.getTabItemPosition)
                 .environment(launchData)
                 .padding(.horizontal, 5)
