@@ -21,22 +21,11 @@ struct StaticNavBarView: View {
                     .font(.title3)
                     .frame(maxWidth: .infinity)
             }
+            .padding(.top, 15)
     }
 }
 
-struct viewtiny: View {
-    var body: some View {
-        GeometryReader { geo in
-            Image(.profil)
-                .resizable()
-                .frame(width: 25, height: 25)
-                .position(x: 325, y: 782.5)
-                .ignoresSafeArea()
-        }
-        .background(.gray)
-    }
-}
 
-//#Preview {
-//    viewtiny()
-//}
+#Preview {
+    StaticNavBarView()
+}

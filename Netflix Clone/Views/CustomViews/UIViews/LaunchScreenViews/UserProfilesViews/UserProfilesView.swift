@@ -59,10 +59,10 @@ struct UserProfilesView: View {
                     }
             }
             .opacity(hideSelectView ? 0:1)
-            .overlayPreferenceValue(RectPositionKey.self) { value in
-                SelectedCardView(value)
-            }
             Spacer()
+        }
+        .overlayPreferenceValue(RectPositionKey.self) { value in
+            SelectedCardView(value)
         }
         .background(animateToTabBar ? .clear:.black)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -98,22 +98,18 @@ struct UserProfilesView: View {
     
     private func animateCardToTabBar() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation {
-                animateToTabBar = true
-                selectedCardPathProgress = 1
-            }
+            withAnimation {animateToTabBar = true; cardPathProgress = 1}
         }
     }
     
     //MARK: - SelectedCard View
     @State private var animateToCenter = false
-    @State private var selectedCardPathProgress: CGFloat = 0
+    @State private var cardPathProgress: CGFloat = 0
     
     // Constant
     let cardEndSize = UIScreen.main.bounds.width/2.3
-    let spinnerOffest = UIScreen.main.bounds.height*0.08
     let pathControlPoint = CGPoint(
-        x: UIScreen.main.bounds.width * 0.9,
+        x: UIScreen.main.bounds.width,
         y: -UIScreen.main.bounds.height * 0.4
     )
     let cardEndPosition: () -> CGPoint
@@ -130,7 +126,7 @@ struct UserProfilesView: View {
                 let cardGeo = geo[sourceAnchorID]
                 let screenGeo = geo.frame(in: .global)
                 let startPosition = CGPoint(x: cardGeo.midX, y: cardGeo.midY)
-                let screenCenter = CGPoint(x: screenGeo.width/2, y: screenGeo.height/3)
+                let screenCenter = CGPoint(x: screenGeo.width/2, y: screenGeo.height/2.5)
                 let imageTabScale = (25/cardEndSize)
                 
                 // Path animation to tabBar
@@ -144,7 +140,7 @@ struct UserProfilesView: View {
                 tabBarItemPath.stroke(lineWidth: 2)
                 
                 // Layout the Subviews
-                VStack {
+                ZStack {
                     Image(profile.image)
                         .resizable()
                         .cornerRadius(animateToTabBar ? 2:6)
@@ -158,24 +154,24 @@ struct UserProfilesView: View {
                                 height: animateToTabBar ? imageTabScale : 1
                             )
                         )
-                        .padding(animateToCenter ? 70 : 0)
                         .modifier(
                             UIHelper.SwiftUI.AnimateCardPath(
                                 from: startPosition,
                                 center: screenCenter,
-                                destination: cardEndPosition(),
+                                to: cardEndPosition(),
                                 animateFirstPortion: animateToCenter,
                                 animateSecondPortion: animateToTabBar,
                                 path: tabBarItemPath,
-                                progress: selectedCardPathProgress
+                                pathProgress: cardPathProgress
                             )
                         )
+                        .animation(.snappy.speed(0.8), value: cardPathProgress)
                         .animation(.bouncy(extraBounce: 0.1).speed(1.5), value: animateToCenter)
                         .animation(.linear.speed(2), value: animateToTabBar)
                         .onAppear {animateToCenter = true}
                     
                     LoadingSpinnerView()
-                        .offset(y: spinnerOffest)
+                        .offset(y: 100)
                         .opacity(animateToCenter ? 1 : 0)
                         .opacity(animateToTabBar ? 0 : 1)
                         .animation(.linear.speed(2), value: animateToCenter)

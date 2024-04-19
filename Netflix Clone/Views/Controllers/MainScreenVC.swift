@@ -9,10 +9,7 @@ import UIKit
 import SwiftUI
 
 class MainScreenVC: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupLaunchView()
-    }
+    override func viewDidLoad() {super.viewDidLoad(); setupLaunchView()}
     
     //MARK: - Configure TabBarController
     func setupMainTabController() {
@@ -35,15 +32,12 @@ class MainScreenVC: UIViewController {
     //MARK: - Declare Views
     let launchView = UIHostingController(rootView: LaunchView())
     let mainAppController = AppTabBarController()
-    
 }
 
 //MARK: - UserView Delegate
 extension MainScreenVC: LaunchView.Delegate {
     func getTabItemPosition() -> CGPoint {UIHelper.UIKit.getMyNetflixTabFrame(from: mainAppController)}
-    
-    func addMainController() {setupMainTabController(); print("good morning")}
-    
+    func addMainController() {setupMainTabController()}
     func endWithLaunchView() {self.launchView.view.removeFromSuperview()}
 }
 
