@@ -8,12 +8,6 @@
 import SwiftUI
 
 struct LaunchView: View {
-    // Delegate protocol
-    protocol Delegate: AnyObject {
-        func endWithLaunchView()
-        func addMainController()
-        func getTabItemPosition() -> CGPoint
-    }
     weak var delegate: Delegate!
     // Declare View properties
     @State private var launchData = LaunchData()
@@ -42,6 +36,15 @@ struct LaunchView: View {
     
     private func startAddingMainScreen() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {delegate.addMainController()}
+    }
+}
+
+//MARK: - Delegate protocol
+extension LaunchView{
+    protocol Delegate: AnyObject {
+        func endWithLaunchView()
+        func addMainController()
+        func getTabItemPosition() -> CGPoint
     }
 }
 

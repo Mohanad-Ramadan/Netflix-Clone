@@ -42,6 +42,7 @@ enum UIHelper {
         
         // get the last tab image position
         static func getMyNetflixTabFrame(from mainTC: UITabBarController) -> CGPoint {
+            
             // get home indicator frame for windowScene
             let scenes = UIApplication.shared.connectedScenes
             guard let windowScene = scenes.first as? UIWindowScene, let window = windowScene.windows.first else {return .zero}
@@ -59,6 +60,11 @@ enum UIHelper {
             let tabBarMidY = tabBar.frame(in: mainVC.view)!.midY - (bottomInset+topInset)
             let imageYPoint = tabBarMidY - 5
             
+            // check the current device
+            if bottomInset != 0 {
+                let imagePosition = CGPoint(x: imageXPoint , y: imageYPoint + 17)
+                return imagePosition
+            }
             let imagePosition = CGPoint(x: imageXPoint , y: imageYPoint)
             return imagePosition
         }

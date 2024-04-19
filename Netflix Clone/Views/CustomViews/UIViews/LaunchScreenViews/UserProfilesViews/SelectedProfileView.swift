@@ -19,7 +19,6 @@ struct SelectedProfileView: View {
     let cardEndPosition: () -> CGPoint
     
     // View
-    @ViewBuilder
     var body: some View {
         GeometryReader { geo in
             
@@ -41,7 +40,6 @@ struct SelectedProfileView: View {
                         control: pathControlPoint
                     )
                 }
-                tabBarItemPath.stroke(lineWidth: 2)
                 
                 // Layout the Subviews
                 ZStack {
