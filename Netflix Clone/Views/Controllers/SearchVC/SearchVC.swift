@@ -10,14 +10,13 @@ import UIKit
 class SearchVC: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureVC()
+        configureSearchController()
         configureTableView()
-        configureTableDataSource()
         fetchMediaAtFirstAppearnce()
     }
     
     //MARK: - Configure Search Controller
-    func configureVC(){
+    func configureSearchController(){
         view.backgroundColor = .black
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
@@ -34,9 +33,16 @@ class SearchVC: UIViewController, UITableViewDelegate {
     
     //MARK: - Configure Search table
     func configureTableView(){
+        // configure TablView
         view.addSubview(searchTable)
         searchTable.delegate = self
-        searchTable.translatesAutoresizingMaskIntoConstraints = false
+        searchTable.dataSource = self
+        
+        // configure header
+        let headerTitle = NFPlainButton(title: "Recommended TV Shows & Movies", fontSize: 20, fontWeight: .bold)
+        searchTable.tableHeaderView = headerTitle
+        
+        // apply constraints
         NSLayoutConstraint.activate([
             searchTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchTable.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -45,38 +51,13 @@ class SearchVC: UIViewController, UITableViewDelegate {
         ])
     }
     
-    func configureTableDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, Media>(tableView: searchTable) { tableView, indexPath, media -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier, for: indexPath) as? SimpleTableViewCell
-            configure(cell: cell, with: media)
-            return cell
-        }
-        
-        func configure(cell: SimpleTableViewCell? ,with media: Media){
-            Task {
-                do {
-                    let mediaType = media.mediaType ?? "movie"
-                    let id = media.id
-                    let title = media.title ?? media.originalName
-                    
-                    let images = try await NetworkManager.shared.getImagesFor(mediaId: id ,ofType: mediaType)
-                    let backdropPath = UIHelper.UIKit.getBackdropPathFrom(images)
-                    cell?.configureCell(with: MovieViewModel(title: title ,backdropsPath: backdropPath))
-                } catch {
-                    print("Error getting images:", error.localizedDescription)
-                }
-            }
-        }
-        
-    }
-    
     //MARK: - Update UI content
     func fetchMediaAtFirstAppearnce() {
         Task{
             do {
                 let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
                 self.media = media
-                updateSearchTable(with: media)
+                searchTable.reloadData()
             } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)
                 print(error)
@@ -87,73 +68,67 @@ class SearchVC: UIViewController, UITableViewDelegate {
         }
     }
     
-    func fetchSearched(with wantedMedia: String) {
-        Task{
-            do {
-                let fetchedMedia = try await NetworkManager.shared.getSearches(of: wantedMedia)
-                searchedMedias = fetchedMedia
-                updateSearchTable(with: searchedMedias)
-            } catch let error as APIError {
-                //                presentGFAlert(messageText: error.rawValue)
-                print(error)
-            } catch {
-                //                presentDefaultError()
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    func updateSearchTable(with media: [Media]) {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, Media>()
-        snapShot.appendSections([.main])
-        
-        if media == self.media {
-            snapShot.appendItems(media)
-            dataSource.apply(snapShot, animatingDifferences: false)
-        } else {
-            snapShot.appendItems(searchedMedias)
-            dataSource.apply(snapShot, animatingDifferences: true)
-        }
-        
-    }
-    
     //MARK: - Declare UIElements
     var searchTable: UITableView = {
         let table = UITableView()
-        table.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.identifier)
+        table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
         table.rowHeight = 100
         table.separatorStyle = .none
+        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
-    
-    var dataSource: UITableViewDiffableDataSource<Section, Media>!
-    
-    var media = [Media]()
-    var searchedMedias = [Media]()
-    var isStillSearching = false
-    
+            
     let searchController: UISearchController = {
-        let searchController = UISearchController()
+        let searchController = UISearchController(searchResultsController: SearchResultVC())
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.navigationItem.hidesSearchBarWhenScrolling = false
         return searchController
     }()
     
-    enum Section { case main }
+    
+    var media = [Media]()
 }
 
+//MARK: - SearchTableView Delegats
+extension SearchVC: UITabBarDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { media.count }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as? SearchTableViewCell else { return UITableViewCell() }
+        let media = media[indexPath.row]
+        cell.configure(with: media)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let media = media[indexPath.row]
+        if media.mediaType == nil || media.mediaType == "movie" {
+            let vc = MovieDetailsVC(for: media)
+            presentAsRoot(vc)
+        } else {
+            let vc = TVDetailsVC(for: media)
+            presentAsRoot(vc)
+        }
+    }
+    
+}
+
+//MARK: - SearchResult Delegats
 extension SearchVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
-            guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                self.updateSearchTable(with: self.media)
-                self.isStillSearching = false
-                return
-            }
-            self.isStillSearching = true
-            self.fetchSearched(with: desiredMedia)
-        }
+        
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
+//            guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+//                self.updateSearchTable(with: self.media)
+//                self.isStillSearching = false
+//                return
+//            }
+//            self.isStillSearching = true
+//            self.fetchSearched(with: desiredMedia)
+//        }
     }
     
     
