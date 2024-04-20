@@ -29,6 +29,10 @@ class SearchVC: UIViewController, UITableViewDelegate {
         searchBar.sizeToFit()
         
         navigationItem.titleView = searchBar
+        // customize the action for barbackButton
+        navigationItem.backAction = UIAction() { _ in
+            self.navigationController?.popViewController(animated: false)
+        }
     }
     
     //MARK: - Configure Search table

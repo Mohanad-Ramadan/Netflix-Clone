@@ -76,8 +76,6 @@ extension HomeVC : CollectionRowTableViewCell.Delegate {
 
 //MARK: - HeroHeaderView Finish Delegate
 extension HomeVC: HeroHeaderUIView.Delegate{
-    func finishLoadingPoster() {
-        loadingView.removeFromSuperview()
-    }
+    func finishLoadingPoster() {loadingView.removeFromSuperview()}
     
 }
