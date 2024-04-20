@@ -28,10 +28,7 @@ class MyNetflixVC: UIViewController {
         
     }
     
-    @objc func searchButtonTapped() {
-        pushInMainThreadTo(SearchVC())
-    }
-    
+    //MARK: - Configure VC
     private func configureNavbar() {
         let titleLabel = NFTitleLabel(text: "My Netflix")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
@@ -42,6 +39,8 @@ class MyNetflixVC: UIViewController {
         navigationItem.backButtonDisplayMode = .minimal
         navigationController?.navigationBar.tintColor = .label
     }
+    
+    @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}
     
     private func fetchDownloadedMedia() {
         // Notify the View to fetch the data agian
@@ -59,6 +58,8 @@ class MyNetflixVC: UIViewController {
             }
         }
     }
+    
+    //MARK: - Constraints
     
     //Profil view
     private func profilImageConstraints() {
@@ -100,9 +101,10 @@ class MyNetflixVC: UIViewController {
         downloadTableConstraints()
     }
     
+    //MARK: - Declare UIElements
     private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
         
-    private let userLabel = NFPlainButton(title: "User1",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
+    private let userLabel = NFPlainButton(title: "mohanad",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
     
     private let downloadTitleRow: MyNetflixRowUIView = MyNetflixRowUIView()
     
@@ -116,6 +118,5 @@ class MyNetflixVC: UIViewController {
     }()
     
     var media: [MediaItems] = [MediaItems]()
-    
 
 }

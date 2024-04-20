@@ -9,11 +9,11 @@ import UIKit
 import SDWebImage
 import SkeletonView
 
-protocol HeroHeaderViewDelegate:AnyObject {
-    func finishLoadingPoster()
-}
-
 class HeroHeaderUIView: UIView {
+    // Delegate protocol
+    protocol Delegate:AnyObject {func finishLoadingPoster()}
+    
+    // Configure View
     override init(frame: CGRect) {
         super.init(frame: frame)
         [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach {addSubview($0)}
@@ -165,7 +165,7 @@ class HeroHeaderUIView: UIView {
     
     private let listButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
     
-    weak var delegate: HeroHeaderViewDelegate!
+    weak var delegate: Delegate!
     
     
     required init?(coder: NSCoder) {fatalError()}

@@ -97,9 +97,9 @@ struct UserProfilesView: View {
     // delay the animation after selected profile loads
     private func animateCardToTabBar() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation {
-                launchData.animateToTabBar = true
-                launchData.cardPathProgress = 1
+            withAnimation {launchData.animateToTabBar = true}
+            withAnimation(.interpolatingSpring(duration: 1, initialVelocity: 1)) {
+                launchData.cardPathProgress = 1.1
             } completion: {
                 launchData.launchFinishs = true
             }

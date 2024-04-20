@@ -10,7 +10,7 @@ import UIKit
 class CollectionRowTableViewCell: UITableViewCell {
     // Delegate Protocol
     protocol Delegate: AnyObject {
-        func homeTableViewCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC)
+        func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC)
     }
     
     // Configure TableViewCell
@@ -98,10 +98,10 @@ extension CollectionRowTableViewCell: UICollectionViewDelegate, UICollectionView
         
         if media.mediaType == nil || media.mediaType == "movie" {
             let vc = MovieDetailsVC(for: media, rank: trendRank)
-            self.delegate?.homeTableViewCellDidTapped(self, navigateTo: vc)
+            self.delegate?.collectionCellDidTapped(self, navigateTo: vc)
         } else {
             let vc = TVDetailsVC(for: media, rank: trendRank)
-            self.delegate?.homeTableViewCellDidTapped(self, navigateTo: vc)
+            self.delegate?.collectionCellDidTapped(self, navigateTo: vc)
         }
         
     }

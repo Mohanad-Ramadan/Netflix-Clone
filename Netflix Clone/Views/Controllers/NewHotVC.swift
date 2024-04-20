@@ -46,7 +46,7 @@ class NewHotVC: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
 
-    @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}
+    @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}
     
     //MARK: - Apply constraints
     private func applyConstriants() {

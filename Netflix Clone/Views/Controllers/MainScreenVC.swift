@@ -11,7 +11,7 @@ import SwiftUI
 class MainScreenVC: UIViewController {
     override func viewDidLoad() {super.viewDidLoad(); setupLaunchView()}
     
-    //MARK: - Configure TabBarController
+    // Configure TabBarController
     func setupMainTabController() {
         addChild(mainAppController)
         mainAppController.view.frame = view.bounds
@@ -19,7 +19,7 @@ class MainScreenVC: UIViewController {
         mainAppController.didMove(toParent: self)
     }
     
-    //MARK: - Configure SwiftUI views
+    // Configure SwiftUI views
     func setupLaunchView() {
         addChild(launchView)
         launchView.view.frame = view.bounds
@@ -29,10 +29,12 @@ class MainScreenVC: UIViewController {
         launchView.didMove(toParent: self)
     }
     
-    //MARK: - Declare Views
+    // Declare Views
     let launchView = UIHostingController(rootView: LaunchView())
     let mainAppController = AppTabBarController()
 }
+
+
 
 //MARK: - UserView Delegate
 extension MainScreenVC: LaunchView.Delegate {

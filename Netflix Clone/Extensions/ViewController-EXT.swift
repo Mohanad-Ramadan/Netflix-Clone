@@ -26,11 +26,11 @@ extension UIViewController {
         }
     }
     
-    func pushInMainThreadTo(_ viewController: UIViewController){
+    func pushInMainThreadTo(_ viewController: UIViewController, animated: Bool = true){
         DispatchQueue.main.async { [weak self] in
             let vc = viewController
             vc.hidesBottomBarWhenPushed = true
-            self?.navigationController?.pushViewController(vc, animated: true)
+            self?.navigationController?.pushViewController(vc, animated: animated)
         }
     }
 }

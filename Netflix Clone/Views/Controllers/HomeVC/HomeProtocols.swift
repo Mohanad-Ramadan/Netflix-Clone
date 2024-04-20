@@ -21,7 +21,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTableViewCell.identifier, for: indexPath) as? HomeTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionRowTableViewCell.identifier, for: indexPath) as? CollectionRowTableViewCell else {
             return UITableViewCell()
         }
         cell.delegate = self
@@ -67,15 +67,15 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: - CellTapedAction extension
-extension HomeVC :HomeTableViewCellDelegate {
-    func homeTableViewCellDidTapped(_ cell: HomeTableViewCell, navigateTo vc: MediaDetailsVC) {
+extension HomeVC : CollectionRowTableViewCell.Delegate {
+    func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC) {
         presentAsRoot(vc)
     }
     
 }
 
-//MARK: - HeroHeaderViewDelegate extension
-extension HomeVC: HeroHeaderViewDelegate{
+//MARK: - HeroHeaderView Finish Delegate
+extension HomeVC: HeroHeaderUIView.Delegate{
     func finishLoadingPoster() {
         loadingView.removeFromSuperview()
     }

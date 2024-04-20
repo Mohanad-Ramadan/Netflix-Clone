@@ -45,7 +45,7 @@ class HomeVC: UIViewController {
     }
     
     private func configureNavbar() {
-        let titleLabel = NFTitleLabel(text: "For User1")
+        let titleLabel = NFTitleLabel(text: "For mohanad")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         
@@ -53,7 +53,7 @@ class HomeVC: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
-    @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC())}
+    @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}
     
     //MARK: - Apply constraints
     private func applyConstriants() {
@@ -82,7 +82,7 @@ class HomeVC: UIViewController {
     
     private let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
-        table.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
+        table.register(CollectionRowTableViewCell.self, forCellReuseIdentifier: CollectionRowTableViewCell.identifier)
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
         return table

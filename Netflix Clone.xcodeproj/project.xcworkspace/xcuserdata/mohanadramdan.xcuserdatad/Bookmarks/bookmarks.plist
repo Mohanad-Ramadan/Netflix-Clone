@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>31</string>
+					<string>9</string>
 					<key>StartingColumnNumber</key>
-					<string>57</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>30</string>
+					<string>9</string>
 					<key>Timestamp</key>
-					<string>732675232.875335</string>
+					<string>735283865.983964</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,17 +34,13 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>
-</string>
+				<string></string>
 				<key>leading</key>
-				<string>        collectionView.deselectItem(at: indexPath, animated: true)
-        let media = media[indexPath.row]
-//        let isTrend = self.isTheTappedMediaTrend!</string>
-				<key>trailing</key>
-				<string>        let trendRank = indexPath.row+1
-        
-        if media.mediaType == nil || media.mediaType == "movie" {
+				<string>import UIKit
+
 </string>
+				<key>trailing</key>
+				<string></string>
 			</dict>
 			<key>title</key>
 			<string>Fix trending issue</string>

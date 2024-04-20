@@ -14,7 +14,7 @@ extension HomeVC {
         case  PopularTV = 0, WeekTrendingTV = 1 , PopularMovies = 2, WeekTrendingMovies = 3, UpcomingMovies = 4
     }
     
-    func embedSections(sectionNumbs: Int, cell: HomeTableViewCell){
+    func embedSections(sectionNumbs: Int, cell: CollectionRowTableViewCell){
         switch sectionNumbs{
         case Sections.PopularTV.rawValue:
             Task{

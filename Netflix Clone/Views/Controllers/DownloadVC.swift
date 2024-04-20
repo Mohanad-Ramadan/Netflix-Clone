@@ -29,10 +29,6 @@ class DownloadVC: UIViewController {
         downloadTable.frame = view.bounds
     }
     
-    @objc func searchButtonTapped() {
-        pushInMainThreadTo(SearchVC())
-    }
-    
     private func configureNavBar(){
         navigationController?.navigationBar.tintColor = .white
         title = "Downloads"

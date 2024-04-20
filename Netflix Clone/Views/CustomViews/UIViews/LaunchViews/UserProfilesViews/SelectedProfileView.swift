@@ -67,7 +67,6 @@ struct SelectedProfileView: View {
                                 pathProgress: launchData.cardPathProgress
                             )
                         )
-                        .animation(.snappy.speed(0.8), value: launchData.cardPathProgress)
                         .animation(.bouncy(extraBounce: 0.1).speed(1.5), value: launchData.animateToCenter)
                         .animation(.linear.speed(2), value: launchData.animateToTabBar)
                         .onAppear {launchData.animateToCenter = true}
