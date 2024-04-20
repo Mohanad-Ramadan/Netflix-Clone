@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SearchVC: UIViewController {
+class SearchVC: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
@@ -143,16 +143,17 @@ class SearchVC: UIViewController {
     enum Section { case main }
 }
 
-extension SearchVC: UITableViewDelegate, UISearchResultsUpdating {
+extension SearchVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            updateSearchTable(with: media)
-            isStillSearching = false
-            return
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
+            guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+                self.updateSearchTable(with: self.media)
+                self.isStillSearching = false
+                return
+            }
+            self.isStillSearching = true
+            self.fetchSearched(with: desiredMedia)
         }
-        
-        isStillSearching = true
-        fetchSearched(with: desiredMedia)
     }
     
     

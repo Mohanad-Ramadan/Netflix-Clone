@@ -7,11 +7,27 @@
 
 import UIKit
 
-class SimpleTableViewCell: UITableViewCell {
+class SearchTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         [mediaBackdropImageView, titleLabel, playTitleButton].forEach{contentView.addSubview($0)}
         applyConstraints()
+    }
+    
+    func configure(with media: Media){
+        Task {
+            do {
+                let mediaType = media.mediaType ?? "movie"
+                let id = media.id
+                let title = media.title ?? media.originalName
+                
+                let images = try await NetworkManager.shared.getImagesFor(mediaId: id ,ofType: mediaType)
+                let backdropPath = UIHelper.UIKit.getBackdropPathFrom(images)
+                configureCell(with: MovieViewModel(title: title ,backdropsPath: backdropPath))
+            } catch {
+                print("Error getting images:", error.localizedDescription)
+            }
+        }
     }
     
     func configureCell(with model: MovieViewModel){
