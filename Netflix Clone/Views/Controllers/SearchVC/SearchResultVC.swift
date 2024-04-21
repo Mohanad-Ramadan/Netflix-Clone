@@ -13,14 +13,10 @@ class SearchResultVC: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .black
         view.addSubview(resultTableView)
+        resultTableView.frame = view.bounds
         
         resultTableView.delegate = self
         resultTableView.dataSource = self
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        resultTableView.frame = view.bounds
     }
     
     private let resultTableView: UITableView = {
@@ -33,9 +29,7 @@ class SearchResultVC: UIViewController {
     }()
     
     var entertainments: [Media] = [Media]()
-    let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
-    
-    weak var delegate: CollectionRowTableViewCell.Delegate?
+    let sectionTitles :[String] = ["Top Results", "Action Si-Fi & Fantasy Movies" , "Award-Winning TV Shows", "Animation", "Family Comedy Movies"]
 }
 
 

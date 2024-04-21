@@ -11,12 +11,12 @@ import Foundation
 //MARK: - TableView Sections
 extension SearchResultVC {
     enum Sections: Int {
-        case  PopularTV = 0, WeekTrendingTV = 1 , PopularMovies = 2, WeekTrendingMovies = 3, UpcomingMovies = 4
+        case  topResutls = 0, actionSiFi = 1 , awardTVShows = 2, animationMovies = 3, familyMovies = 4
     }
     
     func embedSections(sectionNumbs: Int, cell: CollectionRowTableViewCell){
         switch sectionNumbs{
-        case Sections.PopularTV.rawValue:
+        case Sections.topResutls.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.popularTV)
@@ -30,7 +30,7 @@ extension SearchResultVC {
                 }
             }
             
-        case Sections.WeekTrendingTV.rawValue:
+        case Sections.actionSiFi.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
@@ -44,7 +44,7 @@ extension SearchResultVC {
                 }
             }
             
-        case Sections.PopularMovies.rawValue:
+        case Sections.awardTVShows.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.popularMovies)
@@ -58,7 +58,7 @@ extension SearchResultVC {
                 }
             }
             
-        case Sections.WeekTrendingMovies.rawValue:
+        case Sections.animationMovies.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
