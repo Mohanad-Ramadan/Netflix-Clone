@@ -8,7 +8,6 @@
 import UIKit
 
 class SearchResultVC: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -19,66 +18,55 @@ class SearchResultVC: UIViewController {
         resultTableView.dataSource = self
     }
     
-    private let resultTableView: UITableView = {
+    var resultTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionRowTableViewCell.self, forCellReuseIdentifier: CollectionRowTableViewCell.identifier)
         table.separatorStyle = .none
         table.backgroundColor = .black
+        table.rowHeight = 180
+        table.sectionHeaderTopPadding = 10
+        table.sectionHeaderHeight = 15
         table.showsVerticalScrollIndicator = false
         return table
     }()
     
     var entertainments: [Media] = [Media]()
+    
     let sectionTitles :[String] = ["Top Results", "Action Si-Fi & Fantasy Movies" , "Award-Winning TV Shows", "Animation", "Family Comedy Movies"]
+    
+    var searchQuery: String? { didSet {resultTableView.reloadData()} }
+    
 }
 
 
 //MARK: - SearchResults extension
 
 extension SearchResultVC: UITableViewDelegate, UITableViewDataSource{
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitles.count
-    }
+    func numberOfSections(in tableView: UITableView) -> Int { sectionTitles.count }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 1 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionRowTableViewCell.identifier, for: indexPath) as? CollectionRowTableViewCell else {
             return UITableViewCell()
         }
         cell.delegate = self
-        embedSections(sectionNumbs: indexPath.section, cell: cell)
+        configureSearchResults(with: searchQuery ?? "", sections: indexPath.section, for: cell)
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = .clear
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        tableView.sectionHeaderTopPadding = 10
-        return 180
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
-    }
-    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         let titleLabel = NFBodyLabel(text: sectionTitles[section], color: .white, fontSize: 19, fontWeight: .bold)
-        
         headerView.addSubview(titleLabel)
-        
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 9),
             titleLabel.centerYAnchor.constraint(equalTo: headerView.centerYAnchor, constant: -5)
         ])
-        
         return headerView
     }
     

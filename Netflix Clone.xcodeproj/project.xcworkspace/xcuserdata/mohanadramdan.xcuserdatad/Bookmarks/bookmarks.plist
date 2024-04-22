@@ -3,50 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>top-level-items</key>
-	<array>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>9</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>9</string>
-					<key>Timestamp</key>
-					<string>735283865.983964</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Netflix Clone/Views/Cells/HomeTableViewCell/HomeTableViewExtension.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string></string>
-				<key>leading</key>
-				<string>import UIKit
-
-</string>
-				<key>trailing</key>
-				<string></string>
-			</dict>
-			<key>title</key>
-			<string>Fix trending issue</string>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-	</array>
+	<array/>
 </dict>
 </plist>

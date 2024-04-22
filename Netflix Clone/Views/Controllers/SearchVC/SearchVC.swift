@@ -10,15 +10,14 @@ import UIKit
 class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureVC()
+        view.backgroundColor = .black
+        configureNavBar()
         configureSubviews()
         screenFirstAppearnce()
     }
     
     //MARK: - Configure VC
-    func configureVC() {
-        view.backgroundColor = .black
-        // configure navigation
+    func configureNavBar() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -143,6 +142,8 @@ extension SearchVC: UISearchResultsUpdating {
                 self.searchTable.alpha = 1
                 return
             }
+            
+            self.searchResultsVC.searchQuery = desiredMedia
             self.searchResultsVC.view.alpha = 1
             self.searchTable.alpha = 0
             

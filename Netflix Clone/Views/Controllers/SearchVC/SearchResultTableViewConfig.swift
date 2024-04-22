@@ -14,12 +14,13 @@ extension SearchResultVC {
         case  topResutls = 0, actionSiFi = 1 , awardTVShows = 2, animationMovies = 3, familyMovies = 4
     }
     
-    func embedSections(sectionNumbs: Int, cell: CollectionRowTableViewCell){
-        switch sectionNumbs{
+    func configureSearchResults(with query: String, sections: Int, for cell: CollectionRowTableViewCell){
+        
+        switch sections{
         case Sections.topResutls.rawValue:
             Task{
                 do {
-                    let media = try await NetworkManager.shared.getDataOf(.popularTV)
+                    let media = try await NetworkManager.shared.getSearches(of: query)
                     cell.configureCollection(with: media)
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
