@@ -16,6 +16,12 @@ class HomeVC: UIViewController {
         setupHeaderAndBackground()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.standardAppearance.configureWithDefaultBackground()
+    }
+    
     //MARK: - Configure UIElements
     private func configureVC() {
         configureNavbar()
@@ -50,7 +56,6 @@ class HomeVC: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         
         navigationItem.backButtonDisplayMode = .minimal
-        navigationController?.navigationBar.tintColor = .label
     }
     
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}

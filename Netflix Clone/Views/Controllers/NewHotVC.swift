@@ -38,12 +38,7 @@ class NewHotVC: UIViewController {
         let titleLabel = NFTitleLabel(text: "New & Hot")
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
-        
         navigationItem.backButtonDisplayMode = .minimal
-        navigationController?.navigationBar.tintColor = .label
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}

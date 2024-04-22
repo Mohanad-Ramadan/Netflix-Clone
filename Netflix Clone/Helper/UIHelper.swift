@@ -9,6 +9,14 @@ import SwiftUI
 import UIKit
 
 enum UIHelper {
+    //MARK: - Custom navigationBar
+    static func customNavigatonBar() {
+        UINavigationBar.appearance().tintColor = .label
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
+    }
+    
     //MARK: - UIKit helper
     enum UIKit {
         // get LogoPath

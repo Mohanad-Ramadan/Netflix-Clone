@@ -19,9 +19,9 @@ class SearchVC: UIViewController {
     func configureVC() {
         view.backgroundColor = .black
         // configure navigation
-//        navigationController?.navigationBar.isTranslucent = false
-//        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         navigationItem.titleView = searchBar
         navigationItem.backAction = UIAction() { _ in

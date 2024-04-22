@@ -37,7 +37,6 @@ class MyNetflixVC: UIViewController {
             UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped))
         ]
         navigationItem.backButtonDisplayMode = .minimal
-        navigationController?.navigationBar.tintColor = .label
     }
     
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}

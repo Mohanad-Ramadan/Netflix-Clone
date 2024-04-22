@@ -10,28 +10,26 @@ import UIKit
 class DownloadVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureVC()
+        fetchMediaAt()
+        updateVCContent()
+    }
+    
+    private func configureVC(){
         view.backgroundColor = .black
         view.addSubview(downloadTable)
-        
+        downloadTable.frame = view.bounds
         downloadTable.delegate = self
         downloadTable.dataSource = self
         
-        configureNavBar()
-        fetchMediaAt()
-        
+        // Title name
+        title = "My List"
+    }
+    
+    private func updateVCContent() {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
             self.fetchMediaAt()
         }
-        
-    }
-    
-    override func viewDidLayoutSubviews() {
-        downloadTable.frame = view.bounds
-    }
-    
-    private func configureNavBar(){
-        navigationController?.navigationBar.tintColor = .white
-        title = "Downloads"
     }
     
     private func fetchMediaAt() {
@@ -78,53 +76,5 @@ extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
-    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    //        return 180
-    //    }
-    //
-    //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    //        switch editingStyle {
-    //        case .delete:
-    //
-    //            DataPersistenceManager.shared.deleteMedias(model: media[indexPath.row]) { [weak self] results in
-    //                switch results {
-    //                case .success():
-    //                    print("deleted")
-    //                case .failure(let failure):
-    //                    print(failure.localizedDescription)
-    //                }
-    //                self?.media.remove(at: indexPath.row)
-    //                tableView.deleteRows(at: [indexPath], with: .fade)
-    //            }
-    //
-    //        default:
-    //            break
-    //        }
-    //    }
-    
-    //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    //        collectionView.deselectItem(at: indexPath, animated: true)
-    //
-    //        let media = media[indexPath.row]
-    //        guard let mediaName = media.title ?? media.originalName else {return}
-    //
-    //        NetworkManager.shared.getYoutubeTrailer(query: mediaName + " trailer") { [weak self] result in
-    //            switch result {
-    //            case .success(let videoElement):
-    //                DispatchQueue.main.async { [weak self] in
-    //                    let vc = MediaDetailsVC()
-    //                    let viewModel = MovieInfoViewModel(title: mediaName, youtubeVideo: videoElement, titleOverview: media.overview ?? "Unknown")
-    //
-    //                    vc.configureVCDetails(with: viewModel )
-    //
-    //                    vc.hidesBottomBarWhenPushed = true
-    //                    self?.navigationController?.present(vc, animated: true)
-    //                }
-    //            case .failure(let failure):
-    //                print(failure.localizedDescription)
-    //            }
-    //        }
-    //
-    //    }
     
 }
