@@ -8,7 +8,8 @@
 import Foundation
 
 extension SearchResultVC {
-    //MARK: - get spacific genre media 
+    
+    //MARK: - get spacific genre media
     func fetchMoreLike(_ sectionGenres: String, unwanted: String = "" , mediaType: String = "movie", pages: Int = 5) async throws -> [Media] {
         var allMedia = [Media]()
         for page in 1..<pages {
@@ -138,4 +139,5 @@ extension SearchResultVC {
     enum Sections: Int {
         case  topResutls = 0, action = 1 , crimeWar = 2, animation = 3, comedy = 4
     }
+    
 }

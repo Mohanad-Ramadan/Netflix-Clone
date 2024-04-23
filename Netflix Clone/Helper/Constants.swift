@@ -36,7 +36,7 @@ struct Constants {
     }
     
     static func createMoreLikeURLWith(mediaType: String ,genresId: String, without genres: String, page: Int) -> String {
-        let endpoint = "?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=\(genresId)&page=\(page)&without_genres=10767|10763|10764|\(genres)"
+        let endpoint = "?include_adult=false&include_video=false&language=en-US&page=\(page)&sort_by=popularity.desc&with_genres=\(genresId)&without_genres=10767|10763|10764|\(genres)"
         if mediaType == "movie" {
             return "\(Constants.baseURL)/discover/movie\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1"
         } else {
