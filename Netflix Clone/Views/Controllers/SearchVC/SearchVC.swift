@@ -33,6 +33,7 @@ class SearchVC: UIViewController {
         // configure subviews
         view.addSubview(searchTable)
         searchTable.frame = view.bounds
+        
         searchTable.delegate = self
         searchTable.dataSource = self
         // configure searchesultsVC
@@ -45,7 +46,6 @@ class SearchVC: UIViewController {
     
     func setupSearchResultsVC() {
         addChild(searchResultsVC)
-        searchResultsVC.view.frame = searchTable.bounds
         view.addSubview(searchResultsVC.view)
         searchResultsVC.didMove(toParent: self)
     }

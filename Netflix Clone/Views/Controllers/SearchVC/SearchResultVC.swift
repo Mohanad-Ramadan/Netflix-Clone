@@ -6,18 +6,46 @@
 //
 
 import UIKit
+import SwiftUI
 
 class SearchResultVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
         view.addSubview(resultTableView)
-        resultTableView.frame = view.bounds
-        
         resultTableView.delegate = self
         resultTableView.dataSource = self
+        
+        setupLoadingSprinner()
+        applyConstraints()
+    }
+
+    
+    //MARK: - Apply constraitns
+    func applyConstraints() {
+        loadingSpinner.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            resultTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            resultTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            resultTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            resultTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingSpinner.view.topAnchor.constraint(equalTo: view.topAnchor, constant: -100),
+            loadingSpinner.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+            loadingSpinner.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+            loadingSpinner.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+        
+        
     }
     
+    //MARK: - Declare UIElements
+    func setupLoadingSprinner() {
+        addChild(loadingSpinner)
+        view.addSubview(loadingSpinner.view)
+        loadingSpinner.didMove(toParent: self)
+    }
+    
+    //MARK: - Declare UIElements
     var resultTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionRowTableViewCell.self, forCellReuseIdentifier: CollectionRowTableViewCell.identifier)
@@ -27,14 +55,15 @@ class SearchResultVC: UIViewController {
         table.sectionHeaderTopPadding = 10
         table.sectionHeaderHeight = 15
         table.showsVerticalScrollIndicator = false
+        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
+        
+    let loadingSpinner = UIHostingController(rootView: LoadingSpinnerView())
     
     let sectionTitles :[String] = ["Top Results", "Action & Adventure" , "Crime & War", "Animation", "Family & Comedy"]
     
-    var searchQuery: String? {
-        didSet {resultTableView.reloadData()}
-    }
+    var searchQuery: String? { didSet {resultTableView.reloadData()} }
     
 }
 
@@ -74,6 +103,10 @@ extension SearchResultVC: UITableViewDelegate, UITableViewDataSource{
 
 //MARK: - CollectionRowTableViewCell Delegate
 extension SearchResultVC : CollectionRowTableViewCell.Delegate {
+    func finishLoading() {
+        //
+    }
+    
     func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC) {
         presentAsRoot(vc)
     }

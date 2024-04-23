@@ -31,7 +31,7 @@ class NetworkManager {
         } catch {throw APIError.invalidData}
     }
     
-    func getMoreOf(genresId: String, unwantedGenresId: String = "", ofMediaType mediaType: String, page: Int = 1) async throws -> [Media] {
+    func getMoreOf(genresId: String, unwantedGenresId: String = "", ofMediaType mediaType: String = "movie", page: Int = 1) async throws -> [Media] {
         let stringURL = Constants.createMoreLikeURLWith(mediaType: mediaType, genresId: genresId, without: unwantedGenresId, page: page)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         

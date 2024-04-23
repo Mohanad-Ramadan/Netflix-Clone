@@ -11,6 +11,7 @@ class CollectionRowTableViewCell: UITableViewCell {
     // Delegate Protocol
     protocol Delegate: AnyObject {
         func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC)
+        func finishLoading()
     }
     
     // Configure TableViewCell
