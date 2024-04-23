@@ -12,7 +12,7 @@ struct MediaResponse: Codable {
     let results: [Media]
 }
 
-struct Media: Codable, Hashable {
+struct Media: Codable {
     let id: Int
     let originalName: String?
     let title: String?

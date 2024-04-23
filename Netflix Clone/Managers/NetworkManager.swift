@@ -31,8 +31,8 @@ class NetworkManager {
         } catch {throw APIError.invalidData}
     }
     
-    func getMoreLike(genresId: String, ofMediaType mediaType: String) async throws -> [Media] {
-        let stringURL = Constants.createMoreLikeURLWith(mediaType: mediaType, genresId: genresId)
+    func getMoreOf(genresId: String, unwantedGenresId: String = "", ofMediaType mediaType: String) async throws -> [Media] {
+        let stringURL = Constants.createMoreLikeURLWith(mediaType: mediaType, genresId: genresId, without: unwantedGenresId)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)
@@ -99,9 +99,9 @@ class NetworkManager {
         catch {throw APIError.invalidData }
     }
     
-    func getSearches(of query: String) async throws -> [Media] {
+    func getSearches(of query: String, page: Int = 1) async throws -> [Media] {
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {throw APIError.invalidURL}
-        let stringURL = Constants.createSearchURLFor(query)
+        let stringURL = Constants.createSearchURLFor(query, page: page)
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
         let (data,response) = try await URLSession.shared.data(from: url)

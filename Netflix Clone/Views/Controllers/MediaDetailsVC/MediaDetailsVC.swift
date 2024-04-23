@@ -73,7 +73,7 @@ class MediaDetailsVC: UIViewController {
         Task{
             do {
                 guard let ids = genresId else {return}
-                let media = try await NetworkManager.shared.getMoreLike(genresId: ids, ofMediaType: mediaType)
+                let media = try await NetworkManager.shared.getMoreOf(genresId: ids, ofMediaType: mediaType)
                 let moreWithNoDuplicates = media.filter{!mainMedia.contains(mediaType == "movie" ? $0.title ?? "no duplicate": $0.originalName ?? "no duplicate")}
                 moreMedias = moreWithNoDuplicates.prefix(6).shuffled()
                 moreIdeasCollection.reloadData()

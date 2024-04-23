@@ -30,11 +30,9 @@ class SearchResultVC: UIViewController {
         return table
     }()
     
-    var entertainments: [Media] = [Media]()
+    let sectionTitles :[String] = ["Top Results", "Action & Adventure" , "Crime & War", "Animation", "Family & Comedy"]
     
-    let sectionTitles :[String] = ["Top Results", "Action Si-Fi & Fantasy Movies" , "Award-Winning TV Shows", "Animation", "Family Comedy Movies"]
-    
-    var searchQuery: String? { didSet {resultTableView.reloadData()} }
+    var searchQuery: String? { didSet {resultTableView.reloadData()}}
     
 }
 

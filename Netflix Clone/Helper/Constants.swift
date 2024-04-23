@@ -19,8 +19,8 @@ struct Constants {
         return Constants.baseURL + endpoint.rawValue + Constants.apiKey
     }
     
-    static func createMoreLikeURLWith(mediaType: String ,genresId: String) -> String {
-        let endpoint = "?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=\(genresId)"
+    static func createMoreLikeURLWith(mediaType: String ,genresId: String, without genres: String) -> String {
+        let endpoint = "?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=\(genresId)&without_genres=10767|10763|10764|\(genres)"
         if mediaType == "movie" {
             return "\(Constants.baseURL)/discover/movie\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1"
         } else {
@@ -52,9 +52,9 @@ struct Constants {
         else {return "\(Constants.baseURL)/tv/\(id)\(Constants.apiKey)"}
     }
     
-    static func createSearchURLFor(_ query: String) -> String {
+    static func createSearchURLFor(_ query: String, page: Int) -> String {
         let endpoint = Endpoints.search.rawValue
-        return "\(Constants.baseURL)\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1&query=\(query)"
+        return "\(Constants.baseURL)\(endpoint)&page=\(page)&api_key=db7efd1f212466edd2945ab1e9199ee1&query=\(query)"
     }
 
     static let youtubeURL = "https://www.googleapis.com/youtube/v3/search?safeSearch=strict&key=AIzaSyA43IBo_SCZSMUn4HmhCF6q3DKdKxgBBbA&q="
@@ -83,7 +83,7 @@ enum Endpoints: String {
 //MARK: - Test url
 
 //search URL
-// https://api.themoviedb.org/3/search/movie?api_key=db7efd1f212466edd2945ab1e9199ee1&query=spider
+// https://api.themoviedb.org/3/search/multi?api_key=db7efd1f212466edd2945ab1e9199ee1&query=spider&page=2
 
 //Top rated URl
 // https://api.themoviedb.org/3/tv/top_rated?api_key=db7efd1f212466edd2945ab1e9199ee1&language=en-US&page=1
@@ -104,7 +104,7 @@ enum Endpoints: String {
 
 // (upcoming)using discover api URL
 // https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-03-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc&api_key=db7efd1f212466edd2945ab1e9199ee1
-// https://api.themoviedb.org/3/discover/tv?api_key=db7efd1f212466edd2945ab1e9199ee1&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc
+// https://api.themoviedb.org/3/discover/tv?api_key=db7efd1f212466edd2945ab1e9199ee1&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&without_genres=10767
 
 //details URL
 //movie https://api.themoviedb.org/3/movie/872585?api_key=db7efd1f212466edd2945ab1e9199ee1

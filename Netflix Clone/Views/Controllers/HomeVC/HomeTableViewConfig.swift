@@ -72,7 +72,7 @@ extension HomeVC {
                 }
             }
             
-        default:
+        case Sections.UpcomingMovies.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
@@ -85,6 +85,8 @@ extension HomeVC {
                     print(error.localizedDescription)
                 }
             }
+            
+        default: break
         }
     }
 }

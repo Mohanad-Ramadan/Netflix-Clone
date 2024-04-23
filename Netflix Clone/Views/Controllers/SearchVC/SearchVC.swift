@@ -136,7 +136,6 @@ extension SearchVC:  UITableViewDelegate, UITableViewDataSource {
 //MARK: - SearchResult Delegats
 extension SearchVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8){
             guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
                 self.searchResultsVC.view.alpha = 0
                 self.searchTable.alpha = 1
@@ -147,7 +146,6 @@ extension SearchVC: UISearchResultsUpdating {
             self.searchResultsVC.view.alpha = 1
             self.searchTable.alpha = 0
             
-        }
     }
     
 }
