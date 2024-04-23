@@ -74,8 +74,9 @@ class MediaDetailsVC: UIViewController {
             do {
                 guard let ids = genresId else {return}
                 let media = try await NetworkManager.shared.getMoreOf(genresId: ids, ofMediaType: mediaType)
-                let moreWithNoDuplicates = media.filter{!mainMedia.contains(mediaType == "movie" ? $0.title ?? "no duplicate": $0.originalName ?? "no duplicate")}
-                moreMedias = moreWithNoDuplicates.prefix(6).shuffled()
+                let removeDuplicate = media.filter{!mainMedia.contains(mediaType == "movie" ? $0.title ?? "no duplicate": $0.originalName ?? "no duplicate")}
+                let shuffledMedia = removeDuplicate.shuffled()
+                moreMedias = Array(shuffledMedia.prefix(6))
                 moreIdeasCollection.reloadData()
             } catch let error as APIError {
 //                presentGFAlert(messageText: error.rawValue)

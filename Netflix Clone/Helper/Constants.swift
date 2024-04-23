@@ -12,6 +12,22 @@ struct Constants {
     static let apiKey = "?api_key=db7efd1f212466edd2945ab1e9199ee1"
     static let baseURL = "https://api.themoviedb.org/3"
     
+//    func createRequestWith(baseURL: String, queryItems: [URLQueryItem]) -> URLRequest{
+//        let url = URL(string: baseURL)!
+//        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+//        let queryItems: [URLQueryItem] = queryItems
+//        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
+//
+//        var request = URLRequest(url: components.url!)
+//        request.httpMethod = "GET"
+//        request.timeoutInterval = 10
+//        request.allHTTPHeaderFields = [
+//          "accept": "application/json",
+//          "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYjdlZmQxZjIxMjQ2NmVkZDI5NDVhYjFlOTE5OWVlMSIsInN1YiI6IjY1MmQ3NGNiMDI0ZWM4MDEzYzU4ZjVhNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7f-onm6Fmd8SrdNF8iVZeD9-GcffA-3RLZNNOvvOFvQ"
+//        ]
+//        return request
+//    }
+    
     static func createUrlWith(_ endpoint: Endpoints) -> String{
         if endpoint == .discoverUpcoming || endpoint == .search {
             return "\(Constants.baseURL)\(endpoint.rawValue)&api_key=db7efd1f212466edd2945ab1e9199ee1"
@@ -19,8 +35,8 @@ struct Constants {
         return Constants.baseURL + endpoint.rawValue + Constants.apiKey
     }
     
-    static func createMoreLikeURLWith(mediaType: String ,genresId: String, without genres: String) -> String {
-        let endpoint = "?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=\(genresId)&without_genres=10767|10763|10764|\(genres)"
+    static func createMoreLikeURLWith(mediaType: String ,genresId: String, without genres: String, page: Int) -> String {
+        let endpoint = "?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=\(genresId)&page=\(page)&without_genres=10767|10763|10764|\(genres)"
         if mediaType == "movie" {
             return "\(Constants.baseURL)/discover/movie\(endpoint)&api_key=db7efd1f212466edd2945ab1e9199ee1"
         } else {

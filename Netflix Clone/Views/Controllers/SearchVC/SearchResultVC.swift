@@ -32,7 +32,9 @@ class SearchResultVC: UIViewController {
     
     let sectionTitles :[String] = ["Top Results", "Action & Adventure" , "Crime & War", "Animation", "Family & Comedy"]
     
-    var searchQuery: String? { didSet {resultTableView.reloadData()}}
+    var searchQuery: String? {
+        didSet {resultTableView.reloadData()}
+    }
     
 }
 
@@ -49,7 +51,7 @@ extension SearchResultVC: UITableViewDelegate, UITableViewDataSource{
             return UITableViewCell()
         }
         cell.delegate = self
-        configureSearchResults(with: searchQuery ?? "", sections: indexPath.section, for: cell)
+        configureSearchResults(with: searchQuery ?? "", section: indexPath.section, for: cell)
         return cell
     }
     
