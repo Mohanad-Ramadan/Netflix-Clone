@@ -8,21 +8,20 @@
 import UIKit
 
 class CollectionRowTableViewCell: UITableViewCell {
-    // Delegate Protocol
+    
+    //MARK: Delegate Protocol
     protocol Delegate: AnyObject {
         func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC)
-        func finishLoading()
     }
     
-    // Configure TableViewCell
+    
+    //MARK: - Cell Initialize
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         contentView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        
     }
     
     override func layoutSubviews() {
@@ -30,7 +29,7 @@ class CollectionRowTableViewCell: UITableViewCell {
         collectionView.frame = CGRect(x: 9, y: 0, width: Int(contentView.bounds.width), height: Int(contentView.bounds.height))
     }
     
-    
+    //MARK: - Configure Cell
     func configureCollection(with media: [Media]){
         self.media = media
         DispatchQueue.main.async { [weak self] in
@@ -49,12 +48,7 @@ class CollectionRowTableViewCell: UITableViewCell {
         }
     }
     
-    static let identifier = "HomeTableViewCell"
-    
-    weak var delegate: Delegate?
-    
-    var media: [Media] = [Media]()
-    
+    //MARK: - Declare UIElements
     private let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 115, height: 170)
@@ -66,11 +60,13 @@ class CollectionRowTableViewCell: UITableViewCell {
         return collectionView
     }()
     
+    var media: [Media] = [Media]()
+    var cellNumber = 0
     
+    static let identifier = "HomeTableViewCell"
+    weak var delegate: Delegate?
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:\(coder) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }
 
 
@@ -78,9 +74,7 @@ class CollectionRowTableViewCell: UITableViewCell {
 extension CollectionRowTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else {return UICollectionViewCell()}
-        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else { return UICollectionViewCell() }
         let poster = media[indexPath.row].posterPath ?? ""
         cell.configureCell(with: poster)
         return cell

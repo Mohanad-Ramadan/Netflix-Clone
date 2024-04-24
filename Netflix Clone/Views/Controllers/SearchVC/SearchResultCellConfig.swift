@@ -59,6 +59,7 @@ extension SearchResultVC {
                 do {
                     let searchResult = try await NetworkManager.shared.getSearches(of: query)
                     cell.configureCollection(with: searchResult)
+                    finishLoading()
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
                     print(error)

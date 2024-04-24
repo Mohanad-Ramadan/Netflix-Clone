@@ -15,7 +15,7 @@ class SearchResultVC: UIViewController {
         resultTableView.delegate = self
         resultTableView.dataSource = self
         
-        setupLoadingSprinner()
+        configureLoadingSprinner()
         applyConstraints()
     }
 
@@ -38,13 +38,17 @@ class SearchResultVC: UIViewController {
         
     }
     
-    //MARK: - Declare UIElements
-    func setupLoadingSprinner() {
+    //MARK: - setup LoadingSpinner
+    func configureLoadingSprinner() {
         addChild(loadingSpinner)
         view.addSubview(loadingSpinner.view)
         loadingSpinner.didMove(toParent: self)
     }
     
+    func finishLoading() {
+        withAnimation {loadingSpinner.view.alpha = 0}
+    }
+
     //MARK: - Declare UIElements
     var resultTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -63,7 +67,10 @@ class SearchResultVC: UIViewController {
     
     let sectionTitles :[String] = ["Top Results", "Action & Adventure" , "Crime & War", "Animation", "Family & Comedy"]
     
-    var searchQuery: String? { didSet {resultTableView.reloadData()} }
+    var searchQuery: String? {
+        willSet {loadingSpinner.view.alpha = 1}
+        didSet {resultTableView.reloadData()}
+    }
     
 }
 
@@ -76,9 +83,8 @@ extension SearchResultVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 1 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionRowTableViewCell.identifier, for: indexPath) as? CollectionRowTableViewCell else {
-            return UITableViewCell()
-        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionRowTableViewCell.identifier, for: indexPath) as? CollectionRowTableViewCell else {return UITableViewCell()}
+        
         cell.delegate = self
         configureSearchResults(with: searchQuery ?? "", section: indexPath.section, for: cell)
         return cell
@@ -103,12 +109,7 @@ extension SearchResultVC: UITableViewDelegate, UITableViewDataSource{
 
 //MARK: - CollectionRowTableViewCell Delegate
 extension SearchResultVC : CollectionRowTableViewCell.Delegate {
-    func finishLoading() {
-        //
-    }
-    
     func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC) {
         presentAsRoot(vc)
     }
-    
 }
