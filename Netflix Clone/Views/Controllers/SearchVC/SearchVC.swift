@@ -74,6 +74,7 @@ class SearchVC: UIViewController {
         }
     }
     
+    
     //MARK: - Declare UIElements
     let searchResultsVC = SearchResultVC()
     
@@ -136,16 +137,15 @@ extension SearchVC:  UITableViewDelegate, UITableViewDataSource {
 //MARK: - SearchResult Delegats
 extension SearchVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-            guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-                self.searchResultsVC.view.alpha = 0
-                self.searchTable.alpha = 1
-                return
-            }
-            
-            self.searchResultsVC.searchQuery = desiredMedia
-            self.searchResultsVC.view.alpha = 1
-            self.searchTable.alpha = 0
-            
+        guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            self.searchResultsVC.view.alpha = 0
+            self.searchTable.alpha = 1
+            return
+        }
+        self.searchResultsVC.view.alpha = 1
+        self.searchTable.alpha = 0
+        
+        self.searchResultsVC.searchQuery = desiredMedia
     }
     
 }

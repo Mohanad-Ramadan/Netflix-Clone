@@ -45,10 +45,13 @@ class SearchResultVC: UIViewController {
         loadingSpinner.didMove(toParent: self)
     }
     
+    // delay removing loading view for better UX
     func finishLoading() {
-        withAnimation {loadingSpinner.view.alpha = 0}
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+            withAnimation {self.loadingSpinner.view.alpha = 0}
+        }
     }
-
+    
     //MARK: - Declare UIElements
     var resultTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
