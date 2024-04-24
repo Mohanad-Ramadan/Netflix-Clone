@@ -79,8 +79,6 @@ struct Constants {
     static let imageURL = "https://image.tmdb.org/t/p/w500"
     
     static let notificationKey = "Fetch agian"
-    static let categoryNewHotVCKey = "newButtonPressed"
-    static let mediaVCKey = "newButtonPressed2"
 }
 
 enum Endpoints: String {

@@ -11,12 +11,9 @@ class MyNetflixRowUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        addSubview(symbol)
         addSubview(label)
         addSubview(button)
-        
-        button.addTarget(self, action: #selector(chevronButtonTapped), for: .touchUpInside)
-        
+        configureButtonImage()
         applyConstraints()
     }
     
@@ -34,43 +31,32 @@ class MyNetflixRowUIView: UIView {
         }
     }
     
+    private func configureButtonImage() {
+        button.configureButtonImageWith(UIImage(systemName: "chevron.right")!, tinted: .white, width: 12, height: 12, placement: .trailing, padding: 5)
+        button.addTarget(self, action: #selector(chevronButtonTapped), for: .touchUpInside)
+        
+    }
+    
     private func applyConstraints() {
         NSLayoutConstraint.activate([
-            // Symbol Constraints
-            symbol.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
-            symbol.topAnchor.constraint(equalTo: topAnchor),
-            symbol.widthAnchor.constraint(equalToConstant: 40),
-            symbol.heightAnchor.constraint(equalToConstant: 40),
-            
             // Label Constraints
-            label.leadingAnchor.constraint(equalTo: symbol.trailingAnchor, constant: 10),
-            label.centerYAnchor.constraint(equalTo: symbol.centerYAnchor),
+            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            label.topAnchor.constraint(equalTo: topAnchor),
             label.widthAnchor.constraint(equalTo: label.widthAnchor),
             label.heightAnchor.constraint(equalTo: label.heightAnchor),
             
             // Button Constraints
             button.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5),
-            button.centerYAnchor.constraint(equalTo: symbol.centerYAnchor),
+            button.centerYAnchor.constraint(equalTo: label.centerYAnchor),
             button.widthAnchor.constraint(equalTo: button.widthAnchor),
             button.heightAnchor.constraint(equalTo: button.heightAnchor)
         ])
         
     }
-    
-    private let symbol: UIImageView = {
-        let symbol = UIImageView()
-        symbol.image = UIImage(systemName: "arrow.down")
-        symbol.contentMode = .center
-        symbol.backgroundColor = UIColor(red: 73/255.0, green: 105/255.0, blue: 228/255.0, alpha: 1.000)
-        symbol.layer.cornerRadius = 20
-        symbol.tintColor = .white
-        symbol.translatesAutoresizingMaskIntoConstraints = false
-        return symbol
-    }()
 
-    private let label = NFBodyLabel(text: "Downloads", fontSize: 26, fontWeight: .bold)
-    
-    private let button = NFSymbolButton(imageName: "chevron.right", imageSize: 20)
+    private let label = NFBodyLabel(text: "My List", fontSize: 20, fontWeight: .bold)
+//    private let button = NFSymbolButton(imageName: "chevron.right", imageSize: 20)
+    private let button = NFPlainButton(title: "See All", fontSize: 16, fontWeight: .semibold)
     
     required init?(coder: NSCoder) {fatalError()}
 }

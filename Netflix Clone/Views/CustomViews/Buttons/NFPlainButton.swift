@@ -35,6 +35,7 @@ class NFPlainButton: UIButton {
         self.configuration = configuration
     }
     
+    
     /// Bar button with white title, clear background, gray stroke and optional image
     convenience init(barButtontitle title: String, image: UIImage? = nil ,fontColorOnly: UIColor? = nil){
         self.init(frame: .zero)
