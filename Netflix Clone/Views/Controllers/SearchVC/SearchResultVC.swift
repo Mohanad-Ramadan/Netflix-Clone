@@ -14,7 +14,6 @@ class SearchResultVC: UIViewController {
         view.addSubview(resultTableView)
         resultTableView.delegate = self
         resultTableView.dataSource = self
-        
         configureLoadingSprinner()
         applyConstraints()
     }

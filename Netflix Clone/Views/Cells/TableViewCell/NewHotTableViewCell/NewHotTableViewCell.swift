@@ -11,10 +11,6 @@ class NewHotTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
-//        [backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel
-//        ].forEach { contentView.addSubview($0) }
-        
-//        applyConstraints()
     }
     
     func configure(with media: Media) {

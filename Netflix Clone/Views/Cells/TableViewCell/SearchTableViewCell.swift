@@ -48,15 +48,14 @@ class SearchTableViewCell: UITableViewCell {
         let titleLabelConstraints = [
             titleLabel.leadingAnchor.constraint(equalTo: mediaBackdropImageView.trailingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(equalTo: playTitleButton.leadingAnchor, constant: -20),
-            titleLabel.widthAnchor.constraint(equalToConstant: 150),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ]
         
         
         let playTitleButtonConstraints = [
             playTitleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            playTitleButton.widthAnchor.constraint(equalToConstant: 40),
             playTitleButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            playTitleButton.widthAnchor.constraint(equalTo: playTitleButton.widthAnchor)
         ]
         
         NSLayoutConstraint.activate(titlesPosterUIImageViewConstraints)
@@ -66,7 +65,7 @@ class SearchTableViewCell: UITableViewCell {
     
     private let mediaBackdropImageView = NFWebImageView(cornerRadius: 6, autoLayout: false)
 
-    private let titleLabel = NFBodyLabel(fontSize: 15, fontWeight: .semibold, lines: 2)
+    private let titleLabel = NFBodyLabel(fontSize: 15, fontWeight: .semibold, lines: 0)
     
     private let playTitleButton = NFSymbolButton(imageName: "play.circle", imageSize: 35)
 

@@ -32,24 +32,25 @@ class SearchVC: UIViewController {
     func configureSubviews(){
         // configure subviews
         view.addSubview(searchTable)
-        searchTable.frame = view.bounds
-        
         searchTable.delegate = self
         searchTable.dataSource = self
-        // configure searchesultsVC
-        setupSearchResultsVC()
-        
+        layoutSearchTable()
         // configure header
         let headerTitle = NFPlainButton(title: "Recommended TV Shows & Movies", fontSize: 20, fontWeight: .bold)
         searchTable.tableHeaderView = headerTitle
+        
+        // configure searchesultsVC
+        setupSearchResultsVC()
     }
     
+    // configure the SearchResultsVC in the View
     func setupSearchResultsVC() {
         addChild(searchResultsVC)
         view.addSubview(searchResultsVC.view)
         searchResultsVC.didMove(toParent: self)
     }
     
+    // the default view when the user go to SearchVC
     func screenFirstAppearnce() {
         // show recommended first
         searchTable.alpha = 1
@@ -58,6 +59,7 @@ class SearchVC: UIViewController {
         fetchRecommendedMedia()
     }
     
+    // fetch the media for searchTable cells
     func fetchRecommendedMedia() {
         Task{
             do {
@@ -74,10 +76,20 @@ class SearchVC: UIViewController {
         }
     }
     
+    //MARK: Constriatns for SearchTable
+    func layoutSearchTable() {
+        searchTable.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            searchTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchTable.leftAnchor.constraint(equalTo: view.leftAnchor),
+            searchTable.rightAnchor.constraint(equalTo: view.rightAnchor),
+            searchTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+        
+    }
+    
     
     //MARK: - Declare UIElements
-    let searchResultsVC = SearchResultVC()
-    
     var searchTable: UITableView = {
         let table = UITableView()
         table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
@@ -106,6 +118,7 @@ class SearchVC: UIViewController {
         return searchBar
     }()
     
+    let searchResultsVC = SearchResultVC()
     var media = [Media]()
 }
 
@@ -142,10 +155,10 @@ extension SearchVC: UISearchResultsUpdating {
             self.searchTable.alpha = 1
             return
         }
+        self.searchResultsVC.searchQuery = desiredMedia
         self.searchResultsVC.view.alpha = 1
         self.searchTable.alpha = 0
         
-        self.searchResultsVC.searchQuery = desiredMedia
     }
     
 }

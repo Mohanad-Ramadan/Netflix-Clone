@@ -1,5 +1,5 @@
 //
-//  MyNetflixRowUIView.swift
+//  CustomRowUIView.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 04/01/2024.
@@ -7,14 +7,18 @@
 
 import UIKit
 
-class MyNetflixRowUIView: UIView {
+class CustomRowUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
         addSubview(label)
         addSubview(button)
-        configureButtonImage()
         applyConstraints()
+    }
+    
+    convenience init(title: String) {
+        self.init(frame: .zero)
+        configureButtonImage(withTitle: title)
     }
     
     @objc func chevronButtonTapped() {
@@ -31,8 +35,11 @@ class MyNetflixRowUIView: UIView {
         }
     }
     
-    private func configureButtonImage() {
-        button.configureButtonImageWith(UIImage(systemName: "chevron.right")!, tinted: .white, width: 12, height: 12, placement: .trailing, padding: 5)
+    private func configureButtonImage(withTitle title: String) {
+        // title
+        button.configuration?.title = title
+        
+        button.configureButtonImageWith(UIImage(systemName: "chevron.right")!, tinted: .white, width: 10, height: 10, placement: .trailing, padding: 5)
         button.addTarget(self, action: #selector(chevronButtonTapped), for: .touchUpInside)
         
     }
@@ -55,7 +62,6 @@ class MyNetflixRowUIView: UIView {
     }
 
     private let label = NFBodyLabel(text: "My List", fontSize: 20, fontWeight: .bold)
-//    private let button = NFSymbolButton(imageName: "chevron.right", imageSize: 20)
     private let button = NFPlainButton(title: "See All", fontSize: 16, fontWeight: .semibold)
     
     required init?(coder: NSCoder) {fatalError()}
