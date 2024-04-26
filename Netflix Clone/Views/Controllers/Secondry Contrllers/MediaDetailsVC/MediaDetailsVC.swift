@@ -23,11 +23,12 @@ class MediaDetailsVC: UIViewController {
         view.addSubview(mediaTrailer)
         view.addSubview(containterScrollView)
         
-        [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, expandCastButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
+        [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, castExpandButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
         
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
 
+        configureCastButton()
         applyConstraints()
     }
     
@@ -69,23 +70,13 @@ class MediaDetailsVC: UIViewController {
         fetchMoreMedia(model.title! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
     }
     
-    private func fetchMoreMedia(_ mainMedia: String ,genresId: String?, mediaType: String){
-        Task{
-            do {
-                guard let ids = genresId else {return}
-                let media = try await NetworkManager.shared.getMoreOf(genresId: ids, ofMediaType: mediaType)
-                let removeDuplicate = media.filter{!mainMedia.contains(mediaType == "movie" ? $0.title ?? "no duplicate": $0.originalName ?? "no duplicate")}
-                let shuffledMedia = removeDuplicate.shuffled()
-                moreMedias = Array(shuffledMedia.prefix(6))
-                moreIdeasCollection.reloadData()
-            } catch let error as APIError {
-//                presentGFAlert(messageText: error.rawValue)
-                print(error)
-            } catch {
-//                presentDefaultError()
-                print(error.localizedDescription)
-            }
-        }
+    // configure button action
+    func configureCastButton() {
+        castExpandButton.addTarget(self, action: #selector(presentToCastView), for: .touchUpInside)
+    }
+    
+    @objc private func presentToCastView() {
+        //
     }
     
     //MARK: - Trailer Configuration
@@ -110,6 +101,26 @@ class MediaDetailsVC: UIViewController {
         let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
         let trialerQuery = trailerInfo.map { $0.name }[0]
         return trialerQuery
+    }
+    
+    //MARK: - Fetch moreIdeas' media
+    private func fetchMoreMedia(_ mainMedia: String ,genresId: String?, mediaType: String){
+        Task{
+            do {
+                guard let ids = genresId else {return}
+                let media = try await NetworkManager.shared.getMoreOf(genresId: ids, ofMediaType: mediaType)
+                let removeDuplicate = media.filter{!mainMedia.contains(mediaType == "movie" ? $0.title ?? "no duplicate": $0.originalName ?? "no duplicate")}
+                let shuffledMedia = removeDuplicate.shuffled()
+                moreMedias = Array(shuffledMedia.prefix(6))
+                moreIdeasCollection.reloadData()
+            } catch let error as APIError {
+//                presentGFAlert(messageText: error.rawValue)
+                print(error)
+            } catch {
+//                presentDefaultError()
+                print(error.localizedDescription)
+            }
+        }
     }
     
     
@@ -211,10 +222,10 @@ class MediaDetailsVC: UIViewController {
     
     // Expand cast button Constraints
     private func expandCastButtonConstriants() {
-        expandCastButton.configuration?.contentInsets = .init(top: 0, leading: 2, bottom: 1, trailing: 0)
-        expandCastButton.centerYAnchor.constraint(equalTo: castLabel.centerYAnchor).isActive = true
-        expandCastButton.leadingAnchor.constraint(equalTo: castLabel.trailingAnchor).isActive = true
-        expandCastButton.trailingAnchor.constraint(lessThanOrEqualTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        castExpandButton.configuration?.contentInsets = .init(top: 0, leading: 2, bottom: 1, trailing: 0)
+        castExpandButton.centerYAnchor.constraint(equalTo: castLabel.centerYAnchor).isActive = true
+        castExpandButton.leadingAnchor.constraint(equalTo: castLabel.trailingAnchor).isActive = true
+        castExpandButton.trailingAnchor.constraint(lessThanOrEqualTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
     }
 
     
@@ -295,7 +306,7 @@ class MediaDetailsVC: UIViewController {
     
     let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
-    let expandCastButton = NFPlainButton(title: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
+    let castExpandButton = NFPlainButton(title: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
     
     let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     

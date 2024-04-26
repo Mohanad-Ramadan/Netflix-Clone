@@ -17,7 +17,7 @@ class MyNetflixVC: UIViewController {
         view.addSubview(downloadTable)
         view.addSubview(profilImage)
         view.addSubview(userLabel)
-        view.addSubview(downloadTitleRow)
+        view.addSubview(myListRow)
         
         downloadTable.delegate = self
         downloadTable.dataSource = self
@@ -78,16 +78,16 @@ class MyNetflixVC: UIViewController {
     
     //DownloadTable Title Row
     private func downloadTitleRowConstraints() {
-        downloadTitleRow.translatesAutoresizingMaskIntoConstraints = false
-        downloadTitleRow.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
-        downloadTitleRow.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        downloadTitleRow.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        downloadTitleRow.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        myListRow.translatesAutoresizingMaskIntoConstraints = false
+        myListRow.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
+        myListRow.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        myListRow.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        myListRow.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
     //Download Table Label
     private func downloadTableConstraints() {
-        downloadTable.topAnchor.constraint(equalTo: downloadTitleRow.bottomAnchor, constant: 20).isActive = true
+        downloadTable.topAnchor.constraint(equalTo: myListRow.bottomAnchor).isActive = true
         downloadTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         downloadTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         downloadTable.heightAnchor.constraint(equalToConstant: 200).isActive = true
@@ -105,7 +105,7 @@ class MyNetflixVC: UIViewController {
         
     private let userLabel = NFPlainButton(title: "mohanad",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
     
-    private let downloadTitleRow: MyNetflixRowUIView = MyNetflixRowUIView()
+    private let myListRow: CustomRowUIView = CustomRowUIView(title: "My List")
     
     private let downloadTable: UITableView = {
         let table = UITableView(frame: .zero, style: .plain)
