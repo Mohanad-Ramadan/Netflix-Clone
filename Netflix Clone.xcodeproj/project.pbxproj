@@ -75,6 +75,7 @@
 		14B213EE2BCB820100676234 /* RectPositionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B213ED2BCB820100676234 /* RectPositionKey.swift */; };
 		14B213F32BCB909D00676234 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B213F22BCB909D00676234 /* LaunchView.swift */; };
 		14B323ED2BDA541800F817FE /* CastListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B323EC2BDA541800F817FE /* CastListVC.swift */; };
+		14B323EF2BDBD0A600F817FE /* CastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B323EE2BDBD0A600F817FE /* CastViewModel.swift */; };
 		14B6FC4F2BC3188F003C6B8D /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */; };
 		14BEB8042B9E049000B87AB8 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEB8032B9E049000B87AB8 /* SearchVC.swift */; };
 		14CC5CCA2BCDBF9400A5805D /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */; };
@@ -170,6 +171,7 @@
 		14B213ED2BCB820100676234 /* RectPositionKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectPositionKey.swift; sourceTree = "<group>"; };
 		14B213F22BCB909D00676234 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		14B323EC2BDA541800F817FE /* CastListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastListVC.swift; sourceTree = "<group>"; };
+		14B323EE2BDBD0A600F817FE /* CastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastViewModel.swift; sourceTree = "<group>"; };
 		14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		14BEB8032B9E049000B87AB8 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 			children = (
 				14CC5CCF2BCDC63E00A5805D /* LaunchData.swift */,
 				1400D3972ADC5B7800491F75 /* MovieViewModel.swift */,
+				14B323EE2BDBD0A600F817FE /* CastViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				147BD90B2B9B942D0054A207 /* UIHelper.swift in Sources */,
+				14B323EF2BDBD0A600F817FE /* CastViewModel.swift in Sources */,
 				142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */,
 				14DCE3D72B22490D00DCD959 /* NewHotTableViewCell.swift in Sources */,
 				14CC5CCC2BCDC07D00A5805D /* AddProfileView.swift in Sources */,

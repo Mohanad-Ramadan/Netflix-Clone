@@ -10,7 +10,7 @@ import UIKit
 class NFBodyLabel: UILabel {
     override init(frame: CGRect) {super.init(frame: frame)}
     
-    convenience init(text: String = "",color: UIColor = .white, fontSize: CGFloat, fontWeight: UIFont.Weight = .regular, textAlignment: NSTextAlignment = .left, lines: Int = 1){
+    convenience init(text: String = "",color: UIColor = .white, fontSize: CGFloat, fontWeight: UIFont.Weight = .regular, textAlignment: NSTextAlignment = .left, lines: Int = 1, autoLayout: Bool = false){
         self.init(frame: .zero)
         self.text = text
         self.textAlignment = textAlignment
@@ -18,7 +18,7 @@ class NFBodyLabel: UILabel {
         font = .systemFont(ofSize: fontSize, weight: fontWeight)
         numberOfLines = lines
         
-        translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
     

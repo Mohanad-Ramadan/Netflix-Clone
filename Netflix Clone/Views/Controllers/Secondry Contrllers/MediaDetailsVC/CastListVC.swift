@@ -39,10 +39,10 @@ class CastListVC: UIViewController {
     //MARK: - Constriants
     func applyConstraints() {
         // stackContainer
-        stackContainer.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        stackContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         stackContainer.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         stackContainer.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        stackContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        stackContainer.bottomAnchor.constraint(equalTo: exitButtonBackground.topAnchor, constant: -20).isActive = true
 
         
         // exitButton constraints
@@ -51,7 +51,6 @@ class CastListVC: UIViewController {
         exitButtonBackground.widthAnchor.constraint(equalToConstant: 50).isActive = true
         exitButtonBackground.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        
         exitButton.centerXAnchor.constraint(equalTo: exitButtonBackground.centerXAnchor).isActive = true
         exitButton.centerYAnchor.constraint(equalTo: exitButtonBackground.centerYAnchor).isActive = true
         exitButton.widthAnchor.constraint(equalTo: exitButtonBackground.widthAnchor).isActive = true
@@ -59,10 +58,33 @@ class CastListVC: UIViewController {
         
     }
     
-    //MARK: - Animate Stack's SubViews
-    
-    
-    
+    //MARK: - Adding Labels SubViews
+    private func addCastViews(with cast: CastViewModel) {
+        var viewNumber: Int = 0
+        
+        // add actorsLabel to the stack
+        let actorLabels = cast.createActorsArray()
+        stackContainer.addArrangedSubview(castTitle)
+        for actorLabel in actorLabels {
+            viewNumber += 1
+            let LabelView = NFBodyLabel(text: "", color: .lightGray, fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
+            LabelView.text = actorLabel
+            stackContainer.addArrangedSubview(LabelView)
+            if viewNumber == actorLabels.count {
+                stackContainer.setCustomSpacing(30, after: LabelView)
+                viewNumber = 0
+            }
+        }
+        
+        // add crewLabels to the stack
+        let crewLabels = cast.createCrewArray()
+        stackContainer.addArrangedSubview(crewTitle)
+        for memberLabel in crewLabels {
+            let LabelView = NFBodyLabel(text: "", color: .lightGray, fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
+            LabelView.text = memberLabel
+            stackContainer.addArrangedSubview(LabelView)
+        }
+    }
     
     
     //MARK: - Declare Views & Variables
@@ -70,7 +92,7 @@ class CastListVC: UIViewController {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = 20
-        view.distribution = .fill
+        view.distribution = .fillProportionally
         view.alignment = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -90,9 +112,12 @@ class CastListVC: UIViewController {
         return view
     }()
     
+    let castTitle = NFTitleLabel(text: "Cast:", textAlignment: .center, lines: 1, autoLayout: true)
+    let crewTitle = NFTitleLabel(text: "Crew:", textAlignment: .center, lines: 1, autoLayout: true)
+    
     let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
     let bluryBackground = UIView()
     
-    var cast: Cast?
+    var cast: Cast? { didSet {addCastViews(with: CastViewModel(cast!))} }
 }
 
