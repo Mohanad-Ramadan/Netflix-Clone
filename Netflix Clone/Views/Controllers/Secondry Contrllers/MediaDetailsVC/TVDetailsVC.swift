@@ -29,6 +29,9 @@ class TVDetailsVC: MediaDetailsVC {
                 let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
                 let director = fetchedCast.returnDirector()
                 configureCast(with: MovieViewModel(cast: cast, director: director))
+                // configure castVC
+                castVC.cast = fetchedCast
+                configureCastButton()
                 
                 // get seasons
                 seasonsCount = details.numberOfSeasons ?? 1
@@ -138,8 +141,10 @@ class TVDetailsVC: MediaDetailsVC {
         }
     }
     
+    //MARK: - Cast Button Action
+    override func goToCastListVC() {presentInMainThread(castVC)}
     
-    //MARK: - Declare TvShows Subviews
+    //MARK: - Declare UIElements
     private let episodesContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear

@@ -24,11 +24,8 @@ class MediaDetailsVC: UIViewController {
         view.addSubview(containterScrollView)
         
         [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, castExpandButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
-        
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
-
-        configureCastButton()
         applyConstraints()
     }
     
@@ -72,12 +69,10 @@ class MediaDetailsVC: UIViewController {
     
     // configure button action
     func configureCastButton() {
-        castExpandButton.addTarget(self, action: #selector(presentToCastView), for: .touchUpInside)
+        castExpandButton.addTarget(self, action: #selector(goToCastListVC), for: .touchUpInside)
     }
     
-    @objc private func presentToCastView() {
-        //
-    }
+    @objc func goToCastListVC() {}
     
     //MARK: - Trailer Configuration
     func configureTrailer(with model: MovieViewModel){
@@ -324,5 +319,5 @@ class MediaDetailsVC: UIViewController {
     }()
     
     var moreMedias: [Media] = [Media]()
-    
+    var castVC = CastListVC()
 }

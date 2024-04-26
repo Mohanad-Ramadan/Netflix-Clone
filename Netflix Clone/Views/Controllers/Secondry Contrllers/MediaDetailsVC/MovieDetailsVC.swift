@@ -31,6 +31,10 @@ class MovieDetailsVC: MediaDetailsVC {
                 let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
                 let director = fetchedCast.returnDirector()
                 configureCast(with: MovieViewModel(cast: cast, director: director))
+                // configure castVC
+                castVC.cast = fetchedCast
+                configureCastButton()
+                
                 
                 // get trailers
 //                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
@@ -115,6 +119,9 @@ class MovieDetailsVC: MediaDetailsVC {
                 UIView.animate(withDuration: 0.1) {self.trailerTable.alpha = 1}
         }
     }
+    
+    //MARK: - Cast Button Action
+    override func goToCastListVC() { presentInMainThread(castVC) }
     
     //MARK: - Declare Movie Subviews
     private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")

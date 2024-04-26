@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Cast
-struct Cast: Codable, CastSeparatable, ReturnDirector{
+struct Cast: Codable{
     let cast: [Actors]
     let crew: [Crew]
     
@@ -39,14 +39,4 @@ struct Cast: Codable, CastSeparatable, ReturnDirector{
         let names = cast.map { $0.name }
         return "Cast: " + names.joined(separator: with)
     }
-}
-
-//MARK: - Protocols
-
-protocol CastSeparatable {
-    func returnThreeCastSeperated(with: String) -> String
-}
-
-protocol ReturnDirector {
-    func returnDirector() -> String
 }
