@@ -22,28 +22,32 @@ class CastListVC: UIViewController {
     
     //MARK: - Configure Views
     func configureViews() {
-        [bluryBackground,stackContainer,exitButtonBackground].forEach{view.addSubview($0)}
+        [bluryBackground,scrollView,exitButtonBackground].forEach{view.addSubview($0)}
+        scrollView.addSubview(stackContainer)
+        exitButtonBackground.addSubview(exitButton)
         
         bluryBackground.frame = view.bounds
         bluryBackground.addGrayBlurEffect()
         
-        [].forEach{stackContainer.addArrangedSubview($0)}
-        
-        // setup exit Button
-        exitButtonBackground.addSubview(exitButton)
         exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
     }
     
-    @objc func exitButtonTapped() {dismiss(animated: true)}
+    @objc func exitButtonTapped() { dismiss(animated: true) }
     
     //MARK: - Constriants
     func applyConstraints() {
-        // stackContainer
-        stackContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        stackContainer.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        stackContainer.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        stackContainer.bottomAnchor.constraint(equalTo: exitButtonBackground.topAnchor, constant: -20).isActive = true
-
+        // scrollView
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: exitButtonBackground.topAnchor, constant: -20).isActive = true
+        
+        stackContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        // stackView
+        stackContainer.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
+        stackContainer.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor).isActive = true
+        stackContainer.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor).isActive = true
+        stackContainer.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
         
         // exitButton constraints
         exitButtonBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -61,31 +65,32 @@ class CastListVC: UIViewController {
     //MARK: - Adding Labels SubViews
     private func addCastViews(with cast: CastViewModel) {
         var viewNumber: Int = 0
+        let actors = cast.createActorsArray()
+        let crew = cast.createCrewArray()
         
         // add actorsLabel to the stack
-        let actorLabels = cast.createActorsArray()
         stackContainer.addArrangedSubview(castTitle)
-        for actorLabel in actorLabels {
-            viewNumber += 1
-            let LabelView = NFBodyLabel(text: "", color: .lightGray, fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
-            LabelView.text = actorLabel
-            stackContainer.addArrangedSubview(LabelView)
-            if viewNumber == actorLabels.count {
-                stackContainer.setCustomSpacing(30, after: LabelView)
-                viewNumber = 0
-            }
-        }
+        setupLabels(for: actors, viewsCount: &viewNumber)
         
         // add crewLabels to the stack
-        let crewLabels = cast.createCrewArray()
         stackContainer.addArrangedSubview(crewTitle)
-        for memberLabel in crewLabels {
+        setupLabels(for: crew, viewsCount: &viewNumber)
+        
+    }
+    
+    
+    private func setupLabels(for castArray: [String], viewsCount: inout Int) {
+        for memberLabel in castArray {
+            viewsCount += 1
             let LabelView = NFBodyLabel(text: "", color: .lightGray, fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
             LabelView.text = memberLabel
             stackContainer.addArrangedSubview(LabelView)
+            if viewsCount == castArray.count {
+                stackContainer.setCustomSpacing(30, after: LabelView)
+                viewsCount = 0
+            }
         }
     }
-    
     
     //MARK: - Declare Views & Variables
     let stackContainer : UIStackView = {
@@ -98,9 +103,10 @@ class CastListVC: UIViewController {
         return view
     }()
     
-    let scrollCastView: UIScrollView = {
+    let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
@@ -112,8 +118,8 @@ class CastListVC: UIViewController {
         return view
     }()
     
-    let castTitle = NFTitleLabel(text: "Cast:", textAlignment: .center, lines: 1, autoLayout: true)
-    let crewTitle = NFTitleLabel(text: "Crew:", textAlignment: .center, lines: 1, autoLayout: true)
+    let castTitle = NFBodyLabel(text: "Cast:", fontSize: 21, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
+    let crewTitle = NFBodyLabel(text: "Crew:", fontSize: 21, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
     
     let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
     let bluryBackground = UIView()

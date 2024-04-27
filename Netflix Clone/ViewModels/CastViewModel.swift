@@ -15,20 +15,14 @@ struct CastViewModel {
     // return an array of all actors
     func createActorsArray() -> [String]{
         var actorsArray = [String]()
-        for actor in cast.cast {
-            actorsArray.append(actor.name)
-            if actorsArray.count == 10 { break }
-        }
+        for actor in cast.cast { actorsArray.append(actor.name); if actorsArray.count == 15 {break} }
         return actorsArray
     }
     
     // return an array of all crew
     func createCrewArray() -> [String]{
         var crewArray = [String]()
-        for member in cast.crew {
-            crewArray.append(member.name)
-            if crewArray.count == 5 { break }
-        }
+        for member in cast.crew { crewArray.append(member.name); if crewArray.count == 5 {break} }
         return crewArray
     }
     

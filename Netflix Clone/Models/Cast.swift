@@ -19,6 +19,7 @@ struct Cast: Codable{
     struct Crew: Codable {
         let name: String
         let job: String
+        let knownForDepartment: String
     }
     
     func returnDirector() -> String {

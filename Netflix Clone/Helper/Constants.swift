@@ -148,6 +148,7 @@ enum Endpoints: String {
 
 //Cast
 // movie https://api.themoviedb.org/3/movie/872585/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
+// movie https://api.themoviedb.org/3/movie/693134/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
 
 //tv https://api.themoviedb.org/3/tv/108978/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
 //tv https://api.themoviedb.org/3/tv/126308/credits?api_key=db7efd1f212466edd2945ab1e9199ee1

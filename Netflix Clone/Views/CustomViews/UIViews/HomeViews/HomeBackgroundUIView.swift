@@ -43,7 +43,7 @@ class HomeBackgroundUIView: UIView {
     func addGradientLayer(color: UIColor) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [color.cgColor, UIColor.clear.cgColor]
-        gradientLayer.locations = [NSNumber(value: 0.0), NSNumber(value: 1.7)]
+        gradientLayer.locations = [NSNumber(value: 0.0), NSNumber(value: 2.2)]
         self.layer.addSublayer(gradientLayer)
         gradientLayer.frame = bounds
     }
