@@ -34,8 +34,8 @@ class SeasonsListVC: UIViewController {
     
     //MARK: - Configure Views
     func configureViews() {
-        [bluryBackground, containerView, exitButtonBackground].forEach{view.addSubview($0)}
-        [upperPaddingView, stackContainer, lowerPaddingView].forEach{containerView.addSubview($0)}
+        [bluryBackground, scrollView, exitButtonBackground].forEach{view.addSubview($0)}
+        scrollView.addSubview(stackContainer)
         exitButtonBackground.addSubview(exitButton)
         exitButton.addTarget(self, action: #selector(exitButtonTapped), for: .touchUpInside)
         bluryBackground.addGrayBlurEffect()
@@ -48,14 +48,20 @@ class SeasonsListVC: UIViewController {
     
     
     private func decalreUIButtons(with totalSeasons: Int) {
-        var seasonIndex = 0
+        var seasonsCount = 0
+        
+        // insert upper padding
+        stackContainer.insertArrangedSubview(upperPaddingView, at: 0)
+        // add buttons subviews
         for season in 1...totalSeasons {
-            seasonIndex += 1
+            seasonsCount += 1
             let seasonView = NFPlainButton(title: "Season \(season)", fontSize: 18, fontWeight: .regular, fontColorOnly: .lightGray)
             seasonView.heightAnchor.constraint(equalToConstant: 40).isActive = true
             seasonsButtons.append(seasonView)
             stackContainer.addArrangedSubview(seasonView)
         }
+        // insert lower padding
+        stackContainer.insertArrangedSubview(lowerPaddingView, at: seasonsCount+1)
     }
     
     private func addButtonsTarget() {
@@ -103,13 +109,13 @@ class SeasonsListVC: UIViewController {
     
     private func animateButtonsAppearing() {
         let totalButtons = self.seasonsButtons.count
-        let totalDuration: TimeInterval = 0.5 // Total time for all buttons to appear (1 second)
+        let duration: TimeInterval = 0.5
         
         for buttonIndex in self.seasonsButtons.indices {
             let portionOfTotalDuration = Double(buttonIndex + 1) / Double(totalButtons)
-            let duration = portionOfTotalDuration * totalDuration
+            let lessButtonsDuration = portionOfTotalDuration * duration
             
-            UIView.animate(withDuration: duration) {
+            UIView.animate(withDuration: totalButtons > 7 ? duration : lessButtonsDuration) {
                 self.seasonsButtons[buttonIndex].alpha = 1
                 self.seasonsButtons[buttonIndex].transform = .identity
             }
@@ -123,28 +129,19 @@ class SeasonsListVC: UIViewController {
         // background frame
         bluryBackground.frame = view.bounds
         
-        // upper portion of the vc constraints
-        containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        containerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        containerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: exitButtonBackground.topAnchor).isActive = true
+        // scrollView
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: exitButtonBackground.topAnchor, constant: -20).isActive = true
         
-        // containerView subviews constriants
-        upperPaddingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        upperPaddingView.topAnchor.constraint(greaterThanOrEqualTo: containerView.topAnchor, constant: 20).isActive = true
-        upperPaddingView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        upperPaddingView.heightAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.height*0.5).isActive = true
+        // stackView
+        stackContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        stackContainer.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
+        stackContainer.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor).isActive = true
+        stackContainer.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor).isActive = true
+        stackContainer.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor).isActive = true
         
-        stackContainer.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-        stackContainer.topAnchor.constraint(equalTo: upperPaddingView.bottomAnchor).isActive = true
-        stackContainer.centerYAnchor.constraint(lessThanOrEqualTo: containerView.centerYAnchor).isActive = true
-        stackContainer.heightAnchor.constraint(equalTo: stackContainer.heightAnchor).isActive = true
-        stackContainer.bottomAnchor.constraint(equalTo: lowerPaddingView.topAnchor).isActive = true
-        
-        lowerPaddingView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        lowerPaddingView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        lowerPaddingView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        lowerPaddingView.heightAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.height*0.5).isActive = true
         
         // exitButton constraints
         exitButtonBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -162,8 +159,6 @@ class SeasonsListVC: UIViewController {
     }
     
     //MARK: - Declare Views & Variables
-    let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
-    
     let exitButtonBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -172,23 +167,23 @@ class SeasonsListVC: UIViewController {
         return view
     }()
     
-    let bluryBackground = UIView()
     
-    let lowerPaddingView : UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
     
     let upperPaddingView : UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1).isActive = true
         return view
     }()
     
-    let containerView : UIView = {
+    let lowerPaddingView : UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1).isActive = true
         return view
     }()
     
@@ -201,6 +196,9 @@ class SeasonsListVC: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    let bluryBackground = UIView()
+    let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
     
     var seasonsButtons = [NFPlainButton]()
     weak var delegate: Delegate!

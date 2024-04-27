@@ -14,7 +14,6 @@ class TVDetailsVC: MediaDetailsVC {
         super.init()
         self.tvShow = tvShow
         fetchData(isTrend: isTrend, rank: rank)
-        print(tvShow.id)
     }
     
     private func fetchData(isTrend: Bool, rank: Int){
