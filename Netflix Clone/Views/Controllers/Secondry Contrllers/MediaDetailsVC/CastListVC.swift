@@ -66,15 +66,24 @@ class CastListVC: UIViewController {
     private func addCastViews(with cast: CastViewModel) {
         var viewNumber: Int = 0
         let actors = cast.createActorsArray()
-        let crew = cast.createCrewArray()
+        let crew = cast.createCreatorArray()
+        let writers = cast.createWritersArray()
         
         // add actorsLabel to the stack
         stackContainer.addArrangedSubview(castTitle)
         setupLabels(for: actors, viewsCount: &viewNumber)
         
         // add crewLabels to the stack
-        stackContainer.addArrangedSubview(crewTitle)
-        setupLabels(for: crew, viewsCount: &viewNumber)
+        if !crew.isEmpty {
+            stackContainer.addArrangedSubview(crewTitle)
+            setupLabels(for: crew, viewsCount: &viewNumber)
+        }
+        
+        // add writerLabels
+        if !writers.isEmpty {
+            stackContainer.addArrangedSubview(writersTitle)
+            setupLabels(for: writers, viewsCount: &viewNumber)
+        }
         
     }
     
@@ -119,7 +128,8 @@ class CastListVC: UIViewController {
     }()
     
     let castTitle = NFBodyLabel(text: "Cast:", fontSize: 21, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
-    let crewTitle = NFBodyLabel(text: "Crew:", fontSize: 21, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
+    let crewTitle = NFBodyLabel(text: "Director:", fontSize: 21, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
+    let writersTitle = NFBodyLabel(text: "Writer:", fontSize: 21, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
     
     let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
     let bluryBackground = UIView()

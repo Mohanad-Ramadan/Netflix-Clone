@@ -17,15 +17,13 @@ struct Cast: Codable{
     }
     
     struct Crew: Codable {
-        let name: String
-        let job: String
-        let knownForDepartment: String
+        let name, job , department : String
     }
     
     func returnDirector() -> String {
         let directors = crew.filter { $0.job == "Director" }
         let creator = crew.filter {$0.job == "Executive Producer"}
-        let writer = crew.filter {$0.job == "Novel" || $0.job == "Book"}
+        let writer = crew.filter {$0.job == "Novel" || $0.job == "Book" || $0.job == "Original Concept"}
         
         if !directors.isEmpty {
             return "Director: " + directors[0].name
