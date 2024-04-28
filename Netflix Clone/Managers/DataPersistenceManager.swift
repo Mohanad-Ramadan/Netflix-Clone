@@ -22,12 +22,8 @@ class DataPersistenceManager {
     
     
     func downloadMediaWith(model: Media, completion: @escaping (Result<Void,Error>) -> Void ){
-        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
         let context = appDelegate.persistentContainer.viewContext
-        
-        
         let item = MediaItems(context: context)
         
         item.id = Int64(model.id)
@@ -35,7 +31,6 @@ class DataPersistenceManager {
         item.title = model.title
         item.overview = model.overview
         item.posterPath = model.posterPath
-
         
         do {
             try context.save()
@@ -47,13 +42,9 @@ class DataPersistenceManager {
     }
     
     func fetchDownloadedMedias(completion: @escaping (Result<[MediaItems],Error>) -> Void ){
-        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
         let context = appDelegate.persistentContainer.viewContext
-        
         let request: NSFetchRequest<MediaItems>
-        
         request = MediaItems.fetchRequest()
         
         do {
@@ -66,20 +57,16 @@ class DataPersistenceManager {
     }
     
     func deleteMedias(model: MediaItems, completion: @escaping (Result<Void,Error>) -> Void ){
-        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
         let context = appDelegate.persistentContainer.viewContext
-        
         context.delete(model)
         
         do{
             try context.save()
             completion(.success(()))
-        } catch{
+        } catch {
             completion(.failure(DataBaseError.faliedToDeleteData))
         }
-        
     }
     
     

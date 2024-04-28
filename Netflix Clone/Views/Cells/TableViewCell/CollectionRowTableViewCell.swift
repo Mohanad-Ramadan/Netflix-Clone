@@ -104,7 +104,7 @@ extension CollectionRowTableViewCell: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
         let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {[weak self] _ in
-            let downloadAction = UIAction(title: "Download", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+            let downloadAction = UIAction(title: "Add to List", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
                 self?.downloadMediaAt(indexPath)
             }
             return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])

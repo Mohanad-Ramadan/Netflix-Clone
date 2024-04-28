@@ -6,20 +6,10 @@
 //
 
 import UIKit
-import SkeletonView
-
-
-protocol MyNetflixTableViewCellDelegate: AnyObject {
-    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC)
-}
 
 class MyNetflixTableViewCell: UITableViewCell {
     
-    static let identifier = "MyNetflixTableViewCell"
-    
-    weak var delegate: MyNetflixTableViewCellDelegate?
-    
-    var media: [MediaItems] = [MediaItems]()
+    protocol Delegate: AnyObject {func cellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC)}
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -55,11 +45,11 @@ class MyNetflixTableViewCell: UITableViewCell {
         return collectionView
     }()
     
+    weak var delegate: Delegate?
+    var media: [MediaItems] = [MediaItems]()
+    static let identifier = "MyNetflixTableViewCell"
     
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:\(coder) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }
 
 

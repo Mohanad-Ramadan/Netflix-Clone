@@ -18,7 +18,7 @@ class CustomRowUIView: UIView {
     
     convenience init(title: String) {
         self.init(frame: .zero)
-        configureButtonImage(withTitle: title)
+        configureRow(withTitle: title)
     }
     
     @objc func chevronButtonTapped() {
@@ -31,13 +31,13 @@ class CustomRowUIView: UIView {
         // Check if the responder is a view controller
         if let viewController = responder as? UIViewController {
             // Use the view controller to navigate
-            viewController.navigationController?.pushViewController(DownloadVC(), animated: true)
+            viewController.navigationController?.pushViewController(MyListVC(), animated: true)
         }
     }
     
-    private func configureButtonImage(withTitle title: String) {
+    private func configureRow(withTitle title: String) {
         // title
-        button.configuration?.title = title
+        label.text = title
         
         button.configureButtonImageWith(UIImage(systemName: "chevron.right")!, tinted: .white, width: 10, height: 10, placement: .trailing, padding: 5)
         button.addTarget(self, action: #selector(chevronButtonTapped), for: .touchUpInside)

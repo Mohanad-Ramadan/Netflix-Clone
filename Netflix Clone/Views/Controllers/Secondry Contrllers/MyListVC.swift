@@ -1,5 +1,5 @@
 //
-//  DownloadViewController.swift
+//  MyListVC.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 09/10/2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DownloadVC: UIViewController {
+class MyListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
@@ -59,7 +59,7 @@ class DownloadVC: UIViewController {
     
 }
 
-extension DownloadVC: UICollectionViewDelegate, UICollectionViewDataSource {
+extension MyListVC: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return media.count
     }

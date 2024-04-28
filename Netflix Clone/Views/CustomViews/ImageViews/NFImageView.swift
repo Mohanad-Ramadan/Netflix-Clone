@@ -10,14 +10,14 @@ import UIKit
 class NFImageView: UIImageView {
     override init(frame: CGRect) {super.init(frame: frame)}
     
-    convenience init(image: ImageResource, cornerRadius: CGFloat = 0, contentMode: ContentMode = .scaleAspectFill ){
+    convenience init(image: ImageResource, cornerRadius: CGFloat = 0, contentMode: ContentMode = .scaleAspectFill, autoLayout: Bool = false ){
         self.init(frame: .zero)
         self.image = UIImage(resource: image)
         self.contentMode = contentMode
         layer.cornerRadius = cornerRadius
         
         clipsToBounds = true
-        translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
     required init?(coder: NSCoder) {fatalError()}

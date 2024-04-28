@@ -42,8 +42,8 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
 
 //MARK: - CellTapedAction extension
 
-extension MyNetflixVC :MyNetflixTableViewCellDelegate {
-    func myNetflixTableViewCellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC) {
+extension MyNetflixVC :MyNetflixTableViewCell.Delegate {
+    func cellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC) {
         presentAsRoot(vc)
     }
 }
