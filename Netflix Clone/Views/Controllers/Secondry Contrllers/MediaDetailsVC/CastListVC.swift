@@ -13,11 +13,12 @@ class CastListVC: UIViewController {
         view.backgroundColor = .clear
         configureViews()
         applyConstraints()
+        setLayoutBeforAnimation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        animateCastLayout()
     }
     
     //MARK: - Configure Views
@@ -34,6 +35,64 @@ class CastListVC: UIViewController {
     
     @objc func exitButtonTapped() { dismiss(animated: true) }
     
+    //MARK: - Adding Labels SubViews
+    private func addCastViews(with cast: CastViewModel) {
+        let actors = cast.createActorsArray()
+        let crew = cast.createCreatorArray()
+        let writers = cast.createWritersArray()
+        
+        // add actorsLabel
+        stackContainer.addArrangedSubview(castTitle)
+        setupLabels(for: actors)
+        
+        // add crewLabels
+        if !crew.isEmpty {
+            stackContainer.addArrangedSubview(crewTitle)
+            setupLabels(for: crew)
+        }
+        
+        // add writerLabels
+        if !writers.isEmpty {
+            stackContainer.addArrangedSubview(writersTitle)
+            setupLabels(for: writers)
+        }
+        
+        //add padding views yo stack
+        stackContainer.insertArrangedSubview(upperPaddingView, at: 0)
+        stackContainer.insertArrangedSubview(lowerPaddingView, at: stackContainer.arrangedSubviews.count)
+        
+    }
+    
+    
+    private func setupLabels(for castArray: [String]) {
+        var viewsCount = 0
+        for memberLabel in castArray {
+            viewsCount += 1
+            let LabelView = NFBodyLabel(text: "", color: .lightGray, fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
+            LabelView.text = memberLabel
+            stackContainer.addArrangedSubview(LabelView)
+            // add padding at the end of this section
+            if viewsCount == castArray.count {
+                stackContainer.setCustomSpacing(20, after: LabelView)
+            }
+        }
+    }
+    
+    //MARK: - Animate Cast appearace
+    func setLayoutBeforAnimation() {
+        let halfViewheight = view.bounds.height/3
+        stackContainer.alpha = 0
+        stackContainer.transform = CGAffineTransform(translationX: 0, y: halfViewheight)
+    }
+    
+    func animateCastLayout() {
+        UIView.animate(withDuration: 0.4) {
+            self.stackContainer.alpha = 1
+            self.stackContainer.transform = .identity
+        }
+    }
+    
+    
     //MARK: - Constriants
     func applyConstraints() {
         // scrollView
@@ -42,8 +101,8 @@ class CastListVC: UIViewController {
         scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: exitButtonBackground.topAnchor, constant: -20).isActive = true
         
-        stackContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         // stackView
+        stackContainer.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         stackContainer.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor).isActive = true
         stackContainer.leftAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leftAnchor).isActive = true
         stackContainer.rightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.rightAnchor).isActive = true
@@ -62,44 +121,6 @@ class CastListVC: UIViewController {
         
     }
     
-    //MARK: - Adding Labels SubViews
-    private func addCastViews(with cast: CastViewModel) {
-        var viewNumber: Int = 0
-        let actors = cast.createActorsArray()
-        let crew = cast.createCreatorArray()
-        let writers = cast.createWritersArray()
-        
-        // add actorsLabel to the stack
-        stackContainer.addArrangedSubview(castTitle)
-        setupLabels(for: actors, viewsCount: &viewNumber)
-        
-        // add crewLabels to the stack
-        if !crew.isEmpty {
-            stackContainer.addArrangedSubview(crewTitle)
-            setupLabels(for: crew, viewsCount: &viewNumber)
-        }
-        
-        // add writerLabels
-        if !writers.isEmpty {
-            stackContainer.addArrangedSubview(writersTitle)
-            setupLabels(for: writers, viewsCount: &viewNumber)
-        }
-        
-    }
-    
-    
-    private func setupLabels(for castArray: [String], viewsCount: inout Int) {
-        for memberLabel in castArray {
-            viewsCount += 1
-            let LabelView = NFBodyLabel(text: "", color: .lightGray, fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: true)
-            LabelView.text = memberLabel
-            stackContainer.addArrangedSubview(LabelView)
-            if viewsCount == castArray.count {
-                stackContainer.setCustomSpacing(30, after: LabelView)
-                viewsCount = 0
-            }
-        }
-    }
     
     //MARK: - Declare Views & Variables
     let stackContainer : UIStackView = {
@@ -117,6 +138,18 @@ class CastListVC: UIViewController {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
+    }()
+    
+    let upperPaddingView : UIView = {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.05).isActive = true
+        return view
+    }()
+    
+    let lowerPaddingView : UIView = {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1).isActive = true
+        return view
     }()
     
     let exitButtonBackground: UIView = {

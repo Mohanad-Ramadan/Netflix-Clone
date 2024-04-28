@@ -30,8 +30,7 @@ class TVDetailsVC: MediaDetailsVC {
                 let director = fetchedCast.returnDirector()
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 // configure castVC
-                castVC.cast = fetchedCast
-                configureCastButton()
+                castData = fetchedCast
                 
                 // get seasons
                 seasonsCount = details.numberOfSeasons ?? 1
@@ -140,9 +139,6 @@ class TVDetailsVC: MediaDetailsVC {
             UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
         }
     }
-    
-    //MARK: - Cast Button Action
-    override func goToCastListVC() {presentInMainThread(castVC)}
     
     //MARK: - Declare UIElements
     private let episodesContainerView: UIView = {

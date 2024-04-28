@@ -32,8 +32,7 @@ class MovieDetailsVC: MediaDetailsVC {
                 let director = fetchedCast.returnDirector()
                 configureCast(with: MovieViewModel(cast: cast, director: director))
                 // configure castVC
-                castVC.cast = fetchedCast
-                configureCastButton()
+                castData = fetchedCast
                 
                 
                 // get trailers
@@ -120,8 +119,6 @@ class MovieDetailsVC: MediaDetailsVC {
         }
     }
     
-    //MARK: - Cast Button Action
-    override func goToCastListVC() { presentInMainThread(castVC) }
     
     //MARK: - Declare Movie Subviews
     private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")

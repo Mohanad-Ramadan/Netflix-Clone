@@ -49,10 +49,6 @@ class SeasonsListVC: UIViewController {
     
     private func decalreUIButtons(with totalSeasons: Int) {
         var seasonsCount = 0
-        
-        // insert upper padding
-        stackContainer.insertArrangedSubview(upperPaddingView, at: 0)
-        // add buttons subviews
         for season in 1...totalSeasons {
             seasonsCount += 1
             let seasonView = NFPlainButton(title: "Season \(season)", fontSize: 18, fontWeight: .regular, fontColorOnly: .lightGray)
@@ -60,8 +56,9 @@ class SeasonsListVC: UIViewController {
             seasonsButtons.append(seasonView)
             stackContainer.addArrangedSubview(seasonView)
         }
-        // insert lower padding
-        stackContainer.insertArrangedSubview(lowerPaddingView, at: seasonsCount+1)
+        // insert padding
+        stackContainer.insertArrangedSubview(upperPaddingView, at: 0)
+        stackContainer.insertArrangedSubview(lowerPaddingView, at: stackContainer.arrangedSubviews.count)
     }
     
     private func addButtonsTarget() {
@@ -109,7 +106,7 @@ class SeasonsListVC: UIViewController {
     
     private func animateButtonsAppearing() {
         let totalButtons = self.seasonsButtons.count
-        let duration: TimeInterval = 0.5
+        let duration: TimeInterval = 0.4
         
         for buttonIndex in self.seasonsButtons.indices {
             let portionOfTotalDuration = Double(buttonIndex + 1) / Double(totalButtons)
@@ -177,7 +174,7 @@ class SeasonsListVC: UIViewController {
     
     let upperPaddingView : UIView = {
         let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1).isActive = true
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.05).isActive = true
         return view
     }()
     
