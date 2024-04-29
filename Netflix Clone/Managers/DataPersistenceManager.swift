@@ -21,9 +21,31 @@ class DataPersistenceManager {
     static let shared = DataPersistenceManager()
     
     
-    func downloadMediaWith(model: Media, completion: @escaping (Result<Void,Error>) -> Void ){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let context = appDelegate.persistentContainer.viewContext
+    // First persistent container for downloading media items
+    lazy var downloadContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "NetflixCloneModel")
+        container.loadPersistentStores { description, error in
+            if let error = error {
+                fatalError("Failed to load persistent stores: \(error)")
+            }
+        }
+        return container
+    }()
+    
+    // Second persistent container for other media items
+//    lazy var otherContainer: NSPersistentContainer = {
+//        let container = NSPersistentContainer(name: "OtherMedia")
+//        container.loadPersistentStores { description, error in
+//            if let error = error {
+//                fatalError("Failed to load persistent stores: \(error)")
+//            }
+//        }
+//        return container
+//    }()
+    
+    // Function to save items of type MediaItems in the download container
+    func downloadMediaWith(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
+        let context = downloadContainer.viewContext
         let item = MediaItems(context: context)
         
         item.id = Int64(model.id)
@@ -35,15 +57,33 @@ class DataPersistenceManager {
         do {
             try context.save()
             completion(.success(()))
-        } catch{
+        } catch {
             completion(.failure(DataBaseError.faliedToSaveData))
         }
-        
     }
     
+    // Function to save items of type MediaItems in the other container
+//    func saveMediaItem(model: MediaItems, completion: @escaping (Result<Void,Error>) -> Void) {
+//        let context = otherContainer.viewContext
+//        let item = MediaItems(context: context)
+//        
+//        item.id = model.id
+//        item.originalName = model.originalName
+//        item.title = model.title
+//        item.overview = model.overview
+//        item.posterPath = model.posterPath
+//        
+//        do {
+//            try context.save()
+//            completion(.success(()))
+//        } catch {
+//            completion(.failure(DataBaseError.faliedToSaveData))
+//        }
+//    }
+    
+    
     func fetchDownloadedMedias(completion: @escaping (Result<[MediaItems],Error>) -> Void ){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let context = appDelegate.persistentContainer.viewContext
+        let context = downloadContainer.viewContext
         let request: NSFetchRequest<MediaItems>
         request = MediaItems.fetchRequest()
         
@@ -57,8 +97,7 @@ class DataPersistenceManager {
     }
     
     func deleteMedias(model: MediaItems, completion: @escaping (Result<Void,Error>) -> Void ){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        let context = appDelegate.persistentContainer.viewContext
+        let context = downloadContainer.viewContext
         context.delete(model)
         
         do{

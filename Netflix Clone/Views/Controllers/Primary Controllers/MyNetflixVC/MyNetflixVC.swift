@@ -20,13 +20,10 @@ class MyNetflixVC: UIViewController {
     //MARK: - Configure VC
     private func configureVC() {
         view.backgroundColor = .black
-        [profilImage,userLabel,myListRow,myListTable, watchedTrailerRow, watchedTrailersTable].forEach{view.addSubview($0)}
+        [profilImage,userLabel,myListTable].forEach{view.addSubview($0)}
         
         myListTable.delegate = self
         myListTable.dataSource = self
-        
-        watchedTrailersTable.delegate = self
-        watchedTrailersTable.dataSource = self
     }
     
     
@@ -61,22 +58,22 @@ class MyNetflixVC: UIViewController {
         }
     }
     
-    private func fetchTrailersWatched() {
-        // Notify the View to fetch the data agian
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.trailersKey), object: nil, queue: nil) { _ in
-            self.fetchTrailersWatched()
-        }
-        // Calling API request method
-        DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
-            switch results {
-            case .success(let media):
-                self?.watchedMedia = media
-                self?.watchedTrailersTable.reloadData()
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-    }
+//    private func fetchTrailersWatched() {
+//        // Notify the View to fetch the data agian
+//        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.trailersKey), object: nil, queue: nil) { _ in
+//            self.fetchTrailersWatched()
+//        }
+//        // Calling API request method
+//        DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
+//            switch results {
+//            case .success(let media):
+//                self?.watchedMedia = media
+//                self?.watchedTrailersTable.reloadData()
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//            }
+//        }
+//    }
     
     //MARK: - Constraints
     
@@ -96,51 +93,32 @@ class MyNetflixVC: UIViewController {
         userLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
-    //My List Row
-    private func myListRowConstraints() {
-        myListRow.translatesAutoresizingMaskIntoConstraints = false
-        myListRow.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
-        myListRow.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        myListRow.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        myListRow.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    }
-    
     private func myListTableConstraints() {
-        myListTable.topAnchor.constraint(equalTo: myListRow.bottomAnchor).isActive = true
+        myListTable.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
         myListTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         myListTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        myListTable.heightAnchor.constraint(equalToConstant: 200).isActive = true
-    }
-    
-    // Trailers watched Row
-    private func watchedTrailersRowConstraints() {
-        watchedTrailerRow.translatesAutoresizingMaskIntoConstraints = false
-        watchedTrailerRow.topAnchor.constraint(equalTo: myListTable.bottomAnchor, constant: 20).isActive = true
-        watchedTrailerRow.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        watchedTrailerRow.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        watchedTrailerRow.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    }
-    
-    //Download Table Label
-    private func watchedTrailersTableConstraints() {
-        watchedTrailersTable.topAnchor.constraint(equalTo: watchedTrailerRow.bottomAnchor).isActive = true
-        watchedTrailersTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        watchedTrailersTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        watchedTrailersTable.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        myListTable.heightAnchor.constraint(equalToConstant: 500).isActive = true
     }
     
     private func applyConstraints() {
         profilImageConstraints()
         userLabelConstraints()
-        myListRowConstraints()
         myListTableConstraints()
-        watchedTrailersRowConstraints()
-        watchedTrailersTableConstraints()
+    }
+    
+    func addSectionsHeader(for superView: UIView ,withHeader headerview: UIView) {
+        superView.addSubview(headerview)
+        headerview.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            headerview.leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: 5),
+            headerview.trailingAnchor.constraint(equalTo: superView.trailingAnchor),
+            headerview.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: -15)
+        ])
     }
     
     //MARK: - Declare UIElements
     private let myListTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .plain)
+        let table = UITableView(frame: .zero, style: .grouped)
         table.register(MyNetflixTableViewCell.self, forCellReuseIdentifier: MyNetflixTableViewCell.identifier)
         table.separatorStyle = .none
         table.alwaysBounceVertical = false
@@ -148,17 +126,8 @@ class MyNetflixVC: UIViewController {
         return table
     }()
     
-    private let watchedTrailersTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .plain)
-        table.register(MyNetflixTableViewCell.self, forCellReuseIdentifier: MyNetflixTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.alwaysBounceVertical = false
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
-    
-    private let myListRow: CustomRowUIView = CustomRowUIView(title: "My List")
-    private let watchedTrailerRow: CustomRowUIView = CustomRowUIView(title: "Trailers You've Watched")
+    let myListRow: CustomRowUIView = CustomRowUIView(title: "My List")
+    let watchedTrailerRow: CustomRowUIView = CustomRowUIView(title: "Trailers You've Watched")
     private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
     private let userLabel = NFPlainButton(title: "mohanad",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
     
