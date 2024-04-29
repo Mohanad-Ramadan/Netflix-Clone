@@ -48,7 +48,7 @@ class MyNetflixVC: UIViewController {
             self.fetchDownloadedMedia()
         }
         // Calling API request method
-        DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
+        DataPersistenceManager.shared.fetchMyListMedia { [weak self] results in
             switch results {
             case .success(let mediaItem):
                 // transform MediaItem model to Media model
@@ -122,14 +122,17 @@ class MyNetflixVC: UIViewController {
         userTableConstraints()
     }
     
-    func setupSectionsHeader(for superView: UIView ,withHeader headerview: UIView) {
-        superView.addSubview(headerview)
-        headerview.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            headerview.leadingAnchor.constraint(equalTo: superView.leadingAnchor, constant: 5),
-            headerview.trailingAnchor.constraint(equalTo: superView.trailingAnchor),
-            headerview.centerYAnchor.constraint(equalTo: superView.centerYAnchor, constant: -15)
-        ])
+    //MARK: - setup section header
+    func setupHeader(for section: Int) -> UIView {
+        let headerView = UIView()
+        if section == 0 { 
+            headerView.addSubview(myListLabel)
+            myListLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+        } else {
+            headerView.addSubview(watchedLabel)
+            watchedLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+        }
+        return headerView
     }
     
     //MARK: - Declare UIElements
@@ -138,12 +141,13 @@ class MyNetflixVC: UIViewController {
         table.register(MyNetflixTableViewCell.self, forCellReuseIdentifier: MyNetflixTableViewCell.identifier)
         table.separatorStyle = .none
         table.alwaysBounceVertical = false
+        table.sectionHeaderHeight = 25
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
-    let myListRow: CustomRowUIView = CustomRowUIView(title: "My List")
-    let watchedTrailerRow: CustomRowUIView = CustomRowUIView(title: "Trailers You've Watched")
+    let myListLabel = NFBodyLabel(text: "My List", fontSize: 20, fontWeight: .bold)
+    let watchedLabel = NFBodyLabel(text: "Trailers You've Watched", fontSize: 20, fontWeight: .bold)
     private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
     private let userLabel = NFPlainButton(title: "mohanad",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
     

@@ -11,15 +11,8 @@ import UIKit
 
 
 class DataPersistenceManager {
-    
-    enum DataBaseError: Error{
-        case faliedToSaveData
-        case faliedTofetchData
-        case faliedToDeleteData
-    }
-    
-    static let shared = DataPersistenceManager()
-    
+
+    static let shared = DataPersistenceManager()    
     
     // First persistent container for downloading media items
     lazy var myListContainer: NSPersistentContainer = {
@@ -43,8 +36,9 @@ class DataPersistenceManager {
         return container
     }()
     
+    
     // Function to save items of type MediaItems in the download container
-    func downloadMediaWith(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
+    func addToMyListMedia(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
         let context = myListContainer.viewContext
         let item = MediaItem(context: context)
         
@@ -63,7 +57,7 @@ class DataPersistenceManager {
     }
     
     // Function to save items of type MediaItems in the other container
-    func saveWatchedItem(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
+    func saveWatchedMedia(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
         let context = watchedContainer.viewContext
         let item = WatchedItem(context: context)
         
@@ -82,7 +76,7 @@ class DataPersistenceManager {
     }
     
     
-    func fetchDownloadedMedias(completion: @escaping (Result<[MediaItem],Error>) -> Void ){
+    func fetchMyListMedia(completion: @escaping (Result<[MediaItem],Error>) -> Void ){
         let context = myListContainer.viewContext
         let request: NSFetchRequest<MediaItem>
         request = MediaItem.fetchRequest()
@@ -110,7 +104,7 @@ class DataPersistenceManager {
         
     }
     
-    func deleteMedias(model: MediaItem, completion: @escaping (Result<Void,Error>) -> Void ){
+    func deleteMediaFromMyList(model: MediaItem, completion: @escaping (Result<Void,Error>) -> Void ){
         let context = myListContainer.viewContext
         context.delete(model)
         

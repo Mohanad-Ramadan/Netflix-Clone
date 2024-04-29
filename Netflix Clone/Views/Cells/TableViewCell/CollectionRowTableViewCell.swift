@@ -38,7 +38,7 @@ class CollectionRowTableViewCell: UITableViewCell {
     }
     
     func addToMyList(_ indexpath: IndexPath ) {
-        DataPersistenceManager.shared.downloadMediaWith(model: media[indexpath.row]) { results in
+        DataPersistenceManager.shared.addToMyListMedia(model: media[indexpath.row]) { results in
             switch results {
             case .success():
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)

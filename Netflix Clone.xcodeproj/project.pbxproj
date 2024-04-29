@@ -38,11 +38,9 @@
 		145FB0FC2AD3FEC40019A439 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 145FB0FB2AD3FEC40019A439 /* Assets.xcassets */; };
 		145FB1082AD402A80019A439 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB1072AD402A80019A439 /* HomeVC.swift */; };
 		145FB10A2AD402E50019A439 /* NewHotVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB1092AD402E50019A439 /* NewHotVC.swift */; };
-		145FB10E2AD403430019A439 /* MyListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB10D2AD403430019A439 /* MyListVC.swift */; };
 		145FB1162AD46CE40019A439 /* CollectionRowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145FB1152AD46CE40019A439 /* CollectionRowTableViewCell.swift */; };
 		146621DC2BCA6513009B810B /* UserProfilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146621DB2BCA6513009B810B /* UserProfilesView.swift */; };
 		147094C72B4737FB0053CFBC /* MyNetflixVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094C62B4737FB0053CFBC /* MyNetflixVC.swift */; };
-		147094CC2B4747150053CFBC /* CustomRowUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094CB2B4747150053CFBC /* CustomRowUIView.swift */; };
 		147094CE2B4752CB0053CFBC /* MyNetflixTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094CD2B4752CA0053CFBC /* MyNetflixTableViewCell.swift */; };
 		147094D42B4758410053CFBC /* MyNetflixTableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094D32B4758410053CFBC /* MyNetflixTableViewCellExtension.swift */; };
 		147094D72B47586E0053CFBC /* MyNetflixExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147094D62B47586E0053CFBC /* MyNetflixExtension.swift */; };
@@ -135,11 +133,9 @@
 		145FB1002AD3FEC40019A439 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		145FB1072AD402A80019A439 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		145FB1092AD402E50019A439 /* NewHotVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHotVC.swift; sourceTree = "<group>"; };
-		145FB10D2AD403430019A439 /* MyListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListVC.swift; sourceTree = "<group>"; };
 		145FB1152AD46CE40019A439 /* CollectionRowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionRowTableViewCell.swift; sourceTree = "<group>"; };
 		146621DB2BCA6513009B810B /* UserProfilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfilesView.swift; sourceTree = "<group>"; };
 		147094C62B4737FB0053CFBC /* MyNetflixVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetflixVC.swift; sourceTree = "<group>"; };
-		147094CB2B4747150053CFBC /* CustomRowUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRowUIView.swift; sourceTree = "<group>"; };
 		147094CD2B4752CA0053CFBC /* MyNetflixTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetflixTableViewCell.swift; sourceTree = "<group>"; };
 		147094D32B4758410053CFBC /* MyNetflixTableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetflixTableViewCellExtension.swift; sourceTree = "<group>"; };
 		147094D62B47586E0053CFBC /* MyNetflixExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNetflixExtension.swift; sourceTree = "<group>"; };
@@ -335,8 +331,8 @@
 			isa = PBXGroup;
 			children = (
 				141230ED2AE5B2020025815E /* DataPersistenceManager.swift */,
-				148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */,
 				141E13FA2AD73191007418D5 /* NetworkManager.swift */,
+				148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -498,7 +494,6 @@
 			children = (
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
 				1473DD322BD3854400D41655 /* SearchVC */,
-				145FB10D2AD403430019A439 /* MyListVC.swift */,
 			);
 			path = "Secondry Contrllers";
 			sourceTree = "<group>";
@@ -557,7 +552,6 @@
 		14ECFB802B62E8E300D3DCAB /* MyNetflixViews */ = {
 			isa = PBXGroup;
 			children = (
-				147094CB2B4747150053CFBC /* CustomRowUIView.swift */,
 			);
 			path = MyNetflixViews;
 			sourceTree = "<group>";
@@ -680,7 +674,6 @@
 				142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */,
 				14DCE3D72B22490D00DCD959 /* NewHotTableViewCell.swift in Sources */,
 				14CC5CCC2BCDC07D00A5805D /* AddProfileView.swift in Sources */,
-				147094CC2B4747150053CFBC /* CustomRowUIView.swift in Sources */,
 				140A09A32BA91BCD00D17AD3 /* MovieDetailsVC.swift in Sources */,
 				145EDE812B8BC3EC00B49A48 /* UIColor-EXT.swift in Sources */,
 				1435879D2B4327F60044171C /* MediaImage.swift in Sources */,
@@ -727,7 +720,6 @@
 				147094C72B4737FB0053CFBC /* MyNetflixVC.swift in Sources */,
 				14B213EE2BCB820100676234 /* RectPositionKey.swift in Sources */,
 				14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */,
-				145FB10E2AD403430019A439 /* MyListVC.swift in Sources */,
 				1489AC852BB4BD3B0004EFBC /* SeasonSelectHeaderView.swift in Sources */,
 				1434BF2F2B61D57100EA70F6 /* SearchTableViewCell.swift in Sources */,
 				143C559C2B1E7AB800E58867 /* HomeProtocols.swift in Sources */,

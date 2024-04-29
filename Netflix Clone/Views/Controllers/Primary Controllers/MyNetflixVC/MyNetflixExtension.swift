@@ -38,10 +38,7 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        if section == 0 { setupSectionsHeader(for: headerView, withHeader: myListRow) }
-        else { setupSectionsHeader(for: headerView, withHeader: watchedTrailerRow) }
-        return headerView
+        setupHeader(for: section)
     }
     
 }
