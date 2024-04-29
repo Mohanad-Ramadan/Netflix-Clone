@@ -55,7 +55,7 @@ class MyListVC: UIViewController {
         return collectionView
     }()
     
-    var media: [MediaItems] = [MediaItems]()
+    var media: [MediaItem] = [MediaItem]()
     
 }
 

@@ -22,8 +22,8 @@ class DataPersistenceManager {
     
     
     // First persistent container for downloading media items
-    lazy var presistenctContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "NetflixCloneModel")
+    lazy var myListContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "MyListNetflixModel")
         container.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")
@@ -33,20 +33,20 @@ class DataPersistenceManager {
     }()
     
     // Second persistent container for other media items
-//    lazy var otherContainer: NSPersistentContainer = {
-//        let container = NSPersistentContainer(name: "OtherMedia")
-//        container.loadPersistentStores { description, error in
-//            if let error = error {
-//                fatalError("Failed to load persistent stores: \(error)")
-//            }
-//        }
-//        return container
-//    }()
+    lazy var watchedContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "WatchedNetflixModel")
+        container.loadPersistentStores { description, error in
+            if let error = error {
+                fatalError("Failed to load persistent stores: \(error)")
+            }
+        }
+        return container
+    }()
     
     // Function to save items of type MediaItems in the download container
     func downloadMediaWith(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
-        let context = presistenctContainer.viewContext
-        let item = MediaItems(context: context)
+        let context = myListContainer.viewContext
+        let item = MediaItem(context: context)
         
         item.id = Int64(model.id)
         item.originalName = model.originalName
@@ -64,8 +64,8 @@ class DataPersistenceManager {
     
     // Function to save items of type MediaItems in the other container
     func saveWatchedItem(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
-        let context = presistenctContainer.viewContext
-        let item = WatchedMedia(context: context)
+        let context = watchedContainer.viewContext
+        let item = WatchedItem(context: context)
         
         item.id = Int64(model.id)
         item.originalName = model.originalName
@@ -82,10 +82,10 @@ class DataPersistenceManager {
     }
     
     
-    func fetchDownloadedMedias(completion: @escaping (Result<[MediaItems],Error>) -> Void ){
-        let context = presistenctContainer.viewContext
-        let request: NSFetchRequest<MediaItems>
-        request = MediaItems.fetchRequest()
+    func fetchDownloadedMedias(completion: @escaping (Result<[MediaItem],Error>) -> Void ){
+        let context = myListContainer.viewContext
+        let request: NSFetchRequest<MediaItem>
+        request = MediaItem.fetchRequest()
         
         do {
             let media = try context.fetch(request)
@@ -96,10 +96,10 @@ class DataPersistenceManager {
         
     }
     
-    func fetchWatchedMedias(completion: @escaping (Result<[WatchedMedia],Error>) -> Void ){
-        let context = presistenctContainer.viewContext
-        let request: NSFetchRequest<WatchedMedia>
-        request = WatchedMedia.fetchRequest()
+    func fetchWatchedMedias(completion: @escaping (Result<[WatchedItem],Error>) -> Void ){
+        let context = watchedContainer.viewContext
+        let request: NSFetchRequest<WatchedItem>
+        request = WatchedItem.fetchRequest()
         
         do {
             let media = try context.fetch(request)
@@ -110,8 +110,8 @@ class DataPersistenceManager {
         
     }
     
-    func deleteMedias(model: MediaItems, completion: @escaping (Result<Void,Error>) -> Void ){
-        let context = presistenctContainer.viewContext
+    func deleteMedias(model: MediaItem, completion: @escaping (Result<Void,Error>) -> Void ){
+        let context = myListContainer.viewContext
         context.delete(model)
         
         do{

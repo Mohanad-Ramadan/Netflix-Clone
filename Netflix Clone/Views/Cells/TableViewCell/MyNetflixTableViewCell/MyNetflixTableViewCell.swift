@@ -25,12 +25,13 @@ class MyNetflixTableViewCell: UITableViewCell {
     }
     
     
-    func configureCollection(with media: [MediaItems]){
+    func configureCollection(with media: [Media]){
         self.media = media
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
     }
+    
     
     private let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -44,7 +45,7 @@ class MyNetflixTableViewCell: UITableViewCell {
     }()
     
     weak var delegate: Delegate?
-    var media: [MediaItems] = [MediaItems]()
+    var media: [Media] = [Media]()
     static let identifier = "MyNetflixTableViewCell"
     
     required init?(coder: NSCoder) {fatalError()}

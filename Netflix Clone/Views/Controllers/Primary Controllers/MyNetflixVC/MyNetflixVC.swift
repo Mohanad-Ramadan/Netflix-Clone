@@ -15,7 +15,7 @@ class MyNetflixVC: UIViewController {
         configureVC()
         applyConstraints()
         fetchDownloadedMedia()
-//        fetchTrailersWatched()
+        fetchTrailersWatched()
     }
     
     //MARK: - Configure VC
@@ -50,8 +50,16 @@ class MyNetflixVC: UIViewController {
         // Calling API request method
         DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
             switch results {
-            case .success(let media):
-                self?.media = media
+            case .success(let mediaItem):
+                // transform MediaItem model to Media model
+                let media: [Media] = {
+                    let item = mediaItem.map { mediaItem in
+                        Media(id: Int(mediaItem.id), originalName: mediaItem.originalName, title: mediaItem.title, overview: mediaItem.overview, mediaType: mediaItem.mediaType, posterPath: mediaItem.posterPath)
+                    }
+                    return item
+                }()
+                
+                self?.myListMedia = media
                 self?.userTable.reloadData()
             case .failure(let failure):
                 print(failure.localizedDescription)
@@ -59,22 +67,29 @@ class MyNetflixVC: UIViewController {
         }
     }
     
-//    private func fetchTrailersWatched() {
-//        // Notify the View to fetch the data agian
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.trailersKey), object: nil, queue: nil) { _ in
-//            self.fetchTrailersWatched()
-//        }
-//        // Calling API request method
-//        DataPersistenceManager.shared.fetchWatchedMedias() { [weak self] results in
-//            switch results {
-//            case .success(let media):
-//                self?.watchedMedia = media
-//                self?.userTable.reloadData()
-//            case .failure(let failure):
-//                print(failure.localizedDescription)
-//            }
-//        }
-//    }
+    private func fetchTrailersWatched() {
+        // Notify the View to fetch the data agian
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.trailersKey), object: nil, queue: nil) { _ in
+            self.fetchTrailersWatched()
+        }
+        // Calling API request method
+        DataPersistenceManager.shared.fetchWatchedMedias() { [weak self] results in
+            switch results {
+            case .success(let watchedItem):
+                // transform WatchedItem model to Media model
+                let media: [Media] = {
+                    let item = watchedItem.map { watchedItem in
+                        Media(id: Int(watchedItem.id), originalName: watchedItem.originalName, title: watchedItem.title, overview: watchedItem.overview, mediaType: watchedItem.mediaType, posterPath: watchedItem.posterPath)
+                    }
+                    return item
+                }()
+                self?.watchedMedia = media
+                self?.userTable.reloadData()
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+    }
     
     //MARK: - Constraints
     
@@ -132,6 +147,6 @@ class MyNetflixVC: UIViewController {
     private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
     private let userLabel = NFPlainButton(title: "mohanad",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
     
-    var media: [MediaItems] = [MediaItems]()
-    var watchedMedia: [MediaItems] = [MediaItems]()
+    var myListMedia: [Media] = [Media]()
+    var watchedMedia: [Media] = [Media]()
 }

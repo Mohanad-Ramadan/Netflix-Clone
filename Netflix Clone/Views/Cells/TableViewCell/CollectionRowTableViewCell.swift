@@ -37,7 +37,7 @@ class CollectionRowTableViewCell: UITableViewCell {
         }
     }
     
-    func downloadMediaAt(_ indexpath: IndexPath ) {
+    func addToMyList(_ indexpath: IndexPath ) {
         DataPersistenceManager.shared.downloadMediaWith(model: media[indexpath.row]) { results in
             switch results {
             case .success():
@@ -47,17 +47,7 @@ class CollectionRowTableViewCell: UITableViewCell {
             }
         }
     }
-    
-//    func watchItem(_ indexpath: IndexPath ) {
-//        DataPersistenceManager.shared.saveWatchedItem(model: media[indexpath.row]) { results in
-//            switch results {
-//            case .success():
-//                NotificationCenter.default.post(name: NSNotification.Name(Constants.trailersKey), object: nil)
-//            case .failure(let failure):
-//                print(failure.localizedDescription)
-//            }
-//        }
-//    }
+     
     
     //MARK: - Declare UIElements
     private let collectionView : UICollectionView = {
@@ -73,7 +63,6 @@ class CollectionRowTableViewCell: UITableViewCell {
     }()
     
     var media: [Media] = [Media]()
-    var cellNumber = 0
     
     static let identifier = "HomeTableViewCell"
     weak var delegate: Delegate?
@@ -116,14 +105,11 @@ extension CollectionRowTableViewCell: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
         let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {[weak self] _ in
-            let downloadAction = UIAction(title: "Add to List", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-                self?.downloadMediaAt(indexPath)
+            let addToListAction = UIAction(title: "Add to List", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                self?.addToMyList(indexPath)
             }
             
-//            let watchAction = UIAction(title: "watch", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-//                self?.watchItem(indexPath)
-//            }
-            return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [downloadAction])
+            return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [addToListAction])
         }
         return config
         
