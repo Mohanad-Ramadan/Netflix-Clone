@@ -9,13 +9,4 @@
         <attribute name="releaseDate" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="WatchedMedia" representedClassName="WatchedMedia" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="mediaType" optional="YES" attributeType="String"/>
-        <attribute name="originalName" optional="YES" attributeType="String"/>
-        <attribute name="overview" optional="YES" attributeType="String"/>
-        <attribute name="posterPath" optional="YES" attributeType="String"/>
-        <attribute name="releaseDate" optional="YES" attributeType="String"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
-    </entity>
 </model>

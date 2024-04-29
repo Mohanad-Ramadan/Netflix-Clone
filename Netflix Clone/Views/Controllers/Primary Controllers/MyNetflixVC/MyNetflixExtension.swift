@@ -22,7 +22,9 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MyNetflixTableViewCell.identifier, for: indexPath) as? MyNetflixTableViewCell else {return UITableViewCell()}
         cell.delegate = self
-        cell.configureCollection(with: media)
+        if indexPath.section == 0 { cell.configureCollection(with: media) }
+        else if indexPath.section == 1 {   }
+        
         
         return cell
     }
@@ -37,8 +39,8 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        if section == 0 { addSectionsHeader(for: headerView, withHeader: myListRow) }
-        else { addSectionsHeader(for: headerView, withHeader: watchedTrailerRow) }
+        if section == 0 { setupSectionsHeader(for: headerView, withHeader: myListRow) }
+        else { setupSectionsHeader(for: headerView, withHeader: watchedTrailerRow) }
         return headerView
     }
     

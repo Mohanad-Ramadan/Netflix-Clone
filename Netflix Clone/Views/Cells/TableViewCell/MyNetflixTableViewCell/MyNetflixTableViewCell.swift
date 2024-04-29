@@ -13,21 +13,19 @@ class MyNetflixTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         contentView.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        collectionView.frame = CGRect(x: 9, y: 0, width: Int(contentView.bounds.width), height: Int(contentView.bounds.height))
+        collectionView.frame = contentView.bounds
     }
     
     
-    public func configureCollection(with media: [MediaItems]){
+    func configureCollection(with media: [MediaItems]){
         self.media = media
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()

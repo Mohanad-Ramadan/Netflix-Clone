@@ -15,15 +15,16 @@ class MyNetflixVC: UIViewController {
         configureVC()
         applyConstraints()
         fetchDownloadedMedia()
+//        fetchTrailersWatched()
     }
     
     //MARK: - Configure VC
     private func configureVC() {
         view.backgroundColor = .black
-        [profilImage,userLabel,myListTable].forEach{view.addSubview($0)}
+        [profilImage,userLabel,userTable].forEach{view.addSubview($0)}
         
-        myListTable.delegate = self
-        myListTable.dataSource = self
+        userTable.delegate = self
+        userTable.dataSource = self
     }
     
     
@@ -51,7 +52,7 @@ class MyNetflixVC: UIViewController {
             switch results {
             case .success(let media):
                 self?.media = media
-                self?.myListTable.reloadData()
+                self?.userTable.reloadData()
             case .failure(let failure):
                 print(failure.localizedDescription)
             }
@@ -64,11 +65,11 @@ class MyNetflixVC: UIViewController {
 //            self.fetchTrailersWatched()
 //        }
 //        // Calling API request method
-//        DataPersistenceManager.shared.fetchDownloadedMedias { [weak self] results in
+//        DataPersistenceManager.shared.fetchWatchedMedias() { [weak self] results in
 //            switch results {
 //            case .success(let media):
 //                self?.watchedMedia = media
-//                self?.watchedTrailersTable.reloadData()
+//                self?.userTable.reloadData()
 //            case .failure(let failure):
 //                print(failure.localizedDescription)
 //            }
@@ -93,20 +94,20 @@ class MyNetflixVC: UIViewController {
         userLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
-    private func myListTableConstraints() {
-        myListTable.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
-        myListTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        myListTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        myListTable.heightAnchor.constraint(equalToConstant: 500).isActive = true
+    private func userTableConstraints() {
+        userTable.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
+        userTable.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        userTable.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        userTable.heightAnchor.constraint(equalToConstant: 500).isActive = true
     }
     
     private func applyConstraints() {
         profilImageConstraints()
         userLabelConstraints()
-        myListTableConstraints()
+        userTableConstraints()
     }
     
-    func addSectionsHeader(for superView: UIView ,withHeader headerview: UIView) {
+    func setupSectionsHeader(for superView: UIView ,withHeader headerview: UIView) {
         superView.addSubview(headerview)
         headerview.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -117,7 +118,7 @@ class MyNetflixVC: UIViewController {
     }
     
     //MARK: - Declare UIElements
-    private let myListTable: UITableView = {
+    private let userTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(MyNetflixTableViewCell.self, forCellReuseIdentifier: MyNetflixTableViewCell.identifier)
         table.separatorStyle = .none
