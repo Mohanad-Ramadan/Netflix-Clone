@@ -76,6 +76,13 @@ enum UIHelper {
             let imagePosition = CGPoint(x: imageXPoint , y: imageYPoint)
             return imagePosition
         }
+        
+        static func setupChildVC(from vc: UIViewController, in parent: UIViewController) {
+            parent.addChild(vc)
+            vc.view.translatesAutoresizingMaskIntoConstraints = false
+            parent.view.addSubview(vc.view)
+            vc.didMove(toParent: parent)
+        }
     }
     
     

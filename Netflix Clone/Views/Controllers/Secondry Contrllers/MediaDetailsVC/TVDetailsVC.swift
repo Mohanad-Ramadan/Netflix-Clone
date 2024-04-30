@@ -39,8 +39,8 @@ class TVDetailsVC: MediaDetailsVC {
                 updateEpisodesTable()
                 
                 // get trailers
-//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
-//                configureTrailer(with: MovieViewModel(title: details.name ,videosResult: trailers))
+                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
+                configureTrailer(with: MovieViewModel(title: details.name ,videosResult: trailers))
                 
             } catch {
                 print(error.localizedDescription)
@@ -81,14 +81,14 @@ class TVDetailsVC: MediaDetailsVC {
         switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
         switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
         switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        switchViewButtons.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        switchViewButtons.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
         switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
     private func moreIdeasCollectionConstriants() -> [NSLayoutConstraint] {
         [moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-         moreIdeasCollection.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5),
-         moreIdeasCollection.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5),
+         moreIdeasCollection.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5),
+         moreIdeasCollection.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5),
          moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
          moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)
         ]
@@ -97,8 +97,8 @@ class TVDetailsVC: MediaDetailsVC {
     private func episodesContainerConstriants() -> [NSLayoutConstraint] {
         [
             episodesContainerView.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-            episodesContainerView.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5),
-            episodesContainerView.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5),
+            episodesContainerView.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5),
+            episodesContainerView.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5),
             episodesContainerView.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor),
             
             episodesHeaderView.topAnchor.constraint(equalTo: episodesContainerView.topAnchor),

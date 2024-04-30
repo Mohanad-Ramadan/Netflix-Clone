@@ -36,8 +36,8 @@ class MovieDetailsVC: MediaDetailsVC {
                 
                 
                 // get trailers
-//                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-//                configureTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+                configureMovieTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
             } catch {
                 print(error.localizedDescription)
             }
@@ -58,8 +58,9 @@ class MovieDetailsVC: MediaDetailsVC {
     }
     
     //MARK: - Trailer Configuration
-    override func configureTrailer(with model: MovieViewModel){
-        // pass th videos without the one taken for the mediaTrailer webView
+    private func configureMovieTrailer(with model: MovieViewModel){
+        configureTrailer(with: model)
+        // pass th videos without the one taken for the youtubePlayerVC.view webView
         guard let videosResult = model.videosResult else {return}
         trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
         trailersCount = CGFloat(trailers.count)
@@ -72,22 +73,22 @@ class MovieDetailsVC: MediaDetailsVC {
         switchViewButtons.translatesAutoresizingMaskIntoConstraints = false
         switchViewButtons.topAnchor.constraint(equalTo: threeButtons.bottomAnchor, constant: 15).isActive = true
         switchViewButtons.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        switchViewButtons.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        switchViewButtons.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
         switchViewButtons.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
     private func moreIdeasCollectionConstriants() -> [NSLayoutConstraint] {
         [moreIdeasCollection.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-        moreIdeasCollection.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5),
-        moreIdeasCollection.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5),
+        moreIdeasCollection.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5),
+        moreIdeasCollection.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5),
         moreIdeasCollection.heightAnchor.constraint(equalToConstant: 430),
         moreIdeasCollection.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
     }
     
     private func trailerTableConstriants() -> [NSLayoutConstraint] {
         [trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
-         trailerTable.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5),
-         trailerTable.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor,constant: -5),
+         trailerTable.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5),
+         trailerTable.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor,constant: -5),
          trailerTable.heightAnchor.constraint(equalToConstant: 290 * (trailersCount ?? 1)),
          trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
     }

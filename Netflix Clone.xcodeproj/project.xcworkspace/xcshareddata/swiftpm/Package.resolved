@@ -1,15 +1,6 @@
 {
-  "originHash" : "5c95758d16cd596cc1b0a46c7d03e1f7e89f8e973ef3f3d7f721bb284d30ef1e",
+  "originHash" : "8b31b2db6435e23dad4de43cd0c5f0341924e0e313c9515f2c1e21b7ee79d333",
   "pins" : [
-    {
-      "identity" : "lottie-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/airbnb/lottie-ios.git",
-      "state" : {
-        "revision" : "ab15129d567eda5da0631fcba23de60144a612f4",
-        "version" : "4.4.2"
-      }
-    },
     {
       "identity" : "sdwebimage",
       "kind" : "remoteSourceControl",
@@ -35,6 +26,15 @@
       "state" : {
         "revision" : "739a4f5d78731bebc48811c75fa9e1f4c4cef23e",
         "version" : "1.30.4"
+      }
+    },
+    {
+      "identity" : "youtubeplayerkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SvenTiigi/YouTubePlayerKit.git",
+      "state" : {
+        "revision" : "5ade0dfbabaf7456069b4e8f604de261bf6d7c67",
+        "version" : "1.8.0"
       }
     }
   ],

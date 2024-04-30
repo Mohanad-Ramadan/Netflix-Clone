@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import WebKit
+import YouTubePlayerKit
+import Combine
 
 class MediaDetailsVC: UIViewController {
     override func viewDidLoad() {super.viewDidLoad()}
@@ -20,7 +21,9 @@ class MediaDetailsVC: UIViewController {
         view.backgroundColor = .black
         navigationController?.navigationBar.isHidden = true
         
-        view.addSubview(mediaTrailer)
+        // configure the youtube vc in parentVC
+        UIHelper.UIKit.setupChildVC(from: youtubePlayerVC, in: self)
+//        view.addSubview(youtubePlayerVC.view)
         view.addSubview(containterScrollView)
         
         [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, castExpandButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
@@ -90,10 +93,7 @@ class MediaDetailsVC: UIViewController {
         Task {
             do {
                 let trailerId = try await NetworkManager.shared.getTrailersIds(of: trialerVideoQuery)
-                guard let url = URL(string: "https://www.youtube.com/embed/\(trailerId)") else {
-                    fatalError("can't get the youtube trailer url")
-                }
-                self.mediaTrailer.load(URLRequest(url: url))
+                try await self.youtubePlayer.load(source: .video(id: trailerId))
             } catch { print(error.localizedDescription) }
         }
     }
@@ -129,17 +129,17 @@ class MediaDetailsVC: UIViewController {
     
     // Trailer Video
     private func trailerVideoConstraints() {
-        mediaTrailer.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        mediaTrailer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        mediaTrailer.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        mediaTrailer.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        youtubePlayerVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        youtubePlayerVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        youtubePlayerVC.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        youtubePlayerVC.view.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
     
     // ScrollView Constraints
     private func scrollViewConstriants() {
-        containterScrollView.topAnchor.constraint(equalTo: mediaTrailer.bottomAnchor, constant: 10).isActive = true
-        containterScrollView.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
-        containterScrollView.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        containterScrollView.topAnchor.constraint(equalTo: youtubePlayerVC.view.bottomAnchor, constant: 10).isActive = true
+        containterScrollView.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
+        containterScrollView.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
         containterScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
@@ -148,29 +148,29 @@ class MediaDetailsVC: UIViewController {
     // Netflixlogo + CategoryLabel Constraints
     private func neflixlogoAndGenresLabelConstriants() {
         netflixLogo.topAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.topAnchor).isActive = true
-        netflixLogo.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor).isActive = true
+        netflixLogo.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor).isActive = true
         netflixLogo.heightAnchor.constraint(equalToConstant: 20).isActive = true
         netflixLogo.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
         categoryLabel.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
         categoryLabel.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor).isActive = true
-        categoryLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        categoryLabel.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
     }
     
     // Title Constraints
     private func mediaTitleConstriants() {
         mediaTitle.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor).isActive = true
-        mediaTitle.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
-        mediaTitle.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        mediaTitle.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
+        mediaTitle.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
     }
     
     // Details Label Constraints
     private func detailsLabelConstriants() {
         detailsLabel.translatesAutoresizingMaskIntoConstraints = false
         detailsLabel.topAnchor.constraint(equalTo: mediaTitle.bottomAnchor).isActive = true
-        detailsLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        detailsLabel.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
         detailsLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        detailsLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        detailsLabel.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
     }
     
     // View based on Category Constriants
@@ -183,13 +183,13 @@ class MediaDetailsVC: UIViewController {
             view.sendSubviewToBack(top10Logo)
             
             top10Logo.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor).isActive = true
-            top10Logo.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor).isActive = true
+            top10Logo.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor).isActive = true
             top10Logo.heightAnchor.constraint(equalToConstant: 35).isActive = true
             top10Logo.widthAnchor.constraint(equalToConstant: 35).isActive = true
             
             top10DetailsLabel.centerYAnchor.constraint(equalTo: top10Logo.centerYAnchor).isActive = true
             top10DetailsLabel.leadingAnchor.constraint(equalTo: top10Logo.trailingAnchor).isActive = true
-            top10DetailsLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+            top10DetailsLabel.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
             
             playButton.removeConstraint(playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5))
             playButton.topAnchor.constraint(equalTo: top10Logo.bottomAnchor, constant: 5).isActive = true
@@ -203,21 +203,21 @@ class MediaDetailsVC: UIViewController {
     // Details Label Constraints
     private func playButtonConstriants() {
         playButton.topAnchor.constraint(equalTo: detailsLabel.bottomAnchor, constant: 5).isActive = true
-        playButton.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
-        playButton.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        playButton.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
+        playButton.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
     }
     
     // OverView Label Constraints
     private func overViewLabelConstriants() {
         overViewLabel.topAnchor.constraint(equalTo: playButton.bottomAnchor, constant: 15).isActive = true
-        overViewLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
-        overViewLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        overViewLabel.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
+        overViewLabel.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
     }
     
     // Cast Label Constraints
     private func castLabelConstriants() {
         castLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
-        castLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
+        castLabel.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
         castLabel.widthAnchor.constraint(equalTo: castLabel.widthAnchor).isActive = true
     }
     
@@ -226,23 +226,23 @@ class MediaDetailsVC: UIViewController {
         castExpandButton.configuration?.contentInsets = .init(top: 0, leading: 2, bottom: 1, trailing: 0)
         castExpandButton.centerYAnchor.constraint(equalTo: castLabel.centerYAnchor).isActive = true
         castExpandButton.leadingAnchor.constraint(equalTo: castLabel.trailingAnchor).isActive = true
-        castExpandButton.trailingAnchor.constraint(lessThanOrEqualTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        castExpandButton.trailingAnchor.constraint(lessThanOrEqualTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
     }
 
     
     // Director Label Constriatns
     private func directorLabelConstriants() {
         directorLabel.topAnchor.constraint(equalTo: castLabel.bottomAnchor, constant: 5).isActive = true
-        directorLabel.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
-        directorLabel.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        directorLabel.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
+        directorLabel.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
     }
     
     // Three Buttons Constraints
     private func threeButtonsConstriants() {
         threeButtons.translatesAutoresizingMaskIntoConstraints = false
         threeButtons.topAnchor.constraint(equalTo: directorLabel.bottomAnchor, constant: 5).isActive = true
-        threeButtons.leadingAnchor.constraint(equalTo: mediaTrailer.leadingAnchor, constant: 5).isActive = true
-        threeButtons.trailingAnchor.constraint(equalTo: mediaTrailer.trailingAnchor, constant: -5).isActive = true
+        threeButtons.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5).isActive = true
+        threeButtons.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor, constant: -5).isActive = true
         threeButtons.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 
@@ -268,13 +268,25 @@ class MediaDetailsVC: UIViewController {
     
     //MARK: - Declare Main Views
 
-    let mediaTrailer: WKWebView = {
-        let webView = WKWebView()
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        webView.clipsToBounds = true
-        webView.scrollView.isScrollEnabled = false
-        return webView
-    }()
+//    let youtubePlayerVC.view: WKWebView = {
+//        let webView = WKWebView()
+//        webView.translatesAutoresizingMaskIntoConstraints = false
+//        webView.clipsToBounds = true
+//        webView.scrollView.isScrollEnabled = false
+//        return webView
+//    }()
+    
+    lazy var youtubePlayer = YouTubePlayer(
+        configuration: .init(
+            fullscreenMode: .system,
+            openURLAction: .init(handler: { _ in }),
+            autoPlay: true,
+            showCaptions: true,
+            showFullscreenButton: false
+        )
+    )
+    
+    lazy var youtubePlayerVC = YouTubePlayerViewController(player: youtubePlayer)
     
     
     let containterScrollView: UIScrollView = {

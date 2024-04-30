@@ -66,6 +66,7 @@
 		14A491F02B8F62320090AF08 /* NFBodyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491EF2B8F62320090AF08 /* NFBodyLabel.swift */; };
 		14A491F22B8F647D0090AF08 /* NFTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F12B8F647D0090AF08 /* NFTitleLabel.swift */; };
 		14A491F62B8FD8EF0090AF08 /* NFFilledButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A491F52B8FD8EF0090AF08 /* NFFilledButton.swift */; };
+		14A810332BE06D250015CBDA /* YouTubePlayerKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14A810322BE06D250015CBDA /* YouTubePlayerKit */; };
 		14AC46822B5854B600F5DF7A /* NewHotCategoryBarUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */; };
 		14AE2B372BE0023100A17C95 /* WatchedNetflixModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 14AE2B352BE0023100A17C95 /* WatchedNetflixModel.xcdatamodeld */; };
 		14AFC5E82BC1C707000BC75E /* ComingSoonTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14AFC5E72BC1C707000BC75E /* ComingSoonTableCell.swift */; };
@@ -198,6 +199,7 @@
 			files = (
 				14D2C41B2BC89D02001A89CA /* SDWebImageSwiftUI in Frameworks */,
 				14EC7D5A2B14FE5700E5B395 /* SkeletonView in Frameworks */,
+				14A810332BE06D250015CBDA /* YouTubePlayerKit in Frameworks */,
 				14802AE42AEAD34D00C80527 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -608,6 +610,7 @@
 				14802AE32AEAD34D00C80527 /* SDWebImage */,
 				14EC7D592B14FE5700E5B395 /* SkeletonView */,
 				14D2C41A2BC89D02001A89CA /* SDWebImageSwiftUI */,
+				14A810322BE06D250015CBDA /* YouTubePlayerKit */,
 			);
 			productName = "Netflix Clone";
 			productReference = 145FB0EF2AD3FEC30019A439 /* Netflix Clone.app */;
@@ -641,7 +644,7 @@
 				14802AE22AEAD34D00C80527 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				14EC7D582B14FE5700E5B395 /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				14B6FC542BC324C4003C6B8D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
-				14D2C40D2BC8803E001A89CA /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				14A810312BE06D250015CBDA /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */,
 			);
 			productRefGroup = 145FB0F02AD3FEC30019A439 /* Products */;
 			projectDirPath = "";
@@ -969,20 +972,20 @@
 				minimumVersion = 5.18.3;
 			};
 		};
+		14A810312BE06D250015CBDA /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SvenTiigi/YouTubePlayerKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.0;
+			};
+		};
 		14B6FC542BC324C4003C6B8D /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 3.0.2;
-			};
-		};
-		14D2C40D2BC8803E001A89CA /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.4.2;
 			};
 		};
 		14EC7D582B14FE5700E5B395 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
@@ -1000,6 +1003,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14802AE22AEAD34D00C80527 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		14A810322BE06D250015CBDA /* YouTubePlayerKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14A810312BE06D250015CBDA /* XCRemoteSwiftPackageReference "YouTubePlayerKit" */;
+			productName = YouTubePlayerKit;
 		};
 		14D2C41A2BC89D02001A89CA /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
