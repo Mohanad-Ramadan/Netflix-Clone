@@ -139,7 +139,7 @@ class HeroHeaderUIView: UIView {
     
     //MARK: - Declare Subviews
     private let posterImageView: NFWebImageView = {
-        let image = NFWebImageView(cornerRadius: 15, autoLayout: false)
+        let image = NFWebImageView(cornerRadius: 15, autoLayout: false, enableSkeleton: false)
         image.layer.borderWidth = 1
         image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.1)
         return image
@@ -153,7 +153,7 @@ class HeroHeaderUIView: UIView {
         return wrapperView
     }()
     
-    private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
+    private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false, enableSkeleton: false)
     
     private let categoryLabel: NFBodyLabel = {
         let label = NFBodyLabel(fontSize: 14, fontWeight: .medium, textAlignment: .center)
