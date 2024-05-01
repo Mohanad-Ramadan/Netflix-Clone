@@ -8,12 +8,12 @@
 import Foundation
 
 // MARK: - Cast
-struct Trailer: Codable, TrailerReturn {
+struct Trailer: Codable {
     let results: [Reuslts]
     
     struct Reuslts: Codable{
         let name: String
-        let publishedAt: String
+        let key: String
         let site: String
         let type: String
     }
@@ -24,10 +24,4 @@ struct Trailer: Codable, TrailerReturn {
         let desiredVideos = youtube.filter { desiredVideosArray.contains($0.type) }
         return desiredVideos
     }
-}
-
-//MARK: - Protocols
-
-protocol TrailerReturn {
-    func returnYoutubeTrailers() -> [Trailer.Reuslts]
 }

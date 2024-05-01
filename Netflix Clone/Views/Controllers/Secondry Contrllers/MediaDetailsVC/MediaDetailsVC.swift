@@ -23,7 +23,6 @@ class MediaDetailsVC: UIViewController {
         
         // configure the youtube vc in parentVC
         UIHelper.UIKit.setupChildVC(from: youtubePlayerVC, in: self)
-//        view.addSubview(youtubePlayerVC.view)
         view.addSubview(containterScrollView)
         
         [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, castExpandButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
@@ -86,22 +85,16 @@ class MediaDetailsVC: UIViewController {
     //MARK: - Trailer Configuration
     func configureTrailer(with model: MovieViewModel){
         guard let videosResult = model.videosResult else {return}
-        guard let mediaName = model.title else {return}
-        
-        let trialerVideoQuery = "\(mediaName) \(getFirstTrailerName(from: videosResult))"
-        
         Task {
-            do {
-                let trailerId = try await NetworkManager.shared.getTrailersIds(of: trialerVideoQuery)
-                try await self.youtubePlayer.load(source: .video(id: trailerId))
-            } catch { print(error.localizedDescription) }
+            do { try await self.youtubePlayerVC.player.load(source: .video(id: getFirstTrailerKey(from: videosResult))) }
+            catch { print(error.localizedDescription) }
         }
     }
     
-    func getFirstTrailerName(from videosResult: [Trailer.Reuslts]) -> String {
+    func getFirstTrailerKey(from videosResult: [Trailer.Reuslts]) -> String {
         let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
-        let trialerQuery = trailerInfo.map { $0.name }[0]
-        return trialerQuery
+        let firstTrailer = trailerInfo.map { $0.key }[0]
+        return firstTrailer
     }
     
     //MARK: - Fetch moreIdeas' media
@@ -132,7 +125,7 @@ class MediaDetailsVC: UIViewController {
         youtubePlayerVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         youtubePlayerVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         youtubePlayerVC.view.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        youtubePlayerVC.view.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        youtubePlayerVC.view.heightAnchor.constraint(equalToConstant: 220).isActive = true
     }
     
     // ScrollView Constraints
@@ -267,26 +260,11 @@ class MediaDetailsVC: UIViewController {
     
     
     //MARK: - Declare Main Views
-
-//    let youtubePlayerVC.view: WKWebView = {
-//        let webView = WKWebView()
-//        webView.translatesAutoresizingMaskIntoConstraints = false
-//        webView.clipsToBounds = true
-//        webView.scrollView.isScrollEnabled = false
-//        return webView
-//    }()
-    
-    lazy var youtubePlayer = YouTubePlayer(
-        configuration: .init(
-            fullscreenMode: .system,
-            openURLAction: .init(handler: { _ in }),
-            autoPlay: true,
-            showCaptions: true,
-            showFullscreenButton: false
-        )
-    )
-    
-    lazy var youtubePlayerVC = YouTubePlayerViewController(player: youtubePlayer)
+    lazy var youtubePlayerVC: YouTubePlayerViewController = {
+        lazy var youtubePlayer = YouTubePlayer(configuration: .init(fullscreenMode: .system,openURLAction: .init(handler: { _ in }),autoPlay: true,showCaptions: true,showFullscreenButton: false))
+        let youtubeVC = YouTubePlayerViewController(player: youtubePlayer)
+        return youtubeVC
+    }()
     
     
     let containterScrollView: UIScrollView = {

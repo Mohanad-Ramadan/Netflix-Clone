@@ -22,7 +22,6 @@ class MovieDetailsVC: MediaDetailsVC {
             do {
                 // get details
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
-                
                 let viewModel = MovieViewModel(title: details.title, overview: details.overview, genres: details.genres, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime )
                 configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
                 
@@ -34,10 +33,10 @@ class MovieDetailsVC: MediaDetailsVC {
                 // configure castVC
                 castData = fetchedCast
                 
-                
                 // get trailers
                 let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
                 configureMovieTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+                
             } catch {
                 print(error.localizedDescription)
             }
@@ -62,7 +61,7 @@ class MovieDetailsVC: MediaDetailsVC {
         configureTrailer(with: model)
         // pass th videos without the one taken for the youtubePlayerVC.view webView
         guard let videosResult = model.videosResult else {return}
-        trailers = videosResult.filter { $0.name != getFirstTrailerName(from: videosResult) }
+        trailers = videosResult.filter { $0.key != getFirstTrailerKey(from: videosResult) }
         trailersCount = CGFloat(trailers.count)
     }
     

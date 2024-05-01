@@ -184,7 +184,3 @@ class HomeLoadingUIView: UIView {
     }
 }
 
-
-#Preview{
-    HomeLoadingUIView()
-}

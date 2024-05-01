@@ -113,18 +113,5 @@ class NetworkManager {
         } catch {throw APIError.invalidData}
     }
     
-    func getTrailersIds(of query: String) async throws -> String {
-        guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {throw APIError.invalidURL}
-        guard let url = URL(string: Constants.youtubeURL + query) else {throw APIError.invalidURL}
-        
-        let (data,response) = try await URLSession.shared.data(from: url)
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
-        
-        do {
-            let fetchedData = try self.decoder.decode(YoutubeResponse.self, from: data)
-            return fetchedData.items[0].id.videoId
-        } catch {throw APIError.invalidData}
-    }
-    
 }
 

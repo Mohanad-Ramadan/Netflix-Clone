@@ -73,7 +73,6 @@ struct Constants {
         return "\(Constants.baseURL)\(endpoint)&page=\(page)&api_key=db7efd1f212466edd2945ab1e9199ee1&query=\(query)"
     }
 
-    static let youtubeURL = "https://www.googleapis.com/youtube/v3/search?safeSearch=strict&key=AIzaSyA43IBo_SCZSMUn4HmhCF6q3DKdKxgBBbA&q="
     static let mediaIdURL = "https://api.themoviedb.org/3"
     
     static let imageURL = "https://image.tmdb.org/t/p/w500"
@@ -142,10 +141,12 @@ enum Endpoints: String {
 // https://image.tmdb.org/t/p/w500/cK5bnO5LeBimz6oibtnLCnOmUSJ.jpg
 
 //Videos
-// https://api.themoviedb.org/3/movie/872585/videos?api_key=db7efd1f212466edd2945ab1e9199ee1
+// https://api.themoviedb.org/3/movie/693134/videos?api_key=db7efd1f212466edd2945ab1e9199ee1
 
 //Videos for tv
 // https://api.themoviedb.org/3/tv/108978/videos?api_key=db7efd1f212466edd2945ab1e9199ee1
+
+//
 
 //Cast
 // movie https://api.themoviedb.org/3/movie/872585/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
@@ -155,9 +156,6 @@ enum Endpoints: String {
 //tv https://api.themoviedb.org/3/tv/126308/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
 //anime https://api.themoviedb.org/3/tv/37854/credits?api_key=db7efd1f212466edd2945ab1e9199ee1
 
-
-// youtube api
-// https://www.googleapis.com/youtube/v3/search?safeSearch=strict&key=AIzaSyA43IBo_SCZSMUn4HmhCF6q3DKdKxgBBbA&q=Wonka%20They%20Call%20Me%20Lofty
 
 /*
 The image resolutions to download
