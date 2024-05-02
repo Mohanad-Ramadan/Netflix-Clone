@@ -116,7 +116,7 @@ class MediaDetailsVC: UIViewController {
     }
     
     func addMedia(item: Media) {
-        DataPersistenceManager.shared.saveWatchedItem(item) { results in
+        PersistenceDataManager.shared.saveWatchedItem(item) { results in
             switch results {
             case .success():
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.trailersKey), object: nil)

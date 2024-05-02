@@ -48,7 +48,7 @@ class MyNetflixVC: UIViewController {
             self.fetchDownloadedMedia()
         }
         // Calling API request method
-        DataPersistenceManager.shared.fetchMyListMedia { [weak self] results in
+        PersistenceDataManager.shared.fetchMyListMedia { [weak self] results in
             switch results {
             case .success(let mediaItem):
                 // transform MediaItem model to Media model
@@ -73,7 +73,7 @@ class MyNetflixVC: UIViewController {
             self.fetchTrailersWatched()
         }
         // Calling API request method
-        DataPersistenceManager.shared.fetchWatchedMedia() { [weak self] results in
+        PersistenceDataManager.shared.fetchWatchedMedia() { [weak self] results in
             switch results {
             case .success(let watchedItem):
                 // transform WatchedItem model to Media model
