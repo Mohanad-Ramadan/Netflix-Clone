@@ -48,22 +48,18 @@ class MyNetflixVC: UIViewController {
             self.fetchDownloadedMedia()
         }
         // Calling API request method
-        PersistenceDataManager.shared.fetchMyListMedia { [weak self] results in
-            switch results {
-            case .success(let mediaItem):
-                // transform MediaItem model to Media model
+        Task {
+            do {
+                let mediaItems = try await PersistenceDataManager.shared.fetchMyListMedia()
                 let media: [Media] = {
-                    let item = mediaItem.map { mediaItem in
+                    let item = mediaItems.map { mediaItem in
                         Media(id: Int(mediaItem.id), originalName: mediaItem.originalName, title: mediaItem.title, overview: mediaItem.overview, mediaType: mediaItem.mediaType, posterPath: mediaItem.posterPath)
                     }
                     return item
                 }()
-                
-                self?.myListMedia = media
-                self?.userTable.reloadData()
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
+                myListMedia = media
+                userTable.reloadData()
+            } catch { print(error.localizedDescription) }
         }
     }
     
@@ -73,21 +69,18 @@ class MyNetflixVC: UIViewController {
             self.fetchTrailersWatched()
         }
         // Calling API request method
-        PersistenceDataManager.shared.fetchWatchedMedia() { [weak self] results in
-            switch results {
-            case .success(let watchedItem):
-                // transform WatchedItem model to Media model
+        Task {
+            do {
+                let watchedItems = try await PersistenceDataManager.shared.fetchWatchedMedia()
                 let media: [Media] = {
-                    let item = watchedItem.map { watchedItem in
+                    let item = watchedItems.map { watchedItem in
                         Media(id: Int(watchedItem.id), originalName: watchedItem.originalName, title: watchedItem.title, overview: watchedItem.overview, mediaType: watchedItem.mediaType, posterPath: watchedItem.posterPath)
                     }
                     return item
                 }()
-                self?.watchedMedia = media
-                self?.userTable.reloadData()
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
+                watchedMedia = media
+                userTable.reloadData()
+            } catch { print(error.localizedDescription) }
         }
     }
     

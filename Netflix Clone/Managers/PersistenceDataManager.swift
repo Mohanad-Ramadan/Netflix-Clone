@@ -52,7 +52,7 @@ class PersistenceDataManager {
         item.posterPath = media.posterPath
         
         do {
-            if itemAlreadyInList(item: item) {return}
+//            if itemAlreadyInList(item: item) {return}
             try context.save()
             completion(.success(()))
         } catch {
@@ -72,7 +72,6 @@ class PersistenceDataManager {
         item.posterPath = media.posterPath
         
         do {
-            if itemAlreadyWatched(item: item) {return}
             try context.save()
             completion(.success(()))
         } catch {
@@ -81,31 +80,23 @@ class PersistenceDataManager {
     }
     
     //MARK: - Fetch from Containers
-    func fetchMyListMedia(completion: @escaping (Result<[MediaItem],Error>) -> Void ){
+    func fetchMyListMedia() async throws -> [MediaItem]{
         let context = myListContainer.viewContext
         let request: NSFetchRequest<MediaItem>
         request = MediaItem.fetchRequest()
         
-        do {
-            let media = try context.fetch(request)
-            completion(.success(media))
-        }catch {
-            completion(.failure(DataBaseError.faliedTofetchData))
-        }
-        
+        do { return try context.fetch(request) }
+        catch { throw DataBaseError.faliedTofetchData }
     }
     
-    func fetchWatchedMedia(completion: @escaping (Result<[WatchedItem],Error>) -> Void ){
+    
+    func fetchWatchedMedia() async throws -> [WatchedItem] {
         let context = watchedContainer.viewContext
         let request: NSFetchRequest<WatchedItem>
         request = WatchedItem.fetchRequest()
         
-        do {
-            let media = try context.fetch(request)
-            completion(.success(media))
-        }catch {
-            completion(.failure(DataBaseError.faliedTofetchData))
-        }
+        do { return try context.fetch(request) }
+        catch { throw DataBaseError.faliedTofetchData }
         
     }
     
@@ -124,32 +115,9 @@ class PersistenceDataManager {
     
     
     //MARK: - Check For Duplicates
-    func itemAlreadyWatched(item: WatchedItem) -> Bool {
-        var watchedMedia = [WatchedItem]()
-        PersistenceDataManager.shared.fetchWatchedMedia() {results in
-            switch results {
-            case .success(let watchedItems):
-                // transform WatchedItem model to Media model
-                watchedMedia = watchedItems
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-        return watchedMedia.contains(where: {$0.id == item.id})
-    }
-    
-    func itemAlreadyInList(item: MediaItem) -> Bool {
-        var myListMedia = [MediaItem]()
-        PersistenceDataManager.shared.fetchMyListMedia() {results in
-            switch results {
-            case .success(let myListItems):
-                // transform WatchedItem model to Media model
-                myListMedia = myListItems
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
-        }
-        return myListMedia.contains(where: {$0.id == item.id})
+    func itemAlreadyInList(item: MediaItem) async -> Bool {
+        let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
+        return ((listItems?.contains(where: {$0.id == item.id})) != nil)
     }
     
 }

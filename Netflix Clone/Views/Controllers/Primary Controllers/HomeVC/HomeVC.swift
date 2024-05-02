@@ -98,7 +98,7 @@ class HomeVC: UIViewController {
     var homeBackground = HomeBackgroundUIView()
     let loadingView = HomeLoadingUIView()
     
-    let sectionTitles :[String] = ["Top Series", "Trending Now" , "Popular Movies", "Trending Now", "Upcoming Movies"]
+    let sectionTitles :[String] = ["All Time Best TV Shows", "Trending Series" , "Popular Movies", "Trending Movies", "Upcoming Movies"]
 }
 
 

@@ -11,15 +11,15 @@ import Foundation
 //MARK: - TableView Sections
 extension HomeVC {
     enum Sections: Int {
-        case  PopularTV = 0, WeekTrendingTV = 1 , PopularMovies = 2, WeekTrendingMovies = 3, UpcomingMovies = 4
+        case  allTimeTV = 0, weekTrendingTV = 1 , popularMovies = 2, weekTrendingMovies = 3, upcomingMovies = 4
     }
     
     func embedSections(sectionNumbs: Int, cell: CollectionRowTableViewCell){
         switch sectionNumbs{
-        case Sections.PopularTV.rawValue:
+        case Sections.allTimeTV.rawValue:
             Task{
                 do {
-                    let media = try await NetworkManager.shared.getDataOf(.popularTV)
+                    let media = try await NetworkManager.shared.getDataOf(.popularTVAllTime)
                     cell.configureCollection(with: media)
                 } catch let error as APIError {
                     //                presentGFAlert(messageText: error.rawValue)
@@ -30,7 +30,7 @@ extension HomeVC {
                 }
             }
             
-        case Sections.WeekTrendingTV.rawValue:
+        case Sections.weekTrendingTV.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
@@ -44,7 +44,7 @@ extension HomeVC {
                 }
             }
             
-        case Sections.PopularMovies.rawValue:
+        case Sections.popularMovies.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.popularMovies)
@@ -58,7 +58,7 @@ extension HomeVC {
                 }
             }
             
-        case Sections.WeekTrendingMovies.rawValue:
+        case Sections.weekTrendingMovies.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
@@ -72,7 +72,7 @@ extension HomeVC {
                 }
             }
             
-        case Sections.UpcomingMovies.rawValue:
+        case Sections.upcomingMovies.rawValue:
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
