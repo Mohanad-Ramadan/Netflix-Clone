@@ -15,7 +15,7 @@ class ComingSoonTableCell: NewHotTableViewCell {
         applyConstraints()
     }
     
-    override func configureCellDetails(with media: MovieViewModel) {
+    override func configureCellDetails(with media: MediaViewModel) {
         
         titleLabel.text = media.title
         entertainmetType.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"

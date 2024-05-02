@@ -22,7 +22,7 @@ class HeroHeaderUIView: UIView {
     }
     
     //MARK: - Configure Poster Image
-    func configureHeaderView(with model: MovieViewModel) {
+    func configureHeaderView(with model: MediaViewModel) {
         DispatchQueue.main.async { [weak self] in
             if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
                 self?.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in

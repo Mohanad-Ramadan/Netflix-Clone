@@ -10,12 +10,12 @@ import Foundation
 
 // MARK: - MediaImage
 struct MediaImage: Codable {
-    let logos: [ImageDetails]
-    let backdrops: [ImageDetails]
+    let logos: [ImageDetail]
+    let backdrops: [ImageDetail]
 }
 
 // MARK: - Images Detail
-struct ImageDetails: Codable {
+struct ImageDetail: Codable {
     let aspectRatio: Double
     let height: Int
     let filePath: String

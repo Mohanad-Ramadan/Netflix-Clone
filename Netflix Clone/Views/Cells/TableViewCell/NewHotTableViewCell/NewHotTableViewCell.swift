@@ -24,17 +24,17 @@ class NewHotTableViewCell: UITableViewCell {
                 let logoAspectRatio = UIHelper.UIKit.getLogoDetailsFrom(images)?.1
                 let logoPath = UIHelper.UIKit.getLogoDetailsFrom(images)?.0
                 let backdropPath = UIHelper.UIKit.getBackdropPathFrom(images)
-                configureCellImages(with: MovieViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
+                configureCellImages(with: MediaViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
                 
                 // details
                 if mediaType == nil || mediaType == "movie" {
                     let detail: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "movie")
                     let detailCategory = detail.separateGenres(with: " • ")
-                    configureCellDetails(with: MovieViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: media.mediaType ,releaseDate: detail.releaseDate))
+                    configureCellDetails(with: MediaViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: media.mediaType ,releaseDate: detail.releaseDate))
                 } else {
                     let detail: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "tv")
                     let detailCategory = detail.separateGenres(with: " • ")
-                    configureCellDetails(with: MovieViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: media.mediaType))
+                    configureCellDetails(with: MediaViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: media.mediaType))
                 }
             } catch { print("Error getting images:", error.localizedDescription) }
             
@@ -44,7 +44,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     
     //MARK: - Configure Cell
-    func configureCellImages(with media: MovieViewModel){
+    func configureCellImages(with media: MediaViewModel){
         backdropImageView.downloadImageFrom(media.backdropsPath ?? "noPath")
         logoView.downloadImageFrom(media.logoPath ?? "noPath")
         if let logoAspectRatio = media.logoAspectRatio {
@@ -52,7 +52,7 @@ class NewHotTableViewCell: UITableViewCell {
         }
     }
     
-    func configureCellDetails(with media: MovieViewModel){
+    func configureCellDetails(with media: MediaViewModel){
         titleLabel.text = media.title
         entertainmetType.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
         overViewLabel.text = media.overview

@@ -14,6 +14,7 @@ class TVDetailsVC: MediaDetailsVC {
         super.init()
         self.tvShow = tvShow
         fetchData(isTrend: isTrend, rank: rank)
+        saveToWatchedList(tvShow)
     }
     
     private func fetchData(isTrend: Bool, rank: Int){
@@ -21,14 +22,14 @@ class TVDetailsVC: MediaDetailsVC {
             do {
                 // get details
                 let details: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: tvShow.id, ofType: "tv")
-                let viewModel = MovieViewModel(title: details.name, overview: details.overview, genres: details.genres, mediaType: "tv" ,releaseDate: details.lastAirDate)
+                let viewModel = MediaViewModel(title: details.name, overview: details.overview, genres: details.genres, mediaType: "tv" ,releaseDate: details.lastAirDate)
                 configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
                 
                 // get cast
                 let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: tvShow.id, ofType: "tv")
                 let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
                 let director = fetchedCast.returnDirector()
-                configureCast(with: MovieViewModel(cast: cast, director: director))
+                configureCast(with: MediaViewModel(cast: cast, director: director))
                 // configure castVC
                 castData = fetchedCast
                 
@@ -40,7 +41,7 @@ class TVDetailsVC: MediaDetailsVC {
                 
                 // get trailers
                 let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
-                configureTrailer(with: MovieViewModel(title: details.name ,videosResult: trailers))
+                configureTrailer(with: MediaViewModel(title: details.name ,videosResult: trailers))
                 
             } catch {
                 print(error.localizedDescription)

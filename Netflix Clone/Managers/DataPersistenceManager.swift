@@ -57,15 +57,17 @@ class DataPersistenceManager {
     }
     
     // Function to save items of type MediaItems in the other container
-    func saveWatchedMedia(model: Media, completion: @escaping (Result<Void,Error>) -> Void) {
+    func saveWatchedItem(_ media: Media, completion: @escaping (Result<Void,Error>) -> Void) {
         let context = watchedContainer.viewContext
         let item = WatchedItem(context: context)
         
-        item.id = Int64(model.id)
-        item.originalName = model.originalName
-        item.title = model.title
-        item.overview = model.overview
-        item.posterPath = model.posterPath
+        item.id = Int64(media.id)
+        item.originalName = media.originalName
+        item.title = media.title
+        item.overview = media.overview
+        item.posterPath = media.posterPath
+        
+        if itemAlreadyWatched(item: item) {return}
         
         do {
             try context.save()
@@ -90,7 +92,7 @@ class DataPersistenceManager {
         
     }
     
-    func fetchWatchedMedias(completion: @escaping (Result<[WatchedItem],Error>) -> Void ){
+    func fetchWatchedMedia(completion: @escaping (Result<[WatchedItem],Error>) -> Void ){
         let context = watchedContainer.viewContext
         let request: NSFetchRequest<WatchedItem>
         request = WatchedItem.fetchRequest()
@@ -116,7 +118,20 @@ class DataPersistenceManager {
         }
     }
     
-    
+    //MARK: - check if item added befor to presistence
+    func itemAlreadyWatched(item: WatchedItem) -> Bool {
+        var watchedMedia = [WatchedItem]()
+        DataPersistenceManager.shared.fetchWatchedMedia() {results in
+            switch results {
+            case .success(let watchedItems):
+                // transform WatchedItem model to Media model
+                watchedMedia = watchedItems
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
+        return watchedMedia.contains(where: {$0.id == item.id})
+    }
     
 }
 

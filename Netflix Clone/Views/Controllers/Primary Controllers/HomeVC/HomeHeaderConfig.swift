@@ -36,8 +36,8 @@ extension HomeVC {
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
                 
                 // configure views
-                self.heroHeaderView.configureHeaderView(with: MovieViewModel(logoPath: logoPath, backdropsPath: backdropPath, category: details.separateGenres(with: " • ")))
-                self.homeBackground.configureBackground(with: MovieViewModel(backdropsPath: backdropPath))
+                self.heroHeaderView.configureHeaderView(with: MediaViewModel(logoPath: logoPath, backdropsPath: backdropPath, category: details.separateGenres(with: " • ")))
+                self.homeBackground.configureBackground(with: MediaViewModel(backdropsPath: backdropPath))
                 
             } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)

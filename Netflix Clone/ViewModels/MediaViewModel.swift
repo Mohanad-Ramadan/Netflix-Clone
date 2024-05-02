@@ -1,5 +1,5 @@
 //
-//  MovieViewModel.swift
+//  MediaViewModel.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 15/10/2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MovieViewModel {
+struct MediaViewModel {
     
     // Basic Parameter
     var title: String?

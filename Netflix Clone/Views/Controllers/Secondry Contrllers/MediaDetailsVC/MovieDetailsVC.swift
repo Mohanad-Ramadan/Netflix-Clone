@@ -14,7 +14,7 @@ class MovieDetailsVC: MediaDetailsVC {
         super.init()
         self.movie = movie
         fetchData(isTrend: isTrend, rank: rank)
-
+        saveToWatchedList(movie)
     }
     
     private func fetchData(isTrend: Bool, rank: Int) {
@@ -22,20 +22,20 @@ class MovieDetailsVC: MediaDetailsVC {
             do {
                 // get details
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
-                let viewModel = MovieViewModel(title: details.title, overview: details.overview, genres: details.genres, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime )
+                let viewModel = MediaViewModel(title: details.title, overview: details.overview, genres: details.genres, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime )
                 configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
                 
                 // get cast
                 let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: movie.id, ofType: "movie")
                 let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
                 let director = fetchedCast.returnDirector()
-                configureCast(with: MovieViewModel(cast: cast, director: director))
+                configureCast(with: MediaViewModel(cast: cast, director: director))
                 // configure castVC
                 castData = fetchedCast
                 
                 // get trailers
                 let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-                configureMovieTrailer(with: MovieViewModel(title: details.title ,videosResult: trailers))
+                configureMovieTrailer(with: MediaViewModel(title: details.title ,videosResult: trailers))
                 
             } catch {
                 print(error.localizedDescription)
@@ -57,7 +57,7 @@ class MovieDetailsVC: MediaDetailsVC {
     }
     
     //MARK: - Trailer Configuration
-    private func configureMovieTrailer(with model: MovieViewModel){
+    private func configureMovieTrailer(with model: MediaViewModel){
         configureTrailer(with: model)
         // pass th videos without the one taken for the youtubePlayerVC.view webView
         guard let videosResult = model.videosResult else {return}

@@ -73,7 +73,7 @@ class MyNetflixVC: UIViewController {
             self.fetchTrailersWatched()
         }
         // Calling API request method
-        DataPersistenceManager.shared.fetchWatchedMedias() { [weak self] results in
+        DataPersistenceManager.shared.fetchWatchedMedia() { [weak self] results in
             switch results {
             case .success(let watchedItem):
                 // transform WatchedItem model to Media model

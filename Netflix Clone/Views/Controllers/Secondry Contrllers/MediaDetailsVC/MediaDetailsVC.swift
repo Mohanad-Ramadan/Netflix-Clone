@@ -26,6 +26,7 @@ class MediaDetailsVC: UIViewController {
         view.addSubview(containterScrollView)
         
         [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, castExpandButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}
+        
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
         
@@ -35,13 +36,14 @@ class MediaDetailsVC: UIViewController {
     
 
     //MARK: - Configure UIElement
-    func configureCast(with model: MovieViewModel){
+    func configureCast(with model: MediaViewModel){
         castLabel.text = model.cast
         castLabel.lineBreakMode = .byTruncatingTail
         directorLabel.text = model.director
     }
     
-    func configureDetails(with model: MovieViewModel, isTrend: Bool = false, rank: Int = 0){
+    func configureDetails(with model: MediaViewModel, isTrend: Bool = false, rank: Int = 0){
+        
         mediaTitle.text = model.title
         overViewLabel.text = model.overview
         categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
@@ -83,7 +85,7 @@ class MediaDetailsVC: UIViewController {
     }
     
     //MARK: - Trailer Configuration
-    func configureTrailer(with model: MovieViewModel){
+    func configureTrailer(with model: MediaViewModel){
         guard let videosResult = model.videosResult else {return}
         Task {
             do { try await self.youtubePlayerVC.player.load(source: .video(id: getFirstTrailerKey(from: videosResult))) }
@@ -95,6 +97,33 @@ class MediaDetailsVC: UIViewController {
         let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
         let firstTrailer = trailerInfo.map { $0.key }[0]
         return firstTrailer
+    }
+    
+    // add the media to watched trailer list
+    // if it exceeds 70% of the trailer
+    func saveToWatchedList(_ item: Media) {
+        trailerDurationTime = youtubePlayerVC.player.durationPublisher
+            .sink{ duration in
+                self.currentTrailerTime = self.youtubePlayerVC.player.currentTimePublisher()
+                    .sink { currentTime in
+                        if currentTime >= duration*0.5 {
+                            self.addMedia(item: item)
+                            self.currentTrailerTime?.cancel()
+                            self.trailerDurationTime?.cancel()
+                        }
+                    }
+            }
+    }
+    
+    func addMedia(item: Media) {
+        DataPersistenceManager.shared.saveWatchedItem(item) { results in
+            switch results {
+            case .success():
+                NotificationCenter.default.post(name: NSNotification.Name(Constants.trailersKey), object: nil)
+            case .failure(let failure):
+                print(failure.localizedDescription)
+            }
+        }
     }
     
     //MARK: - Fetch moreIdeas' media
@@ -316,4 +345,6 @@ class MediaDetailsVC: UIViewController {
     
     var moreMedias: [Media] = [Media]()
     var castData: Cast?
+    var currentTrailerTime: AnyCancellable?
+    var trailerDurationTime: AnyCancellable?
 }

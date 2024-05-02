@@ -21,7 +21,7 @@ class HomeBackgroundUIView: UIView {
     }
     
     //MARK: - Configure Poster Image
-    func configureBackground(with model: MovieViewModel) {
+    func configureBackground(with model: MediaViewModel) {
         DispatchQueue.main.async { [weak self] in
             if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)") {
                 self?.backGroundPoster.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
