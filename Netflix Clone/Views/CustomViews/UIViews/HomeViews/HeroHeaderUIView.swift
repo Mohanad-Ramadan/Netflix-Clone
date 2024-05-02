@@ -18,7 +18,18 @@ class HeroHeaderUIView: UIView {
         super.init(frame: frame)
         [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach {addSubview($0)}
         shadowWrapperView.addSubview(posterImageView)
-        configureViews()
+        layoutViews()
+        configureButtonAction()
+    }
+    
+    //MARK: - Configure buttons actions
+    private func configureButtonAction() {
+        listButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func listButtonTapped() {
+//        Task { let addedBefore = await PersistenceDataManager.shared.itemAlreadyInList(item: <#T##MediaItem#>)}
+        listButton.animateButtonWith(title: "My List", image: UIImage(systemName: "checkmark")!)
     }
     
     //MARK: - Configure Poster Image
@@ -79,7 +90,7 @@ class HeroHeaderUIView: UIView {
     }
 
     //MARK: - Configure Views
-    private func configureViews() {
+    private func layoutViews() {
         // Apply shadow for some views
         createShadowFor(shadowWrapperView, opacity: 0.3, radius: 8)
         createShadowFor(categoryLabel, opacity: 0.4, radius: 2)

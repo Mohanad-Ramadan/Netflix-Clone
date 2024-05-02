@@ -76,6 +76,7 @@
 		14B213F32BCB909D00676234 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B213F22BCB909D00676234 /* LaunchView.swift */; };
 		14B323ED2BDA541800F817FE /* CastListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B323EC2BDA541800F817FE /* CastListVC.swift */; };
 		14B323EF2BDBD0A600F817FE /* CastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B323EE2BDBD0A600F817FE /* CastViewModel.swift */; };
+		14B6F13D2BE3E7A9004B203F /* UIButton-EXT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6F13C2BE3E7A9004B203F /* UIButton-EXT.swift */; };
 		14B6FC4F2BC3188F003C6B8D /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */; };
 		14BEB8042B9E049000B87AB8 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEB8032B9E049000B87AB8 /* SearchVC.swift */; };
 		14CC5CCA2BCDBF9400A5805D /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */; };
@@ -170,6 +171,7 @@
 		14B213F22BCB909D00676234 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		14B323EC2BDA541800F817FE /* CastListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastListVC.swift; sourceTree = "<group>"; };
 		14B323EE2BDBD0A600F817FE /* CastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastViewModel.swift; sourceTree = "<group>"; };
+		14B6F13C2BE3E7A9004B203F /* UIButton-EXT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton-EXT.swift"; sourceTree = "<group>"; };
 		14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		14BEB8032B9E049000B87AB8 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				145EDE802B8BC3EC00B49A48 /* UIColor-EXT.swift */,
 				14A0E30F2BB769C6008C434E /* UIView-EXT.swift */,
 				145EDE7A2B8BBF3E00B49A48 /* ViewController-EXT.swift */,
+				14B6F13C2BE3E7A9004B203F /* UIButton-EXT.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -687,6 +690,7 @@
 				147094D72B47586E0053CFBC /* MyNetflixExtension.swift in Sources */,
 				147551AD2BB0C0B700A2309B /* EpisodesTableViewCell.swift in Sources */,
 				148252272B5EF7300009C0EF /* ThreeButtonUIView.swift in Sources */,
+				14B6F13D2BE3E7A9004B203F /* UIButton-EXT.swift in Sources */,
 				140A72DC2AD8325800CCA9FA /* PosterCollectionViewCell.swift in Sources */,
 				140A72D82AD8283700CCA9FA /* Media.swift in Sources */,
 				145FB1162AD46CE40019A439 /* CollectionRowTableViewCell.swift in Sources */,

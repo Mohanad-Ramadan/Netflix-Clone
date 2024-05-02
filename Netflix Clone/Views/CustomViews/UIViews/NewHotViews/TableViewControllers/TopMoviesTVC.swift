@@ -19,7 +19,7 @@ class TopMoviesTVC: UITableViewController {
     
     func configureTableHeader() {
         let headerTitle = NFPlainButton(title: "Top 10 Movies", fontSize: 20, fontWeight: .bold)
-        headerTitle.configureButtonImageWith(.top10, width: 25, height: 25, placement: .leading, padding: 5)
+        headerTitle.configureButtonImageWith(.top10, placement: .leading, padding: 5)
         headerTitle.frame = CGRect(x: 0, y: 0, width: headerTitle.bounds.width, height: 50)
         tableView.tableHeaderView = headerTitle
     }

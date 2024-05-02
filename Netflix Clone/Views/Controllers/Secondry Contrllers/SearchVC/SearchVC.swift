@@ -57,6 +57,10 @@ class SearchVC: UIViewController {
         searchResultsVC.view.alpha = 0
         // fetch recommended media
         fetchRecommendedMedia()
+        // make the searchBar first Responder
+        DispatchQueue.main.async {
+            self.searchController.searchBar.becomeFirstResponder()
+        }
     }
     
     // fetch the media for searchTable cells
