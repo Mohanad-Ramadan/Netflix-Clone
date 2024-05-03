@@ -36,6 +36,7 @@ extension HomeVC {
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
                 
                 // configure views
+                self.heroHeaderView.media = movie
                 self.heroHeaderView.configureHeaderView(with: MediaViewModel(logoPath: logoPath, backdropsPath: backdropPath, category: details.separateGenres(with: " • ")))
                 self.homeBackground.configureBackground(with: MediaViewModel(backdropsPath: backdropPath))
                 

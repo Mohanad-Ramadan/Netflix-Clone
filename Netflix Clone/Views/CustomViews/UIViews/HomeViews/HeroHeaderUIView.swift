@@ -28,8 +28,11 @@ class HeroHeaderUIView: UIView {
     }
     
     @objc private func listButtonTapped() {
-//        Task { let addedBefore = await PersistenceDataManager.shared.itemAlreadyInList(item: <#T##MediaItem#>)}
-        listButton.animateButtonWith(title: "My List", image: UIImage(systemName: "checkmark")!)
+        listButton.configuration?.image = UIImage(systemName: "checkmark")
+        Task{
+            try await PersistenceDataManager.shared.addToMyListMedia(media!)
+            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+        }
     }
     
     //MARK: - Configure Poster Image
@@ -177,7 +180,7 @@ class HeroHeaderUIView: UIView {
     private let listButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
     
     weak var delegate: Delegate!
-    
+    var media: Media?
     
     required init?(coder: NSCoder) {fatalError()}
 }

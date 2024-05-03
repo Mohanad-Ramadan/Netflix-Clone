@@ -41,7 +41,9 @@ class PersistenceDataManager {
     
     //MARK: - Save To Containers
     // Function to save items of type MediaItems in the download container
-    func addToMyListMedia(_ media: Media, completion: @escaping (Result<Void,Error>) -> Void) {
+    func addToMyListMedia(_ media: Media) async throws {
+//        guard await itemAlreadyInList(item: media) else {return}
+        
         let context = myListContainer.viewContext
         let item = MediaItem(context: context)
         
@@ -51,17 +53,12 @@ class PersistenceDataManager {
         item.overview = media.overview
         item.posterPath = media.posterPath
         
-        do {
-//            if itemAlreadyInList(item: item) {return}
-            try context.save()
-            completion(.success(()))
-        } catch {
-            completion(.failure(DataBaseError.faliedToSaveData))
-        }
+        do { return try context.save() }
+        catch { throw DataBaseError.faliedToSaveData }
     }
     
-    // Function to save items of type MediaItems in the other container
-    func saveWatchedItem(_ media: Media, completion: @escaping (Result<Void,Error>) -> Void) {
+    // Function to save items of type MediaItems in the other contai
+    func saveWatchedItem(_ media: Media) async throws {
         let context = watchedContainer.viewContext
         let item = WatchedItem(context: context)
         
@@ -71,12 +68,8 @@ class PersistenceDataManager {
         item.overview = media.overview
         item.posterPath = media.posterPath
         
-        do {
-            try context.save()
-            completion(.success(()))
-        } catch {
-            completion(.failure(DataBaseError.faliedToSaveData))
-        }
+        do { return try context.save() }
+        catch { throw DataBaseError.faliedToSaveData }
     }
     
     //MARK: - Fetch from Containers
@@ -115,9 +108,10 @@ class PersistenceDataManager {
     
     
     //MARK: - Check For Duplicates
-    func itemAlreadyInList(item: MediaItem) async -> Bool? {
+    func itemAlreadyInList(item: Media) async -> Bool {
         let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
-        return listItems?.contains(where: {$0.id == item.id})
+        let checkItemInList = listItems?.contains(where: {$0.id == item.id}) ?? false
+        return checkItemInList
     }
     
 }

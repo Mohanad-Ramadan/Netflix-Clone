@@ -38,13 +38,9 @@ class CollectionRowTableViewCell: UITableViewCell {
     }
     
     func addToMyList(_ indexpath: IndexPath ) {
-        PersistenceDataManager.shared.addToMyListMedia(media[indexpath.row]) { results in
-            switch results {
-            case .success():
-                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
-            case .failure(let failure):
-                print(failure.localizedDescription)
-            }
+        Task {
+            try await PersistenceDataManager.shared.addToMyListMedia(media[indexpath.row])
+            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
         }
     }
      

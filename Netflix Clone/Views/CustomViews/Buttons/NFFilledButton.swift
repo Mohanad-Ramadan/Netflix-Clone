@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class NFFilledButton: UIButton {
     override init(frame: CGRect) {super.init(frame: frame)}
