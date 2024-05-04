@@ -12,8 +12,19 @@ class NewHotLoadingUIView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        configureMainViews()
+        configureblocks()
         activateSkeletonEffect()
+    }
+    
+    //MARK: - Configure Views
+    private func setupView() {
+        backgroundColor = .black
+        addSubview(containerStack)
+//        containerStack.frame = bounds
+        [containerOne,containerTwo].forEach{
+            containerStack.addArrangedSubview($0)
+            $0.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
+        }
     }
     
     private func activateSkeletonEffect() {
@@ -24,77 +35,55 @@ class NewHotLoadingUIView: UIView {
         }
     }
     
-    //MARK: - Configure Views
-    private func setupView() {
-        backgroundColor = .black
-        [containerOne,containerTwo].forEach{ subview in
-            addSubview(subview)
-            subview.translatesAutoresizingMaskIntoConstraints = false
-        }
-    }
-    
-    private func configureMainViews(){
-        let containerOneConstraints = [
-            containerOne.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor ,constant: 10),
-            containerOne.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3),
-            containerOne.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3),
-            containerOne.heightAnchor.constraint(equalToConstant: 300)
-        ]
-        
-        let containerTwoConstraints = [
-            containerTwo.topAnchor.constraint(equalTo: containerOne.bottomAnchor, constant: 30),
-            containerTwo.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3),
-            containerTwo.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3),
-            containerTwo.heightAnchor.constraint(equalToConstant: 300)
-        ]
-        
-        
-        // activate constraints
-        NSLayoutConstraint.activate(containerOneConstraints)
-        NSLayoutConstraint.activate(containerTwoConstraints)
-        
+    private func configureblocks(){
+        // block one constraints
         configureSubviews(firstView: firstBlockView, secondView: secondBlockView, thirdView: thirdBlockView, superView: containerOne)
-        
+        // block two constraints
         configureSubviews(firstView: firstBlockView2, secondView: secondBlockView2, thirdView: thirdBlockView2, superView: containerTwo)
     }
     
-    private func configureSubviews(firstView: UIView ,secondView: UIView ,thirdView: UIView ,superView: UIView) {
+    private func configureSubviews(firstView: UIView ,secondView: UIView ,thirdView: UIView ,superView: UIStackView) {
         // Add subviews to the superview
-        [firstView, secondView, thirdView].forEach{ subview in
-            superView.addSubview(subview)
-            subview.translatesAutoresizingMaskIntoConstraints = false
-        }
+        [firstView, secondView, thirdView].forEach{superView.addArrangedSubview($0)}
         
         // activate subviews constraints
-        let firstBlockConstraints = [
-            firstView.leadingAnchor.constraint(equalTo: superView.leadingAnchor),
-            firstView.topAnchor.constraint(equalTo: superView.topAnchor),
-            firstView.widthAnchor.constraint(equalTo: superView.widthAnchor),
-            firstView.heightAnchor.constraint(equalToConstant: 200)
-        ]
-        
-        let secondBlockConstraints = [
-            secondView.leadingAnchor.constraint(equalTo: firstView.leadingAnchor),
-            secondView.topAnchor.constraint(equalTo: firstView.bottomAnchor, constant: 10),
+        NSLayoutConstraint.activate([
+            firstView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+            firstView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.25),
+            
             secondView.widthAnchor.constraint(equalToConstant: 250),
-            secondView.heightAnchor.constraint(equalToConstant: 40)
-        ]
-        
-        let thirdBlockConstraints = [
-            thirdView.leadingAnchor.constraint(equalTo: firstView.leadingAnchor),
-            thirdView.topAnchor.constraint(equalTo: secondView.bottomAnchor, constant: 10),
+            secondView.heightAnchor.constraint(equalToConstant: 40),
+            
             thirdView.widthAnchor.constraint(equalToConstant: 150),
             thirdView.heightAnchor.constraint(equalToConstant: 20)
-        ]
-        
-        NSLayoutConstraint.activate(firstBlockConstraints)
-        NSLayoutConstraint.activate(secondBlockConstraints)
-        NSLayoutConstraint.activate(thirdBlockConstraints)
+        ])
     }
     
     //MARK: - Declare UIElements
-    private let containerOne = UIView()
-    private let containerTwo = UIView()
+    private let containerStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let containerOne: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.distribution = .fillProportionally
+        return stackView
+    }()
+    
+    private let containerTwo: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.distribution = .fillProportionally
+        return stackView
+    }()
     
     private let firstBlockView = NFLoadingUIView()
     private let secondBlockView = NFLoadingUIView()

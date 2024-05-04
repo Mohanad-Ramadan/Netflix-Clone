@@ -47,7 +47,7 @@ class SearchResultVC: UIViewController {
     // delay removing loading view for better UX
     func finishLoading() {
         Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-            withAnimation {self.loadingSpinner.view.alpha = 0}
+            UIView.animate {self.loadingSpinner.view.alpha = 0}
         }
     }
     

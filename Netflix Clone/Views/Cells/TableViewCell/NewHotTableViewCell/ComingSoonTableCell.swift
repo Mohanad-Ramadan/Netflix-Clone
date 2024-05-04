@@ -70,7 +70,7 @@ class ComingSoonTableCell: NewHotTableViewCell {
     let dayLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
     let mediaDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
     
-    static let identifierComing = "ComingSoonTableCell"
+    static let identifier = "ComingSoonTableCell"
     
     required init?(coder: NSCoder) {fatalError()}
 }

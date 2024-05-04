@@ -18,20 +18,20 @@ class NewHotVC: UIViewController {
     
     //MARK: - Configure UIElements
     private func configureViews(){
-        [comingSoonTable, everyonesTable, topTVShowsTable, topMoviesTable].forEach{add(childTVC: $0, to: tablesStackView)}
-        scrollView.addSubview(tablesStackView)
         view.addSubview(scrollView)
+        [comingSoonTable, everyonesTable, topTVShowsTable, topMoviesTable].forEach{add(childVC: $0, to: tablesStackView)}
+        scrollView.addSubview(tablesStackView)
         view.addSubview(categoryButtonsBar)
         
         categoryButtonsBar.delegate = self
         scrollView.delegate = self
     }
     
-    private func add(childTVC: UITableViewController, to containerView: UIStackView) {
-        addChild(childTVC)
-        childTVC.view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
-        containerView.addArrangedSubview(childTVC.view)
-        childTVC.didMove(toParent: self)
+    private func add(childVC: UIViewController, to containerView: UIStackView) {
+        addChild(childVC)
+        childVC.view.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
+        containerView.addArrangedSubview(childVC.view)
+        childVC.didMove(toParent: self)
     }
     
     private func configureNavbar() {
@@ -62,10 +62,10 @@ class NewHotVC: UIViewController {
         tablesStackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
         let scrollContentGuide = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
-            tablesStackView.topAnchor.constraint(equalTo: scrollContentGuide.topAnchor),
+            tablesStackView.topAnchor.constraint(equalTo: categoryButtonsBar.bottomAnchor),
             tablesStackView.leadingAnchor.constraint(equalTo: scrollContentGuide.leadingAnchor),
             tablesStackView.trailingAnchor.constraint(equalTo: scrollContentGuide.trailingAnchor),
-            tablesStackView.bottomAnchor.constraint(equalTo: scrollContentGuide.bottomAnchor)
+            tablesStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -88,10 +88,10 @@ class NewHotVC: UIViewController {
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
     
-    let comingSoonTable = ComingSoonTVC()
-    let everyonesTable = EverybodyTVC()
-    let topMoviesTable = TopMoviesTVC()
-    let topTVShowsTable = TopTVShowsTVC()
+    let comingSoonTable = ComingSoonVC()
+    let everyonesTable = EverybodyVC()
+    let topMoviesTable = TopMoviesVC()
+    let topTVShowsTable = TopTVShowsVC()
 }
 
 
