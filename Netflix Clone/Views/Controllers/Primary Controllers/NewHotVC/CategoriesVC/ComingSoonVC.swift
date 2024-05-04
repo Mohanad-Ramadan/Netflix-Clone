@@ -15,12 +15,15 @@ class ComingSoonVC: UIViewController {
         fetchMedia()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.frame = view.bounds
+        loadingView.frame = view.bounds
+    }
+    
     //MARK: - configure view
     func configureVC() {
-        [tableView,loadingView].forEach {
-            view.addSubview($0)
-            $0.frame = view.bounds
-        }
+        [tableView,loadingView].forEach {view.addSubview($0)}
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -35,11 +38,7 @@ class ComingSoonVC: UIViewController {
     //MARK: - remove LoadingView
     func removeLoadingView() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
-            UIView.animate {
-                self.loadingView.alpha = 0
-            } completion: { finish in
-                self.tableView.alpha = 1
-            }
+            UIView.animate {self.loadingView.alpha = 0}
         }
     }
     
