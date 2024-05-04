@@ -14,29 +14,12 @@ class HomeLoadingUIView: UIView {
         super.init(frame: frame)
         backgroundColor = .black
         [headerImageView,headerText,headerButton,postersViewsHeader,posterView1,posterView2,posterView3,posterView4]
-            .forEach{addSubview($0)}
+        .forEach {
+            addSubview($0)
+            $0.isSkeletonable = true
+            $0.showAnimatedGradientSkeleton()
+        }
         applyConstraints()
-        activateSkeletonEffect()
-    }
-    
-    private func activateSkeletonEffect() {
-        headerImageView.isSkeletonable = true
-        headerText.isSkeletonable = true
-        headerButton.isSkeletonable = true
-        postersViewsHeader.isSkeletonable = true
-        posterView1.isSkeletonable = true
-        posterView2.isSkeletonable = true
-        posterView3.isSkeletonable = true
-        posterView4.isSkeletonable = true
-        
-        headerImageView.showAnimatedGradientSkeleton()
-        headerText.showAnimatedGradientSkeleton()
-        headerButton.showAnimatedGradientSkeleton()
-        postersViewsHeader.showAnimatedGradientSkeleton()
-        posterView1.showAnimatedGradientSkeleton()
-        posterView2.showAnimatedGradientSkeleton()
-        posterView3.showAnimatedGradientSkeleton()
-        posterView4.showAnimatedGradientSkeleton()
     }
 
     private let headerImageView: UIView = {

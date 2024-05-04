@@ -7,7 +7,6 @@
 
 import UIKit
 import SDWebImage
-import SkeletonView
 
 class HeroHeaderUIView: UIView {
     // Delegate protocol
@@ -19,11 +18,11 @@ class HeroHeaderUIView: UIView {
         [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach {addSubview($0)}
         shadowWrapperView.addSubview(posterImageView)
         layoutViews()
-        configureButtonAction()
+        configureListButtonAction()
     }
     
     //MARK: - Configure buttons actions
-    private func configureButtonAction() {
+    private func configureListButtonAction() {
         listButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
     }
     
@@ -34,6 +33,7 @@ class HeroHeaderUIView: UIView {
             NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
         }
     }
+    
     
     //MARK: - Configure Poster Image
     func configureHeaderView(with model: MediaViewModel) {
@@ -176,11 +176,12 @@ class HeroHeaderUIView: UIView {
     }()
     
     private let playButton = NFFilledButton(title: "Play",image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
-    
     private let listButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
+        
     
-    weak var delegate: Delegate!
     var media: Media?
+    weak var delegate: Delegate!
+    
     
     required init?(coder: NSCoder) {fatalError()}
 }

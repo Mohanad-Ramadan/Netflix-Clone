@@ -42,7 +42,7 @@ class PersistenceDataManager {
     //MARK: - Save To Containers
     // Function to save items of type MediaItems in the download container
     func addToMyListMedia(_ media: Media) async throws {
-//        guard await itemAlreadyInList(item: media) else {return}
+        guard await isItemNewInList(item: media) else {return}
         
         let context = myListContainer.viewContext
         let item = MediaItem(context: context)
@@ -108,10 +108,10 @@ class PersistenceDataManager {
     
     
     //MARK: - Check For Duplicates
-    func itemAlreadyInList(item: Media) async -> Bool {
+    func isItemNewInList(item: Media) async -> Bool {
         let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
         let checkItemInList = listItems?.contains(where: {$0.id == item.id}) ?? false
-        return checkItemInList
+        return !checkItemInList
     }
     
 }

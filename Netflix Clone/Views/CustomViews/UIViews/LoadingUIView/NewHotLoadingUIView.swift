@@ -48,6 +48,8 @@ class NewHotLoadingUIView: UIView {
             containerTwo.heightAnchor.constraint(equalToConstant: 300)
         ]
         
+        
+        // activate constraints
         NSLayoutConstraint.activate(containerOneConstraints)
         NSLayoutConstraint.activate(containerTwoConstraints)
         
@@ -107,7 +109,3 @@ class NewHotLoadingUIView: UIView {
     required init?(coder: NSCoder) {fatalError()}
 }
 
-
-//#Preview{
-//    NewHotLoadingUIView()
-//}

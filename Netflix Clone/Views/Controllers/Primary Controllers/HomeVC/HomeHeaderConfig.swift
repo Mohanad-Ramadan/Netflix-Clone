@@ -8,6 +8,24 @@
 import UIKit
 
 extension HomeVC {
+    //MARK: - Setup Header tap gesture
+    func setupHeroHeaderTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderTapGesture))
+        heroHeaderView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func handleHeaderTapGesture() {
+        guard let media = heroHeaderMedia else {return}
+        if media.mediaType == nil || media.mediaType == "movie" {
+            let vc = MovieDetailsVC(for: media)
+            presentAsRoot(vc)
+        } else {
+            let vc = TVDetailsVC(for: media)
+            presentAsRoot(vc)
+        }
+    }
+    
+    //MARK: - Setup Header Data
     func setupHeaderAndBackground() {
         Task{
             do {
@@ -36,9 +54,11 @@ extension HomeVC {
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
                 
                 // configure views
-                self.heroHeaderView.media = movie
-                self.heroHeaderView.configureHeaderView(with: MediaViewModel(logoPath: logoPath, backdropsPath: backdropPath, category: details.separateGenres(with: " • ")))
-                self.homeBackground.configureBackground(with: MediaViewModel(backdropsPath: backdropPath))
+                heroHeaderMedia = movie
+                
+                heroHeaderView.media = movie
+                heroHeaderView.configureHeaderView(with: MediaViewModel(logoPath: logoPath, backdropsPath: backdropPath, category: details.separateGenres(with: " • ")))
+                homeBackground.configureBackground(with: MediaViewModel(backdropsPath: backdropPath))
                 
             } catch let error as APIError {
 //                    presentGFAlert(messageText: error.rawValue)

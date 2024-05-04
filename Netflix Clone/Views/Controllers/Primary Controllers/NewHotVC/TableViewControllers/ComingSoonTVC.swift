@@ -10,13 +10,14 @@ import UIKit
 class ComingSoonTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        // tableConfigure
         tableView.backgroundColor = .clear
         tableView.register(ComingSoonTableCell.self, forCellReuseIdentifier:  ComingSoonTableCell.identifierComing)
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
 //        tableView.estimatedRowHeight = 400
 //        tableView.rowHeight = UITableView.automaticDimension
-        
+        // fetch data
         fetchMedia()
     }
     

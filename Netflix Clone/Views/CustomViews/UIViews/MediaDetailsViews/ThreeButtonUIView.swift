@@ -14,6 +14,7 @@ class ThreeButtonUIView: UIView {
         backgroundColor = .clear
         configureButtons()
         applyConstraints()
+        configureListButtonAction()
     }
     
     private func configureButtons() {
@@ -22,6 +23,19 @@ class ThreeButtonUIView: UIView {
         myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
         rateButton.configureButtonImageWith(UIImage(systemName: "paperplane")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
         shareButton.configureButtonImageWith(UIImage(systemName: "hand.thumbsup")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+    }
+    
+    private func configureListButtonAction() {
+        myListButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func listButtonTapped() {
+        myListButton.configuration?.image = UIImage(systemName: "checkmark")?.sd_resizedImage(with: CGSize(width: 30, height: 30), scaleMode: .aspectFit)?.withTintColor(.white)
+        myListButton.configuration?.imagePadding = 5
+        Task {
+            try await PersistenceDataManager.shared.addToMyListMedia(media!)
+            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+        }
     }
     
     private func applyConstraints() {
@@ -46,7 +60,8 @@ class ThreeButtonUIView: UIView {
     private var myListButton = NFPlainButton(title: "My List", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
     private var shareButton = NFPlainButton(title: "Share", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
     private var rateButton = NFPlainButton(title: "Rate", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
-
+ 
+    var media: Media?
     
     required init?(coder: NSCoder) {fatalError()}
 

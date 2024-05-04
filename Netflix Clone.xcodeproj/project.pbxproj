@@ -227,6 +227,25 @@
 			path = HomeVC;
 			sourceTree = "<group>";
 		};
+		143DB7F12BE66C1D003BD04A /* LoadingUIView */ = {
+			isa = PBXGroup;
+			children = (
+				14EC7D602B15174C00E5B395 /* HomeLoadingUIView.swift */,
+				14FC66092B964637001863B0 /* NewHotLoadingUIView.swift */,
+				14FC660B2B964E86001863B0 /* NFLoadingUIView.swift */,
+			);
+			path = LoadingUIView;
+			sourceTree = "<group>";
+		};
+		143DB7F42BE679CB003BD04A /* NewHotVC */ = {
+			isa = PBXGroup;
+			children = (
+				145FB1092AD402E50019A439 /* NewHotVC.swift */,
+				147D7E9E2BBB2FE200118925 /* TableViewControllers */,
+			);
+			path = NewHotVC;
+			sourceTree = "<group>";
+		};
 		145EDE822B8BC46F00B49A48 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -404,7 +423,6 @@
 				1488403D2B168ACC00EE2F21 /* HomeCategoryBarUIView.swift */,
 				14FDAABA2AD49E580027DFED /* HeroHeaderUIView.swift */,
 				1488D3232B0E49600020AF07 /* HomeBackgroundUIView.swift */,
-				14EC7D602B15174C00E5B395 /* HomeLoadingUIView.swift */,
 			);
 			path = HomeViews;
 			sourceTree = "<group>";
@@ -485,8 +503,8 @@
 			isa = PBXGroup;
 			children = (
 				143C55982B1E7A4F00E58867 /* HomeVC */,
+				143DB7F42BE679CB003BD04A /* NewHotVC */,
 				147094D52B4758560053CFBC /* MyNetflixVC */,
-				145FB1092AD402E50019A439 /* NewHotVC.swift */,
 			);
 			path = "Primary Controllers";
 			sourceTree = "<group>";
@@ -561,9 +579,7 @@
 		14ECFB812B62E8F900D3DCAB /* NewHotViews */ = {
 			isa = PBXGroup;
 			children = (
-				147D7E9E2BBB2FE200118925 /* TableViewControllers */,
 				14AC46812B5854B600F5DF7A /* NewHotCategoryBarUIView.swift */,
-				14FC66092B964637001863B0 /* NewHotLoadingUIView.swift */,
 			);
 			path = NewHotViews;
 			sourceTree = "<group>";
@@ -576,7 +592,7 @@
 				14ECFB812B62E8F900D3DCAB /* NewHotViews */,
 				14ECFB802B62E8E300D3DCAB /* MyNetflixViews */,
 				148252292B5F2EBE0009C0EF /* MediaDetailsViews */,
-				14FC660B2B964E86001863B0 /* NFLoadingUIView.swift */,
+				143DB7F12BE66C1D003BD04A /* LoadingUIView */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";

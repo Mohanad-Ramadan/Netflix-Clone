@@ -15,6 +15,9 @@ class MovieDetailsVC: MediaDetailsVC {
         self.movie = movie
         fetchData(isTrend: isTrend, rank: rank)
         saveToWatchedList(movie)
+        
+        // configure threeButton media
+        threeButtons.media = movie
     }
     
     private func fetchData(isTrend: Bool, rank: Int) {

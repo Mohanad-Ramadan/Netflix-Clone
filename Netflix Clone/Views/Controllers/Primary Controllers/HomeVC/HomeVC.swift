@@ -14,6 +14,7 @@ class HomeVC: UIViewController {
         configureVC()
         configureViews()
         setupHeaderAndBackground()
+        setupHeroHeaderTapGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,6 +98,8 @@ class HomeVC: UIViewController {
     var heroHeaderView = HeroHeaderUIView()
     var homeBackground = HomeBackgroundUIView()
     let loadingView = HomeLoadingUIView()
+    
+    var heroHeaderMedia: Media?
     
     let sectionTitles :[String] = ["All Time Best TV Shows", "Trending Series" , "Popular Movies", "Trending Movies", "Upcoming Movies"]
 }
