@@ -12,7 +12,6 @@ class EverybodyVC: UIViewController {
         super.viewDidLoad()
         configureVC()
         configureTableHeader()
-        fetchMedia()
     }
     
     override func viewDidLayoutSubviews() {

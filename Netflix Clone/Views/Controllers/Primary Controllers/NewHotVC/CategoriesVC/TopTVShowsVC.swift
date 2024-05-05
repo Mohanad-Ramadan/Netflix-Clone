@@ -12,7 +12,6 @@ class TopTVShowsVC: UIViewController {
         super.viewDidLoad()
         configureVC()
         configureTableHeader()
-        fetchMedia()
     }
     
     override func viewDidLayoutSubviews() {

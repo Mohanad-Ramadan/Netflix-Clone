@@ -12,7 +12,6 @@ class TopMoviesVC: UIViewController {
         super.viewDidLoad()
         configureVC()
         configureTableHeader()
-        fetchMedia()
     }
     
     override func viewDidLayoutSubviews() {

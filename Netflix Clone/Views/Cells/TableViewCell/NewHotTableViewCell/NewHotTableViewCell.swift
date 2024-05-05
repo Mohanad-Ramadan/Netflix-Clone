@@ -16,6 +16,7 @@ class NewHotTableViewCell: UITableViewCell {
     func configure(with media: Media) {
         Task {
             do {
+                self.media = media
                 let id = media.id
                 let mediaType = media.mediaType
                 
@@ -39,7 +40,7 @@ class NewHotTableViewCell: UITableViewCell {
             } catch { print("Error getting images:", error.localizedDescription) }
             
         }
-         
+        
     }
     
     
@@ -48,7 +49,11 @@ class NewHotTableViewCell: UITableViewCell {
         backdropImageView.downloadImageFrom(media.backdropsPath ?? "noPath")
         logoView.downloadImageFrom(media.logoPath ?? "noPath")
         if let logoAspectRatio = media.logoAspectRatio {
-            updateLogoWidthBy(logoAspectRatio > 4 ? 4 : logoAspectRatio)
+            if UIScreen.main.bounds.width > 375 {
+                updateLogoWidthBy(logoAspectRatio > 4 ? 4 : logoAspectRatio)
+            } else {
+                updateLogoWidthBy(logoAspectRatio > 3.6 ? 3.6 : logoAspectRatio)
+            }
         }
     }
     
@@ -57,7 +62,6 @@ class NewHotTableViewCell: UITableViewCell {
         entertainmetType.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
         overViewLabel.text = media.overview
         genresLabel.text = media.category
-        
     }
     
     
@@ -80,7 +84,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     // Buttons constraints
-     func setupButtonsConstraints() {
+    func setupComingSoonButtonsConstraints() {
         infoButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
         infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
         infoButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -90,8 +94,15 @@ class NewHotTableViewCell: UITableViewCell {
         remindMeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
+    func setupButtonsConstraints() {
+        contentView.addSubview(buttonsContainer)
+        buttonsContainer.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
+        buttonsContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        [shareButton, myListButton, playButton].forEach{buttonsContainer.addArrangedSubview($0)}
+    }
+    
     //Logo view
-     func setupLogoViewConstraints() {
+    func setupLogoViewConstraints() {
         logoView.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor,constant: 10).isActive = true
         logoView.heightAnchor.constraint(equalToConstant: 45).isActive = true
         logoView.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
@@ -105,7 +116,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     //Type and Logo constraints
-     func setupTypeLabelConstraints() {
+    func setupTypeLabelConstraints() {
         entertainmetType.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor, constant: 4).isActive = true
         entertainmetType.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
         entertainmetType.bottomAnchor.constraint(equalTo: titleLabel.topAnchor).isActive = true
@@ -113,7 +124,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     // Title and overview label constraints
-     func setupTitleOverviewLabelConstraints() {
+    func setupTitleOverviewLabelConstraints() {
         titleLabel.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: netflixLogo.bottomAnchor, constant: 5).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -126,7 +137,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     // Category label constraints
-     func setupCategoryLabelConstraints() {
+    func setupCategoryLabelConstraints() {
         genresLabel.topAnchor.constraint(equalTo: overViewLabel.bottomAnchor, constant: 10).isActive = true
         genresLabel.leadingAnchor.constraint(equalTo: overViewLabel.leadingAnchor).isActive = true
         genresLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
@@ -135,7 +146,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     
     //MARK: - Update Constraints
-     func updateLogoWidthBy(_ aspectRatio: CGFloat) {
+    func updateLogoWidthBy(_ aspectRatio: CGFloat) {
         logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor))
         let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: aspectRatio)
         widthConstraint.priority = .defaultHigh
@@ -145,23 +156,40 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     //MARK: - Declare Subviews
-     let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
+    let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
     
-     let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+    let buttonsContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = -7
+        stackView.distribution = .fillProportionally
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
-     let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+    let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
-     let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
+    let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+
+    let myListButton = NFPlainButton(title: "My List", image: UIImage(systemName: "plus"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
-     let netflixLogo = NFImageView(image: .netflixClone)
+    let shareButton = NFPlainButton(title: "Share", image: UIImage(systemName: "paperplane"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
     
-     let entertainmetType = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
-        
-     let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
+    let playButton = NFPlainButton(title: "Play", image: UIImage(systemName: "play.fill"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+
+    let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
-     let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
-        
-     let genresLabel = NFBodyLabel(fontSize: 13)
+    let netflixLogo = NFImageView(image: .netflixClone)
+    
+    let entertainmetType = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
+    
+    let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
+    
+    let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
+    
+    let genresLabel = NFBodyLabel(fontSize: 13)
+    
+    var media: Media?
     
     required init?(coder: NSCoder) {fatalError()}
 }

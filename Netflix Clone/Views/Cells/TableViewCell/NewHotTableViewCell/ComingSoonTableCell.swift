@@ -60,7 +60,7 @@ class ComingSoonTableCell: NewHotTableViewCell {
         setupDateLabelConstraints()
         setupNetflixLogoConstraints(bottomTo: mediaDate)
         setupTypeLabelConstraints()
-        setupButtonsConstraints()
+        setupComingSoonButtonsConstraints()
         setupLogoViewConstraints()
         setupTitleOverviewLabelConstraints()
         setupCategoryLabelConstraints()

@@ -10,7 +10,7 @@ import UIKit
 class EveryonesTableCell: NewHotTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        [backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
+        [backdropImageView ,logoView ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
     }

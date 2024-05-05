@@ -20,7 +20,6 @@ class NewHotLoadingUIView: UIView {
     private func setupView() {
         backgroundColor = .black
         addSubview(containerStack)
-//        containerStack.frame = bounds
         [containerOne,containerTwo].forEach{
             containerStack.addArrangedSubview($0)
             $0.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
@@ -49,7 +48,7 @@ class NewHotLoadingUIView: UIView {
         // activate subviews constraints
         NSLayoutConstraint.activate([
             firstView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-            firstView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.25),
+            firstView.heightAnchor.constraint(equalToConstant: 200),
             
             secondView.widthAnchor.constraint(equalToConstant: 250),
             secondView.heightAnchor.constraint(equalToConstant: 40),
@@ -64,7 +63,7 @@ class NewHotLoadingUIView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
-        stackView.spacing = 10
+        stackView.spacing = 20
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -72,7 +71,7 @@ class NewHotLoadingUIView: UIView {
     private let containerOne: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 5
+        stackView.spacing = 10
         stackView.distribution = .fillProportionally
         return stackView
     }()
@@ -80,7 +79,7 @@ class NewHotLoadingUIView: UIView {
     private let containerTwo: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 5
+        stackView.spacing = 10
         stackView.distribution = .fillProportionally
         return stackView
     }()

@@ -11,7 +11,7 @@ class TopMediaTableCell: NewHotTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         [rankLabel, backdropImageView].forEach {topStackView.addArrangedSubview($0)}
-        [topStackView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
+        [topStackView ,logoView ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
     }
