@@ -9,10 +9,7 @@ import UIKit
 import SkeletonView
 
 class NFWebImageView: UIImageView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.isSkeletonable = true
-    }
+    override init(frame: CGRect) {super.init(frame: frame)}
     
     convenience init(
         cornerRadius: CGFloat = 0,
@@ -25,14 +22,11 @@ class NFWebImageView: UIImageView {
         self.contentMode = contentMode
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = autoLayout
-        if enableSkeleton {showAnimatedGradientSkeleton()}
     }
     
     func downloadImageFrom(_ endpoint: String){
         guard let url = URL(string: Constants.imageURL + endpoint) else {return}
-        sd_setImage(with: url) {_,_,_,_ in 
-            self.hideSkeleton()
-        }
+        sd_setImage(with: url)
     }
     
     

@@ -133,11 +133,9 @@ class MediaDetailsVC: UIViewController {
                 moreMedias = Array(shuffledMedia.prefix(6))
                 moreIdeasCollection.reloadData()
             } catch let error as APIError {
-//                presentGFAlert(messageText: error.rawValue)
-                print(error)
+                presentGFAlert(messageText: error.rawValue)
             } catch {
-//                presentDefaultError()
-                print(error.localizedDescription)
+                presentDefaultError()
             }
         }
     }
@@ -322,7 +320,7 @@ class MediaDetailsVC: UIViewController {
     
     let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
-    let castExpandButton = NFPlainButton(title: "more",titleColor: .lightGray, fontSize: 12, fontWeight: .semibold)
+    let castExpandButton = NFPlainButton(title: "more", buttonColor: .lightGray, fontSize: 12, fontWeight: .semibold)
     
     let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     

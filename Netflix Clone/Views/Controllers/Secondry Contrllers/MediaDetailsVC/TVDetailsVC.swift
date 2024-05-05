@@ -46,9 +46,7 @@ class TVDetailsVC: MediaDetailsVC {
                 let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
                 configureTrailer(with: MediaViewModel(title: details.name ,videosResult: trailers))
                 
-            } catch {
-                print(error.localizedDescription)
-            }
+            } catch {presentDefaultError()}
         }
     }
     

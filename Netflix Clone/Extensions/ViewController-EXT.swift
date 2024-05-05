@@ -33,4 +33,24 @@ extension UIViewController {
             self?.navigationController?.pushViewController(vc, animated: animated)
         }
     }
+    
+    func presentGFAlert(alertTitle: String = "Opps!", messageText: String, buttonTitle: String = "OK"){
+        DispatchQueue.main.async {
+            let alertVC = NFAlertVC(alertTitle: alertTitle , messageText: messageText, buttonTitle: buttonTitle)
+            alertVC.modalPresentationStyle = .overFullScreen
+            alertVC.modalTransitionStyle = .crossDissolve
+            self.present(alertVC, animated: true)
+        }
+    }
+    
+    func presentDefaultError() {
+        DispatchQueue.main.async {
+            let alertVC = NFAlertVC(alertTitle: "Opps",
+                                    messageText: "Connection Lost. Please check your Internet connection",
+                                    buttonTitle: "Ok")
+            alertVC.modalPresentationStyle  = .overFullScreen
+            alertVC.modalTransitionStyle    = .crossDissolve
+            self.present(alertVC, animated: true)
+        }
+    }
 }

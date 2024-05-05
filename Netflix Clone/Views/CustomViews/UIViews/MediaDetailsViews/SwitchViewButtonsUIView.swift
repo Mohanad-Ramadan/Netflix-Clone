@@ -115,8 +115,8 @@ class SwitchViewButtonsUIView: UIView {
         return rectangle
     }()
     
-    private let buttonOne = NFPlainButton(title: "", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
-    private let buttonTwo = NFPlainButton(title: "", titleColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let buttonOne = NFPlainButton(title: "", buttonColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let buttonTwo = NFPlainButton(title: "", buttonColor: .lightGray, fontSize: 16, fontWeight: .bold)
     
     weak var delegate: Delegate?
     

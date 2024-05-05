@@ -33,11 +33,9 @@ extension HomeVC {
                 let randomMovie = movies.randomElement()
                 self.fetchImagesAndConfigureViews(for: randomMovie!)
             } catch let error as APIError {
-//                    presentGFAlert(messageText: error.rawValue)
-                print(error)
+                presentGFAlert(messageText: error.rawValue)
             } catch {
-//                    presentDefaultError()
-                print(error.localizedDescription)
+                presentDefaultError()
             }
         }
     }
@@ -61,11 +59,9 @@ extension HomeVC {
                 homeBackground.configureBackground(with: MediaViewModel(backdropsPath: backdropPath))
                 
             } catch let error as APIError {
-//                    presentGFAlert(messageText: error.rawValue)
-                print(error)
+                presentGFAlert(messageText: error.rawValue)
             } catch {
-//                    presentDefaultError()
-                print(error.localizedDescription)
+                presentDefaultError()
             }
         }
     }

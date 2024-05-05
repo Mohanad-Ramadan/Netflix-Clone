@@ -71,11 +71,9 @@ class SearchVC: UIViewController {
                 self.media = media
                 searchTable.reloadData()
             } catch let error as APIError {
-//                    presentGFAlert(messageText: error.rawValue)
-                print(error)
+                presentGFAlert(messageText: error.rawValue)
             } catch {
-//                    presentDefaultError()
-                print(error.localizedDescription)
+                presentDefaultError()
             }
         }
     }

@@ -9,18 +9,15 @@ import UIKit
 import SDWebImage
 
 class NFPlainButton: UIButton {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-    }
+    override init(frame: CGRect) {super.init(frame: frame)}
     
     /// Plain button with white title, clear background with optional image
-    convenience init(title: String, titleColor: UIColor = .white, image: UIImage? = nil, imagePlacement: NSDirectionalRectEdge = .leading, imagePadding: CGFloat = 8, fontSize: CGFloat, fontWeight: UIFont.Weight,fontColorOnly: UIColor? = nil){
+    convenience init(title: String, buttonColor: UIColor = .white, image: UIImage? = nil, imagePlacement: NSDirectionalRectEdge = .leading, imagePadding: CGFloat = 8, fontSize: CGFloat, fontWeight: UIFont.Weight,fontColorOnly: UIColor? = nil, autoLayout: Bool = false){
         self.init(frame: .zero)
         
         var configuration = UIButton.Configuration.plain()
         configuration.title = title
-        configuration.baseForegroundColor = titleColor
+        configuration.baseForegroundColor = buttonColor
         configuration.image = image
         configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .large)
         configuration.imagePlacement = imagePlacement
@@ -33,11 +30,12 @@ class NFPlainButton: UIButton {
         }
         
         self.configuration = configuration
+        translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
     
     /// Bar button with white title, clear background, gray stroke and optional image
-    convenience init(barButtontitle title: String, image: UIImage? = nil ,fontColorOnly: UIColor? = nil){
+    convenience init(barButtontitle title: String, image: UIImage? = nil ,fontColorOnly: UIColor? = nil, autoLayout: Bool = false){
         self.init(frame: .zero)
          
         var configuration = UIButton.Configuration.plain()
@@ -57,6 +55,7 @@ class NFPlainButton: UIButton {
         }
         
         self.configuration = configuration
+        translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
     func configureButtonImageWith(_ image: UIImage, tinted: UIColor? = nil , width: CGFloat = 25, height: CGFloat = 25, placement: NSDirectionalRectEdge, padding: CGFloat) {

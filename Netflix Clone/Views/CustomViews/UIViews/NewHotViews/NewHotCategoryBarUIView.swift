@@ -113,10 +113,10 @@ class NewHotCategoryBarUIView: UIView{
         return view
     }()
     
-    private let comingSoonButton = NFFilledButton(title: "Coming Soon", titleColor: .black, backgroundColor: .white, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    private let everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    private let toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    private let toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", titleColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let comingSoonButton = NFFilledButton(title: "Coming Soon", foregroundColor: .black, backgroundColor: .white, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
     
     
     private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]

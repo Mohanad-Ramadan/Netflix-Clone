@@ -51,11 +51,9 @@ class TopTVShowsVC: UIViewController {
                 tableView.reloadData()
                 removeLoadingView()
             } catch let error as APIError {
-                //                    presentGFAlert(messageText: error.rawValue)
-                print(error)
+                presentGFAlert(messageText: error.rawValue)
             } catch {
-                //                    presentDefaultError()
-                print(error.localizedDescription)
+                presentDefaultError()
             }
         }
     }

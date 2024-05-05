@@ -12,13 +12,13 @@ class NFFilledButton: UIButton {
     override init(frame: CGRect) {super.init(frame: frame)}
     
     /// Filled button with black title, white background and optional Image
-    convenience init(title: String, titleColor: UIColor = .black, backgroundColor: UIColor = .white, image: UIImage? = nil, imagePlacement: NSDirectionalRectEdge = .leading, imagePadding: CGFloat = 8, fontSize: CGFloat, fontWeight: UIFont.Weight, cornerStyle: UIButton.Configuration.CornerStyle = .small){
+    convenience init(title: String, foregroundColor: UIColor = .black, backgroundColor: UIColor = .white, image: UIImage? = nil, imagePlacement: NSDirectionalRectEdge = .leading, imagePadding: CGFloat = 8, fontSize: CGFloat, fontWeight: UIFont.Weight, cornerStyle: UIButton.Configuration.CornerStyle = .small, autoLayout: Bool = false){
         self.init(frame: .zero)
         
         var configuration = UIButton.Configuration.filled()
         configuration.title = title
         configuration.baseBackgroundColor = backgroundColor
-        configuration.baseForegroundColor = titleColor
+        configuration.baseForegroundColor = foregroundColor
         configuration.image = image
         configuration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .large)
         configuration.imagePlacement = imagePlacement
@@ -31,7 +31,7 @@ class NFFilledButton: UIButton {
         }
         
         self.configuration = configuration
-        translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
     func configureButtonImageWith(_ image: UIImage, tinted: UIColor? = nil , width: CGFloat, height: CGFloat, placement: NSDirectionalRectEdge, padding: CGFloat) {
