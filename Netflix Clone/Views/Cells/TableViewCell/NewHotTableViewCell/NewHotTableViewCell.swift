@@ -11,6 +11,7 @@ class NewHotTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
+        configureListButtonAction()
     }
     
     func configure(with media: Media) {
@@ -65,8 +66,21 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     
-    //MARK: - Subviews Constraints
+    //MARK: - Configure MyListButton
+    private func configureListButtonAction() {
+        myListButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
+    }
     
+    @objc private func listButtonTapped() {
+        myListButton.configuration?.image = UIImage(systemName: "checkmark")
+        Task {
+            try await PersistenceDataManager.shared.addToMyListMedia(media!)
+            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+        }
+    }
+    
+    
+    //MARK: - Subviews Constraints
     
     // Backdrop image view constraints
     func setupBackdropImageViewConstraints(dayLabel: UIView? = nil) {

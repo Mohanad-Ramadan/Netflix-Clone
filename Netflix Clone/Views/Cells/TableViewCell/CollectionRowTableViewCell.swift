@@ -30,8 +30,9 @@ class CollectionRowTableViewCell: UITableViewCell {
     }
     
     //MARK: - Configure Cell
-    func configureCollection(with media: [Media]){
+    func configureCollection(with media: [Media], type: String? = nil){
         self.media = media
+        self.mediaType = type
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
         }
@@ -59,6 +60,9 @@ class CollectionRowTableViewCell: UITableViewCell {
     }()
     
     var media: [Media] = [Media]()
+    // type value for the media fetched from an obvious api call
+    // that doesn't need to identify the media type
+    var mediaType: String?
     
     static let identifier = "HomeTableViewCell"
     weak var delegate: Delegate?
@@ -88,10 +92,10 @@ extension CollectionRowTableViewCell: UICollectionViewDelegate, UICollectionView
 //        let isTrend = self.isTheTappedMediaTrend!
         let trendRank = indexPath.row+1
         
-        if media.mediaType == nil || media.mediaType == "movie" {
+        if media.mediaType == "movie" || self.mediaType == "movie" {
             let vc = MovieDetailsVC(for: media, rank: trendRank)
             self.delegate?.collectionCellDidTapped(self, navigateTo: vc)
-        } else {
+        } else if media.mediaType == "tv" || self.mediaType == "tv" {
             let vc = TVDetailsVC(for: media, rank: trendRank)
             self.delegate?.collectionCellDidTapped(self, navigateTo: vc)
         }
