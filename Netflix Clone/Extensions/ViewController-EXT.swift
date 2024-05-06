@@ -34,9 +34,9 @@ extension UIViewController {
         }
     }
     
-    func presentGFAlert(alertTitle: String = "Opps!", messageText: String, buttonTitle: String = "OK"){
+    func presentGFAlert(alertTitle: String = "Opps!", messageText: String){
         DispatchQueue.main.async {
-            let alertVC = NFAlertVC(alertTitle: alertTitle , messageText: messageText, buttonTitle: buttonTitle)
+            let alertVC = NFAlertVC(alertTitle: alertTitle , messageText: messageText)
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .crossDissolve
             self.present(alertVC, animated: true)
@@ -46,8 +46,7 @@ extension UIViewController {
     func presentDefaultError() {
         DispatchQueue.main.async {
             let alertVC = NFAlertVC(alertTitle: "Opps",
-                                    messageText: "Connection Lost. Please check your Internet connection",
-                                    buttonTitle: "Ok")
+                                    messageText: "Connection Lost. Please check your Internet connection")
             alertVC.modalPresentationStyle  = .overFullScreen
             alertVC.modalTransitionStyle    = .crossDissolve
             self.present(alertVC, animated: true)

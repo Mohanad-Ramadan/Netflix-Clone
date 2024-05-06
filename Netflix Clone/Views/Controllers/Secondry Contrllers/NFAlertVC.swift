@@ -8,11 +8,10 @@
 import UIKit
 
 class NFAlertVC: UIViewController {
-    init(alertTitle: String, messageText: String, buttonTitle: String) {
+    init(alertTitle: String, messageText: String) {
         super.init(nibName: nil, bundle: nil)
         self.alertTitle = alertTitle
         self.messageText = messageText
-        self.buttonTitle = buttonTitle
     }
     
     override func viewDidLoad() {
@@ -26,27 +25,25 @@ class NFAlertVC: UIViewController {
         //containerView config
         view.addSubview(containerView)
         containerView.addSubview(stackContainerView)
+        
         //titleLabel config
         stackContainerView.addArrangedSubview(titleLabel)
-        titleLabel.text = alertTitle ?? "Something went wrong"
+        titleLabel.text = alertTitle!
         
         //messageLabel config
         stackContainerView.addArrangedSubview(messageLabel)
-        messageLabel.text = messageText ?? "Unable to complete request"
-        messageLabel.numberOfLines = 4
+        messageLabel.text = messageText!
         
         //actionButton config
         stackContainerView.addArrangedSubview(actionButton)
-        actionButton.configuration?.title = buttonTitle
         actionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
-        actionButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
         
     }
     
     @objc func dismissVC() { dismiss(animated: true) }
     
     func applyConstraints(){
-        let padding:CGFloat = 10
+        let padding:CGFloat = 22
         NSLayoutConstraint.activate([
             // containerView constraints
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -58,25 +55,40 @@ class NFAlertVC: UIViewController {
             stackContainerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding),
             stackContainerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
             stackContainerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            
+            titleLabel.heightAnchor.constraint(equalToConstant: 40),
+            
+            actionButton.heightAnchor.constraint(equalToConstant: 44),
+            actionButton.widthAnchor.constraint(equalToConstant: 130)
         ])
+        
+        stackContainerView.setCustomSpacing(-15, after: titleLabel)
     }
     
     
     //MARK: - Declare Variables
-    let containerView = NFAlertContainerView()
+    let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fadedBlack
+        view.layer.cornerRadius = 10
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.3).cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     let stackContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 10
+        stackView.alignment = .center
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     let titleLabel = NFTitleLabel(text: "Opps", textAlignment: .center, lines: 0, autoLayout: true)
     let messageLabel = NFBodyLabel(text: "", color: .lightGray , fontSize: 17, fontWeight: .regular, textAlignment: .center, lines: 0, autoLayout: true)
-    let actionButton = NFFilledButton(title: "Ok", fontSize: 20, fontWeight: .semibold, cornerStyle: .medium, autoLayout: true)
+    
+    lazy var actionButton = NFFilledButton(title: "Ok", foregroundColor: .white, backgroundColor: .darkRed, fontSize: 20, fontWeight: .semibold, autoLayout: true)
     
     var alertTitle: String?
     var messageText: String?
@@ -87,3 +99,6 @@ class NFAlertVC: UIViewController {
     }
 }
 
+#Preview{
+    NFAlertVC(alertTitle: "Opps", messageText: "somthing went wrong please try again")
+}

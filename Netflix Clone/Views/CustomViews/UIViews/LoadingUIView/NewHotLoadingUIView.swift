@@ -20,10 +20,14 @@ class NewHotLoadingUIView: UIView {
     private func setupView() {
         backgroundColor = .black
         addSubview(containerStack)
-        [containerOne,containerTwo].forEach{
-            containerStack.addArrangedSubview($0)
-            $0.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width).isActive = true
-        }
+        containerStack.frame = bounds
+        // Add containerOne and containerTwo to containerStack
+        containerStack.addArrangedSubview(containerOne)
+        containerStack.addArrangedSubview(containerTwo)
+        // check if iphone screen is large
+        if UIScreen.main.bounds.height > 667 { isScreenLarge = true }
+        
+        layoutIfNeeded()
     }
     
     private func activateSkeletonEffect() {
@@ -48,13 +52,13 @@ class NewHotLoadingUIView: UIView {
         // activate subviews constraints
         NSLayoutConstraint.activate([
             firstView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-            firstView.heightAnchor.constraint(equalToConstant: 200),
+            firstView.heightAnchor.constraint(equalToConstant: isScreenLarge ? 200:180),
             
             secondView.widthAnchor.constraint(equalToConstant: 250),
-            secondView.heightAnchor.constraint(equalToConstant: 40),
+            secondView.heightAnchor.constraint(equalToConstant: isScreenLarge ? 40:20),
             
             thirdView.widthAnchor.constraint(equalToConstant: 150),
-            thirdView.heightAnchor.constraint(equalToConstant: 20)
+            thirdView.heightAnchor.constraint(equalToConstant: isScreenLarge ? 20:15)
         ])
     }
     
@@ -63,7 +67,7 @@ class NewHotLoadingUIView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
-        stackView.spacing = 20
+        stackView.spacing = 15
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -71,16 +75,16 @@ class NewHotLoadingUIView: UIView {
     private let containerOne: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fillProportionally
+        stackView.alignment = .leading
+        stackView.spacing = 5
         return stackView
     }()
     
     private let containerTwo: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fillProportionally
+        stackView.alignment = .leading
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -92,7 +96,7 @@ class NewHotLoadingUIView: UIView {
     private let secondBlockView2 = NFLoadingUIView()
     private let thirdBlockView2 = NFLoadingUIView()
     
-    
+    var isScreenLarge: Bool = false
     
     required init?(coder: NSCoder) {fatalError()}
 }

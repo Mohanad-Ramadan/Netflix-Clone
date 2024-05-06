@@ -20,7 +20,6 @@
 		141230EE2AE5B2020025815E /* PersistenceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141230ED2AE5B2020025815E /* PersistenceDataManager.swift */; };
 		141299D12BD22A1B006273FA /* SelectedProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141299D02BD22A1B006273FA /* SelectedProfileView.swift */; };
 		141617E82BE7A63600927661 /* NFAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141617E72BE7A63600927661 /* NFAlertVC.swift */; };
-		141617EA2BE7A6AD00927661 /* NFAlertContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141617E92BE7A6AD00927661 /* NFAlertContainerView.swift */; };
 		1416D03F2B6734FB00BC363C /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1416D03E2B6734FB00BC363C /* Cast.swift */; };
 		141E13FB2AD73191007418D5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141E13FA2AD73191007418D5 /* NetworkManager.swift */; };
 		142FF7D52B91183A0061375F /* NFPlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FF7D42B91183A0061375F /* NFPlainButton.swift */; };
@@ -116,7 +115,6 @@
 		141230ED2AE5B2020025815E /* PersistenceDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceDataManager.swift; sourceTree = "<group>"; };
 		141299D02BD22A1B006273FA /* SelectedProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedProfileView.swift; sourceTree = "<group>"; };
 		141617E72BE7A63600927661 /* NFAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFAlertVC.swift; sourceTree = "<group>"; };
-		141617E92BE7A6AD00927661 /* NFAlertContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFAlertContainerView.swift; sourceTree = "<group>"; };
 		1416D03E2B6734FB00BC363C /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		141E13FA2AD73191007418D5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		142FF7D42B91183A0061375F /* NFPlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFPlainButton.swift; sourceTree = "<group>"; };
@@ -245,7 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				145FB1092AD402E50019A439 /* NewHotVC.swift */,
-				147D7E9E2BBB2FE200118925 /* CategoriesVC */,
+				147D7E9E2BBB2FE200118925 /* CategoryVCs */,
 			);
 			path = NewHotVC;
 			sourceTree = "<group>";
@@ -410,7 +408,7 @@
 			path = CollectionViewCell;
 			sourceTree = "<group>";
 		};
-		147D7E9E2BBB2FE200118925 /* CategoriesVC */ = {
+		147D7E9E2BBB2FE200118925 /* CategoryVCs */ = {
 			isa = PBXGroup;
 			children = (
 				147D7E962BBB2F9900118925 /* ComingSoonVC.swift */,
@@ -418,7 +416,7 @@
 				147D7E9A2BBB2FC600118925 /* TopMoviesVC.swift */,
 				147D7E9C2BBB2FD900118925 /* TopTVShowsVC.swift */,
 			);
-			path = CategoriesVC;
+			path = CategoryVCs;
 			sourceTree = "<group>";
 		};
 		148252282B5F2E180009C0EF /* HomeViews */ = {
@@ -574,13 +572,6 @@
 			path = LaunchViews;
 			sourceTree = "<group>";
 		};
-		14ECFB802B62E8E300D3DCAB /* MyNetflixViews */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = MyNetflixViews;
-			sourceTree = "<group>";
-		};
 		14ECFB812B62E8F900D3DCAB /* NewHotViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,10 +586,8 @@
 				14ECA52B2BC4D81F00E71F11 /* LaunchViews */,
 				148252282B5F2E180009C0EF /* HomeViews */,
 				14ECFB812B62E8F900D3DCAB /* NewHotViews */,
-				14ECFB802B62E8E300D3DCAB /* MyNetflixViews */,
 				148252292B5F2EBE0009C0EF /* MediaDetailsViews */,
 				143DB7F12BE66C1D003BD04A /* LoadingUIView */,
-				141617E92BE7A6AD00927661 /* NFAlertContainerView.swift */,
 			);
 			path = UIViews;
 			sourceTree = "<group>";
@@ -701,7 +690,6 @@
 				14DCE3D72B22490D00DCD959 /* NewHotTableViewCell.swift in Sources */,
 				14CC5CCC2BCDC07D00A5805D /* AddProfileView.swift in Sources */,
 				140A09A32BA91BCD00D17AD3 /* MovieDetailsVC.swift in Sources */,
-				141617EA2BE7A6AD00927661 /* NFAlertContainerView.swift in Sources */,
 				145EDE812B8BC3EC00B49A48 /* UIColor-EXT.swift in Sources */,
 				1435879D2B4327F60044171C /* MediaImage.swift in Sources */,
 				14EC7D612B15174C00E5B395 /* HomeLoadingUIView.swift in Sources */,
