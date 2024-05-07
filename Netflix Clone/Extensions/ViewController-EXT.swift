@@ -34,7 +34,7 @@ extension UIViewController {
         }
     }
     
-    func presentGFAlert(alertTitle: String = "Opps!", messageText: String){
+    func presentNFAlert(alertTitle: String = "Opps!", messageText: String){
         DispatchQueue.main.async {
             let alertVC = NFAlertVC(alertTitle: alertTitle , messageText: messageText)
             alertVC.modalPresentationStyle = .overFullScreen

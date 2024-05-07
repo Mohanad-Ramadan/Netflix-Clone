@@ -22,7 +22,7 @@ extension HomeVC {
                     let media = try await NetworkManager.shared.getDataOf(.popularTVAllTime)
                     cell.configureCollection(with: media, type: "tv")
                 } catch let error as APIError {
-                    presentGFAlert(messageText: error.rawValue)
+                    presentNFAlert(messageText: error.rawValue)
                 } catch {
                     presentDefaultError()
                 }
@@ -34,7 +34,7 @@ extension HomeVC {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
                     cell.configureCollection(with: media, type: "tv")
                 } catch let error as APIError {
-                    presentGFAlert(messageText: error.rawValue)
+                    presentNFAlert(messageText: error.rawValue)
                 } catch {
                     presentDefaultError()
                 }
@@ -46,7 +46,7 @@ extension HomeVC {
                     let media = try await NetworkManager.shared.getDataOf(.popularMovies)
                     cell.configureCollection(with: media, type: "movie")
                 } catch let error as APIError {
-                    presentGFAlert(messageText: error.rawValue)
+                    presentNFAlert(messageText: error.rawValue)
                 } catch {
                     presentDefaultError()
                 }
@@ -58,7 +58,7 @@ extension HomeVC {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
                     cell.configureCollection(with: media, type: "movie")
                 } catch let error as APIError {
-                    presentGFAlert(messageText: error.rawValue)
+                    presentNFAlert(messageText: error.rawValue)
                 } catch {
                     presentDefaultError()
                 }
@@ -70,7 +70,7 @@ extension HomeVC {
                     let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
                     cell.configureCollection(with: media, type: "movie")
                 } catch let error as APIError {
-                    presentGFAlert(messageText: error.rawValue)
+                    presentNFAlert(messageText: error.rawValue)
                 } catch {
                     presentDefaultError()
                 }

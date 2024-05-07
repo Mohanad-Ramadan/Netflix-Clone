@@ -52,7 +52,7 @@ class ComingSoonVC: UIViewController {
                 tableView.reloadData()
                 removeLoadingView()
             } catch let error as APIError {
-                presentGFAlert(messageText: error.rawValue)
+                presentNFAlert(messageText: error.rawValue)
             } catch {
                 presentDefaultError()
             }

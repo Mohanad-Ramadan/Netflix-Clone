@@ -133,7 +133,7 @@ class MediaDetailsVC: UIViewController {
                 moreMedias = Array(shuffledMedia.prefix(6))
                 moreIdeasCollection.reloadData()
             } catch let error as APIError {
-                presentGFAlert(messageText: error.rawValue)
+                presentNFAlert(messageText: error.rawValue)
             } catch {
                 presentDefaultError()
             }

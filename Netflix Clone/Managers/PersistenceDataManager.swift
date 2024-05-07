@@ -57,6 +57,15 @@ class PersistenceDataManager {
         catch { throw DataBaseError.faliedToSaveData }
     }
     
+    // Check For Duplicates
+    func isItemNewInList(item: Media) async -> Bool {
+        let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
+        let checkItemInList = listItems?.contains(where: {$0.id == item.id}) ?? false
+        return !checkItemInList
+    }
+    
+    
+    
     // Function to save items of type MediaItems in the other contai
     func saveWatchedItem(_ media: Media) async throws {
         let context = watchedContainer.viewContext
@@ -94,24 +103,20 @@ class PersistenceDataManager {
     }
     
     //MARK: - Remove Item from MyList
-    func deleteMediaFromMyList(_ item: MediaItem, completion: @escaping (Result<Void,Error>) -> Void ){
+    func deleteMediaFromList(_ item: Media) async throws{
+        let mediaItem = await getItemFromList(item: item)
         let context = myListContainer.viewContext
-        context.delete(item)
+        context.delete(mediaItem)
         
-        do{
-            try context.save()
-            completion(.success(()))
-        } catch {
-            completion(.failure(DataBaseError.faliedToDeleteData))
-        }
+        do { return try context.save() }
+        catch { throw DataBaseError.faliedToDeleteData }
     }
     
     
-    //MARK: - Check For Duplicates
-    func isItemNewInList(item: Media) async -> Bool {
+    func getItemFromList(item: Media) async -> MediaItem {
         let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
-        let checkItemInList = listItems?.contains(where: {$0.id == item.id}) ?? false
-        return !checkItemInList
+        let wantedItem = (listItems?.filter {$0.id == item.id}.first)!
+        return wantedItem
     }
     
 }

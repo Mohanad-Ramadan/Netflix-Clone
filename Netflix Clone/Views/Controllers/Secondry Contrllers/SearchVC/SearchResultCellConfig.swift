@@ -41,7 +41,7 @@ extension SearchResultVC {
                 let mostRelevant = getMostRelevant(from: desiredMedia)
                 cell.configureCollection(with: mostRelevant)
             } catch let error as APIError {
-                presentGFAlert(messageText: error.rawValue)
+                presentNFAlert(messageText: error.rawValue)
             } catch {
                 presentDefaultError()
             }
@@ -59,7 +59,7 @@ extension SearchResultVC {
                     cell.configureCollection(with: searchResult)
                     finishLoading()
                 } catch let error as APIError {
-                    presentGFAlert(messageText: error.rawValue)
+                    presentNFAlert(messageText: error.rawValue)
                 } catch {
                     presentDefaultError()
                 }
