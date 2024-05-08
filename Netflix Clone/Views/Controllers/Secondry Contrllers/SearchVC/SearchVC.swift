@@ -32,9 +32,11 @@ class SearchVC: UIViewController {
     func configureSubviews(){
         // configure subviews
         view.addSubview(searchTable)
+        view.addSubview(loadingView)
+        
         searchTable.delegate = self
         searchTable.dataSource = self
-        layoutSearchTable()
+        layoutSubviews()
         // configure header
         let headerTitle = NFPlainButton(title: "Recommended TV Shows & Movies", fontSize: 20, fontWeight: .bold)
         searchTable.tableHeaderView = headerTitle
@@ -50,6 +52,16 @@ class SearchVC: UIViewController {
         searchResultsVC.didMove(toParent: self)
     }
     
+    
+    //MARK: - Setup UI Content
+    
+    // remove LoadingView
+    func removeLoadingView() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+            self.loadingView.alpha = 0
+        }
+    }
+    
     // the default view when the user go to SearchVC
     func screenFirstAppearnce() {
         // show recommended first
@@ -58,9 +70,7 @@ class SearchVC: UIViewController {
         // fetch recommended media
         fetchRecommendedMedia()
         // make the searchBar first Responder
-        DispatchQueue.main.async {
-            self.searchController.searchBar.becomeFirstResponder()
-        }
+        DispatchQueue.main.async {self.searchController.searchBar.becomeFirstResponder()}
     }
     
     // fetch the media for searchTable cells
@@ -70,6 +80,7 @@ class SearchVC: UIViewController {
                 let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
                 self.media = media
                 searchTable.reloadData()
+                removeLoadingView()
             } catch let error as APIError {
                 presentNFAlert(messageText: error.rawValue)
             } catch {
@@ -78,20 +89,20 @@ class SearchVC: UIViewController {
         }
     }
     
-    //MARK: Constriatns for SearchTable
-    func layoutSearchTable() {
-        searchTable.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            searchTable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            searchTable.leftAnchor.constraint(equalTo: view.leftAnchor),
-            searchTable.rightAnchor.constraint(equalTo: view.rightAnchor),
-            searchTable.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
-        
+    //MARK: - SubViews Constraints
+    func layoutSubviews() {
+        [loadingView, searchTable].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                $0.leftAnchor.constraint(equalTo: view.leftAnchor),
+                $0.rightAnchor.constraint(equalTo: view.rightAnchor),
+                $0.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            ])
+        }
     }
     
-    
-    //MARK: - Declare UIElements
+    //MARK: - Declare Variables
     var searchTable: UITableView = {
         let table = UITableView()
         table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
@@ -121,6 +132,7 @@ class SearchVC: UIViewController {
     }()
     
     let searchResultsVC = SearchResultVC()
+    let loadingView = SearchLoadingUIView()
     var media = [Media]()
 }
 

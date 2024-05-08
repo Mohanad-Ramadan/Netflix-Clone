@@ -78,6 +78,7 @@
 		14B323EF2BDBD0A600F817FE /* CastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B323EE2BDBD0A600F817FE /* CastViewModel.swift */; };
 		14B6FC4F2BC3188F003C6B8D /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */; };
 		14BEB8042B9E049000B87AB8 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BEB8032B9E049000B87AB8 /* SearchVC.swift */; };
+		14C689152BEC36B0004C08AB /* SearchLoadingUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C689142BEC36B0004C08AB /* SearchLoadingUIView.swift */; };
 		14CC5CCA2BCDBF9400A5805D /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */; };
 		14CC5CCC2BCDC07D00A5805D /* AddProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CCB2BCDC07D00A5805D /* AddProfileView.swift */; };
 		14CC5CCE2BCDC0AC00A5805D /* StaticNavBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CC5CCD2BCDC0AC00A5805D /* StaticNavBarView.swift */; };
@@ -172,6 +173,7 @@
 		14B323EE2BDBD0A600F817FE /* CastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastViewModel.swift; sourceTree = "<group>"; };
 		14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		14BEB8032B9E049000B87AB8 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		14C689142BEC36B0004C08AB /* SearchLoadingUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLoadingUIView.swift; sourceTree = "<group>"; };
 		14CC5CC92BCDBF9400A5805D /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
 		14CC5CCB2BCDC07D00A5805D /* AddProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProfileView.swift; sourceTree = "<group>"; };
 		14CC5CCD2BCDC0AC00A5805D /* StaticNavBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticNavBarView.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 			children = (
 				14EC7D602B15174C00E5B395 /* HomeLoadingUIView.swift */,
 				14FC66092B964637001863B0 /* NewHotLoadingUIView.swift */,
+				14C689142BEC36B0004C08AB /* SearchLoadingUIView.swift */,
 				14FC660B2B964E86001863B0 /* NFLoadingUIView.swift */,
 			);
 			path = LoadingUIView;
@@ -689,6 +692,7 @@
 				147551AD2BB0C0B700A2309B /* EpisodesTableViewCell.swift in Sources */,
 				148252272B5EF7300009C0EF /* ThreeButtonUIView.swift in Sources */,
 				140A72DC2AD8325800CCA9FA /* PosterCollectionViewCell.swift in Sources */,
+				14C689152BEC36B0004C08AB /* SearchLoadingUIView.swift in Sources */,
 				140A72D82AD8283700CCA9FA /* Media.swift in Sources */,
 				145FB1162AD46CE40019A439 /* CollectionRowTableViewCell.swift in Sources */,
 				14FC660C2B964E86001863B0 /* NFLoadingUIView.swift in Sources */,

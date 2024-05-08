@@ -37,8 +37,8 @@ class ComingSoonVC: UIViewController {
     
     //MARK: - remove LoadingView
     func removeLoadingView() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
-            UIView.animate {self.loadingView.alpha = 0}
+        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            self.loadingView.alpha = 0
         }
     }
     
