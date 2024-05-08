@@ -15,6 +15,14 @@ class EpisodesTableViewCell: UITableViewCell {
         applyConstraints()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        episodeImageView.image = nil
+        titleLabel.text = nil
+        runtime.text = nil
+        overview.text = nil
+    }
+    
     
     func configureCellDetail(from episode: SeasonDetail.Episode){
         episodeImageView.downloadImageFrom(episode.stillPath ?? "noPath")

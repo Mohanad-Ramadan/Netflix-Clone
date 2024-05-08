@@ -10,15 +10,16 @@ import UIKit
 class ComingSoonTableCell: NewHotTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        [monthlable ,dayLabel ,mediaDate ,backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,entertainmetType ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
+        [monthlable ,dayLabel ,mediaDate ,backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,mediaTypeLabel ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
     }
     
+    
+    //MARK: - configure the cell
     override func configureCellDetails(with media: MediaViewModel) {
-        
         titleLabel.text = media.title
-        entertainmetType.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
+        mediaTypeLabel.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
         overViewLabel.text = media.overview
         genresLabel.text = media.category
         
@@ -28,6 +29,7 @@ class ComingSoonTableCell: NewHotTableViewCell {
             dayLabel.text = date.extract().day
             monthlable.text = date.extract().month
         }
+        
     }
     
     //Month and Day label constraints

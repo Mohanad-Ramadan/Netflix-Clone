@@ -13,6 +13,11 @@ class PosterCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(posterImageView)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        posterImageView.image = nil
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         posterImageView.frame = contentView.bounds

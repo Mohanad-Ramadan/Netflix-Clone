@@ -14,6 +14,11 @@ class SearchTableViewCell: UITableViewCell {
         applyConstraints()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        mediaBackdropImageView.image = nil
+    }
+    
     func configure(with media: Media){
         Task {
             do {

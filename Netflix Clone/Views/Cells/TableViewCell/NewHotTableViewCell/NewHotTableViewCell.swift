@@ -11,9 +11,16 @@ class NewHotTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
-        configureListButtonAction()
     }
     
+    //MARK: - Prepare the cell
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        logoView.image = nil
+        backdropImageView.image = nil
+    }
+    
+    //MARK: - Configure cell
     func configure(with media: Media) {
         Task {
             do {
@@ -21,6 +28,7 @@ class NewHotTableViewCell: UITableViewCell {
                 let id = media.id
                 let mediaType = media.mediaType
                 
+                // configure MyList Button
                 setupMyListButtonUI()
                 
                 // images
@@ -62,7 +70,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     func configureCellDetails(with media: MediaViewModel){
         titleLabel.text = media.title
-        entertainmetType.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
+        mediaTypeLabel.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
         overViewLabel.text = media.overview
         genresLabel.text = media.category
     }
@@ -144,10 +152,10 @@ class NewHotTableViewCell: UITableViewCell {
     
     //Type and Logo constraints
     func setupTypeLabelConstraints() {
-        entertainmetType.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor, constant: 4).isActive = true
-        entertainmetType.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
-        entertainmetType.bottomAnchor.constraint(equalTo: titleLabel.topAnchor).isActive = true
-        entertainmetType.widthAnchor.constraint(equalTo: entertainmetType.widthAnchor).isActive = true
+        mediaTypeLabel.leadingAnchor.constraint(equalTo: netflixLogo.trailingAnchor, constant: 4).isActive = true
+        mediaTypeLabel.centerYAnchor.constraint(equalTo: netflixLogo.centerYAnchor).isActive = true
+        mediaTypeLabel.bottomAnchor.constraint(equalTo: titleLabel.topAnchor).isActive = true
+        mediaTypeLabel.widthAnchor.constraint(equalTo: mediaTypeLabel.widthAnchor).isActive = true
     }
     
     // Title and overview label constraints
@@ -208,7 +216,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     let netflixLogo = NFImageView(image: .netflixClone)
     
-    let entertainmetType = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
+    let mediaTypeLabel = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
     
     let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
     
