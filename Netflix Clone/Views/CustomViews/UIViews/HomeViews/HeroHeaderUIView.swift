@@ -15,25 +15,37 @@ class HeroHeaderUIView: UIView {
     // Configure View
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [shadowWrapperView, logoView, categoryLabel, playButton, listButton].forEach {addSubview($0)}
+        [shadowWrapperView, logoView, categoryLabel, playButton, myListButton].forEach {addSubview($0)}
         shadowWrapperView.addSubview(posterImageView)
         layoutViews()
         configureListButtonAction()
+        
     }
     
     //MARK: - Configure buttons actions
     private func configureListButtonAction() {
-        listButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
+        myListButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
+        setupMyListButtonUI()
     }
     
     @objc private func listButtonTapped() {
-        listButton.configuration?.image = UIImage(systemName: "checkmark")
         Task{
             try await PersistenceDataManager.shared.addToMyListMedia(media!)
             NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+            myListButton.configuration?.image = UIImage(systemName: "checkmark")
         }
     }
     
+    func setupMyListButtonUI() {
+        Task {
+            guard media != nil else {return}
+            if await PersistenceDataManager.shared.isItemNewInList(item: media!){
+                myListButton.configuration?.image = UIImage(systemName: "plus")
+            } else {
+                myListButton.configuration?.image = UIImage(systemName: "checkmark")
+            }
+        }
+    }
     
     //MARK: - Configure Poster Image
     func configureHeaderView(with model: MediaViewModel) {
@@ -119,7 +131,7 @@ class HeroHeaderUIView: UIView {
             logoView.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -10),
             logoView.centerXAnchor.constraint(equalTo: centerXAnchor),
             logoView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1),
-            logoView.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -20),
+            logoView.trailingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: -20),
             logoView.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 20)
         ]
 
@@ -127,7 +139,7 @@ class HeroHeaderUIView: UIView {
         let categoryConstraints = [
             categoryLabel.bottomAnchor.constraint(equalTo: playButton.topAnchor, constant: -20),
             categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            categoryLabel.trailingAnchor.constraint(equalTo: listButton.trailingAnchor, constant: -10),
+            categoryLabel.trailingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: -10),
             categoryLabel.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 10)
         ]
         
@@ -139,10 +151,10 @@ class HeroHeaderUIView: UIView {
         ]
         
         let listButtonConstraints = [
-            listButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 7),
-            listButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -20),
-            listButton.trailingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: -15),
-            listButton.heightAnchor.constraint(equalToConstant: 40)
+            myListButton.leadingAnchor.constraint(equalTo: centerXAnchor, constant: 7),
+            myListButton.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -20),
+            myListButton.trailingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: -15),
+            myListButton.heightAnchor.constraint(equalToConstant: 40)
         ]
         
         
@@ -176,7 +188,7 @@ class HeroHeaderUIView: UIView {
     }()
     
     private let playButton = NFFilledButton(title: "Play",image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
-    private let listButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
+    private let myListButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
         
     
     var media: Media?

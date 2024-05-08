@@ -59,9 +59,9 @@ class PersistenceDataManager {
     
     // Check For Duplicates
     func isItemNewInList(item: Media) async -> Bool {
-        let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
-        let checkItemInList = listItems?.contains(where: {$0.id == item.id}) ?? false
-        return !checkItemInList
+        let listItems = try! await PersistenceDataManager.shared.fetchMyListMedia()
+        let itemInList = listItems.contains(where: {$0.id == item.id})
+        return !itemInList
     }
     
     

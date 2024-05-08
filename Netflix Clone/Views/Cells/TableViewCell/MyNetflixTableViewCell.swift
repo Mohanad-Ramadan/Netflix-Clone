@@ -94,6 +94,19 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
             return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [removeCellAction])
         }
         return config
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let media = media[indexPath.row]
+        
+        if media.mediaType == "movie" || media.mediaType == nil{
+            let vc = MovieDetailsVC(for: media)
+            self.delegate?.cellDidTapped(self, navigateTo: vc)
+        } else if media.mediaType == "tv" {
+            let vc = TVDetailsVC(for: media)
+            self.delegate?.cellDidTapped(self, navigateTo: vc)
+        }
         
     }
     

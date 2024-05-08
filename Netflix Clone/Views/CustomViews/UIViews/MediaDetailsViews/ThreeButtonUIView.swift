@@ -14,30 +14,48 @@ class ThreeButtonUIView: UIView {
         backgroundColor = .clear
         configureButtons()
         applyConstraints()
-        configureListButtonAction()
     }
     
+    //MARK: - Configure Buttons
     private func configureButtons() {
         [myListButton, shareButton, rateButton].forEach {addSubview($0)}
         
-        myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+        // setup custom images for buttons
         rateButton.configureButtonImageWith(UIImage(systemName: "paperplane")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
         shareButton.configureButtonImageWith(UIImage(systemName: "hand.thumbsup")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+        
+        // configure Mylist button
+        setupMyListButtonUI()
+        myListButton.addTarget(self, action: #selector(listButtonAction), for: .touchUpInside)
     }
     
-    private func configureListButtonAction() {
-        myListButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
-    }
+    //MARK: - Setup MyList Button
     
-    @objc private func listButtonTapped() {
-        myListButton.configuration?.image = UIImage(systemName: "checkmark")?.sd_resizedImage(with: CGSize(width: 30, height: 30), scaleMode: .aspectFit)?.withTintColor(.white)
-        myListButton.configuration?.imagePadding = 5
+    @objc private func listButtonAction() {myListButtonTapped()}
+    
+    func myListButtonTapped() {
         Task {
             try await PersistenceDataManager.shared.addToMyListMedia(media!)
             NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+            // change button Image
+            myListButton.configureButtonImageWith(UIImage(systemName: "checkmark")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
         }
     }
     
+    func setupMyListButtonUI() {
+        Task {
+            guard media != nil else {return}
+            
+            if await PersistenceDataManager.shared.isItemNewInList(item: media!){
+                myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+            } else {
+                myListButton.configureButtonImageWith(UIImage(systemName: "checkmark")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+            }
+        }
+    }
+    
+    
+    //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
@@ -57,6 +75,7 @@ class ThreeButtonUIView: UIView {
         ])
     }
     
+    //MARK: - Declare Variables
     private var myListButton = NFPlainButton(title: "My List", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
     private var shareButton = NFPlainButton(title: "Share", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
     private var rateButton = NFPlainButton(title: "Rate", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)

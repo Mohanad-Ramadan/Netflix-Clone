@@ -21,6 +21,8 @@ class NewHotTableViewCell: UITableViewCell {
                 let id = media.id
                 let mediaType = media.mediaType
                 
+                setupMyListButtonUI()
+                
                 // images
                 let images = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
                 let logoAspectRatio = UIHelper.UIKit.getLogoDetailsFrom(images)?.1
@@ -72,10 +74,21 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     @objc private func listButtonTapped() {
-        myListButton.configuration?.image = UIImage(systemName: "checkmark")
         Task {
             try await PersistenceDataManager.shared.addToMyListMedia(media!)
             NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+            myListButton.configuration?.image = UIImage(systemName: "checkmark")
+        }
+    }
+    
+    func setupMyListButtonUI() {
+        Task {
+            guard media != nil else {return}
+            if await PersistenceDataManager.shared.isItemNewInList(item: media!){
+                myListButton.configuration?.image = UIImage(systemName: "plus")
+            } else {
+                myListButton.configuration?.image = UIImage(systemName: "checkmark")
+            }
         }
     }
     
