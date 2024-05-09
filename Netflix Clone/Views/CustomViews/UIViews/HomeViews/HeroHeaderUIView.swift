@@ -10,7 +10,7 @@ import SDWebImage
 
 class HeroHeaderUIView: UIView {
     // Delegate protocol
-    protocol Delegate:AnyObject {func finishLoadingPoster()}
+    protocol Delegate:AnyObject {func finishLoadingPoster(); func myListButtonTapped()}
     
     // Configure View
     override init(frame: CGRect) {
@@ -29,10 +29,22 @@ class HeroHeaderUIView: UIView {
     }
     
     @objc private func listButtonTapped() {
-        Task{
-            try await PersistenceDataManager.shared.addToMyListMedia(media!)
-            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
-            myListButton.configuration?.image = UIImage(systemName: "checkmark")
+        Task {
+            if await PersistenceDataManager.shared.isItemNewInList(item: media!) {
+                try await PersistenceDataManager.shared.addToMyListMedia(media!)
+                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                // change button Image
+                myListButton.configuration?.image = UIImage(systemName: "checkmark")
+                // notify delegate that button been tapped
+                delegate?.myListButtonTapped()
+            } else {
+                try await PersistenceDataManager.shared.deleteMediaFromList(media!)
+                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                // change button Image
+                myListButton.configuration?.image = UIImage(systemName: "plus")
+                // notify delegate that button been tapped
+                delegate?.myListButtonTapped()
+            }
         }
     }
     

@@ -324,7 +324,7 @@ class MediaDetailsVC: UIViewController {
     
     let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
-    let threeButtons = ThreeButtonUIView()
+    let threeButtons = ThreeButtonsUIView()
     
     let moreIdeasCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

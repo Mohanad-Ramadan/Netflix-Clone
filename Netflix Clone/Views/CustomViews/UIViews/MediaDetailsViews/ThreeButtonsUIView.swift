@@ -1,5 +1,5 @@
 //
-//  ThreeButtonUIView.swift
+//  ThreeButtonsUIView.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 22/01/2024.
@@ -7,8 +7,9 @@
 
 import UIKit
 
-class ThreeButtonUIView: UIView {
-
+class ThreeButtonsUIView: UIView {
+    protocol Delegate: AnyObject { func myListButtonTapped() }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -30,15 +31,25 @@ class ThreeButtonUIView: UIView {
     }
     
     //MARK: - Setup MyList Button
-    
     @objc private func listButtonAction() {myListButtonTapped()}
     
     func myListButtonTapped() {
         Task {
-            try await PersistenceDataManager.shared.addToMyListMedia(media!)
-            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
-            // change button Image
-            myListButton.configureButtonImageWith(UIImage(systemName: "checkmark")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+            if await PersistenceDataManager.shared.isItemNewInList(item: media!) {
+                try await PersistenceDataManager.shared.addToMyListMedia(media!)
+                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                // change button Image
+                myListButton.configureButtonImageWith(UIImage(systemName: "checkmark")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+                // notify delegate that button been tapped
+                delegate?.myListButtonTapped()
+            } else {
+                try await PersistenceDataManager.shared.deleteMediaFromList(media!)
+                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                // change button Image
+                myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
+                // notify delegate that button been tapped
+                delegate?.myListButtonTapped()
+            }
         }
     }
     
@@ -81,6 +92,7 @@ class ThreeButtonUIView: UIView {
     private var rateButton = NFPlainButton(title: "Rate", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
  
     var media: Media?
+    weak var delegate: Delegate?
     
     required init?(coder: NSCoder) {fatalError()}
 

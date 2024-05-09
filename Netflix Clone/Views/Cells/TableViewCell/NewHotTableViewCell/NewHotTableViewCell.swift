@@ -8,6 +8,8 @@
 import UIKit
 
 class NewHotTableViewCell: UITableViewCell {
+    protocol Delegate: AnyObject { func myListButtonTapped() }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
@@ -83,9 +85,21 @@ class NewHotTableViewCell: UITableViewCell {
     
     @objc private func listButtonTapped() {
         Task {
-            try await PersistenceDataManager.shared.addToMyListMedia(media!)
-            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
-            myListButton.configuration?.image = UIImage(systemName: "checkmark")
+            if await PersistenceDataManager.shared.isItemNewInList(item: media!) {
+                try await PersistenceDataManager.shared.addToMyListMedia(media!)
+                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                // change button Image
+                myListButton.configuration?.image = UIImage(systemName: "checkmark")
+                // notify delegate that button been tapped
+                delegate?.myListButtonTapped()
+            } else {
+                try await PersistenceDataManager.shared.deleteMediaFromList(media!)
+                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                // change button Image
+                myListButton.configuration?.image = UIImage(systemName: "plus")
+                // notify delegate that button been tapped
+                delegate?.myListButtonTapped()
+            }
         }
     }
     
@@ -225,6 +239,7 @@ class NewHotTableViewCell: UITableViewCell {
     let genresLabel = NFBodyLabel(fontSize: 13)
     
     var media: Media?
+    weak var delegate: Delegate?
     
     required init?(coder: NSCoder) {fatalError()}
 }
