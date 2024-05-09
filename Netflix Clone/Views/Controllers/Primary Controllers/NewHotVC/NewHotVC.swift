@@ -87,7 +87,6 @@ class NewHotVC: UIViewController {
     }()
     
     let categoryButtonsBar = NewHotCategoryBarUIView()
-    
     let comingSoonTable = ComingSoonVC()
     let everyonesTable = EverybodyVC()
     let topMoviesTable = TopMoviesVC()
@@ -155,5 +154,12 @@ extension NewHotVC: UIScrollViewDelegate {
         default: break
         }
 
+    }
+}
+
+//MARK: - ScrollView Delegate
+extension NewHotVC: CategoryVC.Delegate {
+    func setupMyListButtonAlert() {
+        // present alertVC
     }
 }

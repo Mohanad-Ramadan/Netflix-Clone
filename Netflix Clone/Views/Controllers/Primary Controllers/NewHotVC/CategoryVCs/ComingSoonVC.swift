@@ -7,43 +7,24 @@
 
 import UIKit
 
-class ComingSoonVC: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureVC()
-        configureTableHeader()
-        fetchMedia()
-    }
+class ComingSoonVC: CategoryVC {
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-        loadingView.frame = view.bounds
-    }
-    
-    //MARK: - configure view
-    func configureVC() {
-        [tableView,loadingView].forEach {view.addSubview($0)}
+    //MARK: - Configure View
+    override func configureVC() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(ComingSoonTableCell.self, forCellReuseIdentifier:  ComingSoonTableCell.identifier)
     }
     
-    func configureTableHeader() {
+    override func configureTableHeader() {
         let headerTitle = NFPlainButton(title: "Coming Soon", fontSize: 20, fontWeight: .bold)
         headerTitle.configureButtonImageWith(.popcorn, placement: .leading, padding: 5)
         headerTitle.frame = CGRect(x: 0, y: 0, width: headerTitle.bounds.width, height: 50)
         tableView.tableHeaderView = headerTitle
     }
     
-    //MARK: - remove LoadingView
-    func removeLoadingView() {
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
-            self.loadingView.alpha = 0
-        }
-    }
-    
-    //MARK: - fetch media
-    func fetchMedia() {
+    //MARK: - Fetch media
+    override func fetchMedia() {
         guard media.isEmpty else {return}
         Task{
             do {
@@ -59,21 +40,8 @@ class ComingSoonVC: UIViewController {
         }
     }
     
-    //MARK: - Declare Variables
-    var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = .clear
-        tableView.register(ComingSoonTableCell.self, forCellReuseIdentifier:  ComingSoonTableCell.identifier)
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        return tableView
-    }()
-    
-    private let loadingView = NewHotLoadingUIView()
-    
-    private var media: [Media] = [Media]()
-    
 }
+
 // MARK: - Table view data source
 extension ComingSoonVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return media.count }
@@ -82,6 +50,7 @@ extension ComingSoonVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ComingSoonTableCell.identifier, for: indexPath) as? ComingSoonTableCell else {return UITableViewCell()}
         let media = media[indexPath.row]
         cell.configure(with: media)
+        cell.delegate = self
         return cell
     }
     

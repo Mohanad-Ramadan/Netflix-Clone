@@ -7,42 +7,24 @@
 
 import UIKit
 
-class TopMoviesVC: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureVC()
-        configureTableHeader()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-        loadingView.frame = view.bounds
-    }
+class TopMoviesVC: CategoryVC {
     
     //MARK: - configure view
-    func configureVC() {
-        [tableView,loadingView].forEach {view.addSubview($0)}
+    override func configureVC() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(TopMediaTableCell.self, forCellReuseIdentifier:  TopMediaTableCell.identifier)
     }
     
-    func configureTableHeader() {
+    override func configureTableHeader() {
         let headerTitle = NFPlainButton(title: "Top 10 Movies", fontSize: 20, fontWeight: .bold)
         headerTitle.configureButtonImageWith(.top10, placement: .leading, padding: 5)
         headerTitle.frame = CGRect(x: 0, y: 0, width: headerTitle.bounds.width, height: 50)
         tableView.tableHeaderView = headerTitle
     }
     
-    //MARK: - remove LoadingView
-    func removeLoadingView() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
-            UIView.animate {self.loadingView.alpha = 0}
-        }
-    }
-    
     //MARK: - fetch media
-    func fetchMedia() {
+    override func fetchMedia() {
         guard media.isEmpty else {return}
         Task{
             do {
@@ -58,20 +40,6 @@ class TopMoviesVC: UIViewController {
         }
     }
     
-    //MARK: - Declare Variables
-    var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = .clear
-        tableView.register(TopMediaTableCell.self, forCellReuseIdentifier:  TopMediaTableCell.identifier)
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        return tableView
-    }()
-    
-    private let loadingView = NewHotLoadingUIView()
-    
-    private var media: [Media] = [Media]()
-    
 }
 // MARK: - Table view data source
 extension TopMoviesVC: UITableViewDelegate, UITableViewDataSource {
@@ -82,6 +50,7 @@ extension TopMoviesVC: UITableViewDelegate, UITableViewDataSource {
         let media = media[indexPath.row]
         cell.configureMediaRank(at: indexPath.row)
         cell.configure(with: media)
+        cell.delegate = self
         return cell
     }
     

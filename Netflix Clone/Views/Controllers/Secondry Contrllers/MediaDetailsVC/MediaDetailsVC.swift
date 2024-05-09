@@ -342,3 +342,31 @@ class MediaDetailsVC: UIViewController {
     var currentTrailerTime: AnyCancellable?
     var trailerDurationTime: AnyCancellable?
 }
+
+
+//MARK: - CollectionView Delegate
+extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return moreMedias.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PosterCollectionViewCell.identifier, for: indexPath) as? PosterCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        let poster = moreMedias[indexPath.row].posterPath ?? ""
+        cell.configureCell(with: poster)
+        return cell
+    }
+    
+}
+
+//MARK: - ThreeButtons Delegate
+extension MediaDetailsVC: ThreeButtonsUIView.Delegate{
+    func myListButtonTapped() {
+        //
+    }
+    
+}
