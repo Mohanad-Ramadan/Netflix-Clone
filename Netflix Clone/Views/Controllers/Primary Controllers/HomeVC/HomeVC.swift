@@ -177,9 +177,7 @@ extension HomeVC: HeroHeaderUIView.Delegate{
     func myListButtonTapped() {
         // push a NFSelfClosedAlert
     }
-    
     func finishLoadingPoster() {loadingView.removeFromSuperview()}
-    
 }
 
 

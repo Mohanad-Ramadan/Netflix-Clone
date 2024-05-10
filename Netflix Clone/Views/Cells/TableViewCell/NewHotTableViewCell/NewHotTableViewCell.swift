@@ -13,6 +13,7 @@ class NewHotTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
+        configureListButtonAction()
     }
     
     //MARK: - Prepare the cell
@@ -85,7 +86,9 @@ class NewHotTableViewCell: UITableViewCell {
     
     @objc private func listButtonTapped() {
         Task {
-            if await PersistenceDataManager.shared.isItemNewInList(item: media!) {
+            guard let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
+            
+            if itemIsNew {
                 try await PersistenceDataManager.shared.addToMyListMedia(media!)
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
                 // change button Image
@@ -105,8 +108,10 @@ class NewHotTableViewCell: UITableViewCell {
     
     func setupMyListButtonUI() {
         Task {
-            guard media != nil else {return}
-            if await PersistenceDataManager.shared.isItemNewInList(item: media!){
+            guard media != nil,
+                  let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
+            
+            if itemIsNew {
                 myListButton.configuration?.image = UIImage(systemName: "plus")
             } else {
                 myListButton.configuration?.image = UIImage(systemName: "checkmark")

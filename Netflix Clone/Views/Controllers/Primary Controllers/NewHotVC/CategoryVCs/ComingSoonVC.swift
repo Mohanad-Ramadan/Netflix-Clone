@@ -50,7 +50,6 @@ extension ComingSoonVC: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ComingSoonTableCell.identifier, for: indexPath) as? ComingSoonTableCell else {return UITableViewCell()}
         let media = media[indexPath.row]
         cell.configure(with: media)
-        cell.delegate = self
         return cell
     }
     

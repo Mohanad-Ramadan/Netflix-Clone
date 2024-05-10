@@ -29,6 +29,7 @@ class MediaDetailsVC: UIViewController {
         
         moreIdeasCollection.delegate = self
         moreIdeasCollection.dataSource = self
+        threeButtons.delegate = self
         
         configureCastButton()
         applyConstraints()
@@ -366,7 +367,6 @@ extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
 //MARK: - ThreeButtons Delegate
 extension MediaDetailsVC: ThreeButtonsUIView.Delegate{
     func myListButtonTapped() {
-        //
+        // NFAlert for mylist
     }
-    
 }

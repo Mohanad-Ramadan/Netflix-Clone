@@ -55,5 +55,5 @@ class CategoryVC: UIViewController {
 }
 
 extension CategoryVC: NewHotTableViewCell.Delegate {
-    func myListButtonTapped() { delegate?.setupMyListButtonAlert() }
+    func myListButtonTapped() {delegate?.setupMyListButtonAlert()}
 }

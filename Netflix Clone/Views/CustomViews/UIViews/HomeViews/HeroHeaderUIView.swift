@@ -30,7 +30,9 @@ class HeroHeaderUIView: UIView {
     
     @objc private func listButtonTapped() {
         Task {
-            if await PersistenceDataManager.shared.isItemNewInList(item: media!) {
+            guard let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
+            
+            if itemIsNew {
                 try await PersistenceDataManager.shared.addToMyListMedia(media!)
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
                 // change button Image
@@ -50,8 +52,10 @@ class HeroHeaderUIView: UIView {
     
     func setupMyListButtonUI() {
         Task {
-            guard media != nil else {return}
-            if await PersistenceDataManager.shared.isItemNewInList(item: media!){
+            guard media != nil,
+                  let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
+            
+            if itemIsNew {
                 myListButton.configuration?.image = UIImage(systemName: "plus")
             } else {
                 myListButton.configuration?.image = UIImage(systemName: "checkmark")
