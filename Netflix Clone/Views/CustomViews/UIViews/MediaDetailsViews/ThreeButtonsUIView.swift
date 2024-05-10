@@ -8,7 +8,7 @@
 import UIKit
 
 class ThreeButtonsUIView: UIView {
-    protocol Delegate: AnyObject { func myListButtonTapped() }
+    protocol Delegate: AnyObject { func saveMediaToList(); func removeMediafromList()}
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,14 +43,14 @@ class ThreeButtonsUIView: UIView {
                 // change button Image
                 myListButton.configureButtonImageWith(UIImage(systemName: "checkmark")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
                 // notify delegate that button been tapped
-                delegate?.myListButtonTapped()
+                delegate?.saveMediaToList()
             } else {
                 try await PersistenceDataManager.shared.deleteMediaFromList(media!)
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
                 // change button Image
                 myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
                 // notify delegate that button been tapped
-                delegate?.myListButtonTapped()
+                delegate?.removeMediafromList()
             }
         }
     }

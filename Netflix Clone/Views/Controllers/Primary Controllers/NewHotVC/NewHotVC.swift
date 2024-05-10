@@ -21,7 +21,7 @@ class NewHotVC: UIViewController {
         view.addSubview(scrollView)
         [comingSoonTable, everyonesTable, topTVShowsTable, topMoviesTable].forEach{
             add(childVC: $0, to: tablesStackView)
-            $0.delegate = self
+//            $0.delegate = self
         }
         scrollView.addSubview(tablesStackView)
         view.addSubview(categoryButtonsBar)
@@ -157,12 +157,5 @@ extension NewHotVC: UIScrollViewDelegate {
         default: break
         }
 
-    }
-}
-
-//MARK: - ScrollView Delegate
-extension NewHotVC: CategoryVC.Delegate {
-    func setupMyListButtonAlert() {
-        // present alertVC
     }
 }

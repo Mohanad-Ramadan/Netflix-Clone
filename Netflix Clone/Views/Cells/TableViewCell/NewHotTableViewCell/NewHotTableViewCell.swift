@@ -8,7 +8,7 @@
 import UIKit
 
 class NewHotTableViewCell: UITableViewCell {
-    protocol Delegate: AnyObject { func myListButtonTapped() }
+    protocol Delegate: AnyObject { func saveMediaToList(); func removeMediafromList()}
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -94,14 +94,14 @@ class NewHotTableViewCell: UITableViewCell {
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "checkmark")
                 // notify delegate that button been tapped
-                delegate?.myListButtonTapped()
+                delegate?.saveMediaToList()
             } else {
                 try await PersistenceDataManager.shared.deleteMediaFromList(media!)
                 NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "plus")
                 // notify delegate that button been tapped
-                delegate?.myListButtonTapped()
+                delegate?.removeMediafromList()
             }
         }
     }

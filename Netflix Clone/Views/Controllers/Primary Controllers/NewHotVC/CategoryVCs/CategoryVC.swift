@@ -8,9 +8,6 @@
 import UIKit
 
 class CategoryVC: UIViewController {
-    
-    protocol Delegate: AnyObject { func setupMyListButtonAlert() }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         [tableView,loadingView].forEach {view.addSubview($0)}
@@ -50,10 +47,10 @@ class CategoryVC: UIViewController {
     private let loadingView = NewHotLoadingUIView()
     
     var media: [Media] = [Media]()
-    weak var delegate: Delegate?
-
 }
 
+//MARK: - Cell Delegate
 extension CategoryVC: NewHotTableViewCell.Delegate {
-    func myListButtonTapped() {delegate?.setupMyListButtonAlert()}
+    func saveMediaToList() {presentTemporaryAlert(alertTitle: "Added To My List")}
+    func removeMediafromList() {presentTemporaryAlert(alertTitle: "Removed from My List")}
 }

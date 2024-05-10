@@ -174,9 +174,8 @@ extension HomeVC : CollectionRowTableViewCell.Delegate {
 
 //MARK: - Hero Header Delegate
 extension HomeVC: HeroHeaderUIView.Delegate{
-    func myListButtonTapped() {
-        // push a NFSelfClosedAlert
-    }
+    func saveMediaToList() {presentTemporaryAlert(alertTitle: "Added To My List")}
+    func removeMediafromList() {presentTemporaryAlert(alertTitle: "Removed from My List")}
     func finishLoadingPoster() {loadingView.removeFromSuperview()}
 }
 

@@ -22,6 +22,7 @@
 		141617E82BE7A63600927661 /* NFAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141617E72BE7A63600927661 /* NFAlertVC.swift */; };
 		1416D03F2B6734FB00BC363C /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1416D03E2B6734FB00BC363C /* Cast.swift */; };
 		141E13FB2AD73191007418D5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141E13FA2AD73191007418D5 /* NetworkManager.swift */; };
+		142C4EF02BED3B65001485F0 /* TemporaryAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */; };
 		142FF7D52B91183A0061375F /* NFPlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FF7D42B91183A0061375F /* NFPlainButton.swift */; };
 		142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FF7D62B911DB00061375F /* NFSymbolButton.swift */; };
 		1434BF2D2B61D27A00EA70F6 /* TrailersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1434BF2C2B61D27A00EA70F6 /* TrailersTableViewCell.swift */; };
@@ -115,6 +116,7 @@
 		141617E72BE7A63600927661 /* NFAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFAlertVC.swift; sourceTree = "<group>"; };
 		1416D03E2B6734FB00BC363C /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		141E13FA2AD73191007418D5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryAlertVC.swift; sourceTree = "<group>"; };
 		142FF7D42B91183A0061375F /* NFPlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFPlainButton.swift; sourceTree = "<group>"; };
 		142FF7D62B911DB00061375F /* NFSymbolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFSymbolButton.swift; sourceTree = "<group>"; };
 		1434BF2C2B61D27A00EA70F6 /* TrailersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailersTableViewCell.swift; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
 				1473DD322BD3854400D41655 /* SearchVC */,
 				141617E72BE7A63600927661 /* NFAlertVC.swift */,
+				142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */,
 			);
 			path = "Secondry Contrllers";
 			sourceTree = "<group>";
@@ -689,6 +692,7 @@
 				14EF75B52B8DFACB004D0279 /* NFImageView.swift in Sources */,
 				141E13FB2AD73191007418D5 /* NetworkManager.swift in Sources */,
 				14CC5CCE2BCDC0AC00A5805D /* StaticNavBarView.swift in Sources */,
+				142C4EF02BED3B65001485F0 /* TemporaryAlertVC.swift in Sources */,
 				14A0E3102BB769C6008C434E /* UIView-EXT.swift in Sources */,
 				14CFB1E32B56F55A0036FE91 /* HomeHeaderConfig.swift in Sources */,
 				14E3B0E92B5D668600D08C14 /* MediaDetailsVC.swift in Sources */,
