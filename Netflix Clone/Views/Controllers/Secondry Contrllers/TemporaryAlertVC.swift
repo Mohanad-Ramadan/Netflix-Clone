@@ -16,39 +16,49 @@ class TemporaryAlertVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
-        configureTapGesture()
+//        configureTapGesture()
         applyConstraints()
+        autoDismiss()
     }
     
+    //MARK: - Configure VC
     func configureViews() {
         view.backgroundColor = .black.withAlphaComponent(0.3)
         //containerView config
         view.addSubview(containerView)
-        containerView.addSubview(titleLabel)
-        titleLabel.text = alertTitle!
+        containerView.addSubview(messageLabel)
+        messageLabel.text = alertTitle!
     }
     
-    func configureTapGesture() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissVC))
-        view.addGestureRecognizer(tap)
+    //MARK: - VC Dismiss function
+    func autoDismiss() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+            self.dismiss(animated: true)
+        }
     }
     
-    @objc func dismissVC() { dismiss(animated: true) }
-    
+//    func configureTapGesture() {
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissVC))
+//        view.addGestureRecognizer(tap)
+//    }
+//    
+//    @objc func dismissVC() { dismiss(animated: true) }
+
+    //MARK: - constraints
     func applyConstraints(){
         NSLayoutConstraint.activate([
             // containerView constraints
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            containerView.widthAnchor.constraint(equalTo: titleLabel.widthAnchor, constant: 30),
-            containerView.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, constant: 20),
+            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 15),
+            containerView.widthAnchor.constraint(equalTo: messageLabel.widthAnchor, constant: 30),
+            containerView.heightAnchor.constraint(equalTo: messageLabel.heightAnchor, constant: 20),
             
-            titleLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
-            titleLabel.widthAnchor.constraint(equalTo: titleLabel.widthAnchor),
-            titleLabel.heightAnchor.constraint(equalTo: titleLabel.heightAnchor)
+            messageLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            messageLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
+            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
+            messageLabel.widthAnchor.constraint(equalTo: messageLabel.widthAnchor),
+            messageLabel.heightAnchor.constraint(equalTo: messageLabel.heightAnchor)
         ])
     }
     
@@ -56,15 +66,26 @@ class TemporaryAlertVC: UIViewController {
     //MARK: - Declare Variables
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .fadedBlack
+        view.backgroundColor = .darkGray
         view.layer.cornerRadius = 10
-        view.layer.borderWidth = 0.7
-        view.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.2).cgColor
+        
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize.zero
+        view.layer.shadowRadius = 1
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    let titleLabel = NFBodyLabel(text: "", fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: false)
+    let messageLabel: UILabel = {
+        let label = NFBodyLabel(text: "", fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: false)
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOpacity = 0.5
+        label.layer.shadowOffset = CGSize.zero
+        label.layer.shadowRadius = 2
+        return label
+    }()
     var alertTitle: String?
     
     required init?(coder: NSCoder) {

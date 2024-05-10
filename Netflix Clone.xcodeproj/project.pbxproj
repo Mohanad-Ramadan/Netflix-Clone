@@ -240,8 +240,8 @@
 		143DB7F42BE679CB003BD04A /* NewHotVC */ = {
 			isa = PBXGroup;
 			children = (
-				145FB1092AD402E50019A439 /* NewHotVC.swift */,
 				147D7E9E2BBB2FE200118925 /* CategoryVCs */,
+				145FB1092AD402E50019A439 /* NewHotVC.swift */,
 			);
 			path = NewHotVC;
 			sourceTree = "<group>";
