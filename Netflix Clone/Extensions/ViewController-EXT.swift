@@ -56,8 +56,8 @@ extension UIViewController {
     func presentTemporaryAlert(alertTitle: String) {
         DispatchQueue.main.async {
             let alertVC = TemporaryAlertVC(alertTitle: alertTitle)
-            alertVC.modalPresentationStyle  = .overFullScreen
-            alertVC.modalTransitionStyle    = .crossDissolve
+            alertVC.modalPresentationStyle = .overFullScreen
+            alertVC.modalTransitionStyle = .coverVertical
             self.present(alertVC, animated: true)
         }
     }

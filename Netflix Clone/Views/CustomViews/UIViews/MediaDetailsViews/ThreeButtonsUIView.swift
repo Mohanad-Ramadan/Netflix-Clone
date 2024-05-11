@@ -35,7 +35,7 @@ class ThreeButtonsUIView: UIView {
     
     func myListButtonTapped() {
         Task {
-            guard let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
             
             if itemIsNew {
                 try await PersistenceDataManager.shared.addToMyListMedia(media!)
@@ -57,9 +57,8 @@ class ThreeButtonsUIView: UIView {
     
     func setupMyListButtonUI() {
         Task {
-            guard media != nil,
-                  let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
-            
+            guard media != nil else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
             if itemIsNew {
                 myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
             } else {

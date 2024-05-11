@@ -86,7 +86,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     @objc private func listButtonTapped() {
         Task {
-            guard let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
             
             if itemIsNew {
                 try await PersistenceDataManager.shared.addToMyListMedia(media!)
@@ -108,9 +108,8 @@ class NewHotTableViewCell: UITableViewCell {
     
     func setupMyListButtonUI() {
         Task {
-            guard media != nil,
-                  let itemIsNew = await PersistenceDataManager.shared.isItemNewInList(item: media!) else {return}
-            
+            guard media != nil else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
             if itemIsNew {
                 myListButton.configuration?.image = UIImage(systemName: "plus")
             } else {

@@ -50,7 +50,6 @@ enum UIHelper {
         
         // get the last tab image position
         static func getMyNetflixTabFrame(from mainTC: UITabBarController) -> CGPoint {
-            
             // get home indicator frame for windowScene
             let scenes = UIApplication.shared.connectedScenes
             guard let windowScene = scenes.first as? UIWindowScene, let window = windowScene.windows.first else {return .zero}

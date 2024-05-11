@@ -18,13 +18,10 @@ class NewHotVC: UIViewController {
     
     //MARK: - Configure UIElements
     private func configureViews(){
-        view.addSubview(scrollView)
-        [comingSoonTable, everyonesTable, topTVShowsTable, topMoviesTable].forEach{
-            add(childVC: $0, to: tablesStackView)
-//            $0.delegate = self
-        }
-        scrollView.addSubview(tablesStackView)
         view.addSubview(categoryButtonsBar)
+        view.addSubview(scrollView)
+        [comingSoonTable, everyonesTable, topTVShowsTable, topMoviesTable].forEach{add(childVC: $0, to: tablesStackView)}
+        scrollView.addSubview(tablesStackView)
         
         categoryButtonsBar.delegate = self
         scrollView.delegate = self

@@ -23,7 +23,6 @@ class TemporaryAlertVC: UIViewController {
     
     //MARK: - Configure VC
     func configureViews() {
-        view.backgroundColor = .black.withAlphaComponent(0.3)
         //containerView config
         view.addSubview(containerView)
         containerView.addSubview(messageLabel)
@@ -49,14 +48,13 @@ class TemporaryAlertVC: UIViewController {
         NSLayoutConstraint.activate([
             // containerView constraints
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 15),
-            containerView.widthAnchor.constraint(equalTo: messageLabel.widthAnchor, constant: 30),
-            containerView.heightAnchor.constraint(equalTo: messageLabel.heightAnchor, constant: 20),
+            containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -7),
+            containerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20),
+            containerView.heightAnchor.constraint(equalTo: messageLabel.heightAnchor, constant: 30),
             
             messageLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             messageLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
-            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
             messageLabel.widthAnchor.constraint(equalTo: messageLabel.widthAnchor),
             messageLabel.heightAnchor.constraint(equalTo: messageLabel.heightAnchor)
         ])
@@ -66,10 +64,11 @@ class TemporaryAlertVC: UIViewController {
     //MARK: - Declare Variables
     let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .darkGray
-        view.layer.cornerRadius = 10
+        let green = UIColor(red: 5/255.0, green: 148/255.0, blue: 0/255.0, alpha: 1.000)
+        view.backgroundColor = green
+        view.layer.cornerRadius = 5
         
-        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowColor = green.cgColor
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = CGSize.zero
         view.layer.shadowRadius = 1
@@ -79,7 +78,7 @@ class TemporaryAlertVC: UIViewController {
     }()
     
     let messageLabel: UILabel = {
-        let label = NFBodyLabel(text: "", fontSize: 18, fontWeight: .semibold, textAlignment: .center, lines: 1, autoLayout: false)
+        let label = NFBodyLabel(text: "", fontSize: 18, fontWeight: .semibold, textAlignment: .left, lines: 1, autoLayout: false)
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowOpacity = 0.5
         label.layer.shadowOffset = CGSize.zero
