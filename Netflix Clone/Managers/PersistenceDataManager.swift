@@ -12,8 +12,7 @@ import UIKit
 
 class PersistenceDataManager {
 
-    static let shared = PersistenceDataManager()    
-    
+    static let shared = PersistenceDataManager()
     
     //MARK: Declare Containers
     // First persistent container for downloading media items
@@ -38,11 +37,22 @@ class PersistenceDataManager {
         return container
     }()
     
+    // array of items in the my list container to avoid data racing
+    // when checking if an item is already in the list or not
+    private var listArray = [MediaItem]()
+    
+    func initializeMyListArray() {
+        Task {
+            do { self.listArray = try await fetchMyListMedia() }
+            catch { print("Error fetching listArray: \(error.localizedDescription)") }
+        }
+    }
+    
     
     //MARK: - Save To Containers
     // Function to save items of type MediaItems in the download container
     func addToMyListMedia(_ media: Media) async throws {
-        guard await isItemNewInList(item: media) ?? true else {return}
+        guard isItemNewToList(item: media) else {return}
         
         let context = myListContainer.viewContext
         let item = MediaItem(context: context)
@@ -53,14 +63,15 @@ class PersistenceDataManager {
         item.overview = media.overview
         item.posterPath = media.posterPath
         
+        listArray.append(item)
+        
         do { return try context.save() }
         catch { throw DataBaseError.faliedToSaveData }
     }
     
     // Check For Duplicates
-    func isItemNewInList(item: Media) async -> Bool? {
-        guard let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia() else { return nil }
-        let itemInList = listItems.contains(where: {$0.id == item.id})
+    func isItemNewToList(item: Media) -> Bool {
+        let itemInList = listArray.contains(where: {$0.id == item.id})
         return !itemInList
     }
     
@@ -107,6 +118,8 @@ class PersistenceDataManager {
         let mediaItem = await getItemFromList(item: item)
         let context = myListContainer.viewContext
         context.delete(mediaItem)
+        
+        listArray.removeAll(where: {$0.id == item.id})
         
         do { return try context.save() }
         catch { throw DataBaseError.faliedToDeleteData }
