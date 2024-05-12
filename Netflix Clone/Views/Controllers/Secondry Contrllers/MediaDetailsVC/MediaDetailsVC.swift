@@ -22,7 +22,7 @@ class MediaDetailsVC: UIViewController {
         navigationController?.navigationBar.isHidden = true
         
         // configure the youtube vc in parentVC
-        UIHelper.UIKit.setupChildVC(from: youtubePlayerVC, in: self)
+        UIHelper.setupChildVC(from: youtubePlayerVC, in: self)
         view.addSubview(containterScrollView)
         
         [netflixLogo, categoryLabel, mediaTitle, detailsLabel, playButton, overViewLabel, castLabel, castExpandButton, directorLabel, threeButtons].forEach {containterScrollView.addSubview($0)}

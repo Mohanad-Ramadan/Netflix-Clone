@@ -57,7 +57,7 @@ struct SelectedProfileView: View {
                             )
                         )
                         .modifier(
-                            UIHelper.SwiftUI.AnimateCardPath(
+                            AnimateCardPath(
                                 from: startPosition,
                                 center: screenCenter,
                                 to: cardEndPosition(),
@@ -83,4 +83,42 @@ struct SelectedProfileView: View {
         }
     }
 
+}
+
+
+// animate a drawing path
+struct AnimateCardPath: ViewModifier, Animatable {
+    init(from startPoint: CGPoint, center: CGPoint, to destination: CGPoint, animateFirstPortion: Bool, animateSecondPortion: Bool, path: Path, pathProgress: CGFloat) {
+        beginPoint = startPoint
+        centerPoint = center
+        endPoint = destination
+        progress = pathProgress
+        self.animateFirstPortion = animateFirstPortion
+        self.animateSecondPortion = animateSecondPortion
+        self.path = path
+    }
+    
+    var beginPoint: CGPoint
+    var centerPoint: CGPoint
+    var endPoint: CGPoint
+    var animateFirstPortion: Bool
+    var animateSecondPortion: Bool
+    var path: Path
+    var progress: CGFloat
+    
+    var animatableData: CGFloat {
+        get {progress}
+        set {progress = newValue}
+    }
+    
+    func body(content: Content) -> some View {
+        content
+            .position(
+                animateFirstPortion ?
+                (animateSecondPortion ? (path.trimmedPath(from: 0, to: progress).currentPoint) ?? beginPoint : centerPoint)
+                :
+                beginPoint
+            )
+    }
+    
 }
