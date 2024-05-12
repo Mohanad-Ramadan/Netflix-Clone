@@ -79,6 +79,8 @@ struct Constants {
     
     static let notificationKey = "Fetch agian"
     static let trailersKey = "trailer watched"
+    
+    static var tabBarHeight: CGFloat = 0
 }
 
 enum Endpoints: String {

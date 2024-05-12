@@ -366,6 +366,6 @@ extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
 
 //MARK: - ThreeButtons Delegate
 extension MediaDetailsVC: ThreeButtonsUIView.Delegate{
-    func saveMediaToList() {presentTemporaryAlert(alertTitle: "Added To My List")}
-    func removeMediafromList() {presentTemporaryAlert(alertTitle: "Removed from My List")}
+    func saveMediaToList() {presentTemporaryAlert(alertType: .save)}
+    func removeMediafromList() {presentTemporaryAlert(alertType: .remove)}
 }

@@ -51,6 +51,6 @@ class CategoryVC: UIViewController {
 
 //MARK: - Cell Delegate
 extension CategoryVC: NewHotTableViewCell.Delegate {
-    func saveMediaToList() {presentTemporaryAlert(alertTitle: "Added To My List")}
-    func removeMediafromList() {presentTemporaryAlert(alertTitle: "Removed from My List")}
+    func saveMediaToList() {presentTemporaryAlert(alertType: .save)}
+    func removeMediafromList() {presentTemporaryAlert(alertType: .remove)}
 }

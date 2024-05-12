@@ -49,7 +49,7 @@ enum UIHelper {
         }
         
         // get the last tab image position
-        static func getMyNetflixTabFrame(from mainTC: UITabBarController) -> CGPoint {
+        static func getMyNetflixTabItemFrame(from mainTC: UITabBarController) -> CGPoint {
             // get home indicator frame for windowScene
             let scenes = UIApplication.shared.connectedScenes
             guard let windowScene = scenes.first as? UIWindowScene, let window = windowScene.windows.first else {return .zero}
@@ -76,12 +76,23 @@ enum UIHelper {
             return imagePosition
         }
         
+        
+        static func getTabBarFrame(from mainTVC: UITabBarController) -> CGFloat {
+            // calculate the position
+            let tabBar = mainTVC.tabBar.frame
+            let tabHeight = tabBar.height
+            return tabHeight
+        }
+        
+        // configure the childVC in a parentVC
         static func setupChildVC(from vc: UIViewController, in parent: UIViewController) {
             parent.addChild(vc)
             vc.view.translatesAutoresizingMaskIntoConstraints = false
             parent.view.addSubview(vc.view)
             vc.didMove(toParent: parent)
         }
+        
+        
     }
     
     

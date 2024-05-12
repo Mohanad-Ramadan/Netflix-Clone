@@ -7,16 +7,25 @@
 
 import UIKit
 
+//MARK: Alert type cases
+enum AlertType {
+    case save , remove
+}
+
 class TemporaryAlertVC: UIViewController {
-    init(alertTitle: String) {
+    init(alertType: AlertType) {
         super.init(nibName: nil, bundle: nil)
-        self.alertTitle = alertTitle
+        if alertType == .save {
+            initSaveAlert()
+        } else {
+            initRemoveAlert()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
-//        configureTapGesture()
+        configureTapGesture()
         applyConstraints()
         autoDismiss()
     }
@@ -26,7 +35,20 @@ class TemporaryAlertVC: UIViewController {
         //containerView config
         view.addSubview(containerView)
         containerView.addSubview(messageLabel)
-        messageLabel.text = alertTitle!
+    }
+    
+    //MARK: - Setup Alert Type
+    func initSaveAlert() {
+        messageLabel.text = "Added to My List"
+        containerView.backgroundColor = .darkGreen
+        containerView.layer.shadowColor = UIColor.green.cgColor
+    }
+    
+    func initRemoveAlert() {
+        messageLabel.text = "Removed from My List"
+        containerView.backgroundColor = .darkRed
+        containerView.layer.shadowColor = UIColor.red.cgColor
+        
     }
     
     //MARK: - VC Dismiss function
@@ -36,19 +58,20 @@ class TemporaryAlertVC: UIViewController {
         }
     }
     
-//    func configureTapGesture() {
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissVC))
-//        view.addGestureRecognizer(tap)
-//    }
-//    
-//    @objc func dismissVC() { dismiss(animated: true) }
+    func configureTapGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissVC))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissVC() { dismiss(animated: true) }
 
     //MARK: - constraints
     func applyConstraints(){
+        let tabBarHeight = Constants.tabBarHeight + 5
         NSLayoutConstraint.activate([
             // containerView constraints
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -7),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -tabBarHeight),
             containerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20),
             containerView.heightAnchor.constraint(equalTo: messageLabel.heightAnchor, constant: 30),
             
@@ -64,15 +87,10 @@ class TemporaryAlertVC: UIViewController {
     //MARK: - Declare Variables
     let containerView: UIView = {
         let view = UIView()
-        let green = UIColor(red: 5/255.0, green: 148/255.0, blue: 0/255.0, alpha: 1.000)
-        view.backgroundColor = green
         view.layer.cornerRadius = 5
-        
-        view.layer.shadowColor = green.cgColor
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = CGSize.zero
-        view.layer.shadowRadius = 1
-        
+        view.layer.shadowRadius = 3
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -85,14 +103,9 @@ class TemporaryAlertVC: UIViewController {
         label.layer.shadowRadius = 2
         return label
     }()
-    var alertTitle: String?
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) {fatalError()}
 }
 
 
-#Preview{
-    TemporaryAlertVC(alertTitle: "hello")
-}
+#Preview{TemporaryAlertVC(alertType: .save)}

@@ -17,6 +17,8 @@ class MainScreenVC: UIViewController {
         mainAppController.view.frame = view.bounds
         view.insertSubview(mainAppController.view, belowSubview: launchView.view)
         mainAppController.didMove(toParent: self)
+        // get the tabBar height
+        Constants.tabBarHeight = UIHelper.UIKit.getTabBarFrame(from: mainAppController)
     }
     
     // Configure SwiftUI views
@@ -38,7 +40,7 @@ class MainScreenVC: UIViewController {
 
 //MARK: - UserView Delegate
 extension MainScreenVC: LaunchView.Delegate {
-    func getTabItemPosition() -> CGPoint {UIHelper.UIKit.getMyNetflixTabFrame(from: mainAppController)}
+    func getTabItemPosition() -> CGPoint {UIHelper.UIKit.getMyNetflixTabItemFrame(from: mainAppController)}
     func addMainController() {setupMainTabController()}
     func endWithLaunchView() {self.launchView.view.removeFromSuperview()}
     
