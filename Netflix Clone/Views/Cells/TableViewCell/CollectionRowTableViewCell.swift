@@ -71,7 +71,7 @@ class CollectionRowTableViewCell: UITableViewCell {
 }
 
 
-//MARK: - CollectionRowTableViewCell extensions
+//MARK: - Collection Cell Delegate
 extension CollectionRowTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -89,7 +89,6 @@ extension CollectionRowTableViewCell: UICollectionViewDelegate, UICollectionView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         let media = media[indexPath.row]
-//        let isTrend = self.isTheTappedMediaTrend!
         let trendRank = indexPath.row+1
         
         if media.mediaType == "movie" || self.mediaType == "movie" {

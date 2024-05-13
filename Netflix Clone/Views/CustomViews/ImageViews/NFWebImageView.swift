@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SkeletonView
+import SDWebImage
 
 class NFWebImageView: UIImageView {
     override init(frame: CGRect) {super.init(frame: frame)}
@@ -14,8 +14,7 @@ class NFWebImageView: UIImageView {
     convenience init(
         cornerRadius: CGFloat = 0,
         contentMode: ContentMode = .scaleAspectFill,
-        autoLayout: Bool = true,
-        enableSkeleton: Bool = true
+        autoLayout: Bool = true
     ){
         self.init(frame: .zero)
         layer.cornerRadius = cornerRadius
@@ -26,7 +25,12 @@ class NFWebImageView: UIImageView {
     
     func downloadImageFrom(_ endpoint: String){
         guard let url = URL(string: Constants.imageURL + endpoint) else {return}
-        sd_setImage(with: url)
+        sd_imageTransition = .fade
+        sd_setImage(with: url, placeholderImage: UIImage(resource: .netflixClone)) {_,error,_,_ in
+            if error != nil {
+                self.image = UIImage(resource: .netflixClone).withTintColor(.gray)
+            }
+        }
     }
     
     

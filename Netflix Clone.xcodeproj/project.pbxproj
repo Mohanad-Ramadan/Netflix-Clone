@@ -295,7 +295,7 @@
 			children = (
 				14B323EB2BDA52E200F817FE /* Main */,
 				14B323E92BDA52B100F817FE /* Primary Controllers */,
-				14B323EA2BDA52CD00F817FE /* Secondry Contrllers */,
+				14B323EA2BDA52CD00F817FE /* Secondry Controllers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -491,7 +491,7 @@
 			path = "Primary Controllers";
 			sourceTree = "<group>";
 		};
-		14B323EA2BDA52CD00F817FE /* Secondry Contrllers */ = {
+		14B323EA2BDA52CD00F817FE /* Secondry Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
@@ -500,7 +500,7 @@
 				141617E72BE7A63600927661 /* NFAlertVC.swift */,
 				142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */,
 			);
-			path = "Secondry Contrllers";
+			path = "Secondry Controllers";
 			sourceTree = "<group>";
 		};
 		14B323EB2BDA52E200F817FE /* Main */ = {
