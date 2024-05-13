@@ -77,7 +77,9 @@ class SearchVC: UIViewController {
     func fetchRecommendedMedia() {
         Task{
             do {
-                let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
+                let wantedGenres = ["18", "36"].joined(separator: ",")
+                let unwantedGenres = ["35", "10749"].joined(separator: "|")
+                let media = try await NetworkManager.shared.getMoreOf(genresId: wantedGenres, unwantedGenresId: unwantedGenres)
                 self.media = media
                 searchTable.reloadData()
                 removeLoadingView()

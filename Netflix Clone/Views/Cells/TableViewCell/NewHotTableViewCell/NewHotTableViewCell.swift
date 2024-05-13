@@ -60,8 +60,8 @@ class NewHotTableViewCell: UITableViewCell {
     
     //MARK: - Configure Cell
     func configureCellImages(with media: MediaViewModel){
-        backdropImageView.downloadHorizontalImage(from: media.backdropsPath ?? "noPath")
-        logoView.downloadHorizontalImage(from: media.logoPath ?? "noPath")
+        backdropImageView.downloadImage(from: media.backdropsPath ?? "noPath", extendVector: .horizontal)
+        logoView.downloadImage(from: media.logoPath ?? "noPath", extendVector: .horizontal)
         if let logoAspectRatio = media.logoAspectRatio {
             if UIScreen.main.bounds.width > 375 {
                 updateLogoWidthBy(logoAspectRatio > 4 ? 4 : logoAspectRatio)

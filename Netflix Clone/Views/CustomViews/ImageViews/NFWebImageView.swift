@@ -8,6 +8,8 @@
 import UIKit
 import SDWebImage
 
+enum ImageExtendVector { case vertical, horizontal }
+
 class NFWebImageView: UIImageView {
     override init(frame: CGRect) {super.init(frame: frame)}
     
@@ -23,31 +25,18 @@ class NFWebImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
-    func downloadHorizontalImage(from endpoint: String){
+    func downloadImage(from endpoint: String, extendVector: ImageExtendVector){
         guard let url = URL(string: Constants.imageURL + endpoint) else {return}
         sd_imageTransition = .fade
-        sd_imageTransition = .fade
-        sd_setImage(with: url, placeholderImage: horizontalPlaceholder) {_,error,_,_ in
-            if error != nil {
-                self.sd_cancelCurrentImageLoad()
-                self.image = self.horizontalPlaceholder.withTintColor(.gray)
-            }
+        
+        switch extendVector {
+        case .vertical: sd_setImage(with: url, placeholderImage: verticalPlaceholder)
+        case .horizontal: sd_setImage(with: url, placeholderImage: horizontalPlaceholder)
         }
-    }
-    
-    func downloadVerticalImage(from endpoint: String){
-        guard let url = URL(string: Constants.imageURL + endpoint) else {return}
-        sd_imageTransition = .fade
-        sd_setImage(with: url, placeholderImage: verticalPlaceholder) {_,error,_,_ in
-            if error != nil {
-                self.sd_cancelCurrentImageLoad()
-                self.image = self.verticalPlaceholder.withTintColor(.gray)
-            }
-        }
+        
     }
     
     let verticalPlaceholder: UIImage = UIImage(resource: .netflixIcon)
-    
     let horizontalPlaceholder: UIImage = UIImage(resource: .netflixLogo)
     
     
