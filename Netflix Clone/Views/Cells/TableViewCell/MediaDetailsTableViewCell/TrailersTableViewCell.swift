@@ -16,13 +16,17 @@ class TrailersTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
-        contentView.addSubview(youtubePlayerVC.view)
-        contentView.addSubview(trailerTitle)
-        applyConstraints()
+        configureContentView()
     }
     
     
+    private func configureContentView() {
+        contentView.addSubview(stackViewContainer)
+        [youtubePlayerVC.view, separatorLine, trailerTitle].forEach{stackViewContainer.addArrangedSubview($0)}
+        applyConstraints()
+    }
 
+    
     public func configureCell(with videoInfo: Trailer.Reuslts, and mediaName: String){
         // Configure the trailer title
         self.trailerTitle.text = "\(videoInfo.type): \(videoInfo.name)"
@@ -38,29 +42,62 @@ class TrailersTableViewCell: UITableViewCell {
     
     private func applyConstraints() {
         NSLayoutConstraint.activate([
+            stackViewContainer.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackViewContainer.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            stackViewContainer.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackViewContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             // TrailerView Constraints
             youtubePlayerVC.view.topAnchor.constraint(equalTo: contentView.topAnchor),
             youtubePlayerVC.view.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             youtubePlayerVC.view.heightAnchor.constraint(equalToConstant: 230),
-            youtubePlayerVC.view.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -10),
+            youtubePlayerVC.view.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            
+            // separator
+            separatorLine.leadingAnchor.constraint(equalTo: stackViewContainer.leadingAnchor, constant: 10),
+            separatorLine.widthAnchor.constraint(equalToConstant: 50),
+            separatorLine.heightAnchor.constraint(equalToConstant: 1),
             
             // TrailerTitle Constraints
-            trailerTitle.topAnchor.constraint(equalTo: youtubePlayerVC.view.bottomAnchor, constant: 10),
-            trailerTitle.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor)
-            
+            trailerTitle.leadingAnchor.constraint(equalTo: stackViewContainer.leadingAnchor, constant: 9)
         ])
+        stackViewContainer.setCustomSpacing(-4, after: separatorLine)
     }
     
-    private lazy var youtubePlayerVC: YouTubePlayerViewController = {
-        lazy var youtubePlayer = YouTubePlayer(configuration: .init(fullscreenMode: .system,openURLAction: .init(handler: { _ in }),showCaptions: true,showFullscreenButton: false))
-        let youtubeVC = YouTubePlayerViewController(player: youtubePlayer)
-        youtubeVC.view.translatesAutoresizingMaskIntoConstraints = false
-        return youtubeVC
+    //MARK: - Declare Varaibles
+    private let stackViewContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.alignment = .leading
+        stackView.backgroundColor = .fadedBlack
+        stackView.layer.cornerRadius = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
-    private let trailerTitle = NFBodyLabel(fontSize: 14, fontWeight: .semibold)
+    private lazy var youtubePlayerVC: YouTubePlayerViewController = {
+        lazy var youtubePlayer = YouTubePlayer(
+            configuration: .init(
+                fullscreenMode: .system,
+                openURLAction: .init(handler: { _ in }),
+                autoPlay: false ,
+                showCaptions: true,
+                showControls: false,
+                showFullscreenButton: false
+            )
+        )
+        let youtubeVC = YouTubePlayerViewController(player: youtubePlayer)
+        return youtubeVC
+    }()
 
+    private let separatorLine: UIView = {
+        let rectangle = UIView()
+        rectangle.backgroundColor = UIColor.gray.withAlphaComponent(0.6)
+        return rectangle
+    }()
+    
+    private let trailerTitle = NFBodyLabel(fontSize: 15, fontWeight: .semibold, autoLayout: true)
     
     required init?(coder: NSCoder) {fatalError()}
 }

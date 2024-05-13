@@ -62,7 +62,9 @@ class MovieDetailsVC: MediaDetailsVC {
         configureTrailer(with: model)
         // pass th videos without the one taken for the youtubePlayerVC.view webView
         guard let videosResult = model.videosResult else {return}
-        trailers = videosResult.filter { $0.key != getFirstTrailerKey(from: videosResult) }
+        let removeMainTrailer = videosResult.filter { $0.key != getFirstTrailerKey(from: videosResult) }
+        let someTrailers = Array(removeMainTrailer.prefix(4))
+        trailers = someTrailers
         trailersCount = CGFloat(trailers.count)
     }
     
@@ -89,7 +91,7 @@ class MovieDetailsVC: MediaDetailsVC {
         [trailerTable.topAnchor.constraint(equalTo: switchViewButtons.bottomAnchor),
          trailerTable.leadingAnchor.constraint(equalTo: youtubePlayerVC.view.leadingAnchor, constant: 5),
          trailerTable.trailingAnchor.constraint(equalTo: youtubePlayerVC.view.trailingAnchor,constant: -5),
-         trailerTable.heightAnchor.constraint(equalToConstant: 290 * (trailersCount ?? 1)),
+         trailerTable.heightAnchor.constraint(equalToConstant: 300 * (trailersCount ?? 1)),
          trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
     }
     
@@ -131,6 +133,7 @@ class MovieDetailsVC: MediaDetailsVC {
         table.backgroundColor = .clear
         table.allowsSelection = false
         table.isScrollEnabled = false
+        table.isSpringLoaded = true
         table.showsVerticalScrollIndicator = false
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
@@ -150,7 +153,9 @@ extension MovieDetailsVC: SwitchViewButtonsUIView.Delegate {
     func buttonTwoAction() {showTrailerTableView()}
 }
 
-//MARK: - Delegate and DataSource
+
+
+//MARK: - Trailers Delegate
 extension MovieDetailsVC: UITableViewDelegate,
                           UITableViewDataSource {
     
@@ -171,7 +176,7 @@ extension MovieDetailsVC: UITableViewDelegate,
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 280
+        return 300
     }
     
 }
