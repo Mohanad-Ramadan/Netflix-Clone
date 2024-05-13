@@ -1,7 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "No image icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -10,6 +9,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "netflix logo.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

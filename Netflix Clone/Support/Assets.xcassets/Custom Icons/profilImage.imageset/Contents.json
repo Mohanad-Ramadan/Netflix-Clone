@@ -1,7 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "NetlixProfile3 3.22.55 AM.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -10,6 +9,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "NetlixProfile3 3.22.55 AM.jpg",
       "idiom" : "universal",
       "scale" : "3x"
     }

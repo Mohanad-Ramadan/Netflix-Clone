@@ -23,15 +23,32 @@ class NFWebImageView: UIImageView {
         translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
-    func downloadImageFrom(_ endpoint: String){
+    func downloadHorizontalImage(from endpoint: String){
         guard let url = URL(string: Constants.imageURL + endpoint) else {return}
         sd_imageTransition = .fade
-        sd_setImage(with: url, placeholderImage: UIImage(resource: .netflixClone)) {_,error,_,_ in
+        sd_imageTransition = .fade
+        sd_setImage(with: url, placeholderImage: horizontalPlaceholder) {_,error,_,_ in
             if error != nil {
-                self.image = UIImage(resource: .netflixClone).withTintColor(.gray)
+                self.sd_cancelCurrentImageLoad()
+                self.image = self.horizontalPlaceholder.withTintColor(.gray)
             }
         }
     }
+    
+    func downloadVerticalImage(from endpoint: String){
+        guard let url = URL(string: Constants.imageURL + endpoint) else {return}
+        sd_imageTransition = .fade
+        sd_setImage(with: url, placeholderImage: verticalPlaceholder) {_,error,_,_ in
+            if error != nil {
+                self.sd_cancelCurrentImageLoad()
+                self.image = self.verticalPlaceholder.withTintColor(.gray)
+            }
+        }
+    }
+    
+    let verticalPlaceholder: UIImage = UIImage(resource: .netflixIcon)
+    
+    let horizontalPlaceholder: UIImage = UIImage(resource: .netflixLogo)
     
     
     required init?(coder: NSCoder) {fatalError()}

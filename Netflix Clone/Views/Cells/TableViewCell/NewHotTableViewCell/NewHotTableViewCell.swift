@@ -60,8 +60,8 @@ class NewHotTableViewCell: UITableViewCell {
     
     //MARK: - Configure Cell
     func configureCellImages(with media: MediaViewModel){
-        backdropImageView.downloadImageFrom(media.backdropsPath ?? "noPath")
-        logoView.downloadImageFrom(media.logoPath ?? "noPath")
+        backdropImageView.downloadHorizontalImage(from: media.backdropsPath ?? "noPath")
+        logoView.downloadHorizontalImage(from: media.logoPath ?? "noPath")
         if let logoAspectRatio = media.logoAspectRatio {
             if UIScreen.main.bounds.width > 375 {
                 updateLogoWidthBy(logoAspectRatio > 4 ? 4 : logoAspectRatio)
@@ -232,7 +232,7 @@ class NewHotTableViewCell: UITableViewCell {
 
     let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
-    let netflixLogo = NFImageView(image: .netflixClone)
+    let netflixLogo = NFImageView(image: .netflixIcon)
     
     let mediaTypeLabel = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
     

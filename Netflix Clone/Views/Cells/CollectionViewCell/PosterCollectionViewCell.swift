@@ -23,7 +23,7 @@ class PosterCollectionViewCell: UICollectionViewCell {
         posterImageView.frame = contentView.bounds
     }
     
-    func configureCell(with endpoint: String){ posterImageView.downloadImageFrom(endpoint) }
+    func configureCell(with endpoint: String){ posterImageView.downloadVerticalImage(from: endpoint) }
     
     private let posterImageView = NFWebImageView(cornerRadius: 5)
     

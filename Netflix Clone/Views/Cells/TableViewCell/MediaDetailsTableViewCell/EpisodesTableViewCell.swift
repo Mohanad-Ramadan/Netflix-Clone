@@ -25,7 +25,7 @@ class EpisodesTableViewCell: UITableViewCell {
     
     
     func configureCellDetail(from episode: SeasonDetail.Episode){
-        episodeImageView.downloadImageFrom(episode.stillPath ?? "noPath")
+        episodeImageView.downloadVerticalImage(from: episode.stillPath ?? "noPath")
         titleLabel.text = "\(episode.episodeNumber ?? 0). \(episode.name ?? "")"
         runtime.text = episode.runtime?.formatTimeFromMinutes()
         overview.text = episode.overview

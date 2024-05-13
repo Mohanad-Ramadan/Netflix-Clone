@@ -36,7 +36,7 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     func configureCell(with model: MediaViewModel){
-        mediaBackdropImageView.downloadImageFrom(model.backdropsPath ?? "noPath")
+        mediaBackdropImageView.downloadHorizontalImage(from: model.backdropsPath ?? "noPath")
         titleLabel.text = model.title
     }
     

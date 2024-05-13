@@ -1,7 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "SCR-20240201-6vw.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -10,6 +9,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "SCR-20240201-6vw.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

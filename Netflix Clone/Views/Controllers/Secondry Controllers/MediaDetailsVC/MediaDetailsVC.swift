@@ -303,7 +303,7 @@ class MediaDetailsVC: UIViewController {
     
     //MARK: - Declare Container Subviews
     
-    let netflixLogo = NFImageView(image: .netflixClone)
+    let netflixLogo = NFImageView(image: .netflixIcon)
     
     let categoryLabel = NFBodyLabel(color: .lightGray, fontSize: 10, fontWeight: .semibold)
     
