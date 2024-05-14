@@ -36,7 +36,7 @@ extension UIViewController {
     
     func presentNFAlert(alertTitle: String = "Opps!", messageText: String){
         DispatchQueue.main.async {
-            let alertVC = NFAlertVC(alertTitle: alertTitle , messageText: messageText)
+            let alertVC = AlertVC(alertTitle: alertTitle , messageText: messageText)
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .crossDissolve
             self.present(alertVC, animated: true)
@@ -44,14 +44,16 @@ extension UIViewController {
     }
     
     func presentDefaultError() {
-        DispatchQueue.main.async {
-            let alertVC = NFAlertVC(alertTitle: "Opps",
-                                    messageText: "Connection Lost. Please check your Internet connection")
-            alertVC.modalPresentationStyle  = .overFullScreen
-            alertVC.modalTransitionStyle    = .crossDissolve
-            self.present(alertVC, animated: true)
-        }
+        //        DispatchQueue.main.async {
+        //            let alertVC = AlertVC(alertTitle: "Opps!",
+        //                                    messageText: "Connection Lost. Please check your Internet connection")
+        //            alertVC.modalPresentationStyle  = .overFullScreen
+        //            alertVC.modalTransitionStyle    = .crossDissolve
+        //            self.present(alertVC, animated: true)
+        //        }
+        presentTemporaryAlert(alertType: .connectivity)
     }
+    
     
     func presentTemporaryAlert(alertType: AlertType) {
         DispatchQueue.main.async {
@@ -59,6 +61,9 @@ extension UIViewController {
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .coverVertical
             self.present(alertVC, animated: true)
+            // alert tap action
+            alertVC.alertTapped = { /*reload all view controller again*/ }
         }
     }
 }
+

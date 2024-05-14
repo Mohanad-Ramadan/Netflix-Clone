@@ -23,13 +23,7 @@ class NetworkManager {
     func getMedia(from stringURL: String) async throws -> [Media] {
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
-        let configuration = URLSession.shared.configuration
-        configuration.waitsForConnectivity = true
-        configuration.timeoutIntervalForResource = 30
-
-        let session = URLSession(configuration: configuration)
-        let (data,response) = try await session.data(from: url)
-        
+        let (data,response) = try await URLSession.shared.data(from: url)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {throw APIError.invalidResponse}
         
         do {

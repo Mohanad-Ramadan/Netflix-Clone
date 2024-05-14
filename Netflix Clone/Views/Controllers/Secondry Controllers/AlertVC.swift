@@ -1,5 +1,5 @@
 //
-//  NFAlertVC.swift
+//  AlertVC.swift
 //  Netflix Clone
 //
 //  Created by Mohanad Ramdan on 05/05/2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NFAlertVC: UIViewController {
+class AlertVC: UIViewController {
     init(alertTitle: String, messageText: String) {
         super.init(nibName: nil, bundle: nil)
         self.alertTitle = alertTitle
@@ -100,5 +100,5 @@ class NFAlertVC: UIViewController {
 }
 
 #Preview{
-    NFAlertVC(alertTitle: "Opps", messageText: "somthing went wrong please try again")
+    AlertVC(alertTitle: "Opps", messageText: "somthing went wrong please try again")
 }

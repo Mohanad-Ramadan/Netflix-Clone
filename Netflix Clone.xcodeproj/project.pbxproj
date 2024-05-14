@@ -19,9 +19,10 @@
 		141230EC2AE5AED80025815E /* MyListNetflixModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 141230EA2AE5AED80025815E /* MyListNetflixModel.xcdatamodeld */; };
 		141230EE2AE5B2020025815E /* PersistenceDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141230ED2AE5B2020025815E /* PersistenceDataManager.swift */; };
 		141299D12BD22A1B006273FA /* SelectedProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141299D02BD22A1B006273FA /* SelectedProfileView.swift */; };
-		141617E82BE7A63600927661 /* NFAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141617E72BE7A63600927661 /* NFAlertVC.swift */; };
+		141617E82BE7A63600927661 /* AlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141617E72BE7A63600927661 /* AlertVC.swift */; };
 		1416D03F2B6734FB00BC363C /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1416D03E2B6734FB00BC363C /* Cast.swift */; };
 		141E13FB2AD73191007418D5 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141E13FA2AD73191007418D5 /* NetworkManager.swift */; };
+		141FBB0D2BF2FB9C00F3DC22 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141FBB0C2BF2FB9C00F3DC22 /* NetworkMonitor.swift */; };
 		142C4EF02BED3B65001485F0 /* TemporaryAlertVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */; };
 		142FF7D52B91183A0061375F /* NFPlainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FF7D42B91183A0061375F /* NFPlainButton.swift */; };
 		142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142FF7D62B911DB00061375F /* NFSymbolButton.swift */; };
@@ -113,9 +114,10 @@
 		141230EB2AE5AED80025815E /* NetflixCloneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NetflixCloneModel.xcdatamodel; sourceTree = "<group>"; };
 		141230ED2AE5B2020025815E /* PersistenceDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceDataManager.swift; sourceTree = "<group>"; };
 		141299D02BD22A1B006273FA /* SelectedProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedProfileView.swift; sourceTree = "<group>"; };
-		141617E72BE7A63600927661 /* NFAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFAlertVC.swift; sourceTree = "<group>"; };
+		141617E72BE7A63600927661 /* AlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertVC.swift; sourceTree = "<group>"; };
 		1416D03E2B6734FB00BC363C /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		141E13FA2AD73191007418D5 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		141FBB0C2BF2FB9C00F3DC22 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemporaryAlertVC.swift; sourceTree = "<group>"; };
 		142FF7D42B91183A0061375F /* NFPlainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFPlainButton.swift; sourceTree = "<group>"; };
 		142FF7D62B911DB00061375F /* NFSymbolButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFSymbolButton.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 			children = (
 				141230ED2AE5B2020025815E /* PersistenceDataManager.swift */,
 				141E13FA2AD73191007418D5 /* NetworkManager.swift */,
+				141FBB0C2BF2FB9C00F3DC22 /* NetworkMonitor.swift */,
 				148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */,
 			);
 			path = Managers;
@@ -497,7 +500,7 @@
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
 				1473DD322BD3854400D41655 /* SearchVC */,
 				14B213F22BCB909D00676234 /* LaunchView.swift */,
-				141617E72BE7A63600927661 /* NFAlertVC.swift */,
+				141617E72BE7A63600927661 /* AlertVC.swift */,
 				142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */,
 			);
 			path = "Secondry Controllers";
@@ -665,7 +668,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				147BD90B2B9B942D0054A207 /* UIHelper.swift in Sources */,
-				141617E82BE7A63600927661 /* NFAlertVC.swift in Sources */,
+				141617E82BE7A63600927661 /* AlertVC.swift in Sources */,
 				14B323EF2BDBD0A600F817FE /* CastViewModel.swift in Sources */,
 				142FF7D72B911DB00061375F /* NFSymbolButton.swift in Sources */,
 				14DCE3D72B22490D00DCD959 /* NewHotTableViewCell.swift in Sources */,
@@ -737,6 +740,7 @@
 				14CC5CCA2BCDBF9400A5805D /* LoadingSpinnerView.swift in Sources */,
 				146621DC2BCA6513009B810B /* UserProfilesView.swift in Sources */,
 				14CC5CD22BCDE50B00A5805D /* UserProfile.swift in Sources */,
+				141FBB0D2BF2FB9C00F3DC22 /* NetworkMonitor.swift in Sources */,
 				141230EE2AE5B2020025815E /* PersistenceDataManager.swift in Sources */,
 				145EDE7B2B8BBF3E00B49A48 /* ViewController-EXT.swift in Sources */,
 				140A09A62BA92DE000D17AD3 /* TVDetailsVC.swift in Sources */,

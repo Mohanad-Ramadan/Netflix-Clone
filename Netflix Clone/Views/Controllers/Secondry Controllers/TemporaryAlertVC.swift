@@ -7,18 +7,19 @@
 
 import UIKit
 
-//MARK: Alert type cases
+//MARK: Alert Cases
 enum AlertType {
-    case save , remove
+    case save , remove, connectivity
 }
 
 class TemporaryAlertVC: UIViewController {
     init(alertType: AlertType) {
         super.init(nibName: nil, bundle: nil)
-        if alertType == .save {
-            initSaveAlert()
-        } else {
-            initRemoveAlert()
+        
+        switch alertType {
+        case .save: initSaveAlert()
+        case .remove: initRemoveAlert()
+        case .connectivity: initConnectionAlert()
         }
     }
     
@@ -27,7 +28,6 @@ class TemporaryAlertVC: UIViewController {
         configureViews()
         configureTapGesture()
         applyConstraints()
-        autoDismiss()
     }
     
     //MARK: - Configure VC
@@ -42,13 +42,20 @@ class TemporaryAlertVC: UIViewController {
         messageLabel.text = "Added to My List"
         containerView.backgroundColor = .darkGreen
         containerView.layer.shadowColor = UIColor.green.cgColor
+        autoDismiss()
     }
     
     func initRemoveAlert() {
         messageLabel.text = "Removed from My List"
         containerView.backgroundColor = .darkRed
         containerView.layer.shadowColor = UIColor.red.cgColor
-        
+        autoDismiss()
+    }
+    
+    func initConnectionAlert() {
+        messageLabel.text = "❕ No internet connection"
+        containerView.backgroundColor = .darkGray
+        containerView.layer.shadowColor = UIColor.gray.cgColor
     }
     
     //MARK: - VC Dismiss function
@@ -63,11 +70,14 @@ class TemporaryAlertVC: UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    @objc func dismissVC() { dismiss(animated: true) }
+    @objc func dismissVC() {
+        alertTapped?()
+        dismiss(animated: true)
+    }
 
     //MARK: - constraints
     func applyConstraints(){
-        let tabBarHeight = Constants.tabBarHeight + 5
+        let tabBarHeight = Constants.tabBarHeight + 10
         NSLayoutConstraint.activate([
             // containerView constraints
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -104,8 +114,10 @@ class TemporaryAlertVC: UIViewController {
         return label
     }()
     
+    var alertTapped: (()->Void)?
+    
     required init?(coder: NSCoder) {fatalError()}
 }
 
 
-#Preview{TemporaryAlertVC(alertType: .save)}
+//#Preview{TemporaryAlertVC(alertType: .save)}
