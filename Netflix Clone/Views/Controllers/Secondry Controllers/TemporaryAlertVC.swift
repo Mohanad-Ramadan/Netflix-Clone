@@ -26,7 +26,6 @@ class TemporaryAlertVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViews()
-        configureTapGesture()
         applyConstraints()
     }
     
@@ -56,6 +55,7 @@ class TemporaryAlertVC: UIViewController {
         messageLabel.text = "❕ No internet connection"
         containerView.backgroundColor = .darkGray
         containerView.layer.shadowColor = UIColor.gray.cgColor
+        configureTapGesture()
     }
     
     //MARK: - VC Dismiss function

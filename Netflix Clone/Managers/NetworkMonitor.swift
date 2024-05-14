@@ -21,7 +21,7 @@ class NetworkMonitor {
         let queue = DispatchQueue.main
         monitor.start(queue: queue)
         monitor.pathUpdateHandler = { path in
-            self.isConnected = path.status != .unsatisfied
+            self.isConnected = path.status == .satisfied
         }
     }
     

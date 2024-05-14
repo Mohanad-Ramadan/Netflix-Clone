@@ -43,18 +43,6 @@ extension UIViewController {
         }
     }
     
-    func presentDefaultError() {
-        //        DispatchQueue.main.async {
-        //            let alertVC = AlertVC(alertTitle: "Opps!",
-        //                                    messageText: "Connection Lost. Please check your Internet connection")
-        //            alertVC.modalPresentationStyle  = .overFullScreen
-        //            alertVC.modalTransitionStyle    = .crossDissolve
-        //            self.present(alertVC, animated: true)
-        //        }
-        presentTemporaryAlert(alertType: .connectivity)
-    }
-    
-    
     func presentTemporaryAlert(alertType: AlertType) {
         DispatchQueue.main.async {
             let alertVC = TemporaryAlertVC(alertType: alertType)
@@ -62,7 +50,11 @@ extension UIViewController {
             alertVC.modalTransitionStyle = .coverVertical
             self.present(alertVC, animated: true)
             // alert tap action
-            alertVC.alertTapped = { /*reload all view controller again*/ }
+            alertVC.alertTapped = {
+                self.loadView()
+                self.viewDidLoad()
+                self.viewWillAppear(true)
+            }
         }
     }
 }

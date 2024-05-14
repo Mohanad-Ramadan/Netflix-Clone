@@ -86,7 +86,7 @@ class SearchVC: UIViewController {
             } catch let error as APIError {
                 presentNFAlert(messageText: error.rawValue)
             } catch {
-                presentDefaultError()
+                presentTemporaryAlert(alertType: .connectivity)
             }
         }
     }

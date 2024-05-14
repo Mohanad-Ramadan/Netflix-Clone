@@ -40,7 +40,7 @@ class MovieDetailsVC: MediaDetailsVC {
                 let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
                 configureMovieTrailer(with: MediaViewModel(title: details.title ,videosResult: trailers))
                 
-            } catch {presentDefaultError()}
+            } catch {presentTemporaryAlert(alertType: .connectivity)}
         }
     }
     
