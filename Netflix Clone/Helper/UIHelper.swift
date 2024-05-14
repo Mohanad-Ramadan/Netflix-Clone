@@ -76,13 +76,6 @@ enum UIHelper {
     }
     
     
-    static func getTabBarFrame(from mainTVC: UITabBarController) -> CGFloat {
-        // calculate the position
-        let tabBar = mainTVC.tabBar.frame
-        let tabHeight = tabBar.height
-        return tabHeight
-    }
-    
     // configure the childVC in a parentVC
     static func setupChildVC(from vc: UIViewController, in parent: UIViewController) {
         parent.addChild(vc)

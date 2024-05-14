@@ -45,7 +45,7 @@ extension UIViewController {
     
     func presentTemporaryAlert(alertType: AlertType) {
         DispatchQueue.main.async {
-            let alertVC = TemporaryAlertVC(alertType: alertType)
+            let alertVC = TemporaryAlertVC(alertType: alertType, appearOn: self)
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .coverVertical
             self.present(alertVC, animated: true)
@@ -53,7 +53,6 @@ extension UIViewController {
             alertVC.alertTapped = {
                 self.loadView()
                 self.viewDidLoad()
-                self.viewWillAppear(true)
             }
         }
     }

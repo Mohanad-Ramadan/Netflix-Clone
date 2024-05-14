@@ -17,8 +17,6 @@ class MainScreenVC: UIViewController {
         mainAppController.view.frame = view.bounds
         view.insertSubview(mainAppController.view, belowSubview: launchView.view)
         mainAppController.didMove(toParent: self)
-        // get the tabBar height
-        Constants.tabBarHeight = UIHelper.getTabBarFrame(from: mainAppController)
     }
     
     // Configure SwiftUI views

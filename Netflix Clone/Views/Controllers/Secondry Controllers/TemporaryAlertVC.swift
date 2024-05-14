@@ -13,9 +13,9 @@ enum AlertType {
 }
 
 class TemporaryAlertVC: UIViewController {
-    init(alertType: AlertType) {
+    init(alertType: AlertType, appearOn vcBelow: UIViewController) {
         super.init(nibName: nil, bundle: nil)
-        
+        self.vcBelow = vcBelow
         switch alertType {
         case .save: initSaveAlert()
         case .remove: initRemoveAlert()
@@ -76,12 +76,23 @@ class TemporaryAlertVC: UIViewController {
     }
 
     //MARK: - constraints
+    func containerBottomAnchor() -> NSLayoutConstraint {
+        var tabBarHeight = vcBelow.navigationController?.tabBarController?.tabBar.bounds.height
+        if tabBarHeight == nil {
+            let bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            return bottomConstraint
+        } else {
+            tabBarHeight! += 10
+            let bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -tabBarHeight!)
+            return bottomConstraint
+        }
+    }
+    
     func applyConstraints(){
-        let tabBarHeight = Constants.tabBarHeight + 10
         NSLayoutConstraint.activate([
             // containerView constraints
+            containerBottomAnchor(),
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -tabBarHeight),
             containerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -20),
             containerView.heightAnchor.constraint(equalTo: messageLabel.heightAnchor, constant: 30),
             
@@ -115,6 +126,7 @@ class TemporaryAlertVC: UIViewController {
     }()
     
     var alertTapped: (()->Void)?
+    var vcBelow: UIViewController!
     
     required init?(coder: NSCoder) {fatalError()}
 }
