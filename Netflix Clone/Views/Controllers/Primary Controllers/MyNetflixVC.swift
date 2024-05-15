@@ -120,10 +120,10 @@ class MyNetflixVC: UIViewController {
         let headerView = UIView()
         if section == 0 { 
             headerView.addSubview(myListLabel)
-            myListLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+            myListLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
         } else {
             headerView.addSubview(watchedLabel)
-            watchedLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor).isActive = true
+            watchedLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
         }
         return headerView
     }

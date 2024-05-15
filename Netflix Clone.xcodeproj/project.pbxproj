@@ -499,7 +499,6 @@
 			children = (
 				1482522C2B5F52FA0009C0EF /* MediaDetailsVC */,
 				1473DD322BD3854400D41655 /* SearchVC */,
-				14B213F22BCB909D00676234 /* LaunchView.swift */,
 				141617E72BE7A63600927661 /* AlertVC.swift */,
 				142C4EEF2BED3B65001485F0 /* TemporaryAlertVC.swift */,
 			);
@@ -550,6 +549,7 @@
 		14ECA52B2BC4D81F00E71F11 /* LaunchViews */ = {
 			isa = PBXGroup;
 			children = (
+				14B213F22BCB909D00676234 /* LaunchView.swift */,
 				14B6FC4E2BC3188F003C6B8D /* SplashScreenView.swift */,
 				14B3AE022BD0BD8D00F5BFA6 /* UserProfilesViews */,
 			);

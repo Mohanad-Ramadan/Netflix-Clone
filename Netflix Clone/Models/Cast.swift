@@ -30,7 +30,8 @@ struct Cast: Codable{
         } else if !creator.isEmpty, let secondCreator = creator[safe: 1] {
             return "Creator: \(creator[0].name), \(secondCreator.name)"
         } else {
-            return "Creator: " + writer[0].name
+            if let writer = writer[safe:0] { return "Creator: " + writer.name }
+            return "Crew: " + crew[0].name
         }
     }
     

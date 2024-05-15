@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 //MARK: Alert Cases
 enum AlertType {
@@ -56,6 +57,7 @@ class TemporaryAlertVC: UIViewController {
         containerView.backgroundColor = .darkGray
         containerView.layer.shadowColor = UIColor.gray.cgColor
         configureTapGesture()
+        connectionRestoredAction()
     }
     
     //MARK: - VC Dismiss function
@@ -63,6 +65,17 @@ class TemporaryAlertVC: UIViewController {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
             self.dismiss(animated: true)
         }
+    }
+    
+    func connectionRestoredAction() {
+        networkConnection = NetworkMonitor.shared.isConnected
+            .sink{ connection in
+                guard connection == true else {return}
+                DispatchQueue.main.async {
+                    self.alertTapped?()
+                    self.dismiss(animated: true)
+                }
+            }
     }
     
     func configureTapGesture() {
@@ -117,7 +130,7 @@ class TemporaryAlertVC: UIViewController {
     }()
     
     let messageLabel: UILabel = {
-        let label = NFBodyLabel(text: "", fontSize: 18, fontWeight: .semibold, textAlignment: .left, lines: 1, autoLayout: false)
+        let label = NFBodyLabel(text: "", fontSize: 16, fontWeight: .semibold, textAlignment: .left, lines: 1, autoLayout: false)
         label.layer.shadowColor = UIColor.black.cgColor
         label.layer.shadowOpacity = 0.5
         label.layer.shadowOffset = CGSize.zero
@@ -127,6 +140,7 @@ class TemporaryAlertVC: UIViewController {
     
     var alertTapped: (()->Void)?
     var vcBelow: UIViewController!
+    var networkConnection: AnyCancellable?
     
     required init?(coder: NSCoder) {fatalError()}
 }
