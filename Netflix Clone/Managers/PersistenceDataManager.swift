@@ -5,7 +5,6 @@
 //  Created by Mohanad Ramdan on 22/10/2023.
 //
 
-import Foundation
 import CoreData
 import UIKit
 
@@ -39,11 +38,11 @@ class PersistenceDataManager {
     
     // array of items in the my list container to avoid data racing
     // when checking if an item is already in the list or not
-    private var listArray = [MediaItem]()
+    private var listIds = [Int64]()
     
     func initializeMyListArray() {
         Task {
-            do { self.listArray = try await fetchMyListMedia() }
+            do { self.listIds = try await fetchMyListMedia().map{$0.id} }
             catch { print("Error fetching listArray: \(error.localizedDescription)") }
         }
     }
@@ -63,7 +62,7 @@ class PersistenceDataManager {
         item.overview = media.overview
         item.posterPath = media.posterPath
         
-        listArray.append(item)
+        listIds.append(item.id)
         
         do { return try context.save() }
         catch { throw DataBaseError.faliedToSaveData }
@@ -71,7 +70,7 @@ class PersistenceDataManager {
     
     // Check For Duplicates
     func isItemNewToList(item: Media) -> Bool {
-        let itemInList = listArray.contains(where: {$0.id == item.id})
+        let itemInList = listIds.contains(where: {$0 == item.id})
         return !itemInList
     }
     
@@ -119,10 +118,14 @@ class PersistenceDataManager {
         let context = myListContainer.viewContext
         context.delete(mediaItem)
         
-        listArray.removeAll(where: {$0.id == item.id})
+        defer { listIds.removeAll(where: { $0 == item.id }) }
         
-        do { return try context.save() }
-        catch { throw DataBaseError.faliedToDeleteData }
+        do {
+            try context.save()
+        } catch {
+            throw DataBaseError.faliedToDeleteData
+        }
+        
     }
     
     

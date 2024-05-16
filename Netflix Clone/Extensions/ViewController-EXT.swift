@@ -49,11 +49,6 @@ extension UIViewController {
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .coverVertical
             self.present(alertVC, animated: true)
-            // alert tap action
-            alertVC.alertTapped = {
-                self.loadView()
-                self.viewDidLoad()
-            }
         }
     }
 }

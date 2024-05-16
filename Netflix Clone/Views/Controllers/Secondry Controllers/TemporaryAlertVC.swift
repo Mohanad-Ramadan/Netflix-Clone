@@ -16,7 +16,7 @@ enum AlertType {
 class TemporaryAlertVC: UIViewController {
     init(alertType: AlertType, appearOn vcBelow: UIViewController) {
         super.init(nibName: nil, bundle: nil)
-        self.vcBelow = vcBelow
+        self.representedVC = vcBelow
         switch alertType {
         case .save: initSaveAlert()
         case .remove: initRemoveAlert()
@@ -61,21 +61,22 @@ class TemporaryAlertVC: UIViewController {
     }
     
     //MARK: - VC Dismiss function
-    func autoDismiss() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
-            self.dismiss(animated: true)
-        }
-    }
-    
     func connectionRestoredAction() {
+        var reconnectCount = 0  // count to solve repeated true connection value
         networkConnection = NetworkMonitor.shared.isConnected
-            .sink{ connection in
-                guard connection == true else {return}
+            .sink{ connected in
+                guard connected, reconnectCount == 0 else {return}
+                reconnectCount += 1
                 DispatchQueue.main.async {
-                    self.alertTapped?()
+                    self.reloadRepresentedVC()
                     self.dismiss(animated: true)
                 }
             }
+    }
+    
+    func reloadRepresentedVC() {
+        representedVC.loadViewIfNeeded()
+        representedVC.viewDidLoad()
     }
     
     func configureTapGesture() {
@@ -84,13 +85,20 @@ class TemporaryAlertVC: UIViewController {
     }
     
     @objc func dismissVC() {
-        alertTapped?()
+        reloadRepresentedVC()
         dismiss(animated: true)
+    }
+    
+    // for save and remove alerts
+    func autoDismiss() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+            self.dismiss(animated: true)
+        }
     }
 
     //MARK: - constraints
     func containerBottomAnchor() -> NSLayoutConstraint {
-        var tabBarHeight = vcBelow.navigationController?.tabBarController?.tabBar.bounds.height
+        var tabBarHeight = representedVC.navigationController?.tabBarController?.tabBar.bounds.height
         if tabBarHeight == nil {
             let bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             return bottomConstraint
@@ -139,7 +147,7 @@ class TemporaryAlertVC: UIViewController {
     }()
     
     var alertTapped: (()->Void)?
-    var vcBelow: UIViewController!
+    var representedVC: UIViewController!
     var networkConnection: AnyCancellable?
     
     required init?(coder: NSCoder) {fatalError()}
