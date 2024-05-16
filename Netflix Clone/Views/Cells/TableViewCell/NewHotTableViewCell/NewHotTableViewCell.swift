@@ -21,6 +21,9 @@ class NewHotTableViewCell: UITableViewCell {
         super.prepareForReuse()
         logoView.image = nil
         backdropImageView.image = nil
+        // reset the different logoViews constraints
+        logoView.removeConstraints(logoView.constraints)
+        setupLogoViewConstraints()
     }
     
     //MARK: - Configure cell
