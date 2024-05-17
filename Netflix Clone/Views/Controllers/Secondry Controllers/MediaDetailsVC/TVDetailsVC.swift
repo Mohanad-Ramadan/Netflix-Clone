@@ -8,14 +8,18 @@
 import UIKit
 
 class TVDetailsVC: MediaDetailsVC {
-    override func viewDidLoad() {super.viewDidLoad(); configureTVShowVC()}
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchData(isTrend: isTrend, rank: rank)
+        configureTVShowVC()
+        saveToWatchedList(tvShow)
+    }
     
     init(for tvShow: Media, isTrend: Bool = false, rank: Int = 0) {
         super.init()
         self.tvShow = tvShow
-        fetchData(isTrend: isTrend, rank: rank)
-        saveToWatchedList(tvShow)
-        
+        self.isTrend = isTrend
+        self.rank = rank
         // configure threeButton media
         threeButtons.media = tvShow
     }
@@ -166,6 +170,8 @@ class TVDetailsVC: MediaDetailsVC {
     private let episodesHeaderView = SeasonSelectHeaderView()
     
     var tvShow: Media!
+    var isTrend: Bool!
+    var rank: Int!
     var seasons: SeasonDetail?
     var seasonsCount: Int!
     var episodes: [SeasonDetail.Episode] = []

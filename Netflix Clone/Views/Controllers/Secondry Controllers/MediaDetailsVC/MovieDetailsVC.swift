@@ -8,14 +8,18 @@
 import UIKit
 
 class MovieDetailsVC: MediaDetailsVC {
-    override func viewDidLoad() {super.viewDidLoad(); configureMovieVC()}
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchData(isTrend: isTrend, rank: rank)
+        configureMovieVC()
+        saveToWatchedList(movie)
+    }
     
     init(for movie: Media, isTrend: Bool = false, rank: Int = 0) {
         super.init()
         self.movie = movie
-        fetchData(isTrend: isTrend, rank: rank)
-        saveToWatchedList(movie)
-        
+        self.isTrend = isTrend
+        self.rank = rank
         // configure threeButton media
         threeButtons.media = movie
     }
@@ -123,7 +127,7 @@ class MovieDetailsVC: MediaDetailsVC {
     }
     
     
-    //MARK: - Declare Movie Subviews
+    //MARK: - Declare Variables
     private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
     
     private let trailerTable: UITableView = {
@@ -142,6 +146,8 @@ class MovieDetailsVC: MediaDetailsVC {
     var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
     var mediaName: String?
     var movie: Media!
+    var isTrend: Bool!
+    var rank: Int!
     var trailersCount: CGFloat?
     
     required init?(coder: NSCoder) {fatalError()}

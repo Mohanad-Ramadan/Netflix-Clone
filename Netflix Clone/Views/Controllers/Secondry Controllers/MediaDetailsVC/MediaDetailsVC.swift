@@ -285,7 +285,16 @@ class MediaDetailsVC: UIViewController {
     
     //MARK: - Declare Main Views
     lazy var youtubePlayerVC: YouTubePlayerViewController = {
-        lazy var youtubePlayer = YouTubePlayer(configuration: .init(fullscreenMode: .system,openURLAction: .init(handler: { _ in }),autoPlay: true,showCaptions: true,showFullscreenButton: false))
+        lazy var youtubePlayer = YouTubePlayer(
+            configuration: .init(
+                fullscreenMode: .system,
+                openURLAction: .init(handler: { _ in }),
+                autoPlay: false,
+                showCaptions: true,
+                showControls: true,
+                showFullscreenButton: true
+            )
+        )
         let youtubeVC = YouTubePlayerViewController(player: youtubePlayer)
         return youtubeVC
     }()
