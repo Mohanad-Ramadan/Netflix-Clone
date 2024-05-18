@@ -27,13 +27,6 @@ class SearchLoadingUIView: UIView {
         containersArray.forEach {mainContainerStack.addArrangedSubview($0)}
     }
     
-    private func activateSkeletonEffect(viewOne: UIView, viewTwo: UIView, viewThree: UIView) {
-        [viewOne,viewTwo,viewThree].forEach{ blocks in
-            blocks.isSkeletonable = true
-            blocks.showAnimatedGradientSkeleton()
-        }
-    }
-    
     private func addContainers() {
         let blocksContainer: UIStackView = {
             let stackView = UIStackView()
@@ -46,20 +39,12 @@ class SearchLoadingUIView: UIView {
         let firstBlockView = NFLoadingUIView()
         firstBlockView.widthAnchor.constraint(equalToConstant: 150).isActive = true
         firstBlockView.heightAnchor.constraint(equalToConstant: 85).isActive = true
-        firstBlockView.isSkeletonable = true
-        firstBlockView.showAnimatedGradientSkeleton()
 
         let secondBlockView = NFLoadingUIView()
         secondBlockView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         secondBlockView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        secondBlockView.isSkeletonable = true
-        secondBlockView.showAnimatedGradientSkeleton()
         
-        [firstBlockView, secondBlockView].forEach {
-            blocksContainer.addArrangedSubview($0)
-            $0.isSkeletonable = true
-            $0.showAnimatedGradientSkeleton()
-        }
+        [firstBlockView, secondBlockView].forEach {blocksContainer.addArrangedSubview($0)}
         
         containersArray.append(blocksContainer)
     }

@@ -13,7 +13,6 @@ class NewHotLoadingUIView: UIView {
         super.init(frame: frame)
         setupView()
         configureblocks()
-        activateSkeletonEffect()
     }
     
     //MARK: - Configure Views
@@ -28,14 +27,6 @@ class NewHotLoadingUIView: UIView {
         if UIScreen.main.bounds.height > 667 { isScreenLarge = true }
         
         layoutIfNeeded()
-    }
-    
-    private func activateSkeletonEffect() {
-        [firstBlockView,secondBlockView,thirdBlockView, firstBlockView2,secondBlockView2,thirdBlockView2]
-            .forEach{ blocks in
-            blocks.isSkeletonable = true
-            blocks.showAnimatedGradientSkeleton()
-        }
     }
     
     private func configureblocks(){

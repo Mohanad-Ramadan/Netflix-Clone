@@ -361,6 +361,18 @@ extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let media = moreMedias[indexPath.row]
+        
+        if media.mediaType == "movie" || media.mediaType == nil{
+            let vc = MovieDetailsVC(for: media)
+            presentAsRoot(vc)
+        } else if media.mediaType == "tv" {
+            let vc = TVDetailsVC(for: media)
+            presentAsRoot(vc)
+        }
+    }
+    
 }
 
 //MARK: - ThreeButtons Delegate

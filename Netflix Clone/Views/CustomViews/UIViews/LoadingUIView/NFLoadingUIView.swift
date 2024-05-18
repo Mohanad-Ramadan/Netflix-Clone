@@ -8,7 +8,12 @@
 import UIKit
 
 class NFLoadingUIView: UIView {
-    override init(frame: CGRect) {super.init(frame: frame)}
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        isSkeletonable = true
+        showAnimatedGradientSkeleton()
+    }
+    
     
     convenience init(){
         self.init(frame: .zero)
