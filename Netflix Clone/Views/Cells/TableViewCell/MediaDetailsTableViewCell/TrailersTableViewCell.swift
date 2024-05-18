@@ -33,8 +33,8 @@ class TrailersTableViewCell: UITableViewCell {
         
         // Configure the trailer webView
         Task {
-            do { try await self.youtubePlayerVC.player.load(source: .video(id: videoInfo.key)) }
-            catch { print(error.localizedDescription) }
+            try? await self.youtubePlayerVC.player.load(source: .video(id: videoInfo.key))
+            try? await youtubePlayerVC.player.update(configuration: .init(fullscreenMode: .system, openURLAction: .init(handler: { _ in }), showCaptions: true, showFullscreenButton: true))
         }
         
     }
@@ -81,7 +81,6 @@ class TrailersTableViewCell: UITableViewCell {
             configuration: .init(
                 fullscreenMode: .system,
                 openURLAction: .init(handler: { _ in }),
-                autoPlay: false ,
                 showCaptions: true,
                 showControls: false,
                 showFullscreenButton: false

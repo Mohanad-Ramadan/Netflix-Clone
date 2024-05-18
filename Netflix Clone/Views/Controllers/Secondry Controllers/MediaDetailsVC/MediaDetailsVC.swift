@@ -89,8 +89,8 @@ class MediaDetailsVC: UIViewController {
     func configureTrailer(with model: MediaViewModel){
         guard let videosResult = model.videosResult else {return}
         Task {
-            do { try await self.youtubePlayerVC.player.load(source: .video(id: getFirstTrailerKey(from: videosResult))) }
-            catch { print(error.localizedDescription) }
+            try? await self.youtubePlayerVC.player.load(source: .video(id: getFirstTrailerKey(from: videosResult)))
+            try? await self.youtubePlayerVC.player.update(configuration: .init(fullscreenMode: .system,openURLAction: .init(handler: { _ in }),autoPlay: true,showCaptions: true))
         }
     }
     
@@ -284,18 +284,8 @@ class MediaDetailsVC: UIViewController {
     
     
     //MARK: - Declare Main Views
-    lazy var youtubePlayerVC: YouTubePlayerViewController = {
-        lazy var youtubePlayer = YouTubePlayer(
-            configuration: .init(
-                fullscreenMode: .system,
-                openURLAction: .init(handler: { _ in }),
-                autoPlay: false,
-                showCaptions: true,
-                showControls: true,
-                showFullscreenButton: true
-            )
-        )
-        let youtubeVC = YouTubePlayerViewController(player: youtubePlayer)
+    let youtubePlayerVC: YouTubePlayerViewController = {
+        let youtubeVC = YouTubePlayerViewController()
         return youtubeVC
     }()
     
