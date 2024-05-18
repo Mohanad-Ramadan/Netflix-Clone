@@ -62,10 +62,10 @@ extension EverybodyVC: UITableViewDelegate, UITableViewDataSource {
         
         let media = media[indexPath.row]
         
-        if media.mediaType == nil || media.mediaType == "movie" {
+        if media.title != nil {
             let vc = MovieDetailsVC(for: media)
             presentAsRoot(vc)
-        } else {
+        } else if media.overview != nil {
             let vc = TVDetailsVC(for: media)
             presentAsRoot(vc)
         }

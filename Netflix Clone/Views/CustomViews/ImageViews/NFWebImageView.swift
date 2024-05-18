@@ -30,8 +30,16 @@ class NFWebImageView: UIImageView {
         sd_imageTransition = .fade
         
         switch extendVector {
-        case .vertical: sd_setImage(with: url, placeholderImage: verticalPlaceholder)
-        case .horizontal: sd_setImage(with: url, placeholderImage: horizontalPlaceholder)
+        case .vertical: 
+            sd_setImage(with: url, placeholderImage: verticalPlaceholder) {_,error,_,_ in
+            guard error != nil else {return}
+            self.image = self.verticalPlaceholder.withTintColor(.gray)
+            }
+        case .horizontal: 
+            sd_setImage(with: url, placeholderImage: horizontalPlaceholder){_,error,_,_ in
+            guard error != nil else {return}
+            self.image = self.horizontalPlaceholder.withTintColor(.gray)
+            }
         }
         
     }

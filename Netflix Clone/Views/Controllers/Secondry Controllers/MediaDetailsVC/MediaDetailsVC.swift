@@ -364,10 +364,10 @@ extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let media = moreMedias[indexPath.row]
         
-        if media.mediaType == "movie" || media.mediaType == nil{
+        if media.title != nil {
             let vc = MovieDetailsVC(for: media)
             presentAsRoot(vc)
-        } else if media.mediaType == "tv" {
+        } else if media.overview != nil {
             let vc = TVDetailsVC(for: media)
             presentAsRoot(vc)
         }

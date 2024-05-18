@@ -20,7 +20,7 @@ extension HomeVC {
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.popularTVAllTime)
-                    cell.configureCollection(with: media, type: "tv")
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     presentNFAlert(messageText: error.rawValue)
                 } catch {
@@ -32,7 +32,7 @@ extension HomeVC {
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingTV)
-                    cell.configureCollection(with: media, type: "tv")
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     presentNFAlert(messageText: error.rawValue)
                 } catch {
@@ -44,7 +44,7 @@ extension HomeVC {
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.popularMovies)
-                    cell.configureCollection(with: media, type: "movie")
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     presentNFAlert(messageText: error.rawValue)
                 } catch {
@@ -56,7 +56,7 @@ extension HomeVC {
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
-                    cell.configureCollection(with: media, type: "movie")
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     presentNFAlert(messageText: error.rawValue)
                 } catch {
@@ -68,7 +68,7 @@ extension HomeVC {
             Task{
                 do {
                     let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
-                    cell.configureCollection(with: media, type: "movie")
+                    cell.configureCollection(with: media)
                 } catch let error as APIError {
                     presentNFAlert(messageText: error.rawValue)
                 } catch {

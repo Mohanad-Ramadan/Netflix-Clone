@@ -41,6 +41,7 @@ class ComingSoonTableCell: NewHotTableViewCell {
         monthlable.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         // Day label constraints
+        dayLabel.adjustsFontSizeToFitWidth   = true
         dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5).isActive = true
         dayLabel.topAnchor.constraint(equalTo: monthlable.bottomAnchor).isActive = true
         dayLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true

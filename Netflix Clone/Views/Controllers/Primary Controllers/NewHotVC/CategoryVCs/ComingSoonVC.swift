@@ -29,7 +29,10 @@ class ComingSoonVC: CategoryVC {
         Task{
             do {
                 let media = try await NetworkManager.shared.getDataOf(.discoverUpcoming)
-                self.media = media
+                // some upcoming media doesn't have a details yet
+                // which I removed for better UI
+                let vailedMedia = media.filter{$0.overview != ""}
+                self.media = vailedMedia
                 tableView.reloadData()
                 removeLoadingView()
             } catch let error as APIError {
@@ -60,10 +63,10 @@ extension ComingSoonVC: UITableViewDelegate, UITableViewDataSource {
         
         let media = media[indexPath.row]
         
-        if media.mediaType == nil || media.mediaType == "movie" {
+        if media.title != nil {
             let vc = MovieDetailsVC(for: media)
             presentAsRoot(vc)
-        } else {
+        } else if media.overview != nil {
             let vc = TVDetailsVC(for: media)
             presentAsRoot(vc)
         }

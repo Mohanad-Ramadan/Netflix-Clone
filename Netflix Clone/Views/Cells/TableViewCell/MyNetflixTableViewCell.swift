@@ -100,10 +100,10 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
         collectionView.deselectItem(at: indexPath, animated: true)
         let media = media[indexPath.row]
         
-        if media.mediaType == "movie" || media.mediaType == nil{
+        if media.title != nil {
             let vc = MovieDetailsVC(for: media)
             self.delegate?.cellDidTapped(self, navigateTo: vc)
-        } else if media.mediaType == "tv" {
+        } else if media.overview != nil {
             let vc = TVDetailsVC(for: media)
             self.delegate?.cellDidTapped(self, navigateTo: vc)
         }
