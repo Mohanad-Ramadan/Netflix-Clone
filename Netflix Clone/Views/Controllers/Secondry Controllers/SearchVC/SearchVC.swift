@@ -13,7 +13,6 @@ class SearchVC: UIViewController {
         view.backgroundColor = .black
         configureNavBar()
         configureSubviews()
-        screenFirstAppearnce()
     }
     
     //MARK: - Configure VC
@@ -42,36 +41,16 @@ class SearchVC: UIViewController {
         searchTable.tableHeaderView = headerTitle
         
         // configure searchesultsVC
-        setupSearchResultsVC()
-    }
-    
-    // configure the SearchResultsVC in the View
-    func setupSearchResultsVC() {
         addChild(searchResultsVC)
-        view.addSubview(searchResultsVC.view)
+        view.insertSubview(searchResultsVC.view, belowSubview: searchTable)
         searchResultsVC.didMove(toParent: self)
+        
+        // fetch Search table data
+        fetchRecommendedMedia()
     }
     
     
     //MARK: - Setup UI Content
-    
-    // remove LoadingView
-    func removeLoadingView() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
-            self.loadingView.alpha = 0
-        }
-    }
-    
-    // the default view when the user go to SearchVC
-    func screenFirstAppearnce() {
-        // show recommended first
-        searchTable.alpha = 1
-        searchResultsVC.view.alpha = 0
-        // fetch recommended media
-        fetchRecommendedMedia()
-        // make the searchBar first Responder
-        DispatchQueue.main.async {self.searchController.searchBar.becomeFirstResponder()}
-    }
     
     // fetch the media for searchTable cells
     func fetchRecommendedMedia() {
@@ -81,14 +60,27 @@ class SearchVC: UIViewController {
                 let unwantedGenres = ["35", "10749"].joined(separator: "|")
                 let media = try await NetworkManager.shared.getMoreOf(genresId: wantedGenres, unwantedGenresId: unwantedGenres)
                 self.media = media
-                searchTable.reloadData()
-                removeLoadingView()
+                // update UI
+                updateUIAfterFetch()
             } catch let error as APIError {
                 presentNFAlert(messageText: error.rawValue)
             } catch {
                 presentTemporaryAlert(alertType: .connectivity)
             }
         }
+    }
+    
+    // remove LoadingView
+    func removeLoadingView() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+            self.loadingView.alpha = 0
+        }
+    }
+    
+    func updateUIAfterFetch() {
+        searchController.searchBar.becomeFirstResponder()
+        searchTable.reloadData()
+        removeLoadingView()
     }
     
     //MARK: - SubViews Constraints
@@ -161,21 +153,25 @@ extension SearchVC:  UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    
+    // MARK: - UIScrollViewDelegate
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) { searchBar.resignFirstResponder() }
+    
 }
 
 //MARK: - SearchResult Delegats
 extension SearchVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let desiredMedia = searchController.searchBar.text, !desiredMedia.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            self.searchResultsVC.view.alpha = 0
-            self.searchTable.alpha = 1
+            view.sendSubviewToBack(searchResultsVC.view)
             return
         }
         self.searchResultsVC.searchQuery = desiredMedia
-        self.searchResultsVC.view.alpha = 1
-        self.searchTable.alpha = 0
-        
+        view.bringSubviewToFront(searchResultsVC.view)
     }
     
+    
 }
+
+
 

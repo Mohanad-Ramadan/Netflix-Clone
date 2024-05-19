@@ -101,7 +101,7 @@ class HomeVC: UIViewController {
     
     var heroHeaderMedia: Media?
     
-    let sectionTitles :[String] = ["All Time Best TV Shows", "Trending Series" , "Popular Movies", "Trending Movies", "Upcoming Movies"]
+    let sectionTitles :[String] = ["All Time Best TV Shows", "Trending Series" , "All Time Best Movies", "Trending Movies", "Upcoming Movies"]
 }
 
 

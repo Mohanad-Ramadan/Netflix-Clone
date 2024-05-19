@@ -29,7 +29,7 @@ struct Constants {
 //    }
     
     static func createUrlWith(_ endpoint: Endpoints) -> String{
-        if endpoint == .discoverUpcoming || endpoint == .search || endpoint == .popularTVAllTime {
+        if endpoint == .discoverUpcoming || endpoint == .search || endpoint == .popularTVAllTime || endpoint == .popularMovies {
             return "\(Constants.baseURL)\(endpoint.rawValue)&api_key=db7efd1f212466edd2945ab1e9199ee1"
         }
         return Constants.baseURL + endpoint.rawValue + Constants.apiKey
@@ -87,7 +87,7 @@ enum Endpoints: String {
     case dayTrendingMovies = "/trending/movie/day"
     case weekTrendingTV = "/trending/tv/week"
     case dayTrendingTV = "/trending/tv/day"
-    case popularMovies = "/movie/popular"
+    case popularMovies = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_count.desc"
     case popularTVAllTime = "/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_count.desc&without_genres=10767|10763|10764"
     case discoverUpcoming = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-04-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc"
     case search = "/search/multi?include_adult=false"
