@@ -7,6 +7,8 @@
 
 import UIKit
 
+enum ListContainer { case myList, watchedList}
+
 class MyNetflixTableViewCell: UITableViewCell {
     
     protocol Delegate: AnyObject {func cellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC)}
@@ -26,8 +28,8 @@ class MyNetflixTableViewCell: UITableViewCell {
     }
     
     //MARK: - Configure dataSource for cell
-    func configureCollection(with media: [Media], isListSection: Bool){
-        self.isListSection = isListSection
+    func configureCollection(with media: [Media], list: ListContainer){
+        listContainer = list
         DispatchQueue.main.async { [weak self] in
             self?.media = media
             self?.collectionView.reloadData()
@@ -35,11 +37,17 @@ class MyNetflixTableViewCell: UITableViewCell {
     }
     
     //MARK: - Remove the Cell
-    private func removeCell(at indexpath: IndexPath) {
-        
-        
+    private func removeMylistCell(at indexpath: IndexPath) {
         Task {
             try await PersistenceDataManager.shared.deleteMediaFromList(media[indexpath.row])
+            self.media.remove(at: indexpath.row)
+            collectionView.deleteItems(at: [indexpath])
+        }
+    }
+    
+    private func removeWatchedCell(at indexpath: IndexPath) {
+        Task {
+            try await PersistenceDataManager.shared.deleteMediaFromWatched(media[indexpath.row])
             self.media.remove(at: indexpath.row)
             collectionView.deleteItems(at: [indexpath])
         }
@@ -58,7 +66,7 @@ class MyNetflixTableViewCell: UITableViewCell {
     }()
     
     var media: [Media] = [Media]()
-    var isListSection: Bool = true
+    var listContainer: ListContainer!
     
     weak var delegate: Delegate?
     static let identifier = "MyNetflixTableViewCell"
@@ -84,16 +92,28 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         
-        guard isListSection else {return nil}
-        
-        let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {[weak self] _ in
-            let removeCellAction = UIAction(title: "Remove", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
-                self?.removeCell(at: indexPath)
+        switch listContainer {
+        case .myList:
+            let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {[weak self] _ in
+                let removeCellAction = UIAction(title: "Delete", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                    self?.removeMylistCell(at: indexPath)
+                }
+                
+                return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [removeCellAction])
             }
-            
-            return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [removeCellAction])
+            return config
+        case .watchedList:
+            let config = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) {[weak self] _ in
+                let removeCellAction = UIAction(title: "Delete", image: nil, identifier: nil, discoverabilityTitle: nil, state: .off) { _ in
+                    self?.removeWatchedCell(at: indexPath)
+                }
+                
+                return UIMenu(title: "", image: nil, identifier: nil, options: .displayInline, children: [removeCellAction])
+            }
+            return config
+        case .none: return nil
         }
-        return config
+            
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

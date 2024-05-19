@@ -158,8 +158,8 @@ extension MyNetflixVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MyNetflixTableViewCell.identifier, for: indexPath) as? MyNetflixTableViewCell else {return UITableViewCell()}
         cell.delegate = self
-        if indexPath.section == 0 { cell.configureCollection(with: myListMedia, isListSection: true) }
-        else if indexPath.section == 1 {  cell.configureCollection(with: watchedMedia, isListSection: false) }
+        if indexPath.section == 0 { cell.configureCollection(with: myListMedia, list: .myList) }
+        else if indexPath.section == 1 {  cell.configureCollection(with: watchedMedia, list: .watchedList) }
         
         
         return cell

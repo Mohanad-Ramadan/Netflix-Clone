@@ -80,7 +80,7 @@ extension SearchResultVC {
             
         case Sections.animation.rawValue:
             // animation
-            let animation = ["16"].joined(separator: "|")
+            let animation = "16"
             fetchMoreOf(for: animation, to: cell)
             
         case Sections.comedy.rawValue:

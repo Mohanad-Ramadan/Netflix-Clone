@@ -39,10 +39,14 @@ class PersistenceDataManager {
     // array of items in the my list container to avoid data racing
     // when checking if an item is already in the list or not
     private var listIds = [Int64]()
+    private var watchedIds = [Int64]()
     
-    func initializeMyListArray() {
+    func initializeContainersArray() {
         Task {
-            do { self.listIds = try await fetchMyListMedia().map{$0.id} }
+            do {
+                self.listIds = try await fetchMyListMedia().map{$0.id}
+                self.watchedIds = try await fetchWatchedMedia().map{$0.id}
+            }
             catch { print("Error fetching listArray: \(error.localizedDescription)") }
         }
     }
@@ -78,6 +82,8 @@ class PersistenceDataManager {
     
     // Function to save items of type MediaItems in the other contai
     func saveWatchedItem(_ media: Media) async throws {
+        guard isItemWatchedBefore(item: media) else {return}
+        
         let context = watchedContainer.viewContext
         let item = WatchedItem(context: context)
         
@@ -87,8 +93,16 @@ class PersistenceDataManager {
         item.overview = media.overview
         item.posterPath = media.posterPath
         
+        watchedIds.append(item.id)
+        
         do { return try context.save() }
         catch { throw DataBaseError.faliedToSaveData }
+    }
+    
+    // Check For Duplicates
+    func isItemWatchedBefore(item: Media) -> Bool {
+        let itemInList = watchedIds.contains(where: {$0 == item.id})
+        return !itemInList
     }
     
     //MARK: - Fetch from Containers
@@ -112,7 +126,7 @@ class PersistenceDataManager {
         
     }
     
-    //MARK: - Remove Item from MyList
+    //MARK: - Remove Item
     func deleteMediaFromList(_ item: Media) async throws{
         let mediaItem = await getItemFromList(item: item)
         let context = myListContainer.viewContext
@@ -120,17 +134,32 @@ class PersistenceDataManager {
         
         defer { listIds.removeAll(where: { $0 == item.id }) }
         
-        do {
-            try context.save()
-        } catch {
-            throw DataBaseError.faliedToDeleteData
-        }
+        do { try context.save() }
+        catch { throw DataBaseError.faliedToDeleteData }
         
     }
     
-    
     func getItemFromList(item: Media) async -> MediaItem {
         let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
+        let wantedItem = (listItems?.filter {$0.id == item.id}.first)!
+        return wantedItem
+    }
+    
+    // watched media deletion method
+    func deleteMediaFromWatched(_ item: Media) async throws{
+        let watchedItem = await getItemFromWatched(item: item)
+        let context = watchedContainer.viewContext
+        context.delete(watchedItem)
+        
+        defer { watchedIds.removeAll(where: { $0 == item.id }) }
+        
+        do { try context.save() } 
+        catch { throw DataBaseError.faliedToDeleteData }
+        
+    }
+    
+    func getItemFromWatched(item: Media) async -> WatchedItem {
+        let listItems = try? await PersistenceDataManager.shared.fetchWatchedMedia()
         let wantedItem = (listItems?.filter {$0.id == item.id}.first)!
         return wantedItem
     }
