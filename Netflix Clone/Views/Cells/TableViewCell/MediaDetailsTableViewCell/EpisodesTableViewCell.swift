@@ -79,7 +79,7 @@ class EpisodesTableViewCell: UITableViewCell {
     
     let runtime = NFBodyLabel(text: "45",color: .lightGray, fontSize: 11, fontWeight: .light)
     
-    let overview = NFBodyLabel(text: "Didn't find any.", color: .lightGray, fontSize: 15, lines: 0)
+    let overview = NFBodyLabel(text: "Didn't find any.", color: .lightGray, fontSize: 15, lines: 3)
 
     let playEpisodeButton = NFSymbolButton(imageName: "play.circle", imageSize: 45)
     

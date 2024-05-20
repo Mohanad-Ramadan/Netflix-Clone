@@ -8,6 +8,7 @@
 import UIKit
 import YouTubePlayerKit
 import Combine
+import SkeletonView
 
 class MediaDetailsVC: UIViewController {
     override func viewDidLoad() {super.viewDidLoad()}
@@ -91,6 +92,7 @@ class MediaDetailsVC: UIViewController {
         Task {
             try? await self.youtubePlayerVC.player.load(source: .video(id: getFirstTrailerKey(from: videosResult)))
             try? await self.youtubePlayerVC.player.update(configuration: .init(fullscreenMode: .system,openURLAction: .init(handler: { _ in }),autoPlay: true,showCaptions: true))
+            youtubePlayerVC.view.hideSkeleton()
         }
     }
     
@@ -284,8 +286,11 @@ class MediaDetailsVC: UIViewController {
     
     
     //MARK: - Declare Main Views
-    let youtubePlayerVC: YouTubePlayerViewController = {
+    lazy var youtubePlayerVC: YouTubePlayerViewController = {
         let youtubeVC = YouTubePlayerViewController()
+        youtubeVC.view.isSkeletonable = true
+        let gradient = SkeletonGradient(baseColor: .fadedBlack)
+        youtubeVC.view.showAnimatedGradientSkeleton(usingGradient: gradient)
         return youtubeVC
     }()
     

@@ -9,9 +9,7 @@ import UIKit
 import Combine
 
 //MARK: Alert Cases
-enum AlertType {
-    case save , remove, connectivity
-}
+enum AlertType { case save , remove, connectivity }
 
 class TemporaryAlertVC: UIViewController {
     init(alertType: AlertType, appearOn vcBelow: UIViewController) {
@@ -99,7 +97,9 @@ class TemporaryAlertVC: UIViewController {
     //MARK: - constraints
     func containerBottomAnchor() -> NSLayoutConstraint {
         var tabBarHeight = representedVC.navigationController?.tabBarController?.tabBar.bounds.height
-        if tabBarHeight == nil {
+        let isTabBarHidden = representedVC.tabBarController?.tabBar.isHidden ?? false
+        
+        if tabBarHeight == nil || isTabBarHidden {
             let bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             return bottomConstraint
         } else {
@@ -130,9 +130,6 @@ class TemporaryAlertVC: UIViewController {
     let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 5
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowOffset = CGSize.zero
-        view.layer.shadowRadius = 3
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

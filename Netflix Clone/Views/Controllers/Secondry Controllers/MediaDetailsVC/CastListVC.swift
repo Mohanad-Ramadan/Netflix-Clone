@@ -142,7 +142,7 @@ class CastListVC: UIViewController {
     
     let upperPaddingView : UIView = {
         let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.05).isActive = true
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1).isActive = true
         return view
     }()
     
