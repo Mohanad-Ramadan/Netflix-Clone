@@ -35,16 +35,17 @@ extension UIViewController {
     }
     
     func presentNFAlert(alertTitle: String = "Opps!", messageText: String){
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
             let alertVC = AlertVC(alertTitle: alertTitle , messageText: messageText)
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .crossDissolve
-            self.present(alertVC, animated: true)
+            self?.present(alertVC, animated: true)
         }
     }
     
     func presentTemporaryAlert(alertType: AlertType) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
             let alertVC = TemporaryAlertVC(alertType: alertType, appearOn: self)
             alertVC.modalPresentationStyle = .overFullScreen
             alertVC.modalTransitionStyle = .coverVertical

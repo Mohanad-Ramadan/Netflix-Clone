@@ -29,7 +29,8 @@ class TopMoviesVC: CategoryVC {
         Task{
             do {
                 let media = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
-                self.media = media
+                let topTenMovies = Array(media.prefix(10))
+                self.media = topTenMovies
                 tableView.reloadData()
                 removeLoadingView()
             } catch let error as APIError {

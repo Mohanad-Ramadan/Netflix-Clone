@@ -13,6 +13,12 @@ class SearchVC: UIViewController {
         view.backgroundColor = .black
         configureNavBar()
         configureSubviews()
+        layoutSubviews()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        searchController.isActive = false
     }
     
     //MARK: - Configure VC
@@ -35,7 +41,7 @@ class SearchVC: UIViewController {
         
         searchTable.delegate = self
         searchTable.dataSource = self
-        layoutSubviews()
+        
         // configure header
         let headerTitle = NFPlainButton(title: "Recommended TV Shows & Movies", fontSize: 20, fontWeight: .bold)
         searchTable.tableHeaderView = headerTitle

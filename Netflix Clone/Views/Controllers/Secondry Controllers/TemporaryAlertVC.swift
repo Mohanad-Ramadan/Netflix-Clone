@@ -65,9 +65,9 @@ class TemporaryAlertVC: UIViewController {
             .sink{ connected in
                 guard connected, reconnectCount == 0 else {return}
                 reconnectCount += 1
-                DispatchQueue.main.async {
-                    self.reloadRepresentedVC()
-                    self.dismiss(animated: true)
+                DispatchQueue.main.async { [weak self] in
+                    self?.reloadRepresentedVC()
+                    self?.dismiss(animated: true)
                 }
             }
     }
