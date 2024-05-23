@@ -1,5 +1,4 @@
-<h1 align="center"> Project Intro </h1> <br>
-<img alt="GitPoint" title="GitPoint" src="https://i.ibb.co/xfT9zBY/Introduction-Heroheader.jpg" width= 100%>
+<img alt="Netflix clone" title="Netflix clone" src="https://i.ibb.co/mbqCHW1/Introduction-Heroheader.jpg" width= 100%>
 </a>
 </p>
-
+  
