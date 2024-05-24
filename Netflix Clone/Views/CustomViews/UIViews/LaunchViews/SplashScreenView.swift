@@ -11,7 +11,6 @@ import SDWebImageSwiftUI
 struct SplashScreenView: View {
     var body: some View {
         AnimatedImage(url: url)
-            .incrementalLoad(true)
             .scaledToFit()
             .ignoresSafeArea()
             .background(.black)

@@ -121,7 +121,7 @@ class MyNetflixVC: UIViewController {
         if section == 0 { 
             headerView.addSubview(myListLabel)
             myListLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
-        } else {
+        } else if section == 1, !watchedMedia.isEmpty {
             headerView.addSubview(watchedLabel)
             watchedLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
         }

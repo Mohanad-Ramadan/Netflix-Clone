@@ -371,10 +371,10 @@ extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
         
         if media.title != nil {
             let vc = MovieDetailsVC(for: media)
-            presentAsRoot(vc)
+            pushInMainThreadTo(vc)
         } else if media.overview != nil {
             let vc = TVDetailsVC(for: media)
-            presentAsRoot(vc)
+            pushInMainThreadTo(vc)
         }
     }
     

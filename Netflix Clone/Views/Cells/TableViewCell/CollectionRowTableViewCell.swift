@@ -29,6 +29,12 @@ class CollectionRowTableViewCell: UITableViewCell {
         collectionView.frame = contentView.bounds
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        media = []
+        collectionView.reloadData()
+    }
+    
     //MARK: - Configure Cell
     func configureCollection(with media: [Media]){
         self.media = media
