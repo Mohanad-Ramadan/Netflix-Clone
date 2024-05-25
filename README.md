@@ -74,7 +74,7 @@ The following screens demonstrate the evolution of the app throughout the build 
 
 <br>
 
-# Technolgy Used:
+# Technology Used:
 - **UIKit:** Employed for building user interfaces programmatically without using storyboards.
 
 - **SwiftUI:** Integrated with UIKit to exploit the strengths of both frameworks for a modern and dynamic UI.
@@ -111,11 +111,13 @@ The following screens demonstrate the evolution of the app throughout the build 
 - **MVVM Architecture:** Adopted MVVM architecture for separating concerns and achieving a scalable and maintainable codebase.
 - **Singleton Design Pattern:** Utilized the Singleton design pattern for ensuring a single instance of a class throughout the app's lifecycle, facilitating centralized data access and management.
 
+<br>
+
 # Dependency and API:
 - **SDWebImage:** Integrated for efficient asynchronous image loading and caching in the app.
 - **YoutubePlayerKit:** Incorporated for seamless playback of YouTube videos within the app.
 - **SkeletonView:** Utilized for displaying placeholder loading animations while content is being fetched.
 - **TMDB API:** Leveraged for fetching movie and TV show data, including details, images, trailers, and more, using RESTful API endpoints.
 
-
+<br>
 
