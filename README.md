@@ -75,3 +75,47 @@ The following screens demonstrate the evolution of the app throughout the build 
 <br>
 
 # Technolgy Used:
+- **UIKit:** Employed for building user interfaces programmatically without using storyboards.
+
+- **SwiftUI:** Integrated with UIKit to exploit the strengths of both frameworks for a modern and dynamic UI.
+
+- **Concurrency (async/await):** Employed for managing asynchronous networking operations, ensuring smooth and efficient data retrieval.
+
+- **URL Session:** Used for making HTTP network requests.
+
+- **HTTPURLResponse:** Handled HTTP responses from network requests.
+
+- **Network:** Managed network requests and connectivity within the app.
+
+- **Core Data:** Used for persisting user media, such as watchlists and watched trailer history.
+
+- **UIHostingControllers:** Embedded SwiftUI views within UIKit view controllers.
+
+- **Combine:** Utilized for handling asynchronous events and data streams.
+
+- **Delegate and Protocols:** Applied for communication between different parts of the app.
+
+- **Preference Key:** Used to pass data between SwiftUI views.
+
+- **Observation:** Used for observing changes in data and updating the UI accordingly.
+
+- **Path:** Utilized for custom drawing and defining shapes in SwiftUI.
+
+- **Convenience Initializers:** Implemented to create custom objects with default values for clean and reusable code.
+
+- **Access Control:** Used to define the visibility and access levels of classes, methods, and properties.
+
+<br>
+
+# Architecture and Design Pattern:
+- **MVVM Architecture:** Adopted MVVM architecture for separating concerns and achieving a scalable and maintainable codebase.
+- **Singleton Design Pattern:** Utilized the Singleton design pattern for ensuring a single instance of a class throughout the app's lifecycle, facilitating centralized data access and management.
+
+# Dependency and API:
+- **SDWebImage:** Integrated for efficient asynchronous image loading and caching in the app.
+- **YoutubePlayerKit:** Incorporated for seamless playback of YouTube videos within the app.
+- **SkeletonView:** Utilized for displaying placeholder loading animations while content is being fetched.
+- **TMDB API:** Leveraged for fetching movie and TV show data, including details, images, trailers, and more, using RESTful API endpoints.
+
+
+
