@@ -32,8 +32,46 @@
 <br>
   
 # Project Screens:
-> The following screens demonstrate the evolution of the app throughout the build phases. Each screen is presented with versions v1 and v2, showcasing the updates and improvements made during development.
+The following screens demonstrate the evolution of the app throughout the build phases. Each screen is presented with versions v1 and v2, showcasing the updates and improvements made during development.
 
-- > ### Launch Screen:   *Introduced only in v2*
-  ![](https://i.ibb.co/xHNM5sJ/Project-screen-presentation.png)
+
+- > ## **Launch Screen:**
+  > *Introduced only in v2*
   
+  ![](https://i.ibb.co/vsYtZx1/1-copy.png)
+  
+<br>
+
+- > ## **Home Screen:**
+  ![](https://i.ibb.co/gSX3GGs/2-copy.png)
+
+<br>
+
+- > ## **New & Hot Screen:**
+  ![](https://i.ibb.co/SJftzGz/3.png)
+
+<br>
+
+- > ## **My Netflix Screen:**
+  ![](https://i.ibb.co/WDSTzJR/4.png)
+
+<br>
+
+- > ## **Media Details Screen:**
+  ![](https://i.ibb.co/FshjL3g/V1-15x13in.png)
+
+<br>
+
+- > ## **Search Screen:**
+  ![](https://i.ibb.co/n6QYYzh/1.png)
+
+<br>
+
+- > ## **Alert Screens:**
+  > *Introduced only in v2*
+   
+  ![](https://i.ibb.co/h13BjCH/ALerts.png)
+
+<br>
+
+# Technolgy Used:
