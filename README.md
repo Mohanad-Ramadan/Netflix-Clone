@@ -1,7 +1,6 @@
-
 # Introduction:
 ![Netflix clone](https://i.ibb.co/mbqCHW1/Introduction-Heroheader.jpg)
-
+> *Watch the video [here](https://www.linkedin.com/feed/update/urn:li:activity:7200832839800520704/) to see the app screens and features in action.*
 <br>
 
 # Features:
@@ -33,7 +32,6 @@
   
 # Project Screens:
 The following screens demonstrate the evolution of the app throughout the build phases. Each screen is presented with versions v1 and v2, showcasing the updates and improvements made during development.
-
 
 - > ## **Launch Screen:**
   > *Introduced only in v2*
@@ -120,4 +118,3 @@ The following screens demonstrate the evolution of the app throughout the build 
 - **TMDB API:** Leveraged for fetching movie and TV show data, including details, images, trailers, and more, using RESTful API endpoints.
 
 <br>
-
