@@ -2,7 +2,7 @@
 //  SkeletonLoadingUIView.swift
 //  Netflix Clone
 //
-//  Created by Mohanad Ramdan on 27/11/2023.
+//  Created by Mohanad Ramdan on 15/3/2024.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  HomeCategoryBarUIView.swift
 //  Netflix Clone
 //
-//  Created by Mohanad Ramdan on 28/11/2023.
+//  Created by Mohanad Ramdan on 5/2/2024.
 //
 
 import UIKit

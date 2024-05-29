@@ -2,7 +2,7 @@
 //  New&HotTableViewCell.swift
 //  Netflix Clone
 //
-//  Created by Mohanad Ramdan on 07/12/2023.
+//  Created by Mohanad Ramdan on 27/2/2024.
 //
 
 import UIKit
@@ -201,18 +201,25 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     
-    //MARK: - Update Constraints
     func updateLogoWidthBy(_ aspectRatio: CGFloat) {
         logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor))
         let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: aspectRatio)
         widthConstraint.priority = .defaultHigh
         widthConstraint.isActive = true
-        
         layoutIfNeeded()
     }
     
     //MARK: - Declare Subviews
     let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
+    
+    let stackContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.alignment = .leading
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     let buttonsContainer: UIStackView = {
         let stackView = UIStackView()
