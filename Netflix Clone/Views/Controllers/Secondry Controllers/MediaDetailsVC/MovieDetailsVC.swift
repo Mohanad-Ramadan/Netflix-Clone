@@ -34,9 +34,7 @@ class MovieDetailsVC: MediaDetailsVC {
                 
                 // get cast
                 let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: movie.id, ofType: "movie")
-                let cast = fetchedCast.returnThreeCastSeperated(with: ", ")
-                let director = fetchedCast.returnDirector()
-                configureCast(with: MediaViewModel(cast: cast, director: director))
+                configureCast(with: CastViewModel(fetchedCast))
                 // configure castVC
                 castData = fetchedCast
                 

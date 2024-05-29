@@ -38,10 +38,10 @@ class MediaDetailsVC: UIViewController {
     
 
     //MARK: - Configure UIElement
-    func configureCast(with model: MediaViewModel){
-        castLabel.text = model.cast
+    func configureCast(with cast: CastViewModel){
+        castLabel.text = cast.getSomeActros(totalActors: 3, seperator: ", ")
         castLabel.lineBreakMode = .byTruncatingTail
-        directorLabel.text = model.director
+        directorLabel.text = cast.directors
     }
     
     func configureDetails(with model: MediaViewModel, isTrend: Bool = false, rank: Int = 0){
@@ -325,7 +325,7 @@ class MediaDetailsVC: UIViewController {
     
     let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     
-    let castExpandButton = NFPlainButton(title: "more", buttonColor: .lightGray, fontSize: 12, fontWeight: .semibold)
+    let castExpandButton = NFPlainButton(title: "...more", buttonColor: .lightGray, fontSize: 12, fontWeight: .semibold)
     
     let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
     

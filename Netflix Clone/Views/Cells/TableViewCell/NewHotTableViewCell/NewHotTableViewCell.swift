@@ -60,8 +60,7 @@ class NewHotTableViewCell: UITableViewCell {
         
     }
     
-    
-    //MARK: - Configure Cell
+    // add fetched data to there views
     func configureCellImages(with media: MediaViewModel){
         backdropImageView.downloadImage(from: media.backdropsPath ?? "noPath", extendVector: .horizontal)
         logoView.downloadImage(from: media.logoPath ?? "noPath", extendVector: .horizontal)
@@ -211,15 +210,6 @@ class NewHotTableViewCell: UITableViewCell {
     
     //MARK: - Declare Subviews
     let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
-    
-    let stackContainer: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 5
-        stackView.alignment = .leading
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
     
     let buttonsContainer: UIStackView = {
         let stackView = UIStackView()

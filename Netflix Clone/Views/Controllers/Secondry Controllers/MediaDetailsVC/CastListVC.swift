@@ -37,9 +37,9 @@ class CastListVC: UIViewController {
     
     //MARK: - Adding Labels SubViews
     private func addCastViews(with cast: CastViewModel) {
-        let actors = cast.createActorsArray()
-        let crew = cast.createCreatorArray()
-        let writers = cast.createWritersArray()
+        let actors = cast.actorsArray
+        let crew = cast.creatorArray
+        let writers = cast.writersArray
         
         // add actorsLabel
         stackContainer.addArrangedSubview(castTitle)
