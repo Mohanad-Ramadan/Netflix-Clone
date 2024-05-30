@@ -44,35 +44,20 @@ class MediaDetailsVC: UIViewController {
         directorLabel.text = cast.directors
     }
     
-    func configureDetails(with model: MediaViewModel, isTrend: Bool = false, rank: Int = 0){
-        
-        mediaTitle.text = model.title
-        overViewLabel.text = model.overview
-        categoryLabel.text = model.mediaType == "movie" ? "F I L M" : "S E R I E S"
-        
+    func configureDetails(with details: DetailsViewModel, isTrend: Bool = false, rank: Int = 0){
+        mediaTitle.text = details.title
+        overViewLabel.text = details.overview
+        categoryLabel.text = details.mediaTypeLabel
         // details label UIView configuration
-        detailsLabel.newLabel.text = model.releaseDate?.isNewRelease() ?? false ? "New" : String()
-        detailsLabel.dateLabel.text = model.releaseDate?.extract().year
-        detailsLabel.runtimeLabel.text = model.runtime?.formatTimeFromMinutes()
-        
-        // If media is trending
+        detailsLabel.newLabel.text = details.newLabel
+        detailsLabel.dateLabel.text = details.dateLabel
+        detailsLabel.runtimeLabel.text = details.runtime
+        // Trending condition for Top10LogoView
         setupTop10Logo(isTrend: isTrend)
-        
-        if isTrend == true {
-            let rank = rank
-            let mediaCategory = model.mediaType == "movie" ? "Movies" : "Tv Shows"
-            top10DetailsLabel.text = "#\(rank) in \(mediaCategory) Today"
-        }
-        
-        // fetch more media with generes and mediatype
-        var genresId: String? {
-            let genres = model.genres?.prefix(2) ?? model.genres?.prefix(1)
-            let genreId = genres?.map{String($0.id)}
-            let stringIds = genreId?.joined(separator: ",")
-            return stringIds
-        }
-        
-        fetchMoreMedia(model.title! ,genresId: genresId, mediaType: model.mediaType ?? "no type found")
+        top10DetailsLabel.text = isTrend ? "#\(rank) in \(details.rankTypeLabel) Today" : nil
+        // fetch More Media dataSource
+        guard details.title != nil, details.mediaType != nil else {return}
+        fetchMoreMediaFor(mediaTitle: details.title!, genresId: details.genresIds, mediaType: details.mediaType!)
     }
     
     // configure button action
@@ -119,7 +104,7 @@ class MediaDetailsVC: UIViewController {
     }
     
     //MARK: - Fetch moreIdeas' media
-    private func fetchMoreMedia(_ mainMedia: String ,genresId: String?, mediaType: String){
+    private func fetchMoreMediaFor(mediaTitle mainMedia: String ,genresId: String?, mediaType: String){
         Task{
             do {
                 guard let ids = genresId else {return}

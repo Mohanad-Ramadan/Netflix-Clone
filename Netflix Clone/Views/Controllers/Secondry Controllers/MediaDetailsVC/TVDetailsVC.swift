@@ -32,17 +32,17 @@ class TVDetailsVC: MediaDetailsVC {
                 let viewModel = MediaViewModel(title: details.name, overview: details.overview, genres: details.genres, mediaType: "tv" ,releaseDate: details.lastAirDate)
                 configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
                 
-                // get cast
-                let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: tvShow.id, ofType: "tv")
-                configureCast(with: CastViewModel(fetchedCast))
-                // configure castVC
-                castData = fetchedCast
-                
                 // get seasons
                 seasonsCount = details.numberOfSeasons ?? 1
                 let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNumber: 1)
                 episodes = seasonDetials.episodes
                 updateEpisodesTable()
+                
+                // get cast
+                let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: tvShow.id, ofType: "tv")
+                configureCast(with: CastViewModel(fetchedCast))
+                // configure castVC
+                castData = fetchedCast
                 
                 // get trailers
                 let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()

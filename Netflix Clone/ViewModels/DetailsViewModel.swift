@@ -7,15 +7,61 @@
 
 import Foundation
 
+
 class DetailsViewModel {
-    init(_ details: Detail) {
-        if details.title != nil { movieDetails = details as? MovieDetail }
-        else { tvDetails = details as? TVDetail }
+    private let details: Detail
+    
+    init(_ details: Detail) {self.details = details}
+    
+    private func checkIfMovie<T>(_ movieAction: (MovieDetail) -> T, ifSeries seriesAction: (TVDetail) -> T) -> T {
+        if let movieDetail = details as? MovieDetail {
+            return movieAction(movieDetail)
+        } else {
+            return seriesAction((details as? TVDetail)!)
+        }
     }
     
-    private var tvDetails: TVDetail?
-    private var movieDetails: MovieDetail?
     
+    var id: Int? {details.id}
+    var overview: String? {details.overview}
+    var mediaType: String? { checkIfMovie { _ in "movie" } ifSeries: { _ in "tv" } }
+    var genres: String? {details.genres.map{$0.name}.joined(separator: ", ") }
+    var runtime: String? {(details as? MovieDetail)?.runtime?.formatTimeFromMinutes()}
+    var mediaTypeLabel: String { checkIfMovie { _ in "F I L M" } ifSeries: { _ in "S E R I E S" } }
+    var rankTypeLabel: String { checkIfMovie { _ in "Movies" } ifSeries: { _ in "Tv Shows" } }
     
+    var title: String? {
+        checkIfMovie {movieDetail in movieDetail.title} ifSeries: {seriesDetail in seriesDetail.name}
+    }
     
+    var dateLabel: String? {
+        checkIfMovie {
+            movieDetail in movieDetail.releaseDate?.extract().year
+        } ifSeries: {
+            seriesDetail in seriesDetail.firstAirDate?.extract().year
+        }
+    }
+    
+    var newLabel: String? {
+        checkIfMovie {
+            movieDetail in movieDetail.releaseDate?.isNewRelease() ?? false ? "New" : nil
+        } ifSeries: {
+            seriesDetail in seriesDetail.firstAirDate?.isNewRelease() ?? false ? "New" : nil
+        }
+    }
+    
+    var seasons: [Season]? {
+        (details as? TVDetail)?.seasons
+    }
+    
+    var seasonsCount: Int? {
+        (details as? TVDetail)?.numberOfSeasons
+    }
+    
+    var genresIds: String? {
+        let genreId = details.genres.map{String($0.id)}
+        let stringIds = genreId.joined(separator: "|")
+        return stringIds
+    }
 }
+

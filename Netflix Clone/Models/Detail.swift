@@ -7,45 +7,39 @@
 
 import Foundation
 
-protocol Detail {var title: String? {get}}
+protocol Detail {
+    var title: String? {get}
+    var id: Int {get}
+    var overview: String? {get}
+    var genres: [Genre] {get}
+}
 
 struct MovieDetail : Detail ,Codable{
     var title: String?
-    let id: Int
-    let releaseDate: String
-    let overview: String
-    let genres: [Genre]
-    let runtime: Int
-    
-    func separateGenres(with: String) -> String {
-        let genreNames = genres.map { $0.name }
-        return genreNames.joined(separator: with)
-    }
+    var id: Int
+    var overview: String?
+    var genres: [Genre]
+    let releaseDate: String?
+    let runtime: Int?
 }
 
 struct TVDetail : Detail ,Codable{
     var title: String?
-    let name: String
-    let id: Int
-    let overview: String
-    let genres: [Genre]
-    let lastAirDate: String
+    var id: Int
+    var overview: String?
+    var genres: [Genre]
+    let name: String?
+    let firstAirDate: String?
     let numberOfSeasons: Int?
-    let seasons: [Season]
-    
-    struct Season: Codable {
-        let episodeCount: Int
-        let id: Int
-        let name:String
-        let overview:String
-        let seasonNumber: Int
-    }
-    
-    func separateGenres(with: String) -> String {
-        let genreNames = genres.map { $0.name }
-        return genreNames.joined(separator: with)
-    }
-    
+    let seasons: [Season]?
+}
+
+struct Season: Codable {
+    let episodeCount: Int?
+    let id: Int
+    let name: String?
+    let overview: String?
+    let seasonNumber: Int?
 }
 
 struct Genre: Codable {
