@@ -10,13 +10,12 @@ import Foundation
 struct CastViewModel {
     init(_ cast: Cast) { self.allCast = cast }
     
-    let allCast: Cast
+    private let allCast: Cast
     
     var directors: String {
         let directors = allCast.crew.filter { $0.job == "Director" }
         let creator = allCast.crew.filter {$0.job == "Executive Producer"}
         let writer = allCast.crew.filter {$0.job == "Novel" || $0.job == "Book" || $0.job == "Original Concept"}
-        
         if !directors.isEmpty {
             return "Director: " + directors[0].name
         } else if !creator.isEmpty, let secondCreator = creator[safe: 1] {
@@ -26,6 +25,7 @@ struct CastViewModel {
             return "Crew: " + allCast.crew[0].name
         }
     }
+    
     
     var actorsArray: [String]{
         var actorsArray = [String]()
@@ -43,11 +43,11 @@ struct CastViewModel {
             } else {
                 if member.element.job == "Executive Producer" { creatorArray.append(member.element.name) }
             }
-            
             if creatorArray.count == 3 {break}
         }
         return creatorArray
     }
+    
     
     var writersArray: [String] {
         var writersArray = [String]()
@@ -63,6 +63,7 @@ struct CastViewModel {
         }
         return writersArray
     }
+    
     
     // return three actors for details
     func getSomeActros(totalActors: Int ,seperator with: String) -> String {

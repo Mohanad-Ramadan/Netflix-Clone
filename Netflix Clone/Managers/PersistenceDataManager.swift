@@ -74,7 +74,7 @@ class PersistenceDataManager {
     
     // Check For Duplicates
     func isItemNewToList(item: Media) -> Bool {
-        let itemInList = listIds.contains(where: {$0 == item.id})
+        let itemInList = listIds.contains(Int64(item.id))
         return !itemInList
     }
     
@@ -101,7 +101,7 @@ class PersistenceDataManager {
     
     // Check For Duplicates
     func isItemWatchedBefore(item: Media) -> Bool {
-        let itemInList = watchedIds.contains(where: {$0 == item.id})
+        let itemInList = watchedIds.contains(Int64(item.id))
         return !itemInList
     }
     

@@ -39,8 +39,8 @@ class MovieDetailsVC: MediaDetailsVC {
                 castData = fetchedCast
                 
                 // get trailers
-                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
-                configureMovieTrailer(with: MediaViewModel(title: details.title ,videosResult: trailers))
+                let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+                configureMovieTrailer(with: TrailerViewModel(fetchedTrailers))
                 
             } catch {presentTemporaryAlert(alertType: .connectivity)}
         }
@@ -60,14 +60,12 @@ class MovieDetailsVC: MediaDetailsVC {
     }
     
     //MARK: - Trailer Configuration
-    private func configureMovieTrailer(with model: MediaViewModel){
-        configureTrailer(with: model)
-        // pass th videos without the one taken for the youtubePlayerVC.view webView
-        guard let videosResult = model.videosResult else {return}
-        let removeMainTrailer = videosResult.filter { $0.key != getFirstTrailerKey(from: videosResult) }
-        let someTrailers = Array(removeMainTrailer.prefix(4))
-        trailers = someTrailers
-        trailersCount = CGFloat(trailers.count)
+    private func configureMovieTrailer(with trailers: TrailerViewModel){
+        configureTrailer(with: trailers)
+        self.moreTrailers = trailers.getSomeTrailers(withTotal: 4)
+        // return the trailers count
+        // if it less than the total passed in moreTrailers
+        trailersCount = CGFloat(trailers.trailersCount ?? 0)
     }
     
     //MARK: - Configure constraints
@@ -141,7 +139,7 @@ class MovieDetailsVC: MediaDetailsVC {
         return table
     }()
     
-    var trailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
+    var moreTrailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
     var mediaName: String?
     var movie: Media!
     var isTrend: Bool!
@@ -164,7 +162,7 @@ extension MovieDetailsVC: UITableViewDelegate,
                           UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trailers.count
+        return moreTrailers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -173,7 +171,7 @@ extension MovieDetailsVC: UITableViewDelegate,
             return UITableViewCell()
         }
         
-        let videoInfo = trailers[indexPath.row]
+        let videoInfo = moreTrailers[indexPath.row]
         guard let titleText = movie.title else {return UITableViewCell()}
         cell.configureCell(with: videoInfo, and: titleText)
         return cell

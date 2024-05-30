@@ -87,23 +87,16 @@ class MediaDetailsVC: UIViewController {
     }
     
     //MARK: - Trailer Configuration
-    func configureTrailer(with model: MediaViewModel){
-        guard let videosResult = model.videosResult else {return}
+    func configureTrailer(with trailers: TrailerViewModel){
         Task {
-            try? await self.youtubePlayerVC.player.load(source: .video(id: getFirstTrailerKey(from: videosResult)))
+            try? await self.youtubePlayerVC.player.load(source: .video(id: trailers.firstTrailerKey))
             try? await self.youtubePlayerVC.player.update(configuration: .init(fullscreenMode: .system,openURLAction: .init(handler: { _ in }),autoPlay: true,showCaptions: true))
             youtubePlayerVC.view.hideSkeleton()
         }
     }
     
-    func getFirstTrailerKey(from videosResult: [Trailer.Reuslts]) -> String {
-        let trailerInfo = videosResult.filter { "Trailer".contains($0.type) }
-        let firstTrailer = trailerInfo.map { $0.key }[0]
-        return firstTrailer
-    }
-    
     // add the media to watched trailer list
-    // if it exceeds 70% of the trailer
+    // if it exceeds 50% of the trailer
     func saveToWatchedList(_ item: Media) {
         trailerDurationTime = youtubePlayerVC.player.durationPublisher
             .sink{ duration in

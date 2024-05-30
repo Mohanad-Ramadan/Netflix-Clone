@@ -45,8 +45,8 @@ class TVDetailsVC: MediaDetailsVC {
                 updateEpisodesTable()
                 
                 // get trailers
-                let trailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
-                configureTrailer(with: MediaViewModel(title: details.name ,videosResult: trailers))
+                let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
+                configureTrailer(with: TrailerViewModel(fetchedTrailers))
                 
             } catch {presentTemporaryAlert(alertType: .connectivity)}
         }

@@ -7,8 +7,10 @@
 
 import Foundation
 
-struct MovieDetail : Codable{
-    let title: String
+protocol Detail {var title: String? {get}}
+
+struct MovieDetail : Detail ,Codable{
+    var title: String?
     let id: Int
     let releaseDate: String
     let overview: String
@@ -21,7 +23,8 @@ struct MovieDetail : Codable{
     }
 }
 
-struct TVDetail : Codable{
+struct TVDetail : Detail ,Codable{
+    var title: String?
     let name: String
     let id: Int
     let overview: String
