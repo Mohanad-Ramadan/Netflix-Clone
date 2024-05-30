@@ -14,8 +14,8 @@ struct MediaResponse: Codable {
 
 struct Media: Codable {
     let id: Int
-    let originalName: String?
-    let title: String?
+    let originalName: String? //not nil if media is a Movie
+    let title: String? //not nil if media is a TVShow
     let overview: String?
     let mediaType: String?
     let posterPath: String?

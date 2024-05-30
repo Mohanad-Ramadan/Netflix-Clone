@@ -66,7 +66,7 @@ extension ComingSoonVC: UITableViewDelegate, UITableViewDataSource {
         if media.title != nil {
             let vc = MovieDetailsVC(for: media)
             presentAsRoot(vc)
-        } else if media.overview != nil {
+        } else if media.originalName != nil {
             let vc = TVDetailsVC(for: media)
             presentAsRoot(vc)
         }

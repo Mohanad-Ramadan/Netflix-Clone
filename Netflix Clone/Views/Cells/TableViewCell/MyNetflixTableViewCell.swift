@@ -123,7 +123,7 @@ extension MyNetflixTableViewCell: UICollectionViewDelegate, UICollectionViewData
         if media.title != nil {
             let vc = MovieDetailsVC(for: media)
             self.delegate?.cellDidTapped(self, navigateTo: vc)
-        } else if media.overview != nil {
+        } else if media.originalName != nil {
             let vc = TVDetailsVC(for: media)
             self.delegate?.cellDidTapped(self, navigateTo: vc)
         }

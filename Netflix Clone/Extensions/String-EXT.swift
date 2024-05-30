@@ -39,12 +39,12 @@ extension String {
         return (month: shortMonth, day: day, dayMonth: dayMonth, year: year )
     }
     
-    func whenItBeLiveText(modelFullDate fullDate: String) -> String {
+    func getCountDownText() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY-M-dd"
+        dateFormatter.dateFormat = "dd-MMMM"
         let nowDate = Date.now
         
-        guard let inputDate = dateFormatter.date(from: fullDate) else {
+        guard let inputDate = dateFormatter.date(from: self) else {
             return "Invalid Date"
         }
         

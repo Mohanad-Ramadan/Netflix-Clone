@@ -45,17 +45,15 @@ class NewHotTableViewCell: UITableViewCell {
                 configureCellImages(with: MediaViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
                 
                 // details
-                if mediaType == nil || mediaType == "movie" {
+                if media.title != nil, media.originalName == nil  {
                     let detail: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "movie")
-                    let detailCategory = detail.separateGenres(with: " • ")
-                    configureCellDetails(with: MediaViewModel(title: detail.title, overview: detail.overview, category: detailCategory, mediaType: media.mediaType ,releaseDate: detail.releaseDate))
+                    configureCellDetails(with: DetailsViewModel(detail))
                 } else {
                     let detail: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "tv")
-                    let detailCategory = detail.separateGenres(with: " • ")
-                    configureCellDetails(with: MediaViewModel(title: detail.name, overview: detail.overview, category: detailCategory, mediaType: media.mediaType))
+                    configureCellDetails(with: DetailsViewModel(detail))
                 }
+                
             } catch { print("Error getting images:", error.localizedDescription) }
-            
         }
         
     }
@@ -73,11 +71,11 @@ class NewHotTableViewCell: UITableViewCell {
         }
     }
     
-    func configureCellDetails(with media: MediaViewModel){
-        titleLabel.text = media.title
-        mediaTypeLabel.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
-        overViewLabel.text = media.overview
-        genresLabel.text = media.category
+    func configureCellDetails(with details: DetailsViewModel){
+        titleLabel.text = details.title
+        mediaTypeLabel.text = details.mediaTypeLabel
+        overViewLabel.text = details.overview
+        genresLabel.text = details.viewedGenres
     }
     
     

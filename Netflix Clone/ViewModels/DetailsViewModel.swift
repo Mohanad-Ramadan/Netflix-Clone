@@ -54,14 +54,21 @@ class DetailsViewModel {
         (details as? TVDetail)?.seasons
     }
     
-    var seasonsCount: Int? {
-        (details as? TVDetail)?.numberOfSeasons
-    }
-    
     var genresIds: String? {
         let genreId = details.genres.map{String($0.id)}
         let stringIds = genreId.joined(separator: "|")
         return stringIds
     }
+    
+    var dateCountDownText: String? {
+        let releaseDate = (details as? MovieDetail)?.releaseDate
+        return releaseDate?.extract().dayMonth.getCountDownText()
+    }
+    
+    var releaseDay: String? { (details as? MovieDetail)?.releaseDate?.extract().day }
+    
+    var releaseMonth: String? { (details as? MovieDetail)?.releaseDate?.extract().month }
+    
+    var viewedGenres: String? {details.genres.map{$0.name}.joined(separator: " • ") }
 }
 

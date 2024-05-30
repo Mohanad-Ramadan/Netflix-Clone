@@ -29,8 +29,7 @@ class MovieDetailsVC: MediaDetailsVC {
             do {
                 // get details
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
-                let viewModel = MediaViewModel(title: details.title, overview: details.overview, genres: details.genres, mediaType: "movie" ,releaseDate: details.releaseDate, runtime: details.runtime )
-                configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
+                configureDetails(with: DetailsViewModel(details), isTrend: isTrend, rank: rank)
                 
                 // get cast
                 let fetchedCast = try await NetworkManager.shared.getCastFor(mediaId: movie.id, ofType: "movie")

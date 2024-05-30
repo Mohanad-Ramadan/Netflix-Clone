@@ -29,8 +29,7 @@ class TVDetailsVC: MediaDetailsVC {
             do {
                 // get details
                 let details: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: tvShow.id, ofType: "tv")
-                let viewModel = MediaViewModel(title: details.name, overview: details.overview, genres: details.genres, mediaType: "tv" ,releaseDate: details.lastAirDate)
-                configureDetails(with: viewModel, isTrend: isTrend, rank: rank)
+                configureDetails(with: DetailsViewModel(details), isTrend: isTrend, rank: rank)
                 
                 // get seasons
                 seasonsCount = details.numberOfSeasons ?? 1

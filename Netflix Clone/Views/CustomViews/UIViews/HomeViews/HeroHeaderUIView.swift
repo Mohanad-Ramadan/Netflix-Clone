@@ -15,7 +15,7 @@ class HeroHeaderUIView: UIView {
     // Configure View
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [shadowWrapperView, logoView, categoryLabel, playButton, myListButton].forEach {addSubview($0)}
+        [shadowWrapperView, logoView, genresLabel, playButton, myListButton].forEach {addSubview($0)}
         shadowWrapperView.addSubview(posterImageView)
         layoutViews()
         configureListButtonAction()
@@ -63,7 +63,7 @@ class HeroHeaderUIView: UIView {
     }
     
     //MARK: - Configure Poster Image
-    func configureHeaderView(with model: MediaViewModel) {
+    func configureHeaderView(with model: MediaViewModel, genresDetail: String) {
         DispatchQueue.main.async { [weak self] in
             if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
                 self?.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
@@ -76,7 +76,7 @@ class HeroHeaderUIView: UIView {
                 self?.logoView.sd_setImage(with: logoURL)
             }
             
-            self?.categoryLabel.text = model.category
+            self?.genresLabel.text = genresDetail
         }
     }
     
@@ -123,7 +123,7 @@ class HeroHeaderUIView: UIView {
     private func layoutViews() {
         // Apply shadow for some views
         createShadowFor(shadowWrapperView, opacity: 0.3, radius: 8)
-        createShadowFor(categoryLabel, opacity: 0.4, radius: 2)
+        createShadowFor(genresLabel, opacity: 0.4, radius: 2)
         
         // Apply constraints shadowContainerView
         let shadowWrapperConstraints = [
@@ -143,7 +143,7 @@ class HeroHeaderUIView: UIView {
         
         // logoView constraints
         let logoViewConstraints = [
-            logoView.bottomAnchor.constraint(equalTo: categoryLabel.topAnchor, constant: -10),
+            logoView.bottomAnchor.constraint(equalTo: genresLabel.topAnchor, constant: -10),
             logoView.centerXAnchor.constraint(equalTo: centerXAnchor),
             logoView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1),
             logoView.trailingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: -20),
@@ -152,10 +152,10 @@ class HeroHeaderUIView: UIView {
 
         // Category constraints
         let categoryConstraints = [
-            categoryLabel.bottomAnchor.constraint(equalTo: playButton.topAnchor, constant: -20),
-            categoryLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            categoryLabel.trailingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: -10),
-            categoryLabel.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 10)
+            genresLabel.bottomAnchor.constraint(equalTo: playButton.topAnchor, constant: -20),
+            genresLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            genresLabel.trailingAnchor.constraint(equalTo: myListButton.trailingAnchor, constant: -10),
+            genresLabel.leadingAnchor.constraint(equalTo: playButton.leadingAnchor, constant: 10)
         ]
         
         let playButtonConstraints = [
@@ -196,7 +196,7 @@ class HeroHeaderUIView: UIView {
     
     private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
     
-    private let categoryLabel: NFBodyLabel = {
+    private let genresLabel: NFBodyLabel = {
         let label = NFBodyLabel(fontSize: 14, fontWeight: .medium, textAlignment: .center)
         label.adjustsFontSizeToFitWidth = true
         return label

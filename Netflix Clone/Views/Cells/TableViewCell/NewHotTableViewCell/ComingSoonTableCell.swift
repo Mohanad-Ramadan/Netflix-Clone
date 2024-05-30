@@ -10,26 +10,22 @@ import UIKit
 class ComingSoonTableCell: NewHotTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        [monthlable ,dayLabel ,mediaDate ,backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,mediaTypeLabel ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
+        [monthlable ,dayLabel ,countDownDate ,backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,mediaTypeLabel ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
     }
     
     
     //MARK: - configure the cell
-    override func configureCellDetails(with media: MediaViewModel) {
-        titleLabel.text = media.title
-        mediaTypeLabel.text = media.mediaType == "tv" ? "S E R I E S" : "F I L M"
-        overViewLabel.text = media.overview
-        genresLabel.text = media.category
-        
-        if let date = media.releaseDate {
-            let dayMonthDate = date.extract().dayMonth
-            mediaDate.text = dayMonthDate.whenItBeLiveText(modelFullDate: date)
-            dayLabel.text = date.extract().day
-            monthlable.text = date.extract().month
-        }
-        
+    override func configureCellDetails(with details: DetailsViewModel) {
+        titleLabel.text = details.title
+        mediaTypeLabel.text = details.mediaTypeLabel
+        overViewLabel.text = details.overview
+        genresLabel.text = details.genres
+        // setup date labels
+        countDownDate.text = details.dateCountDownText
+        dayLabel.text = details.releaseDay
+        monthlable.text = details.releaseMonth
     }
     
     //Month and Day label constraints
@@ -50,10 +46,10 @@ class ComingSoonTableCell: NewHotTableViewCell {
 
     //Date Label
      func setupDateLabelConstraints() {
-        mediaDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
-        mediaDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
-        mediaDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        mediaDate.widthAnchor.constraint(equalTo: mediaDate.widthAnchor).isActive = true
+        countDownDate.leadingAnchor.constraint(equalTo: backdropImageView.leadingAnchor).isActive = true
+        countDownDate.topAnchor.constraint(equalTo: remindMeButton.bottomAnchor).isActive = true
+        countDownDate.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        countDownDate.widthAnchor.constraint(equalTo: countDownDate.widthAnchor).isActive = true
     }
     
     
@@ -61,7 +57,7 @@ class ComingSoonTableCell: NewHotTableViewCell {
         setupMonthAndDayLabelConstraints()
         setupBackdropImageViewConstraints(dayLabel: dayLabel)
         setupDateLabelConstraints()
-        setupNetflixLogoConstraints(bottomTo: mediaDate)
+        setupNetflixLogoConstraints(bottomTo: countDownDate)
         setupTypeLabelConstraints()
         setupComingSoonButtonsConstraints()
         setupLogoViewConstraints()
@@ -71,7 +67,7 @@ class ComingSoonTableCell: NewHotTableViewCell {
     
     let monthlable = NFBodyLabel(color: .lightGray, fontSize: 16, fontWeight: .semibold, textAlignment: .center)
     let dayLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
-    let mediaDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
+    let countDownDate = NFBodyLabel(color: .white, fontSize: 16, textAlignment: .left)
     
     static let identifier = "ComingSoonTableCell"
     

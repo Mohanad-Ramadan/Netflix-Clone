@@ -350,7 +350,7 @@ extension MediaDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource{
         if media.title != nil {
             let vc = MovieDetailsVC(for: media)
             pushInMainThreadTo(vc)
-        } else if media.overview != nil {
+        } else if media.originalName != nil {
             let vc = TVDetailsVC(for: media)
             pushInMainThreadTo(vc)
         }

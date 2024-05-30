@@ -55,7 +55,7 @@ extension HomeVC {
                 heroHeaderMedia = movie
                 
                 heroHeaderView.media = movie
-                heroHeaderView.configureHeaderView(with: MediaViewModel(logoPath: logoPath, backdropsPath: backdropPath, category: details.separateGenres(with: " • ")))
+                heroHeaderView.configureHeaderView(with: MediaViewModel(logoPath: logoPath, backdropsPath: backdropPath), genresDetail: DetailsViewModel(details).viewedGenres ?? "")
                 homeBackground.configureBackground(with: MediaViewModel(backdropsPath: backdropPath))
                 
             } catch let error as APIError {
