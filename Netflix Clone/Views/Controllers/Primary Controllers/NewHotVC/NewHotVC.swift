@@ -8,6 +8,32 @@
 import UIKit
 
 class NewHotVC: UIViewController {
+    
+    //MARK: Declare Variables
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.isPagingEnabled = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let tablesStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let categoryButtonsBar = NewHotCategoryBarUIView()
+    let comingSoonTable = ComingSoonVC()
+    let everyonesTable = EverybodyVC()
+    let topMoviesTable = TopMoviesVC()
+    let topTVShowsTable = TopTVShowsVC()
+    
+    
+    //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -43,7 +69,7 @@ class NewHotVC: UIViewController {
 
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}
     
-    //MARK: - Apply constraints
+    //MARK: - Constraints
     private func applyConstriants() {
         categoryButtonsBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -69,28 +95,6 @@ class NewHotVC: UIViewController {
         ])
     }
     
-    //MARK: - Declare UIElements
-    lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.isPagingEnabled = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    let tablesStackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .horizontal
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let categoryButtonsBar = NewHotCategoryBarUIView()
-    let comingSoonTable = ComingSoonVC()
-    let everyonesTable = EverybodyVC()
-    let topMoviesTable = TopMoviesVC()
-    let topTVShowsTable = TopTVShowsVC()
 }
 
 

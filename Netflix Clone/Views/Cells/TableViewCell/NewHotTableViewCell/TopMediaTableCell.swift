@@ -8,6 +8,22 @@
 import UIKit
 
 class TopMediaTableCell: NewHotTableViewCell {
+    
+    //MARK: - Declare Variables
+    private let topStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.alignment = .top
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let rankLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
+    
+    static let identifier = "TopMediaTableCell"
+    
+    //MARK: - Load View
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         topStackView.addArrangedSubview(rankLabel)
@@ -25,8 +41,15 @@ class TopMediaTableCell: NewHotTableViewCell {
         applyConstraints()
     }
     
+    required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Setup View
     func configureMediaRank(at rank: Int) {rankLabel.text = "\(rank+1)"}
     
+    
+    
+    //MARK: - Constraints
     func setupHorizantolStackConstraints() {
         topStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 3).isActive = true
         topStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
@@ -46,19 +69,4 @@ class TopMediaTableCell: NewHotTableViewCell {
         setupTitleOverviewLabelConstraints()
         setupCategoryLabelConstraints()
     }
-    
-    private let topStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-        stackView.alignment = .top
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let rankLabel = NFBodyLabel(fontSize: 26, fontWeight: .bold, textAlignment: .center)
-    
-    static let identifier = "TopMediaTableCell"
-    
-    required init?(coder: NSCoder) {fatalError()}
 }

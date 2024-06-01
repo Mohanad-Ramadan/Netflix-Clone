@@ -17,11 +17,4 @@ struct Trailer: Codable {
         let site: String
         let type: String
     }
-    
-    func returnYoutubeTrailers() -> [Trailer.Reuslts] {
-        let youtube = results.filter { $0.site == "YouTube" }
-        let desiredVideosArray = ["Trailer","Teaser","Clip","Opening Credits"]
-        let desiredVideos = youtube.filter { desiredVideosArray.contains($0.type) }
-        return desiredVideos
-    }
 }

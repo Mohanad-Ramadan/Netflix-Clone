@@ -8,6 +8,41 @@
 import UIKit
 
 class TVDetailsVC: MediaDetailsVC {
+    
+    //MARK: Declare Variables
+    private let episodesContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "Episodes", buttonTwoTitle: "More Like This")
+    
+    private let episodesTable: UITableView = {
+        let table = UITableView(frame: .zero, style: .plain)
+        table.register(EpisodesTableViewCell.self, forCellReuseIdentifier: EpisodesTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.backgroundColor = .clear
+        table.allowsSelection = false
+        table.showsVerticalScrollIndicator = false
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
+    
+    private let episodesHeaderView = SeasonSelectHeaderView()
+    
+    var tvShow: Media!
+    var isTrend: Bool!
+    var rank: Int!
+    var seasons: SeasonDetail?
+    var seasonsCount: Int!
+    var episodes: [SeasonDetail.Episode] = []
+    var episodesCount: Int?
+    var currentSeason = 1
+    
+    
+    //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData(isTrend: isTrend, rank: rank)
@@ -24,6 +59,7 @@ class TVDetailsVC: MediaDetailsVC {
         threeButtons.media = tvShow
     }
     
+    //MARK: - Fetch Data
     private func fetchData(isTrend: Bool, rank: Int){
         Task {
             do {
@@ -44,14 +80,14 @@ class TVDetailsVC: MediaDetailsVC {
                 castData = fetchedCast
                 
                 // get trailers
-                let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv").returnYoutubeTrailers()
+                let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv")
                 configureTrailer(with: TrailerViewModel(fetchedTrailers))
                 
             } catch {presentTemporaryAlert(alertType: .connectivity)}
         }
     }
     
-    //MARK: - Configure Movie VC
+    //MARK: - Setup Views
     func configureTVShowVC() {
         [switchViewButtons, episodesContainerView, moreIdeasCollection].forEach {containterScrollView.addSubview($0)}
         
@@ -77,7 +113,7 @@ class TVDetailsVC: MediaDetailsVC {
         episodesTable.heightAnchor.constraint(equalToConstant: 190 * CGFloat(self.episodesCount!)).isActive = true
     }
     
-    //MARK: - Configure constraints
+    //MARK: - Constraints
     
     // Switch Buttons Constraints
     private func switchViewButtonsConstriants() {
@@ -116,7 +152,7 @@ class TVDetailsVC: MediaDetailsVC {
         ]
     }
     
-    //MARK: - Switch mainViews methods
+    //MARK: - Main Views Switching
     private func showMoreCollectionView() {
         UIView.animate(withDuration: 0.1) {
             self.episodesContainerView.alpha = 0
@@ -142,38 +178,6 @@ class TVDetailsVC: MediaDetailsVC {
             UIView.animate(withDuration: 0.1) {self.moreIdeasCollection.alpha = 1}
         }
     }
-    
-    //MARK: - Declare UIElements
-    private let episodesContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "Episodes", buttonTwoTitle: "More Like This")
-    
-    private let episodesTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .plain)
-        table.register(EpisodesTableViewCell.self, forCellReuseIdentifier: EpisodesTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.backgroundColor = .clear
-        table.allowsSelection = false
-        table.showsVerticalScrollIndicator = false
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
-    
-    private let episodesHeaderView = SeasonSelectHeaderView()
-    
-    var tvShow: Media!
-    var isTrend: Bool!
-    var rank: Int!
-    var seasons: SeasonDetail?
-    var seasonsCount: Int!
-    var episodes: [SeasonDetail.Episode] = []
-    var episodesCount: Int?
-    var currentSeason = 1
     
     required init?(coder: NSCoder) {fatalError()}
 }

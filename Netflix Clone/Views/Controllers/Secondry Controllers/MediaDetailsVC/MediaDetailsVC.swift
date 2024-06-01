@@ -11,6 +11,72 @@ import Combine
 import SkeletonView
 
 class MediaDetailsVC: UIViewController {
+    
+    //MARK: Declare Variables
+    
+    // Declare Main Views
+    lazy var youtubePlayerVC: YouTubePlayerViewController = {
+        let youtubeVC = YouTubePlayerViewController()
+        youtubeVC.view.isSkeletonable = true
+        let gradient = SkeletonGradient(baseColor: .fadedBlack)
+        youtubeVC.view.showAnimatedGradientSkeleton(usingGradient: gradient)
+        return youtubeVC
+    }()
+    
+    
+    let containterScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.alwaysBounceHorizontal = false
+        scrollView.alwaysBounceVertical = true
+        scrollView.isScrollEnabled = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    //Declare Container Subviews
+    let netflixLogo = NFImageView(image: .netflixIcon)
+    
+    let categoryLabel = NFBodyLabel(color: .lightGray, fontSize: 10, fontWeight: .semibold)
+    
+    let mediaTitle = NFBodyLabel(color: .white, fontSize: 21, fontWeight: .bold, lines: 0)
+    
+    let detailsLabel = DetailsLabelUIView()
+    
+    let top10Logo = NFImageView(image: .top10)
+    
+    let top10DetailsLabel = NFBodyLabel(color: .white, fontSize: 17, fontWeight: .bold)
+    
+    let playButton = NFFilledButton(title: "Play", image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
+    
+    let overViewLabel = NFBodyLabel(color: .white, fontSize: 15, lines: 0)
+    
+    let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
+    
+    let castExpandButton = NFPlainButton(title: "...more", buttonColor: .lightGray, fontSize: 12, fontWeight: .semibold)
+    
+    let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
+    
+    let threeButtons = ThreeButtonsUIView()
+    
+    let moreIdeasCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width/3)-8, height: 185)
+        layout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.identifier)
+        collectionView.backgroundColor = .black
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
+    var moreMedias: [Media] = [Media]()
+    var castData: Cast?
+    var currentTrailerTime: AnyCancellable?
+    var trailerDurationTime: AnyCancellable?
+    
+
+    //MARK: - Load View
     override func viewDidLoad() {super.viewDidLoad()}
     
     init() {super.init(nibName: nil, bundle: nil)}
@@ -37,7 +103,7 @@ class MediaDetailsVC: UIViewController {
     }
     
 
-    //MARK: - Configure UIElement
+    //MARK: - Setup Views
     func configureCast(with cast: CastViewModel){
         castLabel.text = cast.getSomeActros(totalActors: 3, seperator: ", ")
         castLabel.lineBreakMode = .byTruncatingTail
@@ -71,7 +137,7 @@ class MediaDetailsVC: UIViewController {
         presentInMainThread(castVC)
     }
     
-    //MARK: - Trailer Configuration
+    //MARK: - Trailers Configurations
     func configureTrailer(with trailers: TrailerViewModel){
         Task {
             try? await self.youtubePlayerVC.player.load(source: .video(id: trailers.firstTrailerKey))
@@ -103,7 +169,7 @@ class MediaDetailsVC: UIViewController {
         }
     }
     
-    //MARK: - Fetch moreIdeas' media
+    //MARK: - MoreIdeas Data Fetching
     private func fetchMoreMediaFor(mediaTitle mainMedia: String ,genresId: String?, mediaType: String){
         Task{
             do {
@@ -246,7 +312,7 @@ class MediaDetailsVC: UIViewController {
     
     func applySwitchedViewsAndConstraints() {}
     
-    //MARK: Apply constriants function
+    //MARK: Apply Constriants
     func applyConstraints() {
         trailerVideoConstraints()
         scrollViewConstriants()
@@ -261,69 +327,7 @@ class MediaDetailsVC: UIViewController {
         threeButtonsConstriants()
         applySwitchedViewsAndConstraints()
     }
-    
-    
-    //MARK: - Declare Main Views
-    lazy var youtubePlayerVC: YouTubePlayerViewController = {
-        let youtubeVC = YouTubePlayerViewController()
-        youtubeVC.view.isSkeletonable = true
-        let gradient = SkeletonGradient(baseColor: .fadedBlack)
-        youtubeVC.view.showAnimatedGradientSkeleton(usingGradient: gradient)
-        return youtubeVC
-    }()
-    
-    
-    let containterScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.alwaysBounceHorizontal = false
-        scrollView.alwaysBounceVertical = true
-        scrollView.isScrollEnabled = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    //MARK: - Declare Container Subviews
-    
-    let netflixLogo = NFImageView(image: .netflixIcon)
-    
-    let categoryLabel = NFBodyLabel(color: .lightGray, fontSize: 10, fontWeight: .semibold)
-    
-    let mediaTitle = NFBodyLabel(color: .white, fontSize: 21, fontWeight: .bold, lines: 0)
-    
-    let detailsLabel = DetailsLabelUIView()
-    
-    let top10Logo = NFImageView(image: .top10)
-    
-    let top10DetailsLabel = NFBodyLabel(color: .white, fontSize: 17, fontWeight: .bold)
-    
-    let playButton = NFFilledButton(title: "Play", image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
-    
-    let overViewLabel = NFBodyLabel(color: .white, fontSize: 15, lines: 0)
-    
-    let castLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
-    
-    let castExpandButton = NFPlainButton(title: "...more", buttonColor: .lightGray, fontSize: 12, fontWeight: .semibold)
-    
-    let directorLabel = NFBodyLabel(color: .lightGray, fontSize: 12, fontWeight: .light)
-    
-    let threeButtons = ThreeButtonsUIView()
-    
-    let moreIdeasCollection: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (UIScreen.main.bounds.width/3)-8, height: 185)
-        layout.minimumInteritemSpacing = 0
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(PosterCollectionViewCell.self, forCellWithReuseIdentifier: PosterCollectionViewCell.identifier)
-        collectionView.backgroundColor = .black
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
-    
-    var moreMedias: [Media] = [Media]()
-    var castData: Cast?
-    var currentTrailerTime: AnyCancellable?
-    var trailerDurationTime: AnyCancellable?
+
 }
 
 

@@ -17,22 +17,6 @@ class URLCreator {
     
     private init() {}
     
-//    func createRequestWith(baseURL: String, queryItems: [URLQueryItem]) -> URLRequest{
-//        let url = URL(string: baseURL)!
-//        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
-//        let queryItems: [URLQueryItem] = queryItems
-//        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
-//
-//        var request = URLRequest(url: components.url!)
-//        request.httpMethod = "GET"
-//        request.timeoutInterval = 10
-//        request.allHTTPHeaderFields = [
-//          "accept": "application/json",
-//          "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYjdlZmQxZjIxMjQ2NmVkZDI5NDVhYjFlOTE5OWVlMSIsInN1YiI6IjY1MmQ3NGNiMDI0ZWM4MDEzYzU4ZjVhNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7f-onm6Fmd8SrdNF8iVZeD9-GcffA-3RLZNNOvvOFvQ"
-//        ]
-//        return request
-//    }
-    
     func createUrlWith(_ endpoint: Endpoints) -> String{
         if endpoint == .discoverUpcoming || endpoint == .search || endpoint == .popularTVAllTime || endpoint == .popularMovies {
             return "\(baseURL)\(endpoint.rawValue)&api_key=db7efd1f212466edd2945ab1e9199ee1"
@@ -77,6 +61,24 @@ class URLCreator {
         let endpoint = Endpoints.search.rawValue
         return "\(baseURL)\(endpoint)&page=\(page)&api_key=db7efd1f212466edd2945ab1e9199ee1&query=\(query)"
     }
+    
+    
+//    func createRequestWith(baseURL: String, queryItems: [URLQueryItem]) -> URLRequest{
+//        let url = URL(string: baseURL)!
+//        var components = URLComponents(url: url, resolvingAgainstBaseURL: true)!
+//        let queryItems: [URLQueryItem] = queryItems
+//        components.queryItems = components.queryItems.map { $0 + queryItems } ?? queryItems
+//
+//        var request = URLRequest(url: components.url!)
+//        request.httpMethod = "GET"
+//        request.timeoutInterval = 10
+//        request.allHTTPHeaderFields = [
+//          "accept": "application/json",
+//          "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYjdlZmQxZjIxMjQ2NmVkZDI5NDVhYjFlOTE5OWVlMSIsInN1YiI6IjY1MmQ3NGNiMDI0ZWM4MDEzYzU4ZjVhNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7f-onm6Fmd8SrdNF8iVZeD9-GcffA-3RLZNNOvvOFvQ"
+//        ]
+//        return request
+//    }
+    
 }
 
 //MARK: - Endpoints

@@ -8,6 +8,16 @@
 import UIKit
 
 class SearchTableViewCell: UITableViewCell {
+    
+    //MARK: Declare Variables
+    private let mediaBackdropImageView = NFWebImageView(cornerRadius: 6, autoLayout: false)
+    private let titleLabel = NFBodyLabel(fontSize: 15, fontWeight: .semibold, lines: 0)
+    private let playTitleButton = NFSymbolButton(imageName: "play.circle", imageSize: 35)
+
+    static let identifier = "SimpleTableViewCell"
+    
+    
+    //MARK: - Load View
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         [mediaBackdropImageView, titleLabel, playTitleButton].forEach{contentView.addSubview($0)}
@@ -19,6 +29,10 @@ class SearchTableViewCell: UITableViewCell {
         mediaBackdropImageView.image = nil
     }
     
+    required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Setup View
     func configure(with media: Media){
         Task {
             do {
@@ -41,6 +55,7 @@ class SearchTableViewCell: UITableViewCell {
     }
     
     
+    //MARK: - Constraints
     private func applyConstraints() {
         let titlesPosterUIImageViewConstraints = [
             mediaBackdropImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -68,16 +83,5 @@ class SearchTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(playTitleButtonConstraints)
     }
     
-    private let mediaBackdropImageView = NFWebImageView(cornerRadius: 6, autoLayout: false)
-
-    private let titleLabel = NFBodyLabel(fontSize: 15, fontWeight: .semibold, lines: 0)
-    
-    private let playTitleButton = NFSymbolButton(imageName: "play.circle", imageSize: 35)
-
-    
-    static let identifier = "SimpleTableViewCell"
-    
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 

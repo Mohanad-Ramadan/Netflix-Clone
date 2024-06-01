@@ -7,53 +7,14 @@
 
 import UIKit
 
+//MARK: List Container Cases
 enum ListContainer { case myList, watchedList}
 
 class MyNetflixTableViewCell: UITableViewCell {
     
     protocol Delegate: AnyObject {func cellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC)}
     
-    //MARK: - Initialize cell
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .clear
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        collectionView.frame = contentView.bounds
-    }
-    
-    //MARK: - Configure dataSource for cell
-    func configureCollection(with media: [Media], list: ListContainer){
-        listContainer = list
-        DispatchQueue.main.async { [weak self] in
-            self?.media = media
-            self?.collectionView.reloadData()
-        }
-    }
-    
-    //MARK: - Remove the Cell
-    private func removeMylistCell(at indexpath: IndexPath) {
-        Task {
-            try await PersistenceDataManager.shared.deleteMediaFromList(media[indexpath.row])
-            self.media.remove(at: indexpath.row)
-            collectionView.deleteItems(at: [indexpath])
-        }
-    }
-    
-    private func removeWatchedCell(at indexpath: IndexPath) {
-        Task {
-            try await PersistenceDataManager.shared.deleteMediaFromWatched(media[indexpath.row])
-            self.media.remove(at: indexpath.row)
-            collectionView.deleteItems(at: [indexpath])
-        }
-    }
-    
-    //MARK: - Declare Variables
+    //MARK: Declare Variables
     private let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 115, height: 170)
@@ -71,7 +32,50 @@ class MyNetflixTableViewCell: UITableViewCell {
     weak var delegate: Delegate?
     static let identifier = "MyNetflixTableViewCell"
     
+    
+    //MARK: - Load View
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        collectionView.frame = contentView.bounds
+    }
+    
     required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Setup View
+    func configureCollection(with media: [Media], list: ListContainer){
+        listContainer = list
+        DispatchQueue.main.async { [weak self] in
+            self?.media = media
+            self?.collectionView.reloadData()
+        }
+    }
+    
+    
+    private func removeMylistCell(at indexpath: IndexPath) {
+        Task {
+            try await PersistenceDataManager.shared.deleteMediaFromList(media[indexpath.row])
+            self.media.remove(at: indexpath.row)
+            collectionView.deleteItems(at: [indexpath])
+        }
+    }
+    
+    private func removeWatchedCell(at indexpath: IndexPath) {
+        Task {
+            try await PersistenceDataManager.shared.deleteMediaFromWatched(media[indexpath.row])
+            self.media.remove(at: indexpath.row)
+            collectionView.deleteItems(at: [indexpath])
+        }
+    }
+    
 }
 
 

@@ -9,49 +9,8 @@ import UIKit
 import SwiftUI
 
 class SearchResultVC: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.addSubview(resultTableView)
-        resultTableView.delegate = self
-        resultTableView.dataSource = self
-        configureLoadingSprinner()
-        applyConstraints()
-    }
-
     
-    //MARK: - Apply constraitns
-    func applyConstraints() {
-        loadingSpinner.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            resultTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            resultTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            resultTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            resultTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            loadingSpinner.view.topAnchor.constraint(equalTo: view.topAnchor, constant: -100),
-            loadingSpinner.view.leftAnchor.constraint(equalTo: view.leftAnchor),
-            loadingSpinner.view.rightAnchor.constraint(equalTo: view.rightAnchor),
-            loadingSpinner.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
-        
-        
-    }
-    
-    //MARK: - setup LoadingSpinner
-    func configureLoadingSprinner() {
-        addChild(loadingSpinner)
-        view.addSubview(loadingSpinner.view)
-        loadingSpinner.didMove(toParent: self)
-    }
-    
-    // delay removing loading view for better UX
-    func finishLoading() {
-        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
-            UIView.animate {self.loadingSpinner.view.alpha = 0}
-        }
-    }
-    
-    //MARK: - Declare UIElements
+    //MARK: Declare Variables
     var resultTableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionRowTableViewCell.self, forCellReuseIdentifier: CollectionRowTableViewCell.identifier)
@@ -73,6 +32,51 @@ class SearchResultVC: UIViewController {
         willSet {loadingSpinner.view.alpha = 1}
         didSet {resultTableView.reloadData()}
     }
+    
+    
+    //MARK: - Load View
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(resultTableView)
+        resultTableView.delegate = self
+        resultTableView.dataSource = self
+        configureLoadingSprinner()
+        applyConstraints()
+    }
+
+    
+    //MARK: - Constraitns
+    func applyConstraints() {
+        loadingSpinner.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            resultTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            resultTableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            resultTableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            resultTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingSpinner.view.topAnchor.constraint(equalTo: view.topAnchor, constant: -100),
+            loadingSpinner.view.leftAnchor.constraint(equalTo: view.leftAnchor),
+            loadingSpinner.view.rightAnchor.constraint(equalTo: view.rightAnchor),
+            loadingSpinner.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+        
+        
+    }
+    
+    //MARK: - Setup Loading View
+    func configureLoadingSprinner() {
+        addChild(loadingSpinner)
+        view.addSubview(loadingSpinner.view)
+        loadingSpinner.didMove(toParent: self)
+    }
+    
+    // delay removing loading view for better UX
+    func finishLoading() {
+        Timer.scheduledTimer(withTimeInterval: 3, repeats: false) { _ in
+            UIView.animate {self.loadingSpinner.view.alpha = 0}
+        }
+    }
+    
     
 }
 

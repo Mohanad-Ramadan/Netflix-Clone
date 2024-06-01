@@ -8,6 +8,32 @@
 import UIKit
 
 class MovieDetailsVC: MediaDetailsVC {
+    
+    //MARK: Declare Variables
+    private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
+    
+    private let trailerTable: UITableView = {
+        let table = UITableView(frame: .zero, style: .plain)
+        table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.backgroundColor = .clear
+        table.allowsSelection = false
+        table.isScrollEnabled = false
+        table.isSpringLoaded = true
+        table.showsVerticalScrollIndicator = false
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
+    
+    var moreTrailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
+    var mediaName: String?
+    var movie: Media!
+    var isTrend: Bool!
+    var rank: Int!
+    var trailersCount: CGFloat?
+    
+    
+    //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchData(isTrend: isTrend, rank: rank)
@@ -24,6 +50,7 @@ class MovieDetailsVC: MediaDetailsVC {
         threeButtons.media = movie
     }
     
+    //MARK: - Fetch Data
     private func fetchData(isTrend: Bool, rank: Int) {
         Task {
             do {
@@ -38,14 +65,14 @@ class MovieDetailsVC: MediaDetailsVC {
                 castData = fetchedCast
                 
                 // get trailers
-                let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie").returnYoutubeTrailers()
+                let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie")
                 configureMovieTrailer(with: TrailerViewModel(fetchedTrailers))
                 
             } catch {presentTemporaryAlert(alertType: .connectivity)}
         }
     }
     
-    //MARK: - Configure Movie VC
+    //MARK: - Setup Views
     func configureMovieVC() {
         [switchViewButtons, moreIdeasCollection, trailerTable].forEach {containterScrollView.addSubview($0)}
         configureParentVC()
@@ -58,7 +85,7 @@ class MovieDetailsVC: MediaDetailsVC {
         trailerTable.dataSource = self
     }
     
-    //MARK: - Trailer Configuration
+    //MARK: - Setup Other Trailers
     private func configureMovieTrailer(with trailers: TrailerViewModel){
         configureTrailer(with: trailers)
         self.moreTrailers = trailers.getSomeTrailers(withTotal: 4)
@@ -67,7 +94,7 @@ class MovieDetailsVC: MediaDetailsVC {
         trailersCount = CGFloat(trailers.trailersCount ?? 0)
     }
     
-    //MARK: - Configure constraints
+    //MARK: - Constraints
     
     // Switch Buttons Constraints
     private func switchViewButtonsConstriants() {
@@ -94,7 +121,7 @@ class MovieDetailsVC: MediaDetailsVC {
          trailerTable.bottomAnchor.constraint(equalTo: containterScrollView.contentLayoutGuide.bottomAnchor)]
     }
     
-    //MARK: - Switch mainViews methods
+    //MARK: - Main Views Switching
     private func showMoreCollectionView() {
         UIView.animate(withDuration: 0.1) {
             self.trailerTable.alpha = 0
@@ -120,30 +147,6 @@ class MovieDetailsVC: MediaDetailsVC {
                 UIView.animate(withDuration: 0.1) {self.trailerTable.alpha = 1}
         }
     }
-    
-    
-    //MARK: - Declare Variables
-    private let switchViewButtons = SwitchViewButtonsUIView(buttonOneTitle: "More Like This", buttonTwoTitle: "Trailer & More")
-    
-    private let trailerTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .plain)
-        table.register(TrailersTableViewCell.self, forCellReuseIdentifier: TrailersTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.backgroundColor = .clear
-        table.allowsSelection = false
-        table.isScrollEnabled = false
-        table.isSpringLoaded = true
-        table.showsVerticalScrollIndicator = false
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
-    
-    var moreTrailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
-    var mediaName: String?
-    var movie: Media!
-    var isTrend: Bool!
-    var rank: Int!
-    var trailersCount: CGFloat?
     
     required init?(coder: NSCoder) {fatalError()}
 }

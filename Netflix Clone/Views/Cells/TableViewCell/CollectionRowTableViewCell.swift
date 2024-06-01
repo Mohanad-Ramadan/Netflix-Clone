@@ -9,49 +9,11 @@ import UIKit
 
 class CollectionRowTableViewCell: UITableViewCell {
     
-    //MARK: Delegate Protocol
     protocol Delegate: AnyObject {
         func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC)
     }
     
-    
-    //MARK: - Cell Initialize
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .clear
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        collectionView.frame = contentView.bounds
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        media = []
-        collectionView.reloadData()
-    }
-    
-    //MARK: - Configure Cell
-    func configureCollection(with media: [Media]){
-        self.media = media
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.reloadData()
-        }
-    }
-    
-    func addToMyList(_ indexpath: IndexPath ) {
-        Task {
-            try await PersistenceDataManager.shared.addToMyListMedia(media[indexpath.row])
-            NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
-        }
-    }
-     
-    
-    //MARK: - Declare UIElements
+    //MARK: Declare Variables
     private let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 115, height: 170)
@@ -69,7 +31,45 @@ class CollectionRowTableViewCell: UITableViewCell {
     static let identifier = "HomeTableViewCell"
     weak var delegate: Delegate?
     
+    
+    //MARK: - Load View
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(collectionView)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        collectionView.frame = contentView.bounds
+    }
+    
     required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Prepare Cell
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        media = []
+        collectionView.reloadData()
+    }
+    
+    //MARK: - Setup View
+    func configureCollection(with media: [Media]){
+        self.media = media
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
+    
+    func addToMyList(_ indexpath: IndexPath ) {
+        Task {
+            try await PersistenceDataManager.shared.addToMyListMedia(media[indexpath.row])
+            NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
+        }
+    }
+     
 }
 
 

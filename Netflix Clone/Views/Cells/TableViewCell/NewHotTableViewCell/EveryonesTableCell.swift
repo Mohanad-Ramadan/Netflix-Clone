@@ -8,6 +8,10 @@
 import UIKit
 
 class EveryonesTableCell: NewHotTableViewCell {
+    
+    static let identifier = "EveryonesTableCell"
+    
+    //MARK: - Load View
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         [
@@ -23,6 +27,9 @@ class EveryonesTableCell: NewHotTableViewCell {
         applyConstraints()
     }
     
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Constraints
     private func applyConstraints() {
         setupBackdropImageViewConstraints()
         setupButtonsConstraints(for: shareButton, myListButton, playButton)
@@ -33,8 +40,5 @@ class EveryonesTableCell: NewHotTableViewCell {
         setupCategoryLabelConstraints()
     }
     
-    static let identifier = "EveryonesTableCell"
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 

@@ -8,12 +8,19 @@
 import Foundation
 
 class TrailerViewModel {
-    init(_ trailers: [Trailer.Reuslts]) {self.trailers = trailers}
+    init(_ trailers: Trailer) {self.trailers = trailers}
     
-    private let trailers: [Trailer.Reuslts]
+    private let trailers: Trailer
+    private var trailerResults: [Trailer.Reuslts] {
+        let youtube = trailers.results.filter { $0.site == "YouTube" }
+        let desiredVideosArray = ["Trailer","Teaser","Clip","Opening Credits"]
+        let desiredVideos = youtube.filter { desiredVideosArray.contains($0.type) }
+        return desiredVideos
+    }
+    
     
     var firstTrailerKey: String {
-        let trailerInfo = trailers.filter { "Trailer".contains($0.type) }
+        let trailerInfo = trailerResults.filter { "Trailer".contains($0.type) }
         let firstTrailer = trailerInfo.map { $0.key }[0]
         return firstTrailer
     }
@@ -22,7 +29,7 @@ class TrailerViewModel {
     
     // pass other trailers without the first trailer
     func getSomeTrailers(withTotal totalTrailers: Int) -> [Trailer.Reuslts] {
-        let otherTrailers = trailers.filter { $0.key != firstTrailerKey }
+        let otherTrailers = trailerResults.filter { $0.key != firstTrailerKey }
         let someTrailers = Array(otherTrailers.prefix(totalTrailers))
         trailersCount = someTrailers.count
         return someTrailers

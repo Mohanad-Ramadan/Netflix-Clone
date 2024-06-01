@@ -11,6 +11,53 @@ class SeasonsListVC: UIViewController {
     
     protocol Delegate: AnyObject {func selectSeason(number seasonNumber: Int)}
     
+    //MARK: - Declare Variables
+    let exitButtonBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 25
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let upperPaddingView : UIView = {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.15).isActive = true
+        return view
+    }()
+    
+    let lowerPaddingView : UIView = {
+        let view = UIView()
+        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1).isActive = true
+        return view
+    }()
+    
+    let stackContainer : UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.spacing = 20
+        view.distribution = .fill
+        view.alignment = .center
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let bluryBackground = UIView()
+    let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
+    
+    var seasonsButtons = [NFPlainButton]()
+    weak var delegate: Delegate!
+    
+    
+    //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -32,7 +79,7 @@ class SeasonsListVC: UIViewController {
     
     required init?(coder: NSCoder) {fatalError()}
     
-    //MARK: - Configure Views
+    //MARK: - Setup Views
     func configureViews() {
         [bluryBackground, scrollView, exitButtonBackground].forEach{view.addSubview($0)}
         scrollView.addSubview(stackContainer)
@@ -154,50 +201,5 @@ class SeasonsListVC: UIViewController {
         
         
     }
-    
-    //MARK: - Declare Views & Variables
-    let exitButtonBackground: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 25
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    
-    let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    let upperPaddingView : UIView = {
-        let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.15).isActive = true
-        return view
-    }()
-    
-    let lowerPaddingView : UIView = {
-        let view = UIView()
-        view.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height*0.1).isActive = true
-        return view
-    }()
-    
-    let stackContainer : UIStackView = {
-        let view = UIStackView()
-        view.axis = .vertical
-        view.spacing = 20
-        view.distribution = .fill
-        view.alignment = .center
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let bluryBackground = UIView()
-    let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
-    
-    var seasonsButtons = [NFPlainButton]()
-    weak var delegate: Delegate!
 }
 

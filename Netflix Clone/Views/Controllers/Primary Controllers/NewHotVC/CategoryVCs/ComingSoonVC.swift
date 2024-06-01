@@ -9,7 +9,7 @@ import UIKit
 
 class ComingSoonVC: CategoryVC {
     
-    //MARK: - Configure View
+    //MARK: Load View
     override func configureVC() {
         tableView.delegate = self
         tableView.dataSource = self

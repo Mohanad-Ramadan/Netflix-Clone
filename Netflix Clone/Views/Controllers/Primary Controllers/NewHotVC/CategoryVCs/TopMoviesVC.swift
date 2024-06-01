@@ -9,7 +9,7 @@ import UIKit
 
 class TopMoviesVC: CategoryVC {
     
-    //MARK: - configure view
+    //MARK: LoadView
     override func configureVC() {
         tableView.delegate = self
         tableView.dataSource = self

@@ -11,7 +11,32 @@ import Combine
 //MARK: Alert Cases
 enum AlertType { case save , remove, connectivity }
 
+
 class TemporaryAlertVC: UIViewController {
+    
+    //MARK: Declare Variables
+    let containerView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 5
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    let messageLabel: UILabel = {
+        let label = NFBodyLabel(text: "", fontSize: 16, fontWeight: .semibold, textAlignment: .left, lines: 1, autoLayout: false)
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOpacity = 0.5
+        label.layer.shadowOffset = CGSize.zero
+        label.layer.shadowRadius = 2
+        return label
+    }()
+    
+    var alertTapped: (()->Void)?
+    var representedVC: UIViewController!
+    var networkConnection: AnyCancellable?
+    
+    
+    //MARK: - Load View
     init(alertType: AlertType, appearOn vcBelow: UIViewController) {
         super.init(nibName: nil, bundle: nil)
         self.representedVC = vcBelow
@@ -28,14 +53,16 @@ class TemporaryAlertVC: UIViewController {
         applyConstraints()
     }
     
-    //MARK: - Configure VC
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Setup View
     func configureViews() {
         //containerView config
         view.addSubview(containerView)
         containerView.addSubview(messageLabel)
     }
     
-    //MARK: - Setup Alert Type
+    //MARK: - Setup Alert Types
     func initSaveAlert() {
         messageLabel.text = "Added to My List"
         containerView.backgroundColor = .darkGreen
@@ -58,7 +85,7 @@ class TemporaryAlertVC: UIViewController {
         connectionRestoredAction()
     }
     
-    //MARK: - VC Dismiss function
+    //MARK: - Dismiss VC
     func connectionRestoredAction() {
         var reconnectCount = 0  // count to solve repeated true connection value
         networkConnection = NetworkMonitor.shared.isConnected
@@ -94,7 +121,7 @@ class TemporaryAlertVC: UIViewController {
         }
     }
 
-    //MARK: - constraints
+    //MARK: - Constraints
     func containerBottomAnchor() -> NSLayoutConstraint {
         var tabBarHeight = representedVC.navigationController?.tabBarController?.tabBar.bounds.height
         let isTabBarHidden = representedVC.tabBarController?.tabBar.isHidden ?? false
@@ -125,29 +152,6 @@ class TemporaryAlertVC: UIViewController {
         ])
     }
     
-    
-    //MARK: - Declare Variables
-    let containerView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 5
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let messageLabel: UILabel = {
-        let label = NFBodyLabel(text: "", fontSize: 16, fontWeight: .semibold, textAlignment: .left, lines: 1, autoLayout: false)
-        label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowOpacity = 0.5
-        label.layer.shadowOffset = CGSize.zero
-        label.layer.shadowRadius = 2
-        return label
-    }()
-    
-    var alertTapped: (()->Void)?
-    var representedVC: UIViewController!
-    var networkConnection: AnyCancellable?
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 
 

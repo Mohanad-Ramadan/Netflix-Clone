@@ -363,9 +363,9 @@
 			children = (
 				141230ED2AE5B2020025815E /* PersistenceDataManager.swift */,
 				141E13FA2AD73191007418D5 /* NetworkManager.swift */,
+				14C42BDE2C0B4A7A003F134C /* URLCreator.swift */,
 				141FBB0C2BF2FB9C00F3DC22 /* NetworkMonitor.swift */,
 				148EC12A2B97A57B00EFDD11 /* ErrorMessages.swift */,
-				14C42BDE2C0B4A7A003F134C /* URLCreator.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";

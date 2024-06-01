@@ -8,6 +8,21 @@
 import UIKit
 
 class CategoryVC: UIViewController {
+    
+    //MARK: Declare Variables
+    var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+        return tableView
+    }()
+    
+    private let loadingView = NewHotLoadingUIView()
+    
+    var media: [Media] = [Media]()
+    
+    //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         [tableView,loadingView].forEach {view.addSubview($0)}
@@ -34,19 +49,6 @@ class CategoryVC: UIViewController {
             self.loadingView.alpha = 0
         }
     }
-    
-    //MARK: - Declare Variables
-    var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        return tableView
-    }()
-    
-    private let loadingView = NewHotLoadingUIView()
-    
-    var media: [Media] = [Media]()
 }
 
 //MARK: - Cell Delegate

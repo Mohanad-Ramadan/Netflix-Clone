@@ -9,6 +9,28 @@ import UIKit
 import SwiftUI
 
 class HomeVC: UIViewController {
+    
+    //MARK: Declare Variables
+    private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height*(7/17), height: UIScreen.main.bounds.height/1.40 ))
+    
+    private let homeFeedTable: UITableView = {
+        let table = UITableView(frame: .zero, style: .grouped)
+        table.register(CollectionRowTableViewCell.self, forCellReuseIdentifier: CollectionRowTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.showsVerticalScrollIndicator = false
+        return table
+    }()
+    
+    private let categorySelectButtons = HomeCategoryBarUIView()
+    var heroHeaderView = HeroHeaderUIView()
+    var homeBackground = HomeBackgroundUIView()
+    let loadingView = HomeLoadingUIView()
+    
+    var heroHeaderMedia: Media?
+    
+    let sectionTitles :[String] = ["All Time Best TV Shows", "Trending Series" , "All Time Best Movies", "Trending Movies", "Upcoming Movies"]
+    
+    //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         configureVC()
@@ -82,26 +104,6 @@ class HomeVC: UIViewController {
         ])
     }
     
-    
-    //MARK: - Declare Variables
-    private let headerContainer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height*(7/17), height: UIScreen.main.bounds.height/1.40 ))
-    
-    private let homeFeedTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
-        table.register(CollectionRowTableViewCell.self, forCellReuseIdentifier: CollectionRowTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.showsVerticalScrollIndicator = false
-        return table
-    }()
-    
-    private let categorySelectButtons = HomeCategoryBarUIView()
-    var heroHeaderView = HeroHeaderUIView()
-    var homeBackground = HomeBackgroundUIView()
-    let loadingView = HomeLoadingUIView()
-    
-    var heroHeaderMedia: Media?
-    
-    let sectionTitles :[String] = ["All Time Best TV Shows", "Trending Series" , "All Time Best Movies", "Trending Movies", "Upcoming Movies"]
 }
 
 

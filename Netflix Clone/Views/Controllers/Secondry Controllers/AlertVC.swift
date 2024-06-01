@@ -8,6 +8,37 @@
 import UIKit
 
 class AlertVC: UIViewController {
+    
+    //MARK: Declare Variables
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .fadedBlack
+        view.layer.cornerRadius = 10
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.3).cgColor
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let stackContainerView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let titleLabel = NFTitleLabel(text: "Opps", textAlignment: .center, lines: 0, autoLayout: true)
+    private let messageLabel = NFBodyLabel(text: "", color: .lightGray , fontSize: 17, fontWeight: .regular, textAlignment: .center, lines: 0, autoLayout: true)
+    
+    private lazy var actionButton = NFFilledButton(title: "Ok", foregroundColor: .white, backgroundColor: .darkRed, fontSize: 20, fontWeight: .semibold, autoLayout: true)
+    
+    private var alertTitle: String?
+    private var messageText: String?
+    private var buttonTitle: String?
+    
+    
+    //MARK: - Load View
     init(alertTitle: String, messageText: String) {
         super.init(nibName: nil, bundle: nil)
         self.alertTitle = alertTitle
@@ -21,7 +52,10 @@ class AlertVC: UIViewController {
         applyConstraints()
     }
     
-    func configureViews(){
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Setup View
+    private func configureViews(){
         //containerView config
         view.addSubview(containerView)
         containerView.addSubview(stackContainerView)
@@ -42,7 +76,9 @@ class AlertVC: UIViewController {
     
     @objc func dismissVC() { dismiss(animated: true) }
     
-    func applyConstraints(){
+    
+    //MARK: - Setup View
+    private func applyConstraints(){
         let padding:CGFloat = 22
         NSLayoutConstraint.activate([
             // containerView constraints
@@ -63,39 +99,6 @@ class AlertVC: UIViewController {
         ])
         
         stackContainerView.setCustomSpacing(-15, after: titleLabel)
-    }
-    
-    
-    //MARK: - Declare Variables
-    let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .fadedBlack
-        view.layer.cornerRadius = 10
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.darkGray.withAlphaComponent(0.3).cgColor
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    let stackContainerView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    let titleLabel = NFTitleLabel(text: "Opps", textAlignment: .center, lines: 0, autoLayout: true)
-    let messageLabel = NFBodyLabel(text: "", color: .lightGray , fontSize: 17, fontWeight: .regular, textAlignment: .center, lines: 0, autoLayout: true)
-    
-    lazy var actionButton = NFFilledButton(title: "Ok", foregroundColor: .white, backgroundColor: .darkRed, fontSize: 20, fontWeight: .semibold, autoLayout: true)
-    
-    var alertTitle: String?
-    var messageText: String?
-    var buttonTitle: String?
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 

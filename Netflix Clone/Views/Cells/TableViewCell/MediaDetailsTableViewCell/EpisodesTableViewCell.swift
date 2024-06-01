@@ -8,6 +8,22 @@
 import UIKit
 
 class EpisodesTableViewCell: UITableViewCell {
+    
+    //MARK: Declare Variables
+    let episodeImageView = NFWebImageView(cornerRadius: 6, autoLayout: false)
+
+    let titleLabel = NFBodyLabel(fontSize: 14)
+    
+    let runtime = NFBodyLabel(text: "45",color: .lightGray, fontSize: 11, fontWeight: .light)
+    
+    let overview = NFBodyLabel(text: "Didn't find any.", color: .lightGray, fontSize: 15, lines: 3)
+
+    let playEpisodeButton = NFSymbolButton(imageName: "play.circle", imageSize: 45)
+    
+    static let identifier = "EpisodesTableViewCell"
+    
+    
+    //MARK: - Load View
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         backgroundColor = .clear
@@ -15,6 +31,9 @@ class EpisodesTableViewCell: UITableViewCell {
         applyConstraints()
     }
     
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Prepare Cell
     override func prepareForReuse() {
         super.prepareForReuse()
         episodeImageView.image = nil
@@ -23,7 +42,7 @@ class EpisodesTableViewCell: UITableViewCell {
         overview.text = nil
     }
     
-    
+    //MARK: - Setup View
     func configureCellDetail(from episode: SeasonDetail.Episode){
         episodeImageView.downloadImage(from: episode.stillPath ?? "noPath", extendVector: .horizontal)
         titleLabel.text = "\(episode.episodeNumber ?? 0). \(episode.name ?? "")"
@@ -31,7 +50,7 @@ class EpisodesTableViewCell: UITableViewCell {
         overview.text = episode.overview
     }
     
-    
+    //MARK: - Constraints
     private func applyConstraints() {
         let episodeImageViewConstraints = [
             episodeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
@@ -72,20 +91,5 @@ class EpisodesTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(overviewConstraints)
         NSLayoutConstraint.activate(playButtonConstraints)
     }
-    
-    let episodeImageView = NFWebImageView(cornerRadius: 6, autoLayout: false)
-
-    let titleLabel = NFBodyLabel(fontSize: 14)
-    
-    let runtime = NFBodyLabel(text: "45",color: .lightGray, fontSize: 11, fontWeight: .light)
-    
-    let overview = NFBodyLabel(text: "Didn't find any.", color: .lightGray, fontSize: 15, lines: 3)
-
-    let playEpisodeButton = NFSymbolButton(imageName: "play.circle", imageSize: 45)
-    
-    static let identifier = "EpisodesTableViewCell"
-    
-    
-    required init?(coder: NSCoder) {fatalError()}
 
 }

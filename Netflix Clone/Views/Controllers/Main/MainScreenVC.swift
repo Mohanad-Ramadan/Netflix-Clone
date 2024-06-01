@@ -9,7 +9,16 @@ import UIKit
 import SwiftUI
 
 class MainScreenVC: UIViewController {
-    override func viewDidLoad() {super.viewDidLoad(); setupLaunchView()}
+    
+    // Declare Views
+    let launchView = UIHostingController(rootView: LaunchView())
+    let mainAppController = AppTabBarController()
+    
+    // loadView
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupLaunchView()
+    }
     
     // Configure TabBarController
     func setupMainTabController() {
@@ -28,10 +37,6 @@ class MainScreenVC: UIViewController {
         launchView.rootView.delegate = self
         launchView.didMove(toParent: self)
     }
-    
-    // Declare Views
-    let launchView = UIHostingController(rootView: LaunchView())
-    let mainAppController = AppTabBarController()
 }
 
 

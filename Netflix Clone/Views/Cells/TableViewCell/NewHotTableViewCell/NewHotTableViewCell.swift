@@ -10,11 +10,52 @@ import UIKit
 class NewHotTableViewCell: UITableViewCell {
     protocol Delegate: AnyObject { func saveMediaToList(); func removeMediafromList()}
     
+    //MARK: - Declare Variables
+    let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
+    
+    let buttonsContainer: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = -7
+        stackView.distribution = .fillProportionally
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+    
+    let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+
+    let myListButton = NFPlainButton(title: "My List", image: UIImage(systemName: "plus"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+    
+    let shareButton = NFPlainButton(title: "Share", image: UIImage(systemName: "paperplane"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+    
+    let playButton = NFPlainButton(title: "Play", image: UIImage(systemName: "play.fill"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
+
+    let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
+    
+    let netflixLogo = NFImageView(image: .netflixIcon)
+    
+    let mediaTypeLabel = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
+    
+    let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
+    
+    let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
+    
+    let genresLabel = NFBodyLabel(fontSize: 13)
+    
+    var media: Media?
+    weak var delegate: Delegate?
+    
+    
+    //MARK: - Load View
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .black
         configureListButtonAction()
     }
+    
+    required init?(coder: NSCoder) {fatalError()}
     
     //MARK: - Prepare the cell
     override func prepareForReuse() {
@@ -26,7 +67,7 @@ class NewHotTableViewCell: UITableViewCell {
         setupLogoViewConstraints()
     }
     
-    //MARK: - Configure cell
+    //MARK: - Setup cell
     func configure(with media: Media) {
         Task {
             do {
@@ -85,7 +126,7 @@ class NewHotTableViewCell: UITableViewCell {
         layoutIfNeeded()
     }
     
-    //MARK: - Configure MyListButton
+    //MARK: - Setup MyListButton
     private func configureListButtonAction() {
         myListButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
     }
@@ -125,7 +166,7 @@ class NewHotTableViewCell: UITableViewCell {
     }
     
     
-    //MARK: - Subviews Constraints
+    //MARK: - Constraints
     
     // Backdrop image view constraints
     func setupBackdropImageViewConstraints(dayLabel: UIView? = nil) {
@@ -192,43 +233,6 @@ class NewHotTableViewCell: UITableViewCell {
         genresLabel.widthAnchor.constraint(equalTo: genresLabel.widthAnchor).isActive = true
     }
     
-    //MARK: - Declare Subviews
-    let backdropImageView = NFWebImageView(cornerRadius: 10, autoLayout: false)
     
-    let buttonsContainer: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = -7
-        stackView.distribution = .fillProportionally
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    let remindMeButton = NFPlainButton(title: "Remind Me", image: UIImage(systemName: "bell"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
-    
-    let infoButton = NFPlainButton(title: "Info", image: UIImage(systemName: "info.circle"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
-
-    let myListButton = NFPlainButton(title: "My List", image: UIImage(systemName: "plus"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
-    
-    let shareButton = NFPlainButton(title: "Share", image: UIImage(systemName: "paperplane"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
-    
-    let playButton = NFPlainButton(title: "Play", image: UIImage(systemName: "play.fill"), imagePlacement: .top, fontSize: 12, fontWeight: .regular, fontColorOnly: .gray)
-
-    let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
-    
-    let netflixLogo = NFImageView(image: .netflixIcon)
-    
-    let mediaTypeLabel = NFBodyLabel(color: .lightGray, fontSize: 8, fontWeight: .semibold)
-    
-    let titleLabel = NFBodyLabel(fontSize: 22, fontWeight: .bold, lines: 0)
-    
-    let overViewLabel = NFBodyLabel(color: .lightGray, fontSize: 15, lines: 3)
-    
-    let genresLabel = NFBodyLabel(fontSize: 13)
-    
-    var media: Media?
-    weak var delegate: Delegate?
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 

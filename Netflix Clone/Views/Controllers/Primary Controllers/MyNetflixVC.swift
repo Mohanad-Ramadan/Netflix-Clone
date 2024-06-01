@@ -8,7 +8,27 @@
 import UIKit
 
 class MyNetflixVC: UIViewController {
-
+    
+    //MARK: Declare Variables
+    private let userTable: UITableView = {
+        let table = UITableView(frame: .zero, style: .grouped)
+        table.register(MyNetflixTableViewCell.self, forCellReuseIdentifier: MyNetflixTableViewCell.identifier)
+        table.separatorStyle = .none
+        table.alwaysBounceVertical = false
+        table.sectionHeaderHeight = 25
+        table.translatesAutoresizingMaskIntoConstraints = false
+        return table
+    }()
+    
+    let myListLabel = NFBodyLabel(text: "My List", fontSize: 20, fontWeight: .bold)
+    let watchedLabel = NFBodyLabel(text: "Trailers You've Watched", fontSize: 20, fontWeight: .bold)
+    private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
+    private let userLabel = NFPlainButton(title: "mohanad",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
+    
+    var myListMedia: [Media] = [Media]()
+    var watchedMedia: [Media] = [Media]()
+    
+    //MARK: - LoadView
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavbar()
@@ -41,7 +61,7 @@ class MyNetflixVC: UIViewController {
     @objc func searchButtonTapped() {pushInMainThreadTo(SearchVC(), animated: false)}
     
     
-    //MARK: - setup data for tables
+    //MARK: - Fetch Tables Data
     private func fetchDownloadedMedia() {
         // Notify the View to fetch the data agian
         NotificationCenter.default.addObserver(forName: NSNotification.Name(NotificationKey.myListKey), object: nil, queue: nil) { _ in
@@ -84,6 +104,21 @@ class MyNetflixVC: UIViewController {
         }
     }
     
+    
+    //MARK: - Setup Cell Header
+    func setupHeader(for section: Int) -> UIView {
+        let headerView = UIView()
+        if section == 0 {
+            headerView.addSubview(myListLabel)
+            myListLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
+        } else if section == 1, !watchedMedia.isEmpty {
+            headerView.addSubview(watchedLabel)
+            watchedLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
+        }
+        return headerView
+    }
+
+    
     //MARK: - Constraints
     
     //Profil view
@@ -114,38 +149,6 @@ class MyNetflixVC: UIViewController {
         userLabelConstraints()
         userTableConstraints()
     }
-    
-    //MARK: - setup section header
-    func setupHeader(for section: Int) -> UIView {
-        let headerView = UIView()
-        if section == 0 { 
-            headerView.addSubview(myListLabel)
-            myListLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
-        } else if section == 1, !watchedMedia.isEmpty {
-            headerView.addSubview(watchedLabel)
-            watchedLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 15).isActive = true
-        }
-        return headerView
-    }
-    
-    //MARK: - Declare UIElements
-    private let userTable: UITableView = {
-        let table = UITableView(frame: .zero, style: .grouped)
-        table.register(MyNetflixTableViewCell.self, forCellReuseIdentifier: MyNetflixTableViewCell.identifier)
-        table.separatorStyle = .none
-        table.alwaysBounceVertical = false
-        table.sectionHeaderHeight = 25
-        table.translatesAutoresizingMaskIntoConstraints = false
-        return table
-    }()
-    
-    let myListLabel = NFBodyLabel(text: "My List", fontSize: 20, fontWeight: .bold)
-    let watchedLabel = NFBodyLabel(text: "Trailers You've Watched", fontSize: 20, fontWeight: .bold)
-    private let profilImage = NFImageView(image: .profil, cornerRadius: 10, contentMode: .scaleAspectFit)
-    private let userLabel = NFPlainButton(title: "mohanad",image: UIImage(systemName: "chevron.down"), imagePlacement: .trailing, fontSize: 28, fontWeight: .bold)
-    
-    var myListMedia: [Media] = [Media]()
-    var watchedMedia: [Media] = [Media]()
 }
 
 

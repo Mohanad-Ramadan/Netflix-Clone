@@ -8,6 +8,41 @@
 import UIKit
 
 class SearchVC: UIViewController {
+    
+    //MARK: Declare Variables
+    var searchTable: UITableView = {
+        let table = UITableView()
+        table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
+        table.rowHeight = 100
+        table.separatorStyle = .none
+        return table
+    }()
+            
+    lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.navigationItem.hidesSearchBarWhenScrolling = false
+        return searchController
+    }()
+    
+    
+    lazy var searchBar: UISearchBar = {
+        let searchBar = searchController.searchBar
+        searchBar.placeholder = "Search shows, movies..."
+        searchBar.searchBarStyle = .minimal
+        searchBar.showsCancelButton = false
+        searchBar.searchTextField.backgroundColor = .systemGray6
+        searchBar.sizeToFit()
+        return searchBar
+    }()
+    
+    let searchResultsVC = SearchResultVC()
+    let loadingView = SearchLoadingUIView()
+    var media = [Media]()
+    
+    //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -21,7 +56,7 @@ class SearchVC: UIViewController {
         searchController.isActive = false
     }
     
-    //MARK: - Configure VC
+    //MARK: - Setup View
     func configureNavBar() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -33,7 +68,6 @@ class SearchVC: UIViewController {
         }
     }
     
-    //MARK: - Configure Search table
     func configureSubviews(){
         // configure subviews
         view.addSubview(searchTable)
@@ -56,7 +90,7 @@ class SearchVC: UIViewController {
     }
     
     
-    //MARK: - Setup UI Content
+    //MARK: - Fetch Data
     
     // fetch the media for searchTable cells
     func fetchRecommendedMedia() {
@@ -89,7 +123,7 @@ class SearchVC: UIViewController {
         removeLoadingView()
     }
     
-    //MARK: - SubViews Constraints
+    //MARK: - Constraints
     func layoutSubviews() {
         [loadingView, searchTable].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -102,38 +136,6 @@ class SearchVC: UIViewController {
         }
     }
     
-    //MARK: - Declare Variables
-    var searchTable: UITableView = {
-        let table = UITableView()
-        table.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
-        table.rowHeight = 100
-        table.separatorStyle = .none
-        return table
-    }()
-            
-    lazy var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.hidesNavigationBarDuringPresentation = false
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.navigationItem.hidesSearchBarWhenScrolling = false
-        return searchController
-    }()
-    
-    
-    lazy var searchBar: UISearchBar = {
-        let searchBar = searchController.searchBar
-        searchBar.placeholder = "Search shows, movies..."
-        searchBar.searchBarStyle = .minimal
-        searchBar.showsCancelButton = false
-        searchBar.searchTextField.backgroundColor = .systemGray6
-        searchBar.sizeToFit()
-        return searchBar
-    }()
-    
-    let searchResultsVC = SearchResultVC()
-    let loadingView = SearchLoadingUIView()
-    var media = [Media]()
 }
 
 //MARK: - SearchTableView Delegats
