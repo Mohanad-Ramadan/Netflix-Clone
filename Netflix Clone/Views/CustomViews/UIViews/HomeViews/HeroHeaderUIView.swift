@@ -34,14 +34,14 @@ class HeroHeaderUIView: UIView {
             
             if itemIsNew {
                 try await PersistenceDataManager.shared.addToMyListMedia(media!)
-                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "checkmark")
                 // notify delegate that button been tapped
                 delegate?.saveMediaToList()
             } else {
                 try await PersistenceDataManager.shared.deleteMediaFromList(media!)
-                NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "plus")
                 // notify delegate that button been tapped

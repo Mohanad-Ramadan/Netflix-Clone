@@ -46,7 +46,7 @@ class CollectionRowTableViewCell: UITableViewCell {
     func addToMyList(_ indexpath: IndexPath ) {
         Task {
             try await PersistenceDataManager.shared.addToMyListMedia(media[indexpath.row])
-            NotificationCenter.default.post(name: NSNotification.Name(Constants.notificationKey), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
         }
     }
      

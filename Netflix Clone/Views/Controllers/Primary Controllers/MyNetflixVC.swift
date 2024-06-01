@@ -44,7 +44,7 @@ class MyNetflixVC: UIViewController {
     //MARK: - setup data for tables
     private func fetchDownloadedMedia() {
         // Notify the View to fetch the data agian
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.notificationKey), object: nil, queue: nil) { _ in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(NotificationKey.myListKey), object: nil, queue: nil) { _ in
             self.fetchDownloadedMedia()
         }
         // Calling API request method
@@ -65,7 +65,7 @@ class MyNetflixVC: UIViewController {
     
     private func fetchTrailersWatched() {
         // Notify the View to fetch the data agian
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(Constants.trailersKey), object: nil, queue: nil) { _ in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(NotificationKey.trailersKey), object: nil, queue: nil) { _ in
             self.fetchTrailersWatched()
         }
         // Calling API request method

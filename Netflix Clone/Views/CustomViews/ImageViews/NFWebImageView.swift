@@ -26,7 +26,7 @@ class NFWebImageView: UIImageView {
     }
     
     func downloadImage(from endpoint: String, extendVector: ImageExtendVector){
-        guard let url = URL(string: Constants.imageURL + endpoint) else {return}
+        guard let url = URL(string: URLCreator.shared.imageURL + endpoint) else {return}
         sd_imageTransition = .fade
         
         switch extendVector {

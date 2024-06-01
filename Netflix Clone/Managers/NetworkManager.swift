@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-//MARK: - NetworkManager
 class NetworkManager {
     static let shared = NetworkManager()
     let decoder = JSONDecoder()
@@ -19,7 +17,7 @@ class NetworkManager {
     }
     
     
-    //MARK: - Main Fetch Methods
+    //MARK: - Essential Fetch Methods
     func getMedia(from stringURL: String) async throws -> [Media] {
         guard let url = URL(string: stringURL) else {throw APIError.invalidURL}
         
@@ -46,34 +44,34 @@ class NetworkManager {
     
     //MARK: - Spacific Methods
     func getImagesFor(mediaId id: Int, ofType mediaType: String) async throws -> MediaImage {
-        let stringURL = Constants.createImageURLWith(mediaType: mediaType, id: id)
+        let stringURL = URLCreator.shared.createImageURLWith(mediaType: mediaType, id: id)
         return try await getData(from: stringURL)
     }
     
     func getCastFor(mediaId id: Int, ofType mediaType: String) async throws -> Cast {
-        let stringURL = Constants.createCastURLWith(mediaType: mediaType, id: id)
+        let stringURL = URLCreator.shared.createCastURLWith(mediaType: mediaType, id: id)
         return try await getData(from: stringURL)
     }
     
     func getTrailersFor(mediaId id: Int, ofType mediaType: String) async throws -> Trailer {
-        let stringURL = Constants.createTrailersURLWith(mediaType: mediaType, id: id)
+        let stringURL = URLCreator.shared.createTrailersURLWith(mediaType: mediaType, id: id)
         return try await getData(from: stringURL)
     }
 
     func getDetailsFor<T: Codable>(mediaId id: Int, ofType mediaType: String) async throws -> T {
-        let stringURL = Constants.createDetailsURLWith(mediaType: mediaType, id: id)
+        let stringURL = URLCreator.shared.createDetailsURLWith(mediaType: mediaType, id: id)
         return try await getData(from: stringURL)
     }
 
     func getSeasonDetailsFor(seriesId: Int, seasonNumber: Int) async throws -> SeasonDetail {
-        let stringURL = Constants.createSeasonURLWith(id: seriesId, seasonNumber: seasonNumber)
+        let stringURL = URLCreator.shared.createSeasonURLWith(id: seriesId, seasonNumber: seasonNumber)
         return try await getData(from: stringURL)
     }
     
     
     // media fetch methods
     func getDataOf(_ endpoint: Endpoints) async throws -> [Media] {
-        let stringURL = Constants.createUrlWith(endpoint)
+        let stringURL = URLCreator.shared.createUrlWith(endpoint)
         return try await getMedia(from: stringURL)
     }
     
@@ -84,14 +82,14 @@ class NetworkManager {
         ofMediaType mediaType: String = "movie",
         page: Int = 1
     ) async throws -> [Media] {
-        let stringURL = Constants.createMoreLikeURLWith(mediaType: mediaType, genresId: genresId, without: unwantedGenresId, page: page)
+        let stringURL = URLCreator.shared.createMoreLikeURLWith(mediaType: mediaType, genresId: genresId, without: unwantedGenresId, page: page)
         return try await getMedia(from: stringURL)
     }
     
     
     func getSearches(of query: String, page: Int = 1) async throws -> [Media] {
         guard let query = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else {throw APIError.invalidURL}
-        let stringURL = Constants.createSearchURLFor(query, page: page)
+        let stringURL = URLCreator.shared.createSearchURLFor(query, page: page)
         return try await getMedia(from: stringURL)
     }
     

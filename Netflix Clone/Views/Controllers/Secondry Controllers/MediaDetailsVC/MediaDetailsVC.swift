@@ -99,7 +99,7 @@ class MediaDetailsVC: UIViewController {
     func addMedia(item: Media) {
         Task {
             try await PersistenceDataManager.shared.saveWatchedItem(item)
-            NotificationCenter.default.post(name: NSNotification.Name(Constants.trailersKey), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.trailersKey), object: nil)
         }
     }
     
