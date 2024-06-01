@@ -10,14 +10,22 @@ import UIKit
 class EveryonesTableCell: NewHotTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        [backdropImageView ,logoView ,netflixLogo ,mediaTypeLabel ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
+        [
+            backdropImageView ,
+            logoView ,
+            netflixLogo ,
+            mediaTypeLabel ,
+            titleLabel ,
+            overViewLabel ,
+            genresLabel
+        ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
     }
     
     private func applyConstraints() {
         setupBackdropImageViewConstraints()
-        setupButtonsConstraints()
+        setupButtonsConstraints(for: shareButton, myListButton, playButton)
         setupLogoViewConstraints()
         setupNetflixLogoConstraints(bottomTo: logoView)
         setupTypeLabelConstraints()

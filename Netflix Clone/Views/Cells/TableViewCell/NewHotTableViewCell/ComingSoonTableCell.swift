@@ -10,7 +10,18 @@ import UIKit
 class ComingSoonTableCell: NewHotTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        [monthlable ,dayLabel ,countDownDate ,backdropImageView ,remindMeButton ,logoView ,infoButton ,netflixLogo ,mediaTypeLabel ,titleLabel ,overViewLabel ,genresLabel ].forEach { contentView.addSubview($0) }
+        [
+            monthlable ,
+            dayLabel ,
+            countDownDate ,
+            backdropImageView ,
+            logoView ,
+            netflixLogo ,
+            mediaTypeLabel ,
+            titleLabel ,
+            overViewLabel ,
+            genresLabel
+        ].forEach { contentView.addSubview($0) }
         
         applyConstraints()
     }
@@ -54,12 +65,13 @@ class ComingSoonTableCell: NewHotTableViewCell {
     
     
     private func applyConstraints() {
-        setupMonthAndDayLabelConstraints()
         setupBackdropImageViewConstraints(dayLabel: dayLabel)
-        setupDateLabelConstraints()
         setupNetflixLogoConstraints(bottomTo: countDownDate)
+        setupButtonsConstraints(for: remindMeButton, infoButton)
+        setupMonthAndDayLabelConstraints()
+        setupDateLabelConstraints()
+        
         setupTypeLabelConstraints()
-        setupComingSoonButtonsConstraints()
         setupLogoViewConstraints()
         setupTitleOverviewLabelConstraints()
         setupCategoryLabelConstraints()

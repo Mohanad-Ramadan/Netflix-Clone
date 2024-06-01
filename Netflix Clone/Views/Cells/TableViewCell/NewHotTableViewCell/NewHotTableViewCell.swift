@@ -33,10 +33,6 @@ class NewHotTableViewCell: UITableViewCell {
                 self.media = media
                 let id = media.id
                 let mediaType = media.mediaType
-                
-                // configure MyList Button
-                setupMyListButtonUI()
-                
                 // images
                 let images = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
                 let logoAspectRatio = UIHelper.getLogoDetailsFrom(images)?.1
@@ -58,6 +54,16 @@ class NewHotTableViewCell: UITableViewCell {
         
     }
     
+    func configureCellDetails(with details: DetailsViewModel){
+        titleLabel.text = details.title
+        mediaTypeLabel.text = details.mediaTypeLabel
+        overViewLabel.text = details.overview
+        genresLabel.text = details.viewedGenres
+        // configure MyList Button
+        setupMyListButtonUI()
+    }
+    
+    
     // add fetched data to there views
     func configureCellImages(with media: MediaViewModel){
         backdropImageView.downloadImage(from: media.backdropsPath ?? "noPath", extendVector: .horizontal)
@@ -71,13 +77,13 @@ class NewHotTableViewCell: UITableViewCell {
         }
     }
     
-    func configureCellDetails(with details: DetailsViewModel){
-        titleLabel.text = details.title
-        mediaTypeLabel.text = details.mediaTypeLabel
-        overViewLabel.text = details.overview
-        genresLabel.text = details.viewedGenres
+    func updateLogoWidthBy(_ aspectRatio: CGFloat) {
+        logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor))
+        let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: aspectRatio)
+        widthConstraint.priority = .defaultHigh
+        widthConstraint.isActive = true
+        layoutIfNeeded()
     }
-    
     
     //MARK: - Configure MyListButton
     private func configureListButtonAction() {
@@ -136,22 +142,11 @@ class NewHotTableViewCell: UITableViewCell {
         }
     }
     
-    // Buttons constraints
-    func setupComingSoonButtonsConstraints() {
-        infoButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
-        infoButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15).isActive = true
-        infoButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        remindMeButton.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
-        remindMeButton.trailingAnchor.constraint(equalTo: infoButton.leadingAnchor).isActive = true
-        remindMeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-    }
-    
-    func setupButtonsConstraints() {
+    func setupButtonsConstraints(for buttons: UIView...) {
         contentView.addSubview(buttonsContainer)
         buttonsContainer.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 10).isActive = true
         buttonsContainer.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        [shareButton, myListButton, playButton].forEach{buttonsContainer.addArrangedSubview($0)}
+        buttons.forEach{buttonsContainer.addArrangedSubview($0)}
     }
     
     //Logo view
@@ -195,15 +190,6 @@ class NewHotTableViewCell: UITableViewCell {
         genresLabel.leadingAnchor.constraint(equalTo: overViewLabel.leadingAnchor).isActive = true
         genresLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
         genresLabel.widthAnchor.constraint(equalTo: genresLabel.widthAnchor).isActive = true
-    }
-    
-    
-    func updateLogoWidthBy(_ aspectRatio: CGFloat) {
-        logoView.removeConstraint(logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor))
-        let widthConstraint = logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: aspectRatio)
-        widthConstraint.priority = .defaultHigh
-        widthConstraint.isActive = true
-        layoutIfNeeded()
     }
     
     //MARK: - Declare Subviews
