@@ -9,7 +9,19 @@ import UIKit
 import SkeletonView
 
 class HomeLoadingUIView: UIView {
+    
+    //MARK: Declare Variables
+    private let headerImageView = NFLoadingUIView()
+    private let headerText = NFLoadingUIView()
+    private let headerButton = NFLoadingUIView()
+    private let postersViewsHeader = NFLoadingUIView()
+    private let posterView1 = NFLoadingUIView()
+    private let posterView2 = NFLoadingUIView()
+    private let posterView3 = NFLoadingUIView()
+    private let posterView4 = NFLoadingUIView()
 
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -17,23 +29,11 @@ class HomeLoadingUIView: UIView {
         .forEach {addSubview($0)}
         applyConstraints()
     }
-
-    private let headerImageView = NFLoadingUIView()
     
-    private let headerText = NFLoadingUIView()
+    required init?(coder: NSCoder) {fatalError()}
     
-    private let headerButton = NFLoadingUIView()
     
-    private let postersViewsHeader = NFLoadingUIView()
-    
-    private let posterView1 = NFLoadingUIView()
-    
-    private let posterView2 = NFLoadingUIView()
-    
-    private let posterView3 = NFLoadingUIView()
-    
-    private let posterView4 = NFLoadingUIView()
-    
+    //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
         
@@ -81,11 +81,5 @@ class HomeLoadingUIView: UIView {
         
     }
     
-    
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 

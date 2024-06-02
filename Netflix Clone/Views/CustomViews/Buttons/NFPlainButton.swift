@@ -58,6 +58,8 @@ class NFPlainButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
+    
+    // Custom setups for button image
     func configureButtonImageWith(_ image: UIImage, tinted: UIColor? = nil , width: CGFloat = 25, height: CGFloat = 25, placement: NSDirectionalRectEdge, padding: CGFloat) {
         
         if tinted != nil {

@@ -9,13 +9,31 @@ import UIKit
 import SkeletonView
 
 class SearchLoadingUIView: UIView {
+    
+    //MARK: Declare Variables
+    private let mainContainerStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 20
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private var containersArray = [UIStackView]()
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
         configureContainerBlocks()
     }
     
-    //MARK: - Configure Views
+    required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Setup Views
     private func setupView() {
         backgroundColor = .black
         addSubview(mainContainerStack)
@@ -48,20 +66,6 @@ class SearchLoadingUIView: UIView {
         
         containersArray.append(blocksContainer)
     }
-    
-    //MARK: - Declare UIElements
-    private let mainContainerStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private var containersArray = [UIStackView]()
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 
 

@@ -8,9 +8,29 @@
 import UIKit
 
 class SwitchViewButtonsUIView: UIView {
-    
+    // Delegate protocol
     protocol Delegate: AnyObject { func buttonOneAction(); func buttonTwoAction() }
-
+    
+    //MARK: Declare Variables
+    private let redLineOne: UIView = {
+        let rectangle = UIView()
+        rectangle.backgroundColor = UIColor.red
+        return rectangle
+    }()
+    
+    private let redLineTwo: UIView = {
+        let rectangle = UIView()
+        rectangle.backgroundColor = UIColor.red
+        return rectangle
+    }()
+    
+    private let buttonOne = NFPlainButton(title: "", buttonColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    private let buttonTwo = NFPlainButton(title: "", buttonColor: .lightGray, fontSize: 16, fontWeight: .bold)
+    
+    weak var delegate: Delegate?
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -25,26 +45,9 @@ class SwitchViewButtonsUIView: UIView {
         buttonTwo.configuration?.title = buttonTwoTitle
     }
     
-    //MARK: - Button target methods
-    func buttonsTarget() {
-        buttonOne.addTarget(self, action: #selector(buttonOnePressed), for: .touchUpInside)
-        buttonTwo.addTarget(self, action: #selector(buttonTwoPressed), for: .touchUpInside)
-    }
+    required init?(coder: NSCoder) {fatalError()}
     
-    func triggerButtonOne() {buttonOne.sendActions(for: .touchUpInside)}
-    
-    //MARK: - Button Pressed Actions
-    @objc private func buttonOnePressed() {
-        handleUIForButtonOne()
-        delegate?.buttonOneAction()
-    }
-    
-    @objc private func buttonTwoPressed() {
-        handleUIForButtonTwo()
-        delegate?.buttonTwoAction()
-    }
-    
-    // Button UI change method
+    //MARK: - Setup View
     func handleUIForButtonOne() {
         // Change redLine placment to be over moreButton
         self.layoutIfNeeded()
@@ -87,6 +90,25 @@ class SwitchViewButtonsUIView: UIView {
         buttonOne.configuration?.baseForegroundColor = .lightGray
     }
     
+    //MARK: - Button Target
+    func buttonsTarget() {
+        buttonOne.addTarget(self, action: #selector(buttonOnePressed), for: .touchUpInside)
+        buttonTwo.addTarget(self, action: #selector(buttonTwoPressed), for: .touchUpInside)
+    }
+    
+    func triggerButtonOne() {buttonOne.sendActions(for: .touchUpInside)}
+    
+    //MARK: - Button Pressed Actions
+    @objc private func buttonOnePressed() {
+        handleUIForButtonOne()
+        delegate?.buttonOneAction()
+    }
+    
+    @objc private func buttonTwoPressed() {
+        handleUIForButtonTwo()
+        delegate?.buttonTwoAction()
+    }
+    
     //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
@@ -102,24 +124,4 @@ class SwitchViewButtonsUIView: UIView {
         ])
     }
     
-    //MARK: - Views Declaration
-    private let redLineOne: UIView = {
-        let rectangle = UIView()
-        rectangle.backgroundColor = UIColor.red
-        return rectangle
-    }()
-    
-    private let redLineTwo: UIView = {
-        let rectangle = UIView()
-        rectangle.backgroundColor = UIColor.red
-        return rectangle
-    }()
-    
-    private let buttonOne = NFPlainButton(title: "", buttonColor: .lightGray, fontSize: 16, fontWeight: .bold)
-    private let buttonTwo = NFPlainButton(title: "", buttonColor: .lightGray, fontSize: 16, fontWeight: .bold)
-    
-    weak var delegate: Delegate?
-    
-    
-    required init?(coder: NSCoder) {fatalError()}
 }

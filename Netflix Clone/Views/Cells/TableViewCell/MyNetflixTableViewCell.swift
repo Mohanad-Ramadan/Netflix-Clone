@@ -11,7 +11,7 @@ import UIKit
 enum ListContainer { case myList, watchedList}
 
 class MyNetflixTableViewCell: UITableViewCell {
-    
+    // Delegate protocol
     protocol Delegate: AnyObject {func cellDidTapped(_ cell: MyNetflixTableViewCell, navigateTo vc: MediaDetailsVC)}
     
     //MARK: Declare Variables

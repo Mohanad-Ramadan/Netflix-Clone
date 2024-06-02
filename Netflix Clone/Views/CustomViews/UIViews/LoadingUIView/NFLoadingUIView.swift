@@ -14,7 +14,6 @@ class NFLoadingUIView: UIView {
         showAnimatedGradientSkeleton()
     }
     
-    
     convenience init(){
         self.init(frame: .zero)
         layer.cornerRadius = 3
@@ -22,8 +21,6 @@ class NFLoadingUIView: UIView {
         clipsToBounds = true
         translatesAutoresizingMaskIntoConstraints = false
     }
-    
-    
     
     required init?(coder: NSCoder) {fatalError()}
 }

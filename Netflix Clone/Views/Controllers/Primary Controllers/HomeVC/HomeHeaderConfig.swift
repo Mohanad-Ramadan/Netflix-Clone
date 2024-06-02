@@ -43,20 +43,12 @@ extension HomeVC {
     private func fetchImagesAndConfigureViews(for movie: Media) {
         Task {
             do {
-                // get logo and backdrop
-                let images = try await NetworkManager.shared.getImagesFor(mediaId: movie.id, ofType: "movie")
-                let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
-                let backdropPath = UIHelper.getBackdropPathFrom(images)
-                
-                // get genres
-                let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
-                
-                // configure views
-                heroHeaderMedia = movie
-                
+                let fetchedImages = try await NetworkManager.shared.getImagesFor(mediaId: movie.id, ofType: "movie")
+                let fetchedDetails: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
+                // configure header and background views
                 heroHeaderView.media = movie
-                heroHeaderView.configureHeaderView(with: MediaViewModel(logoPath: logoPath, backdropsPath: backdropPath), genresDetail: DetailsViewModel(details).viewedGenres ?? "")
-                homeBackground.configureBackground(with: MediaViewModel(backdropsPath: backdropPath))
+                heroHeaderView.configureHeaderView(with: ImageViewModel(fetchedImages), genresDetail: DetailsViewModel(fetchedDetails).viewedGenres ?? "")
+                homeBackground.configureBackground(with: ImageViewModel(fetchedImages))
                 
             } catch let error as APIError {
                 presentNFAlert(messageText: error.rawValue)

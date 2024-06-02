@@ -8,9 +8,40 @@
 import UIKit
 
 class NewHotCategoryBarUIView: UIView{
-    
+    // Delegate protocol
     protocol Delegate: AnyObject {func buttonPressed(buttonIndex: Int)}
     
+    //MARK: Declare Variables
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.alwaysBounceVertical = false
+        scrollView.alwaysBounceHorizontal = true
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private let buttonsStackView: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.distribution = .fillProportionally
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let comingSoonButton = NFFilledButton(title: "Coming Soon", foregroundColor: .black, backgroundColor: .white, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    private let toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
+    
+    
+    private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
+
+    weak var delegate: Delegate!
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -19,7 +50,9 @@ class NewHotCategoryBarUIView: UIView{
         buttonsTarget()
     }
     
-    //MARK: - Configure Buttons
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Setup View
     private func configureButtons() {
         addSubview(scrollView)
         scrollView.addSubview(buttonsStackView)
@@ -94,36 +127,6 @@ class NewHotCategoryBarUIView: UIView{
         ])
     }
     
-    //MARK: - Declare Views
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.isScrollEnabled = true
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.alwaysBounceVertical = false
-        scrollView.alwaysBounceHorizontal = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
-    }()
-    
-    private let buttonsStackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .horizontal
-        view.distribution = .fillProportionally
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let comingSoonButton = NFFilledButton(title: "Coming Soon", foregroundColor: .black, backgroundColor: .white, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    private let everyoneWatchingButton = NFFilledButton(title: "Everyone's Watching", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    private let toptenTvShowsButton = NFFilledButton(title: "Top 10 TV Shows", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    private let toptenMoviesButton = NFFilledButton(title: "Top 10 Movies", foregroundColor: .white, backgroundColor: .black, fontSize: 14, fontWeight: .bold, cornerStyle: .capsule)
-    
-    
-    private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
-
-    weak var delegate: Delegate!
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 
 

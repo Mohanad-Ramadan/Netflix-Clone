@@ -8,6 +8,14 @@
 import UIKit
 
 class HomeCategoryBarUIView: UIView {
+    
+    //MARK: Declare Variables
+    private var tvShowsButton = NFPlainButton(barButtontitle: "TV Shows")
+    private var moviesButton = NFPlainButton(barButtontitle: "Movies")
+    private var categoriesButton = NFPlainButton(barButtontitle: "Categories", image: UIImage(systemName: "chevron.down"))
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -15,6 +23,9 @@ class HomeCategoryBarUIView: UIView {
         applyConstraints()
     }
     
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Constriants
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
@@ -33,11 +44,5 @@ class HomeCategoryBarUIView: UIView {
             categoriesButton.heightAnchor.constraint(equalTo: categoriesButton.heightAnchor),
         ])
     }
-    
-    private var tvShowsButton = NFPlainButton(barButtontitle: "TV Shows")
-    private var moviesButton = NFPlainButton(barButtontitle: "Movies")
-    private var categoriesButton = NFPlainButton(barButtontitle: "Categories", image: UIImage(systemName: "chevron.down"))
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 

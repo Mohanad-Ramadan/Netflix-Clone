@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct UserProfilesView: View {
-    // CallBack method to ParentView
-    let userTappedCallBack: () -> Void
-    // Environment variables
-    @Environment(LaunchData.self) private var launchData
+    
+    //MARK: Declare Properties
+    let userTappedCallBack: () -> Void  // CallBack method to ParentView
+    @Environment(LaunchData.self) private var launchData // Environment variables
+    
     // animation variables
     @State private var animateUserOne = false
     @State private var animateUserTwo = false
@@ -21,6 +22,7 @@ struct UserProfilesView: View {
     // Constant Value
     let virticalSpacing = UIScreen.main.bounds.height * 0.2
     
+    //MARK: - Body
     var body: some View {
         VStack {
             StaticNavBarView()
@@ -64,7 +66,7 @@ struct UserProfilesView: View {
         .background(launchData.animateToTabBar ? .clear:.black)
     }
     
-    //MARK: - UserProfile View
+    //MARK: - Profile Card View
     @ViewBuilder
     func ProfileCardView(_ profile: UserProfile) -> some View {
         VStack(spacing: 8) {

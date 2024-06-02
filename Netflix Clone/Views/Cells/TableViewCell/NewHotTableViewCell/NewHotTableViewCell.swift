@@ -8,6 +8,7 @@
 import UIKit
 
 class NewHotTableViewCell: UITableViewCell {
+    // Delegate protocol
     protocol Delegate: AnyObject { func saveMediaToList(); func removeMediafromList()}
     
     //MARK: - Declare Variables
@@ -75,19 +76,16 @@ class NewHotTableViewCell: UITableViewCell {
                 let id = media.id
                 let mediaType = media.mediaType
                 // images
-                let images = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
-                let logoAspectRatio = UIHelper.getLogoDetailsFrom(images)?.1
-                let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
-                let backdropPath = UIHelper.getBackdropPathFrom(images)
-                configureCellImages(with: MediaViewModel(logoAspectRatio: logoAspectRatio, logoPath: logoPath, backdropsPath: backdropPath))
+                let fetchedImages = try await NetworkManager.shared.getImagesFor(mediaId: id, ofType: mediaType ?? "movie")
+                configureCellImages(with: ImageViewModel(fetchedImages))
                 
                 // details
                 if media.title != nil, media.originalName == nil  {
-                    let detail: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "movie")
-                    configureCellDetails(with: DetailsViewModel(detail))
+                    let fetchedDetails: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "movie")
+                    configureCellDetails(with: DetailsViewModel(fetchedDetails))
                 } else {
-                    let detail: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "tv")
-                    configureCellDetails(with: DetailsViewModel(detail))
+                    let fetchedDetails: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: id, ofType: "tv")
+                    configureCellDetails(with: DetailsViewModel(fetchedDetails))
                 }
                 
             } catch { print("Error getting images:", error.localizedDescription) }
@@ -106,7 +104,7 @@ class NewHotTableViewCell: UITableViewCell {
     
     
     // add fetched data to there views
-    func configureCellImages(with media: MediaViewModel){
+    func configureCellImages(with media: ImageViewModel){
         backdropImageView.downloadImage(from: media.backdropsPath ?? "noPath", extendVector: .horizontal)
         logoView.downloadImage(from: media.logoPath ?? "noPath", extendVector: .horizontal)
         if let logoAspectRatio = media.logoAspectRatio {

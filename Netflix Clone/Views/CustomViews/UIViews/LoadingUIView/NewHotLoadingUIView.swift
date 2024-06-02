@@ -9,13 +9,55 @@ import UIKit
 import SkeletonView
 
 class NewHotLoadingUIView: UIView {
+    
+    //MARK: Declare Variables
+    private let containerStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 15
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let containerOne: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 5
+        return stackView
+    }()
+    
+    private let containerTwo: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 5
+        return stackView
+    }()
+    
+    private let firstBlockView = NFLoadingUIView()
+    private let secondBlockView = NFLoadingUIView()
+    private let thirdBlockView = NFLoadingUIView()
+    
+    private let firstBlockView2 = NFLoadingUIView()
+    private let secondBlockView2 = NFLoadingUIView()
+    private let thirdBlockView2 = NFLoadingUIView()
+    
+    var isScreenLarge: Bool = false
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
         configureblocks()
     }
     
-    //MARK: - Configure Views
+    required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Setup View
     private func setupView() {
         backgroundColor = .black
         addSubview(containerStack)
@@ -53,42 +95,5 @@ class NewHotLoadingUIView: UIView {
         ])
     }
     
-    //MARK: - Declare UIElements
-    private let containerStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 15
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private let containerOne: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 5
-        return stackView
-    }()
-    
-    private let containerTwo: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.spacing = 5
-        return stackView
-    }()
-    
-    private let firstBlockView = NFLoadingUIView()
-    private let secondBlockView = NFLoadingUIView()
-    private let thirdBlockView = NFLoadingUIView()
-    
-    private let firstBlockView2 = NFLoadingUIView()
-    private let secondBlockView2 = NFLoadingUIView()
-    private let thirdBlockView2 = NFLoadingUIView()
-    
-    var isScreenLarge: Bool = false
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 

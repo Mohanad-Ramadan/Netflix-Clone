@@ -8,9 +8,12 @@
 import Foundation
 
 class TrailerViewModel {
-    init(_ trailers: Trailer) {self.trailers = trailers}
     
     private let trailers: Trailer
+    
+    init(_ trailers: Trailer) {self.trailers = trailers}
+    
+    
     private var trailerResults: [Trailer.Reuslts] {
         let youtube = trailers.results.filter { $0.site == "YouTube" }
         let desiredVideosArray = ["Trailer","Teaser","Clip","Opening Credits"]

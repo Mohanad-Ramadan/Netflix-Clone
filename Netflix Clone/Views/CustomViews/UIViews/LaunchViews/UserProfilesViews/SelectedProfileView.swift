@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct SelectedProfileView: View {
+    
+    //MARK: Declare Properties
     @Environment(LaunchData.self) var launchData
     @State var value: [String: Anchor<CGRect>]
-    // Constant
+    
+    // Constant Values
     let cardEndSize = UIScreen.main.bounds.width/2.3
     let pathControlPoint = CGPoint(
         x: UIScreen.main.bounds.width,
@@ -18,7 +21,8 @@ struct SelectedProfileView: View {
     )
     let cardEndPosition: () -> CGPoint
     
-    // View
+    
+    //MARK: - Body
     var body: some View {
         GeometryReader { geo in
             
@@ -85,9 +89,9 @@ struct SelectedProfileView: View {
 
 }
 
-
-// animate a drawing path
+//MARK: - Animate Card Modifier
 struct AnimateCardPath: ViewModifier, Animatable {
+    // Initialization
     init(from startPoint: CGPoint, center: CGPoint, to destination: CGPoint, animateFirstPortion: Bool, animateSecondPortion: Bool, path: Path, pathProgress: CGFloat) {
         beginPoint = startPoint
         centerPoint = center
@@ -98,6 +102,7 @@ struct AnimateCardPath: ViewModifier, Animatable {
         self.path = path
     }
     
+    // Declare Properties
     var beginPoint: CGPoint
     var centerPoint: CGPoint
     var endPoint: CGPoint
@@ -111,6 +116,7 @@ struct AnimateCardPath: ViewModifier, Animatable {
         set {progress = newValue}
     }
     
+    // Body
     func body(content: Content) -> some View {
         content
             .position(

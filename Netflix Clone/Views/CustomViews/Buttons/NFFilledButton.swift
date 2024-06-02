@@ -34,6 +34,8 @@ class NFFilledButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = autoLayout
     }
     
+    
+    // Custom setups for button image
     func configureButtonImageWith(_ image: UIImage, tinted: UIColor? = nil , width: CGFloat, height: CGFloat, placement: NSDirectionalRectEdge, padding: CGFloat) {
         
         if tinted != nil {

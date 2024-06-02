@@ -8,7 +8,7 @@
 import Foundation
 
 
-class DetailsViewModel {
+struct DetailsViewModel {
     private let details: Detail
     
     init(_ details: Detail) {self.details = details}

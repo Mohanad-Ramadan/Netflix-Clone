@@ -8,14 +8,17 @@
 import Foundation
 
 struct CastViewModel {
-    init(_ cast: Cast) { self.allCast = cast }
     
     private let allCast: Cast
+    
+    init(_ cast: Cast) { self.allCast = cast }
+    
     
     var directors: String {
         let directors = allCast.crew.filter { $0.job == "Director" }
         let creator = allCast.crew.filter {$0.job == "Executive Producer"}
         let writer = allCast.crew.filter {$0.job == "Novel" || $0.job == "Book" || $0.job == "Original Concept"}
+        
         if !directors.isEmpty {
             return "Director: " + directors[0].name
         } else if !creator.isEmpty, let secondCreator = creator[safe: 1] {

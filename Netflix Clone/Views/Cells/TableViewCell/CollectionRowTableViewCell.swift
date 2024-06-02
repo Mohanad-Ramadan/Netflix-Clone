@@ -8,7 +8,7 @@
 import UIKit
 
 class CollectionRowTableViewCell: UITableViewCell {
-    
+    // Delegate protocol
     protocol Delegate: AnyObject {
         func collectionCellDidTapped(_ cell: CollectionRowTableViewCell, navigateTo vc: MediaDetailsVC)
     }

@@ -12,17 +12,68 @@ class HeroHeaderUIView: UIView {
     // Delegate protocol
     protocol Delegate:AnyObject {func finishLoadingPoster(); func saveMediaToList(); func removeMediafromList()}
     
-    // Configure View
+    //MARK: Declare Variables
+    private let posterImageView: NFWebImageView = {
+        let image = NFWebImageView(cornerRadius: 15, autoLayout: false)
+        image.layer.borderWidth = 1
+        image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.1)
+        return image
+    }()
+    
+    private let shadowWrapperView: UIView = {
+        let wrapperView = UIView()
+        wrapperView.translatesAutoresizingMaskIntoConstraints = false
+        return wrapperView
+    }()
+    
+    private let genresLabel: NFBodyLabel = {
+        let label = NFBodyLabel(fontSize: 14, fontWeight: .medium, textAlignment: .center)
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    private let gradientLayer = CAGradientLayer()
+    private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
+    private let playButton = NFFilledButton(title: "Play",image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
+    private let myListButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
+        
+    
+    var media: Media?
+    weak var delegate: Delegate!
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         [shadowWrapperView, logoView, genresLabel, playButton, myListButton].forEach {addSubview($0)}
         shadowWrapperView.addSubview(posterImageView)
-        layoutViews()
+        setupShadows()
         configureListButtonAction()
-        
+        applyConstraints()
     }
     
-    //MARK: - Configure buttons actions
+    required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Setup View
+    func configureHeaderView(with images: ImageViewModel, genresDetail: String) {
+        DispatchQueue.main.async { [weak self] in
+            if let backdropPath = images.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
+                self?.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
+                    self?.getImageDominantColor()
+                    self?.delegate.finishLoadingPoster()
+                }
+            }
+            
+            if let logoPath = images.logoPath , let logoURL = URL(string: "https://image.tmdb.org/t/p/w500/\(logoPath)") {
+                self?.logoView.sd_setImage(with: logoURL)
+            }
+            
+            self?.genresLabel.text = genresDetail
+        }
+    }
+    
+    // Setup ListButton
     private func configureListButtonAction() {
         myListButton.addTarget(self, action: #selector(listButtonTapped), for: .touchUpInside)
         setupMyListButtonUI()
@@ -62,56 +113,12 @@ class HeroHeaderUIView: UIView {
         }
     }
     
-    //MARK: - Configure Poster Image
-    func configureHeaderView(with model: MediaViewModel, genresDetail: String) {
-        DispatchQueue.main.async { [weak self] in
-            if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
-                self?.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
-                    self?.getImageDominantColor()
-                    self?.delegate.finishLoadingPoster()
-                }
-            }
-            
-            if let logoPath = model.logoPath , let logoURL = URL(string: "https://image.tmdb.org/t/p/w500/\(logoPath)") {
-                self?.logoView.sd_setImage(with: logoURL)
-            }
-            
-            self?.genresLabel.text = genresDetail
-        }
+    //MARK: - Setup View's Shadow
+    private func setupShadows() {
+        createShadowFor(shadowWrapperView, opacity: 0.3, radius: 8)
+        createShadowFor(genresLabel, opacity: 0.4, radius: 2)
     }
     
-    //MARK: - Get Poster dominant color
-    func getImageDominantColor(){
-        guard let posterImage = posterImageView.image else{return}
-        
-        let dominatColor = UIColor.dominantColor(from: posterImage)
-        addGradientLayer(color: dominatColor!)
-    }
-    
-    //MARK: - Create Gradient layer
-    private func addGradientLayer(color: UIColor) {
-        gradientLayer.colors = [
-            UIColor.clear.cgColor,
-            color.withAlphaComponent(0.1).cgColor,
-            color.withAlphaComponent(0.2).cgColor,
-            color.withAlphaComponent(0.3).cgColor,
-            color.withAlphaComponent(0.4).cgColor,
-            color.withAlphaComponent(0.5).cgColor,
-            color.withAlphaComponent(0.6).cgColor,
-            color.withAlphaComponent(0.7).cgColor,
-            color.withAlphaComponent(0.8).cgColor,
-            color.withAlphaComponent(0.9).cgColor,
-            color.cgColor
-        ]
-        let stepSize = 0.46 / Double(gradientLayer.colors?.count ?? 1)
-
-        let locations = Array(stride(from: 0.43, through: 1.0, by: stepSize))
-        gradientLayer.locations = locations.map { NSNumber(value: $0) }
-        posterImageView.layer.addSublayer(gradientLayer)
-        gradientLayer.frame = posterImageView.bounds
-    }
-    
-    //MARK: - Shadow method for views
     private func createShadowFor(_ view: UIView, opacity: Float, radius: CGFloat){
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = opacity
@@ -119,11 +126,8 @@ class HeroHeaderUIView: UIView {
         view.layer.shadowRadius = radius
     }
 
-    //MARK: - Configure Views
-    private func layoutViews() {
-        // Apply shadow for some views
-        createShadowFor(shadowWrapperView, opacity: 0.3, radius: 8)
-        createShadowFor(genresLabel, opacity: 0.4, radius: 2)
+    //MARK: - Constraints
+    private func applyConstraints() {
         
         // Apply constraints shadowContainerView
         let shadowWrapperConstraints = [
@@ -177,40 +181,39 @@ class HeroHeaderUIView: UIView {
         ].forEach{NSLayoutConstraint.activate($0)}
     }
     
-    
-    //MARK: - Declare Subviews
-    private let posterImageView: NFWebImageView = {
-        let image = NFWebImageView(cornerRadius: 15, autoLayout: false)
-        image.layer.borderWidth = 1
-        image.layer.borderColor = CGColor(red: 186/255.0, green: 190/255.0, blue: 197/255.0, alpha: 0.1)
-        return image
-    }()
-    
-    private let gradientLayer = CAGradientLayer()
-    
-    private let shadowWrapperView: UIView = {
-        let wrapperView = UIView()
-        wrapperView.translatesAutoresizingMaskIntoConstraints = false
-        return wrapperView
-    }()
-    
-    private let logoView = NFWebImageView(contentMode: .scaleAspectFit, autoLayout: false)
-    
-    private let genresLabel: NFBodyLabel = {
-        let label = NFBodyLabel(fontSize: 14, fontWeight: .medium, textAlignment: .center)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
-    
-    private let playButton = NFFilledButton(title: "Play",image: UIImage(systemName: "play.fill"), fontSize: 18, fontWeight: .semibold)
-    private let myListButton = NFFilledButton(title: "My List",image: UIImage(systemName: "plus"), fontSize: 18, fontWeight: .semibold)
-        
-    
-    var media: Media?
-    weak var delegate: Delegate!
-    
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 
 
+//MARK: - Setup Gradient
+extension HeroHeaderUIView {
+    // get the dominant color
+    func getImageDominantColor(){
+        guard let posterImage = posterImageView.image else{return}
+        
+        let dominatColor = UIColor.dominantColor(from: posterImage)
+        addGradientLayer(color: dominatColor!)
+    }
+    
+    // create Gradient layer
+    private func addGradientLayer(color: UIColor) {
+        gradientLayer.colors = [
+            UIColor.clear.cgColor,
+            color.withAlphaComponent(0.1).cgColor,
+            color.withAlphaComponent(0.2).cgColor,
+            color.withAlphaComponent(0.3).cgColor,
+            color.withAlphaComponent(0.4).cgColor,
+            color.withAlphaComponent(0.5).cgColor,
+            color.withAlphaComponent(0.6).cgColor,
+            color.withAlphaComponent(0.7).cgColor,
+            color.withAlphaComponent(0.8).cgColor,
+            color.withAlphaComponent(0.9).cgColor,
+            color.cgColor
+        ]
+        let stepSize = 0.46 / Double(gradientLayer.colors?.count ?? 1)
+
+        let locations = Array(stride(from: 0.43, through: 1.0, by: stepSize))
+        gradientLayer.locations = locations.map { NSNumber(value: $0) }
+        posterImageView.layer.addSublayer(gradientLayer)
+        gradientLayer.frame = posterImageView.bounds
+    }
+}

@@ -38,20 +38,19 @@ class SearchTableViewCell: UITableViewCell {
             do {
                 let mediaType = media.mediaType ?? "movie"
                 let id = media.id
-                let title = media.title ?? media.originalName
+                let title = media.title
                 
-                let images = try await NetworkManager.shared.getImagesFor(mediaId: id ,ofType: mediaType)
-                let backdropPath = UIHelper.getBackdropPathFrom(images)
-                configureCell(with: MediaViewModel(title: title ,backdropsPath: backdropPath))
+                let fetchedImages = try await NetworkManager.shared.getImagesFor(mediaId: id ,ofType: mediaType)
+                configureCell(with: ImageViewModel(fetchedImages), mediaTitle: title ?? "Unknown")
             } catch {
                 print("Error getting images:", error.localizedDescription)
             }
         }
     }
     
-    func configureCell(with model: MediaViewModel){
-        mediaBackdropImageView.downloadImage(from: model.backdropsPath ?? "noPath", extendVector: .horizontal)
-        titleLabel.text = model.title
+    func configureCell(with images: ImageViewModel, mediaTitle: String){
+        mediaBackdropImageView.downloadImage(from: images.backdropsPath ?? "noPath", extendVector: .horizontal)
+        titleLabel.text = mediaTitle
     }
     
     

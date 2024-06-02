@@ -8,6 +8,10 @@
 import UIKit
 
 class HomeBackgroundUIView: UIView {
+    
+    private var backGroundPoster = NFWebImageView(autoLayout: false)
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -20,10 +24,13 @@ class HomeBackgroundUIView: UIView {
         backGroundPoster.frame = bounds
     }
     
-    //MARK: - Configure Poster Image
-    func configureBackground(with model: MediaViewModel) {
+    required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Setup View
+    func configureBackground(with images: ImageViewModel) {
         DispatchQueue.main.async { [weak self] in
-            if let backdropPath = model.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)") {
+            if let backdropPath = images.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w500/\(backdropPath)") {
                 self?.backGroundPoster.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
                     self?.getImageDominantColor()
                 }
@@ -31,7 +38,10 @@ class HomeBackgroundUIView: UIView {
         }
     }
     
-    //MARK: - Get Poster dominant color
+    
+    //MARK: - Setup Gradient
+    
+    // Get Poster dominant color
     func getImageDominantColor() {
         guard let backImage = backGroundPoster.image else{return}
         
@@ -39,7 +49,7 @@ class HomeBackgroundUIView: UIView {
         addGradientLayer(color: dominantColor!)
     }
     
-    //MARK: - Gradient layer
+    // Gradient layer
     func addGradientLayer(color: UIColor) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [color.cgColor, UIColor.clear.cgColor]
@@ -47,11 +57,5 @@ class HomeBackgroundUIView: UIView {
         self.layer.addSublayer(gradientLayer)
         gradientLayer.frame = bounds
     }
-    
-    //MARK: - Declare UIElements
-    private var backGroundPoster = NFWebImageView(autoLayout: false)
-    
-    
-    required init?(coder: NSCoder) {fatalError()}
 }
 

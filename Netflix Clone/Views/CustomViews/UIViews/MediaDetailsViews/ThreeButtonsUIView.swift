@@ -8,8 +8,19 @@
 import UIKit
 
 class ThreeButtonsUIView: UIView {
+    // Delegate protocol
     protocol Delegate: AnyObject { func saveMediaToList(); func removeMediafromList()}
     
+    //MARK: Declare Variables
+    private var myListButton = NFPlainButton(title: "My List", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
+    private var shareButton = NFPlainButton(title: "Share", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
+    private var rateButton = NFPlainButton(title: "Rate", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
+ 
+    var media: Media?
+    weak var delegate: Delegate?
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -17,7 +28,9 @@ class ThreeButtonsUIView: UIView {
         applyConstraints()
     }
     
-    //MARK: - Configure Buttons
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Setup View
     private func configureButtons() {
         [myListButton, shareButton, rateButton].forEach {addSubview($0)}
         
@@ -30,7 +43,8 @@ class ThreeButtonsUIView: UIView {
         myListButton.addTarget(self, action: #selector(listButtonAction), for: .touchUpInside)
     }
     
-    //MARK: - Setup MyList Button
+    
+    //Setup MyList Button
     @objc private func listButtonAction() {myListButtonTapped()}
     
     func myListButtonTapped() {
@@ -87,15 +101,5 @@ class ThreeButtonsUIView: UIView {
             shareButton.heightAnchor.constraint(equalTo: rateButton.heightAnchor),
         ])
     }
-    
-    //MARK: - Declare Variables
-    private var myListButton = NFPlainButton(title: "My List", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
-    private var shareButton = NFPlainButton(title: "Share", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
-    private var rateButton = NFPlainButton(title: "Rate", fontSize: 12, fontWeight: .light, fontColorOnly: .lightGray)
- 
-    var media: Media?
-    weak var delegate: Delegate?
-    
-    required init?(coder: NSCoder) {fatalError()}
 
 }

@@ -8,6 +8,16 @@
 import UIKit
 
 class DetailsLabelUIView: UIView {
+    
+    //MARK: Declare Variables
+    let newLabel = NFBodyLabel(color: .green.withAlphaComponent(0.8), fontSize: 14,fontWeight: .medium)
+    let runtimeLabel = NFBodyLabel(fontSize: 15, fontWeight: .medium)
+    let adultIcon = NFImageView(image: ._18Icon)
+    let dateLabel = NFBodyLabel(fontSize: 15, fontWeight: .medium)
+    let otherIcons = NFImageView(image: .otherIcons)
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .black
@@ -19,6 +29,10 @@ class DetailsLabelUIView: UIView {
         applyConstraints()
     }
     
+    required init?(coder: NSCoder) {fatalError()}
+    
+    
+    //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // Button 1
@@ -50,18 +64,4 @@ class DetailsLabelUIView: UIView {
         ])
     }
     
-    let newLabel = NFBodyLabel(color: .green.withAlphaComponent(0.8), fontSize: 14,fontWeight: .medium)
-
-    let runtimeLabel = NFBodyLabel(fontSize: 15, fontWeight: .medium)
-    
-    let adultIcon = NFImageView(image: ._18Icon)
-    
-    let dateLabel = NFBodyLabel(fontSize: 15, fontWeight: .medium)
-    
-    let otherIcons = NFImageView(image: .otherIcons)
-    
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }

@@ -13,13 +13,10 @@ class NFSymbolButton: UIButton {
     /// Symbol button with defualt white color
     convenience init(imageName: String, imageSize: CGFloat, imageColor: UIColor = .white){
         self.init(frame: .zero)
-        
         let image = UIImage(systemName: imageName, withConfiguration: UIImage.SymbolConfiguration(pointSize: imageSize))
         setImage(image, for: .normal)
         tintColor = imageColor
-        
         translatesAutoresizingMaskIntoConstraints = false
-        
     }
     
     

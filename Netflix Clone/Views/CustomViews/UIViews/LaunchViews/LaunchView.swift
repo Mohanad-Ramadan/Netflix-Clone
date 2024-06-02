@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct LaunchView: View {
-    // Declare delegate instance
-    weak var delegate: Delegate!
     
-    // Declare View properties
+    //MARK: Declare Properties
     @State private var launchData = LaunchData()
     @State private var splashScreenOn = true
     
+    weak var delegate: Delegate!
     
+    
+    //MARK: - Body
     var body: some View {
         ZStack{
             UserProfilesView(userTappedCallBack: startAddingMainScreen)
@@ -35,7 +36,7 @@ struct LaunchView: View {
         }
     }
     
-    
+    //MARK: - Setup View
     private func removeSplashScreen() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {splashScreenOn = false}
     }

@@ -8,9 +8,18 @@
 import UIKit
 
 class SeasonSelectHeaderView: UIView {
-    
+    // Delegate protocol
     protocol Delegate: AnyObject {func listButtonTapped()}
     
+    //MARK: Declare Variables
+    let seasonLabel = NFBodyLabel(text: "Seasons 1", fontSize: 16)
+    private let listSeasonsButton = NFSymbolButton(imageName: "chevron.down", imageSize: 10)
+    private let infoButton = NFSymbolButton(imageName: "info.circle.fill", imageSize: 25, imageColor: .lightGray)
+    
+    weak var delegate: Delegate?
+    
+    
+    //MARK: - Load View
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -18,6 +27,9 @@ class SeasonSelectHeaderView: UIView {
         setupListButtonAction()
     }
     
+    required init?(coder: NSCoder) {fatalError()}
+    
+    //MARK: - Setup View
     private func configureView() {
         backgroundColor = .clear
         [seasonLabel,listSeasonsButton,infoButton].forEach{addSubview($0)}
@@ -29,6 +41,8 @@ class SeasonSelectHeaderView: UIView {
     
     @objc func showSeasonsView() {delegate?.listButtonTapped()}
     
+    
+    //MARK: - Constraints
     private func applyConstraints() {
         NSLayoutConstraint.activate([
             // seasonLabel Constraints
@@ -52,12 +66,4 @@ class SeasonSelectHeaderView: UIView {
         ])
         
     }
-    
-    let seasonLabel = NFBodyLabel(text: "Seasons 1", fontSize: 16)
-    private let listSeasonsButton = NFSymbolButton(imageName: "chevron.down", imageSize: 10)
-    private let infoButton = NFSymbolButton(imageName: "info.circle.fill", imageSize: 25, imageColor: .lightGray)
-    
-    weak var delegate: Delegate?
-    
-    required init?(coder: NSCoder) {fatalError()}
 }

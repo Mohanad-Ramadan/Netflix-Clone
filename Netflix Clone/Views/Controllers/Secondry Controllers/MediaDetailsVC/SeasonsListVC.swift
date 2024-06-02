@@ -8,7 +8,7 @@
 import UIKit
 
 class SeasonsListVC: UIViewController {
-    
+    // Delegate protocol
     protocol Delegate: AnyObject {func selectSeason(number seasonNumber: Int)}
     
     //MARK: - Declare Variables

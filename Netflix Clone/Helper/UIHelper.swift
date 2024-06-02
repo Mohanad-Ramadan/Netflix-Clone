@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 
 enum UIHelper {
+    
     //MARK: - Custom navigationBar
     static func customNavigatonBar() {
         UINavigationBar.appearance().tintColor = .label
@@ -17,29 +18,7 @@ enum UIHelper {
         UINavigationBar.appearance().shadowImage = UIImage()
     }
     
-    //MARK: - UI helper
-    // get LogoPath
-    static func getLogoDetailsFrom(_ fetchedImages: MediaImage) -> (String,Double)? {
-        let logos = fetchedImages.logos
-        
-        if logos.isEmpty {
-            return nil
-        } else if let englishLogo = logos.first(where: { $0.iso6391 == "en" }) {
-            return (englishLogo.filePath, englishLogo.aspectRatio)
-        } else {
-            return (logos[0].filePath, logos[0].aspectRatio)
-        }
-    }
-    
-    // get backdropPath
-    static func getBackdropPathFrom(_ fetchedImages: MediaImage) -> String? {
-        let sortedBackdrops = fetchedImages.backdrops.sorted(by: {$0.voteAverage > $1.voteAverage})
-        if sortedBackdrops.isEmpty {
-            return nil
-        } else {
-            return sortedBackdrops[0].filePath
-        }
-    }
+    //MARK: - Other Helpers
     
     // filter fetched search results from persons
     static func removePersonsFrom(_ searchResults: [Media]) -> [Media] {
