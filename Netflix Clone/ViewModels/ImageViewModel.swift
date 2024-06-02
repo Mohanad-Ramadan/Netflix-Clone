@@ -13,22 +13,6 @@ struct ImageViewModel {
     
     init(_ images: MediaImage) {self.images = images}
     
-    let logoAspectRatio = UIHelper.getLogoDetailsFrom(images)?.1
-    let logoPath = UIHelper.getLogoDetailsFrom(images)?.0
-    let backdropPath = UIHelper.getBackdropPathFrom(images)
-    
-    // get LogoPath
-    static func getLogoDetailsFrom(_ fetchedImages: MediaImage) -> (String,Double)? {
-        let logos = fetchedImages.logos
-        
-        if logos.isEmpty {
-            return nil
-        } else if let englishLogo = logos.first(where: { $0.iso6391 == "en" }) {
-            return (englishLogo.filePath, englishLogo.aspectRatio)
-        } else {
-            return (logos[0].filePath, logos[0].aspectRatio)
-        }
-    }
     
     var logoPath: String? {
         guard let englishLogo = images.logos.first(where: { $0.iso6391 == "en" }) else {
@@ -36,6 +20,7 @@ struct ImageViewModel {
         }
         return englishLogo.filePath
     }
+    
     
     var logoAspectRatio: Double? {
         guard let englishLogo = images.logos.first(where: { $0.iso6391 == "en" }) else {

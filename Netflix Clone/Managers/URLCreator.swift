@@ -90,7 +90,7 @@ enum Endpoints: String {
     case dayTrendingTV = "/trending/tv/day"
     case popularMovies = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_count.desc"
     case popularTVAllTime = "/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_count.desc&without_genres=10767|10763|10764"
-    case discoverUpcoming = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-04-15&primary_release_date.lte=2024-06-01&sort_by=popularity.desc"
+    case discoverUpcoming = "/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_year=2024&primary_release_date.gte=2024-05-15&primary_release_date.lte=2024-07-01&sort_by=popularity.desc"
     case search = "/search/multi?include_adult=false"
 }
 
