@@ -27,7 +27,7 @@ class MyNetflixTableViewCell: UITableViewCell {
     }()
     
     var media: [Media] = [Media]()
-    var listContainer: ListContainer!
+    var listContainer: ListContainer?
     
     weak var delegate: Delegate?
     static let identifier = "MyNetflixTableViewCell"

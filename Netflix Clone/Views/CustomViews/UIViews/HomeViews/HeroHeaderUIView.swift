@@ -39,7 +39,7 @@ class HeroHeaderUIView: UIView {
         
     
     var media: Media?
-    weak var delegate: Delegate!
+    weak var delegate: Delegate?
     
     
     //MARK: - Load View
@@ -58,18 +58,20 @@ class HeroHeaderUIView: UIView {
     //MARK: - Setup View
     func configureHeaderView(with images: ImageViewModel, genresDetail: String) {
         DispatchQueue.main.async { [weak self] in
+            guard let self else {return}
             if let backdropPath = images.backdropsPath, let backdropURL = URL(string: "https://image.tmdb.org/t/p/w780/\(backdropPath)") {
-                self?.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
-                    self?.getImageDominantColor()
-                    self?.delegate.finishLoadingPoster()
+                self.posterImageView.sd_setImage(with: backdropURL) { [weak self] (_, _, _, _) in
+                    guard let self else {return}
+                    self.getImageDominantColor()
+                    self.delegate?.finishLoadingPoster()
                 }
             }
             
             if let logoPath = images.logoPath , let logoURL = URL(string: "https://image.tmdb.org/t/p/w500/\(logoPath)") {
-                self?.logoView.sd_setImage(with: logoURL)
+                self.logoView.sd_setImage(with: logoURL)
             }
             
-            self?.genresLabel.text = genresDetail
+            self.genresLabel.text = genresDetail
         }
     }
     
@@ -81,17 +83,18 @@ class HeroHeaderUIView: UIView {
     
     @objc private func listButtonTapped() {
         Task {
-            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
+            guard let media else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media)
             
             if itemIsNew {
-                try await PersistenceDataManager.shared.addToMyListMedia(media!)
+                try await PersistenceDataManager.shared.addToMyListMedia(media)
                 NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "checkmark")
                 // notify delegate that button been tapped
                 delegate?.saveMediaToList()
             } else {
-                try await PersistenceDataManager.shared.deleteMediaFromList(media!)
+                try await PersistenceDataManager.shared.deleteMediaFromList(media)
                 NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "plus")
@@ -103,8 +106,8 @@ class HeroHeaderUIView: UIView {
     
     func setupMyListButtonUI() {
         Task {
-            guard media != nil else {return}
-            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
+            guard let media else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media)
             if itemIsNew {
                 myListButton.configuration?.image = UIImage(systemName: "plus")
             } else {
@@ -188,10 +191,9 @@ class HeroHeaderUIView: UIView {
 extension HeroHeaderUIView {
     // get the dominant color
     func getImageDominantColor(){
-        guard let posterImage = posterImageView.image else{return}
-        
-        let dominatColor = UIColor.dominantColor(from: posterImage)
-        addGradientLayer(color: dominatColor!)
+        guard let posterImage = posterImageView.image,
+              let dominatColor = UIColor.dominantColor(from: posterImage) else{return}
+        addGradientLayer(color: dominatColor)
     }
     
     // create Gradient layer

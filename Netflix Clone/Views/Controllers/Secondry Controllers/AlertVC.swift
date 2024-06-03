@@ -62,11 +62,11 @@ class AlertVC: UIViewController {
         
         //titleLabel config
         stackContainerView.addArrangedSubview(titleLabel)
-        titleLabel.text = alertTitle!
+        titleLabel.text = alertTitle
         
         //messageLabel config
         stackContainerView.addArrangedSubview(messageLabel)
-        messageLabel.text = messageText!
+        messageLabel.text = messageText
         
         //actionButton config
         stackContainerView.addArrangedSubview(actionButton)

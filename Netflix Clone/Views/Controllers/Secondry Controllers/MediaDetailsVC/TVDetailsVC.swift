@@ -32,11 +32,11 @@ class TVDetailsVC: MediaDetailsVC {
     
     private let episodesHeaderView = SeasonSelectHeaderView()
     
-    var tvShow: Media!
-    var isTrend: Bool!
-    var rank: Int!
+    var tvShow: Media?
+    var isTrend: Bool = false
+    var rank: Int?
     var seasons: SeasonDetail?
-    var seasonsCount: Int!
+    var seasonsCount: Int?
     var episodes: [SeasonDetail.Episode] = []
     var episodesCount: Int?
     var currentSeason = 1
@@ -45,7 +45,7 @@ class TVDetailsVC: MediaDetailsVC {
     //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData(isTrend: isTrend, rank: rank)
+        fetchData(isTrend: isTrend, rank: rank ?? 0)
         configureTVShowVC()
         saveToWatchedList(tvShow)
     }
@@ -61,8 +61,10 @@ class TVDetailsVC: MediaDetailsVC {
     
     //MARK: - Fetch Data
     private func fetchData(isTrend: Bool, rank: Int){
+        
         Task {
             do {
+                guard let tvShow else {throw APIError.unableToComplete}
                 // get details
                 let details: TVDetail = try await NetworkManager.shared.getDetailsFor(mediaId: tvShow.id, ofType: "tv")
                 configureDetails(with: DetailsViewModel(details), isTrend: isTrend, rank: rank)
@@ -83,7 +85,11 @@ class TVDetailsVC: MediaDetailsVC {
                 let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: tvShow.id, ofType: "tv")
                 configureTrailer(with: TrailerViewModel(fetchedTrailers))
                 
-            } catch {presentTemporaryAlert(alertType: .connectivity)}
+            } catch let error as APIError {
+                presentNFAlert(messageText: error.rawValue)
+            } catch {
+                presentTemporaryAlert(alertType: .connectivity)
+            }
         }
     }
     
@@ -191,7 +197,7 @@ extension TVDetailsVC: SwitchViewButtonsUIView.Delegate {
 
 extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
     func listButtonTapped() {
-        let seasonListVC = SeasonsListVC(seasonsCount: seasonsCount, currentSeason: currentSeason )
+        let seasonListVC = SeasonsListVC(seasonsCount: seasonsCount ?? 1, currentSeason: currentSeason )
         seasonListVC.delegate = self
         presentInMainThread(seasonListVC)
     }
@@ -200,6 +206,7 @@ extension TVDetailsVC: SeasonSelectHeaderView.Delegate {
 extension TVDetailsVC: SeasonsListVC.Delegate {
     func selectSeason(number seasonNumber: Int) {
         Task {
+            guard let tvShow else {return}
             currentSeason = seasonNumber
             episodesHeaderView.seasonLabel.text = "Season \(seasonNumber)"
             let seasonDetials = try await NetworkManager.shared.getSeasonDetailsFor(seriesId: tvShow.id, seasonNumber: seasonNumber)

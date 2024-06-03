@@ -54,7 +54,7 @@ class SeasonsListVC: UIViewController {
     let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
     
     var seasonsButtons = [NFPlainButton]()
-    weak var delegate: Delegate!
+    weak var delegate: Delegate?
     
     
     //MARK: - Load View
@@ -118,7 +118,7 @@ class SeasonsListVC: UIViewController {
                 guard let buttonIndex = seasonsButtons.firstIndex(of: button) else { return }
                 let seasonNumber = buttonIndex+1
                 setActiveSeasonButton(is: seasonNumber)
-                delegate.selectSeason(number: seasonNumber)
+                delegate?.selectSeason(number: seasonNumber)
             }
         }
         dismiss(animated: true)

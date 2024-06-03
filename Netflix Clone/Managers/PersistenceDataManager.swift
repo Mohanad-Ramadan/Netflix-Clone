@@ -128,7 +128,7 @@ class PersistenceDataManager {
     
     //MARK: - Remove Item
     func deleteMediaFromList(_ item: Media) async throws{
-        let mediaItem = await getItemFromList(item: item)
+        guard let mediaItem = await getItemFromList(item: item) else {throw DataBaseError.faliedTofetchData}
         let context = myListContainer.viewContext
         context.delete(mediaItem)
         
@@ -139,15 +139,15 @@ class PersistenceDataManager {
         
     }
     
-    func getItemFromList(item: Media) async -> MediaItem {
+    func getItemFromList(item: Media) async -> MediaItem? {
         let listItems = try? await PersistenceDataManager.shared.fetchMyListMedia()
-        let wantedItem = (listItems?.filter {$0.id == item.id}.first)!
+        let wantedItem = (listItems?.filter {$0.id == item.id}.first)
         return wantedItem
     }
     
     // watched media deletion method
     func deleteMediaFromWatched(_ item: Media) async throws{
-        let watchedItem = await getItemFromWatched(item: item)
+        guard let watchedItem = await getItemFromWatched(item: item) else {throw DataBaseError.faliedTofetchData}
         let context = watchedContainer.viewContext
         context.delete(watchedItem)
         
@@ -158,9 +158,9 @@ class PersistenceDataManager {
         
     }
     
-    func getItemFromWatched(item: Media) async -> WatchedItem {
+    func getItemFromWatched(item: Media) async -> WatchedItem? {
         let listItems = try? await PersistenceDataManager.shared.fetchWatchedMedia()
-        let wantedItem = (listItems?.filter {$0.id == item.id}.first)!
+        let wantedItem = (listItems?.filter {$0.id == item.id}.first)
         return wantedItem
     }
     

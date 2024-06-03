@@ -131,17 +131,18 @@ class NewHotTableViewCell: UITableViewCell {
     
     @objc private func listButtonTapped() {
         Task {
-            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
+            guard let media else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media)
             
             if itemIsNew {
-                try await PersistenceDataManager.shared.addToMyListMedia(media!)
+                try await PersistenceDataManager.shared.addToMyListMedia(media)
                 NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "checkmark")
                 // notify delegate that button been tapped
                 delegate?.saveMediaToList()
             } else {
-                try await PersistenceDataManager.shared.deleteMediaFromList(media!)
+                try await PersistenceDataManager.shared.deleteMediaFromList(media)
                 NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configuration?.image = UIImage(systemName: "plus")
@@ -153,8 +154,8 @@ class NewHotTableViewCell: UITableViewCell {
     
     func setupMyListButtonUI() {
         Task {
-            guard media != nil else {return}
-            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
+            guard let media else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media)
             if itemIsNew {
                 myListButton.configuration?.image = UIImage(systemName: "plus")
             } else {
@@ -168,8 +169,8 @@ class NewHotTableViewCell: UITableViewCell {
     
     // Backdrop image view constraints
     func setupBackdropImageViewConstraints(dayLabel: UIView? = nil) {
-        if (dayLabel != nil) {
-            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel!.trailingAnchor, constant: 10).isActive = true
+        if let dayLabel {
+            backdropImageView.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: 10).isActive = true
             backdropImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = true
             backdropImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
             backdropImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -3).isActive = true

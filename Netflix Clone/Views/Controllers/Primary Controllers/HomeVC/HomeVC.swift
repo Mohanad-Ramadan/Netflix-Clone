@@ -158,7 +158,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollOffest = scrollView.contentOffset.y + (navigationController?.navigationBar.bounds.height)!
+        guard let navigationBarHeight = navigationController?.navigationBar.bounds.height else {return}
+        let scrollOffest = scrollView.contentOffset.y + navigationBarHeight
         let contentOffest = heroHeaderView.bounds.height
         let backgorundAlphaValue = max(0, min(1 - scrollOffest / contentOffest, 1.0))
         homeBackground.alpha = backgorundAlphaValue

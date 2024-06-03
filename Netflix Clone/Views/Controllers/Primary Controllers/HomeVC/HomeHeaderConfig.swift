@@ -30,7 +30,7 @@ extension HomeVC {
         Task{
             do {
                 let movies = try await NetworkManager.shared.getDataOf(.weekTrendingMovies)
-                let randomMovie = movies.randomElement()!
+                let randomMovie = movies.randomElement() ?? movies[0]
                 self.fetchImagesAndConfigureViews(for: randomMovie)
             } catch let error as APIError {
                 presentNFAlert(messageText: error.rawValue)

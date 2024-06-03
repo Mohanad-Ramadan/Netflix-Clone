@@ -36,13 +36,14 @@ enum UIHelper {
         
         // calculate the position
         let tabBar = mainTC.tabBar
-        let mainVC = mainTC.viewControllers![0]
+        guard let mainVC = mainTC.viewControllers?[0], let tabItems = tabBar.items else {return .zero}
         // item midX point
-        let itemHalfWidth = (tabBar.bounds.width / CGFloat(tabBar.items!.count)) / 2
+        let itemHalfWidth = (tabBar.bounds.width / CGFloat(tabItems.count)) / 2
         let tabBarWidth = tabBar.bounds.width
         let imageXPoint = tabBarWidth - itemHalfWidth
         // item midY point
-        let tabBarMidY = tabBar.frame(in: mainVC.view)!.midY - (bottomInset+topInset)
+        guard let tabMidY = tabBar.frame(in: mainVC.view)?.midY else {return .zero}
+        let tabBarMidY = tabMidY - (bottomInset+topInset)
         let imageYPoint = tabBarMidY - 5
         
         // check the current device

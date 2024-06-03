@@ -27,16 +27,16 @@ class MovieDetailsVC: MediaDetailsVC {
     
     var moreTrailers: [Trailer.Reuslts] = [Trailer.Reuslts]()
     var mediaName: String?
-    var movie: Media!
-    var isTrend: Bool!
-    var rank: Int!
+    var movie: Media?
+    var isTrend: Bool = false
+    var rank: Int?
     var trailersCount: CGFloat?
     
     
     //MARK: - Load View
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData(isTrend: isTrend, rank: rank)
+        fetchData(isTrend: isTrend, rank: rank ?? 0)
         configureMovieVC()
         saveToWatchedList(movie)
     }
@@ -54,6 +54,7 @@ class MovieDetailsVC: MediaDetailsVC {
     private func fetchData(isTrend: Bool, rank: Int) {
         Task {
             do {
+                guard let movie else {throw APIError.unableToComplete}
                 // get details
                 let details: MovieDetail = try await NetworkManager.shared.getDetailsFor(mediaId: movie.id, ofType: "movie")
                 configureDetails(with: DetailsViewModel(details), isTrend: isTrend, rank: rank)
@@ -68,7 +69,11 @@ class MovieDetailsVC: MediaDetailsVC {
                 let fetchedTrailers = try await NetworkManager.shared.getTrailersFor(mediaId: movie.id, ofType: "movie")
                 configureMovieTrailer(with: TrailerViewModel(fetchedTrailers))
                 
-            } catch {presentTemporaryAlert(alertType: .connectivity)}
+            } catch let error as APIError {
+                presentNFAlert(messageText: error.rawValue)
+            } catch {
+                presentTemporaryAlert(alertType: .connectivity)
+            }
         }
     }
     
@@ -174,7 +179,7 @@ extension MovieDetailsVC: UITableViewDelegate,
         }
         
         let videoInfo = moreTrailers[indexPath.row]
-        guard let titleText = movie.title else {return UITableViewCell()}
+        guard let titleText = movie?.title else {return UITableViewCell()}
         cell.configureCell(with: videoInfo, and: titleText)
         return cell
     }

@@ -13,7 +13,7 @@ struct LaunchView: View {
     @State private var launchData = LaunchData()
     @State private var splashScreenOn = true
     
-    weak var delegate: Delegate!
+    weak var delegate: Delegate?
     
     
     //MARK: - Body
@@ -22,7 +22,9 @@ struct LaunchView: View {
             UserProfilesView(userTappedCallBack: startAddingMainScreen)
                 .padding(.horizontal, 5)
                 .overlayPreferenceValue(RectPositionKey.self) { value in
-                    SelectedProfileView(value: value, cardEndPosition: delegate.getTabItemPosition)
+                    if let tabItemPosition = delegate?.getTabItemPosition {
+                        SelectedProfileView(value: value, cardEndPosition: tabItemPosition)
+                    }
                 }
             SplashScreenView()
                 .opacity(splashScreenOn ? 1:0)
@@ -32,7 +34,7 @@ struct LaunchView: View {
         .environment(launchData)
         .onChange(of: launchData.launchFinishs) { _, done in
             guard done else {return}
-            delegate.launchComplete()
+            delegate?.launchComplete()
         }
     }
     
@@ -42,7 +44,7 @@ struct LaunchView: View {
     }
     
     private func startAddingMainScreen() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {delegate.addMainController()}
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {delegate?.addMainController()}
     }
 }
 

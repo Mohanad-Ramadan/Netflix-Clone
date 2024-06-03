@@ -49,17 +49,18 @@ class ThreeButtonsUIView: UIView {
     
     func myListButtonTapped() {
         Task {
-            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
+            guard let media else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media)
             
             if itemIsNew {
-                try await PersistenceDataManager.shared.addToMyListMedia(media!)
+                try await PersistenceDataManager.shared.addToMyListMedia(media)
                 NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configureButtonImageWith(UIImage(systemName: "checkmark")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
                 // notify delegate that button been tapped
                 delegate?.saveMediaToList()
             } else {
-                try await PersistenceDataManager.shared.deleteMediaFromList(media!)
+                try await PersistenceDataManager.shared.deleteMediaFromList(media)
                 NotificationCenter.default.post(name: NSNotification.Name(NotificationKey.myListKey), object: nil)
                 // change button Image
                 myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
@@ -71,8 +72,8 @@ class ThreeButtonsUIView: UIView {
     
     func setupMyListButtonUI() {
         Task {
-            guard media != nil else {return}
-            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media!)
+            guard let media else {return}
+            let itemIsNew = PersistenceDataManager.shared.isItemNewToList(item: media)
             if itemIsNew {
                 myListButton.configureButtonImageWith(UIImage(systemName: "plus")!, tinted: .white, width: 30, height: 30, placement: .top, padding: 5)
             } else {

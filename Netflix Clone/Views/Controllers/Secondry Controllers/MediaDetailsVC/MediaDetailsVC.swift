@@ -148,7 +148,8 @@ class MediaDetailsVC: UIViewController {
     
     // add the media to watched trailer list
     // if it exceeds 50% of the trailer
-    func saveToWatchedList(_ item: Media) {
+    func saveToWatchedList(_ item: Media?) {
+        guard let item else {return}
         trailerDurationTime = youtubePlayerVC.player.durationPublisher
             .sink{ duration in
                 self.currentTrailerTime = self.youtubePlayerVC.player.currentTimePublisher()

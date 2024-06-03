@@ -48,7 +48,9 @@ extension MainScreenVC: LaunchView.Delegate {
     func endWithLaunchView() {self.launchView.view.removeFromSuperview()}
     
     func launchComplete() {
-        mainAppController.tabBar.items![2].image = UIImage(resource: .profil).sd_resizedImage(with: CGSize(width: 25, height: 25), scaleMode: .aspectFit)?.withRenderingMode(.alwaysOriginal)
+        if let tabItems = mainAppController.tabBar.items {
+            tabItems[2].image = UIImage(resource: .profil).sd_resizedImage(with: CGSize(width: 25, height: 25), scaleMode: .aspectFit)?.withRenderingMode(.alwaysOriginal)
+        }
         launchView.view.removeFromSuperview()
         launchView.removeFromParent()
     }

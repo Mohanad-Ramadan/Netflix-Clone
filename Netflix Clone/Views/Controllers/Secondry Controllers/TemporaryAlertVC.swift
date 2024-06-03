@@ -123,17 +123,13 @@ class TemporaryAlertVC: UIViewController {
 
     //MARK: - Constraints
     func containerBottomAnchor() -> NSLayoutConstraint {
-        var tabBarHeight = representedVC.navigationController?.tabBarController?.tabBar.bounds.height
+        let tabBarHeight = representedVC.navigationController?.tabBarController?.tabBar.bounds.height
         let isTabBarHidden = representedVC.tabBarController?.tabBar.isHidden ?? false
         
-        if tabBarHeight == nil || isTabBarHidden {
-            let bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            return bottomConstraint
-        } else {
-            tabBarHeight! += 10
-            let bottomConstraint = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -tabBarHeight!)
-            return bottomConstraint
+        guard let tabBarHeight , !isTabBarHidden else {
+            return containerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         }
+        return containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -tabBarHeight - 10)
     }
     
     func applyConstraints(){

@@ -13,39 +13,37 @@ struct DetailsViewModel {
     
     init(_ details: Detail) {self.details = details}
     
-    private func checkIfMovie<T>(_ movieAction: (MovieDetail) -> T, ifSeries seriesAction: (TVDetail) -> T) -> T {
-        if let movieDetail = details as? MovieDetail {
-            return movieAction(movieDetail)
-        } else {
-            return seriesAction((details as? TVDetail)!)
-        }
+    private func isMovie<T>(_ movieAction: (MovieDetail) -> T, isTvShow tvShowAction: (TVDetail) -> T) -> T {
+        if let movieDetail = details as? MovieDetail { return movieAction(movieDetail) }
+        else if let tvShowDetail = details as? TVDetail { return tvShowAction(tvShowDetail) }
+        else { preconditionFailure("Details must be either a MovieDetail or a TVDetail") }
     }
     
     
     var id: Int? {details.id}
     var overview: String? {details.overview}
-    var mediaType: String? { checkIfMovie { _ in "movie" } ifSeries: { _ in "tv" } }
+    var mediaType: String? { isMovie { _ in "movie" } isTvShow: { _ in "tv" } }
     var genres: String? {details.genres.map{$0.name}.joined(separator: ", ") }
     var runtime: String? {(details as? MovieDetail)?.runtime?.formatTimeFromMinutes()}
-    var mediaTypeLabel: String { checkIfMovie { _ in "F I L M" } ifSeries: { _ in "S E R I E S" } }
-    var rankTypeLabel: String { checkIfMovie { _ in "Movies" } ifSeries: { _ in "Tv Shows" } }
+    var mediaTypeLabel: String { isMovie { _ in "F I L M" } isTvShow: { _ in "S E R I E S" } }
+    var rankTypeLabel: String { isMovie { _ in "Movies" } isTvShow: { _ in "Tv Shows" } }
     
     var title: String? {
-        checkIfMovie {movieDetail in movieDetail.title} ifSeries: {seriesDetail in seriesDetail.name}
+        isMovie {movieDetail in movieDetail.title} isTvShow: {seriesDetail in seriesDetail.name}
     }
     
     var dateLabel: String? {
-        checkIfMovie {
+        isMovie {
             movieDetail in movieDetail.releaseDate?.extract().year
-        } ifSeries: {
+        } isTvShow: {
             seriesDetail in seriesDetail.firstAirDate?.extract().year
         }
     }
     
     var newLabel: String? {
-        checkIfMovie {
+        isMovie {
             movieDetail in movieDetail.releaseDate?.isNewRelease() ?? false ? "New" : nil
-        } ifSeries: {
+        } isTvShow: {
             seriesDetail in seriesDetail.firstAirDate?.isNewRelease() ?? false ? "New" : nil
         }
     }

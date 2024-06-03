@@ -54,7 +54,12 @@ class CastListVC: UIViewController {
     let exitButton = NFSymbolButton(imageName: "xmark", imageSize: 17, imageColor: .black)
     let bluryBackground = UIView()
     
-    var cast: Cast? { didSet {addCastViews(with: CastViewModel(cast!))} }
+    var cast: Cast? {
+        didSet {
+            guard let cast else {return}
+            addCastViews(with: CastViewModel(cast))
+        }
+    }
     
     
     //MARK: - Load View

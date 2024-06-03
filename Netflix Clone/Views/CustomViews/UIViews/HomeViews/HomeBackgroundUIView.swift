@@ -43,10 +43,9 @@ class HomeBackgroundUIView: UIView {
     
     // Get Poster dominant color
     func getImageDominantColor() {
-        guard let backImage = backGroundPoster.image else{return}
-        
-        let dominantColor = UIColor.dominantColor(from: backImage)
-        addGradientLayer(color: dominantColor!)
+        guard let backImage = backGroundPoster.image,
+              let dominantColor = UIColor.dominantColor(from: backImage) else{return}
+        addGradientLayer(color: dominantColor)
     }
     
     // Gradient layer

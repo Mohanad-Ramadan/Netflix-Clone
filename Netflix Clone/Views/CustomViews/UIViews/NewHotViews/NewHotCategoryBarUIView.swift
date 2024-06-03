@@ -38,7 +38,7 @@ class NewHotCategoryBarUIView: UIView{
     
     private lazy var buttons: [UIButton] = [comingSoonButton, everyoneWatchingButton, toptenTvShowsButton, toptenMoviesButton]
 
-    weak var delegate: Delegate!
+    weak var delegate: Delegate?
     
     
     //MARK: - Load View
@@ -68,7 +68,7 @@ class NewHotCategoryBarUIView: UIView{
     @objc private func buttonPressed(_ sender: UIButton) {
         guard let index = buttons.firstIndex(of: sender) else { return }
         self.animateButton(atIndex: index)
-        delegate.buttonPressed(buttonIndex: index)
+        delegate?.buttonPressed(buttonIndex: index)
     }
     
     // Selected button UI change
