@@ -1,0 +1,80 @@
+# Xcode .gitignore
+# This is a basic template for Xcode projects
+# which covers the majority of files and paths you'll want to ignore.
+
+### Xcode ###
+# Xcode user settings
+xcuserdata/
+
+# Xcode project settings
+project.xcworkspace/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# Derived Data
+DerivedData/
+
+# Compilation products
+*.o
+*.d
+
+# Compiled Static Libraries
+*.a
+*.pch
+
+# Other files and folders
+*.bak
+*.tmp
+*.swp
+
+# OS X temporary files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### Swift ###
+# Add .build here if using Swift Package Manager
+.build/
+
+# Add Packages here if using Swift Package Manager
+/Packages
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build
+
+### fastlane ###
+# It is recommended to not store the screenshots in the git repo
+# Instead, use fastlane to re-generate the screenshots whenever they are needed
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+### SwiftLint ###
+swiftlint_report.html
+
+# Add this if you are using Xcode 12+
+*.xcscmblueprint
